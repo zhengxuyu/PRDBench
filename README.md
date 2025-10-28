@@ -31,13 +31,13 @@ PRDBench provides a comprehensive dataset for evaluating code agents. Each task 
 - **PRD Location**: `{task_id}/src/PRD.md` - Contains the Product Requirements Document with detailed task specifications and requirements
 - **Test Plan**: `{task_id}/evaluation/detailed_test_plan.json` - Contains comprehensive test cases and evaluation criteria
 
-When running the evaluation, your CodeAgent should:
+When running the evaluation, the EvalAgent should:
 1. Read the `{task_id}/src/PRD.md` file to understand the task requirements
 2. Analyze the `{task_id}/evaluation/detailed_test_plan.json` to understand the expected functionality and test cases
 3. Implement the corresponding interfaces and code based on these specifications
 
 #### CodeAgent Development
-To develop and debug your CodeAgent, you can find the prompt templates in `prompt.py`:
+To use your CodeAgent to run develop and debug stages of PRDBench, you can find the prompt templates in `prompt.py`:
 - `DEVELOPMENT_PROMPT` - For initial task understanding and planning
 - `DEBUG_PROMPT` - For troubleshooting and optimization
 
