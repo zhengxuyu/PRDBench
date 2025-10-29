@@ -1,6 +1,7 @@
 # PRDbench
 
 PRDBench is a benchmark designed to evaluate code agents, particularly in the context of automated software development using large language models (LLMs). With the advent of tool-equipped agents, LLMs can read large amounts of files and conduct extensive analyses, offering new possibilities for evaluation. PRDBench aims to address the limitations of existing benchmarks, particularly the lack of clear evaluation criteria and comprehensive assessment capabilities for code agents.
+
 ![Overview](PRDBench.jpg)
 
 
@@ -127,7 +128,20 @@ PRDBench/
 └── README.md                         # Project documentation
 ```
 
+## Citation
+Our paper is available now in [arxiv](https://arxiv.org/abs/2510.24358). If you use PRDBench in your research, please cite our paper:
 
+```bibtex
+@misc{fu2025automaticallybenchmarkingllmcode,
+      title={Automatically Benchmarking LLM Code Agents through Agent-Driven Annotation and Evaluation}, 
+      author={Lingyue Fu and Bolun Zhang and Hao Guan and Yaoming Zhu and Lin Qiu and Weiwen Liu and Xuezhi Cao and Xunliang Cai and Weinan Zhang and Yong Yu},
+      year={2025},
+      eprint={2510.24358},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE},
+      url={https://arxiv.org/abs/2510.24358}, 
+}
+```
 
 ## License
 
