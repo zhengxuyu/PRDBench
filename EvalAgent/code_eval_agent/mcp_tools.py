@@ -262,12 +262,19 @@ def validate_write_path(file_path: str) -> bool:
     """Validate if file path is safe for writing"""
     
     if ENABLE_PATH_RESTRICTION:
-        # allowed_paths is the root directory, allowed path list: {WORKSPACE_DIR}/{number}/reports
-        allowed_paths = [os.path.join(WORKSPACE_DIR, str(i), 'reports') for i in range(1, 51)]
-        logger.warning(f"checking write path: {file_path}, allowed_paths: {WORKSPACE_DIR}/*/reports")
-        if any(os.path.commonpath([file_path, allowed_path]) == allowed_path for allowed_path in allowed_paths):
-            return True
-        else:
+        # allowed_paths is the root directory, allowed path list: {WORKSPACE_DIR}/*/reports
+        try:
+            file_path_resolved = Path(file_path).resolve()
+            workspace_dir_resolved = Path(WORKSPACE_DIR).resolve()
+
+            if str(file_path_resolved).startswith(str(workspace_dir_resolved)):
+                # 判断路径中是否有"reports"这个目录名
+                for parent in file_path_resolved.parents:
+                    if parent.name == "reports" and str(parent).startswith(str(workspace_dir_resolved)):
+                        return True
+            return False
+        except Exception as e:
+            logger.warning(f"Error in validate_write_path: {e}")
             return False
     else:
         return True
