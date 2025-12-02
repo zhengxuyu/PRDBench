@@ -1,5 +1,5 @@
 # PRDbench
-
+[Huggingface](https://huggingface.co/datasets/AGI-Eval/PRDbench) | [Github](https://github.com/AGI-Eval-Official/PRDBench)  | [Arxiv](https://arxiv.org/abs/2510.24358)
 PRDBench is a benchmark designed to evaluate code agents, particularly in the context of automated software development using large language models (LLMs). With the advent of tool-equipped agents, LLMs can read large amounts of files and conduct extensive analyses, offering new possibilities for evaluation. PRDBench aims to address the limitations of existing benchmarks, particularly the lack of clear evaluation criteria and comprehensive assessment capabilities for code agents.
 
 ![Overview](PRDBench.jpg)
@@ -122,8 +122,9 @@ PRDBench/
 │   ├── mcp_tools.py                  # MCP tool functions
 │   └── start.sh                      # Start agent script
 ├── Evaluation/
-│   ├── Evaluation_infer.sh               # Start evaluating script
-│   ├── generate_code.py                  # Main interaction code
+│   ├── Evaluation_infer.sh           # Start evaluating script
+│   └── generate_code.py              # Main interaction code
+├── PRDBench/                         # Source Data of PRDBench
 ├── requirements.txt                  # Dependencies list
 └── README.md                         # Project documentation
 ```
