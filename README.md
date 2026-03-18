@@ -112,36 +112,27 @@ Finally, you can see result_{round}.json generated under the corresponding path 
 
 ### 6. Main Results
 
-```latex
-\begin{table}[t]
-\caption{Average pass rate of code agents on PRDBench (in \%). The best results are highlighted in \textbf{bold}, and the second-best results are \underline{underlined}.}
-\label{tab:mainresults}
-\setlength{\tabcolsep}{2mm}
-\renewcommand\arraystretch{0.9}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{llccc}
-\toprule
-\textbf{Agent Type} & \textbf{Agent} & \multicolumn{1}{c}{\textbf{DEV}$\uparrow$} & \multicolumn{1}{c}{\textbf{DEBUG}$\uparrow$} & \textbf{Enhance}$\uparrow$   \\ \midrule
-\multirow{8}{*}{\textbf{Minimal}} 
- & GPT-5.2       & \underline{62.49} & \underline{69.00} &  +6.51 \\
- & Claude-4.5      & \textbf{69.19}   &     56.40    &  -12.79  \\
- & Gemini-3-Pro      & 22.76          &  27.28     &  +4.52 \\
- & Qwen3-Coder & 43.84         &    48.29       & +4.45 \\
- & Kimi-K2 & 20.52 &  36.17& +15.65 \\ 
- & DeepSeek-V3.2 & 40.11  & 24.80 & -15.31 \\ 
- & GLM-4.7 &  38.39 & 35.33 &  -3.06\\ 
- & Minimax-M2 & 17.60  & 24.75 &  +7.15\\ 
- \midrule
-\multirow{4}{*}{\textbf{Commercial}} 
- & CodeX       &  62.09 &  65.02 &  +2.97\\
- & Claude Code & 56.65            &    \textbf{70.25}    & +13.60 \\
- & Gemini CLI  & 11.29          &     21.51       &  +10.22  \\
- & Qwen Code   & 39.91            &    35.95     & -3.96  \\ \bottomrule
-\end{tabular}
-% \vspace{-15pt}
-}
-\end{table}
-```
+Average pass rate of code agents on PRDBench (in %).
+**Leaderboard Highlights**
+
+- `DEV`: **Claude-4.5 (69.19)**, *GPT-5.2 (62.49)*, CodeX (62.09)
+- `DEBUG`: **Claude Code (70.25)**, *GPT-5.2 (69.00)*, CodeX (65.02)
+- `Enhance`: Kimi-K2 (+15.65), Claude Code (+13.60), Gemini CLI (+10.22)
+
+| Agent Type | Agent | DEV ↑ | DEBUG ↑ | Enhance ↑ |
+| --- | --- | ---: | ---: | ---: |
+| Minimal | GPT-5.2 | 62.49 | 69.00 | +6.51 |
+| Minimal | Claude-4.5 | **69.19** | 56.40 | -12.79 |
+| Minimal | Gemini-3-Pro | 22.76 | 27.28 | +4.52 |
+| Minimal | Qwen3-Coder | 43.84 | 48.29 | +4.45 |
+| Minimal | Kimi-K2 | 20.52 | 36.17 | +15.65 |
+| Minimal | DeepSeek-V3.2 | 40.11 | 24.80 | -15.31 |
+| Minimal | GLM-4.7 | 38.39 | 35.33 | -3.06 |
+| Minimal | Minimax-M2 | 17.60 | 24.75 | +7.15 |
+| Commercial | CodeX | 62.09 | 65.02 | +2.97 |
+| Commercial | Claude Code | 56.65 | **70.25** | +13.60 |
+| Commercial | Gemini CLI | 11.29 | 21.51 | +10.22 |
+| Commercial | Qwen Code | 39.91 | 35.95 | -3.96 |
 
 ## Development Guide
 
