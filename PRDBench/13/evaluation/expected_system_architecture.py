@@ -1,73 +1,73 @@
-# 期望的系统架构分层设计示例
+# Expected system architecture layered design example
 """
-推荐系统分层架构设计
+Recommendation System Layered Architecture Design
 
-1. 数据层 (Data Layer)
-   - 数据存储和访问
-   - 数据预处理
-   - 数据持久化
+1. Data Layer
+   - Data storage and access
+   - Data preprocessing
+   - Data persistence
 
-2. 算法层 (Algorithm Layer)  
-   - 推荐算法实现
-   - 模型训练
-   - 算法组合
+2. Algorithm Layer
+   - Recommendation algorithm implementation
+   - Model training
+   - Algorithm combination
 
-3. 服务层 (Service Layer)
-   - API接口
-   - 业务逻辑
-   - 用户交互
+3. Service Layer
+   - API interface
+   - Business logic
+   - User interaction
 """
 
-# 数据层示例
+# Data layer example
 class DataLayer:
     def __init__(self):
         self.data_loader = None
         self.preprocessor = None
-    
+
     def load_data(self, source):
         pass
-    
+
     def preprocess_data(self, data):
         pass
 
-# 算法层示例  
+# Algorithm layer example
 class AlgorithmLayer:
     def __init__(self):
         self.content_based = None
         self.collaborative_filtering = None
         self.hybrid_recommender = None
-    
+
     def train_models(self, data):
         pass
-    
+
     def generate_recommendations(self, user_id, top_n):
         pass
 
-# 服务层示例
+# Service layer example
 class ServiceLayer:
     def __init__(self):
         self.recommendation_service = None
         self.api_routes = None
-    
+
     def handle_recommendation_request(self, request):
         pass
-    
+
     def provide_api_interface(self):
         pass
 
-# 目录结构示例
+# Directory structure example
 """
 src/
-├── data/           # 数据层
+├── data/           # Data layer
 │   ├── data_loader.py
 │   └── preprocessor.py
-├── algorithms/     # 算法层
+├── algorithms/     # Algorithm layer
 │   ├── content_based.py
 │   ├── collaborative_filtering.py
 │   └── hybrid_recommender.py
-├── api/           # 服务层
+├── api/           # Service layer
 │   ├── main.py
 │   └── routes/
-└── core/          # 核心服务
+└── core/          # Core service
     └── recommendation_service.py
 """

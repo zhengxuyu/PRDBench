@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-批量测试expected_output_files测试用例
-快速验证和生成missing的expected文件
+BatchTestexpected_output_filesTest Case
+QuickVerifyandGeneratemissingexpectedFile
 """
 
 import os
@@ -10,16 +10,16 @@ import json
 import subprocess
 from datetime import datetime
 
-# 添加src目录到路径
+# AddsrcDirectorytoPath
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 def load_test_plan():
-    """加载测试计划"""
+    """LoadTestDesign"""
     with open('evaluation/detailed_test_plan.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def get_expected_output_files_tests():
-    """获取所有有expected_output_files的测试用例"""
+    """GetGetPlaceHasHasexpected_output_filesTest Case"""
     test_plan = load_test_plan()
     expected_tests = []
     
@@ -35,103 +35,103 @@ def get_expected_output_files_tests():
     return expected_tests
 
 def run_test_command(test_command):
-    """运行测试命令"""
+    """RunTest Command"""
     try:
-        print(f"执行: {test_command}")
+        print(f"Execute: {test_command}")
         result = subprocess.run(test_command, shell=True, capture_output=True, text=True, 
                               cwd='c:/Work/CodeAgent/DZY_19', timeout=120)
         
         if result.returncode == 0:
-            print("[OK] 测试命令执行成功")
+            print("[OK] Test CommandExecuteSuccess")
             return True, result.stdout
         else:
-            print(f"[FAIL] 测试命令执行失败: {result.stderr}")
+            print(f"[FAIL] Test CommandExecuteFailure: {result.stderr}")
             return False, result.stderr
     except subprocess.TimeoutExpired:
-        print("[TIMEOUT] 测试命令执行超时")
+        print("[TIMEOUT] Test CommandExecuteUltraTime")
         return False, "Timeout"
     except Exception as e:
-        print(f"[ERROR] 执行异常: {str(e)}")
+        print(f"[ERROR] ExecuteAbnormal: {str(e)}")
         return False, str(e)
 
 def check_expected_file_exists(expected_file):
-    """检查expected文件是否存在且为今天生成"""
+    """CheckexpectedFileYesNoSaveinandascurrentDayGenerate"""
     if not os.path.exists(expected_file):
-        return False, "文件不存在"
+        return False, "FileNotSavein"
     
-    # 检查文件修改时间
+    # CheckFileModifyTimeBetween
     mtime = os.path.getmtime(expected_file)
     file_date = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d")
     today = datetime.now().strftime("%Y-%m-%d")
     
     if file_date == today:
-        return True, f"文件存在且为今天生成 ({file_date})"
+        return True, f"FileSaveinasDayGenerate ({file_date})"
     else:
-        return False, f"文件存在但为旧文件 ({file_date})"
+        return False, f"FileSaveinasFile ({file_date})"
 
 def batch_test_expected_files():
-    """批量测试expected_output_files测试用例"""
+    """BatchTestexpected_output_filesTest Case"""
     print("=" * 80)
-    print("批量测试expected_output_files测试用例")
+    print("BatchTestexpected_output_filesTest Case")
     print("=" * 80)
     
     expected_tests = get_expected_output_files_tests()
     
-    print(f"共发现 {len(expected_tests)} 个expected_output_files测试用例")
+    print(f"totalSendImplementation {len(expected_tests)} item(s)expected_output_filesTest Case")
     print()
     
     results = []
     
     for i, test in enumerate(expected_tests, 1):
-        print(f"[{i}/{len(expected_tests)}] 测试: {test['metric']}")
+        print(f"[{i}/{len(expected_tests)}] Test: {test['metric']}")
         print("-" * 60)
         
-        # 检查expected文件状态
+        # CheckexpectedFileStatus
         expected_file = test['expected_files'][0]
         file_exists, file_status = check_expected_file_exists(expected_file)
-        print(f"Expected文件状态: {file_status}")
+        print(f"ExpectedFileStatus: {file_status}")
         
         if file_exists:
-            print("[SKIP] Expected文件已存在且为今天生成，跳过")
-            results.append({'metric': test['metric'], 'status': 'SKIP', 'reason': '文件已存在'})
+            print("[SKIP] ExpectedFileAlreadySaveinasDayGenerate,Skip")
+            results.append({'metric': test['metric'], 'status': 'SKIP', 'reason': 'FileAlreadySavein'})
         else:
-            # 执行测试命令
+            # ExecuteTest Command
             if test['testcases']:
                 test_command = test['testcases'][0]['test_command']
                 
-                # 删除旧的expected文件
+                # DeleteoldexpectedFile
                 if os.path.exists(expected_file):
                     os.remove(expected_file)
-                    print(f"已删除旧expected文件: {expected_file}")
+                    print(f"AlreadyDeleteoldexpectedFile: {expected_file}")
                 
-                # 运行测试
+                # RunTest
                 success, output = run_test_command(test_command)
                 
-                # 检查是否生成了新的expected文件
+                # CheckYesNoGenerateNewexpectedFile
                 if os.path.exists(expected_file):
-                    print(f"[SUCCESS] 成功生成expected文件: {expected_file}")
-                    results.append({'metric': test['metric'], 'status': 'SUCCESS', 'reason': '自动生成成功'})
+                    print(f"[SUCCESS] SuccessGenerateexpectedFile: {expected_file}")
+                    results.append({'metric': test['metric'], 'status': 'SUCCESS', 'reason': 'AutoAutoGenerateSuccess'})
                 else:
-                    print(f"[FAIL] 未能生成expected文件: {expected_file}")
-                    results.append({'metric': test['metric'], 'status': 'FAILED', 'reason': '未能自动生成'})
+                    print(f"[FAIL] NotEnergyGenerateexpectedFile: {expected_file}")
+                    results.append({'metric': test['metric'], 'status': 'FAILED', 'reason': 'NotEnergyAutoAutoGenerate'})
             else:
-                print("[FAIL] 无测试命令")
-                results.append({'metric': test['metric'], 'status': 'FAILED', 'reason': '无测试命令'})
+                print("[FAIL] NoTest Command")
+                results.append({'metric': test['metric'], 'status': 'FAILED', 'reason': 'NoTest Command'})
         
         print()
     
-    # 打印汇总结果
+    # printsummarySummaryResult
     print("=" * 80)
-    print("批量测试结果汇总")
+    print("BatchTest ResultssummaryTotal")
     print("=" * 80)
     
     success_count = sum(1 for r in results if r['status'] in ['SUCCESS', 'SKIP'])
     total_count = len(results)
     
-    print(f"总测试用例: {total_count}")
-    print(f"成功/跳过: {success_count}")
-    print(f"失败: {total_count - success_count}")
-    print(f"成功率: {success_count/total_count:.1%}")
+    print(f"TotalTest Case: {total_count}")
+    print(f"Success/Skip: {success_count}")
+    print(f"Failure: {total_count - success_count}")
+    print(f"SuccessRate: {success_count/total_count:.1%}")
     print()
     
     for result in results:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-测试多维可视化仪表盘功能
+Test Multi-Dimensional Visualization Dashboard Function
 """
 
 import pytest
@@ -14,7 +14,7 @@ from app.utils.visualizer import DataVisualizer
 
 @pytest.fixture
 def app():
-    """创建测试应用"""
+    """Create test application"""
     app = create_app('testing')
     with app.app_context():
         db.create_all()
@@ -23,34 +23,34 @@ def app():
 
 @pytest.fixture
 def sample_data(app):
-    """创建测试样本数据"""
+    """Create test sample data"""
     with app.app_context():
-        # 创建测试企业
-        company = Company(name="测试企业", industry="技术")
+        # Create test company
+        company = Company(name="Test Company", industry="Technology")
         db.session.add(company)
         db.session.commit()
-        
-        # 创建测试问卷
-        survey = Survey(title="测试问卷", company_id=company.id, created_by=1)
+
+        # Create test survey
+        survey = Survey(title="Test Survey", company_id=company.id, created_by=1)
         db.session.add(survey)
         db.session.commit()
-        
-        # 创建测试回答数据
+
+        # Create test response data
         responses = [
-            SurveyResponse(survey_id=survey.id, respondent_name="张三", department="技术部", 
-                         management_level="中级", leadership_score=4.2, planning_score=4.0,
+            SurveyResponse(survey_id=survey.id, respondent_name="Zhang San", department="Technical Dept",
+                         management_level="Middle", leadership_score=4.2, planning_score=4.0,
                          decision_score=3.8, professional_score=4.5),
-            SurveyResponse(survey_id=survey.id, respondent_name="李四", department="市场部", 
-                         management_level="初级", leadership_score=3.5, planning_score=3.8,
+            SurveyResponse(survey_id=survey.id, respondent_name="Li Si", department="Marketing Dept",
+                         management_level="Junior", leadership_score=3.5, planning_score=3.8,
                          decision_score=4.0, professional_score=3.2),
-            SurveyResponse(survey_id=survey.id, respondent_name="王五", department="人事部", 
-                         management_level="高级", leadership_score=4.8, planning_score=4.5,
+            SurveyResponse(survey_id=survey.id, respondent_name="Wang Wu", department="HR Dept",
+                         management_level="Senior", leadership_score=4.8, planning_score=4.5,
                          decision_score=4.2, professional_score=4.0),
         ]
-        
+
         db.session.add_all(responses)
         db.session.commit()
-        
+
         return {
             'company': company,
             'survey': survey,
@@ -58,90 +58,90 @@ def sample_data(app):
         }
 
 def test_skills_radar_chart(app, sample_data):
-    """测试技能分布雷达图功能"""
+    """Test skill distribution radar chart function"""
     with app.app_context():
         visualizer = DataVisualizer()
-        
-        # 重新查询responses以避免DetachedInstanceError
+
+        # Re-query responses to avoid DetachedInstanceError
         responses = SurveyResponse.query.all()
-        
-        # 计算技能平均分
+
+        # Calculate skill average scores
         skills_data = {
-            '领导与激励': sum(r.leadership_score for r in responses if r.leadership_score) / len([r for r in responses if r.leadership_score]),
-            '计划组织': sum(r.planning_score for r in responses if r.planning_score) / len([r for r in responses if r.planning_score]),
-            '决策创新': sum(r.decision_score for r in responses if r.decision_score) / len([r for r in responses if r.decision_score]),
-            '专业控制': sum(r.professional_score for r in responses if r.professional_score) / len([r for r in responses if r.professional_score])
+            'Leadership & Motivation': sum(r.leadership_score for r in responses if r.leadership_score) / len([r for r in responses if r.leadership_score]),
+            'Planning & Organization': sum(r.planning_score for r in responses if r.planning_score) / len([r for r in responses if r.planning_score]),
+            'Decision & Innovation': sum(r.decision_score for r in responses if r.decision_score) / len([r for r in responses if r.decision_score]),
+            'Professional Control': sum(r.professional_score for r in responses if r.professional_score) / len([r for r in responses if r.professional_score])
         }
-        
-        # 验证雷达图数据结构
+
+        # Verify radar chart data structure
         assert len(skills_data) == 4
         assert all(0 <= score <= 5 for score in skills_data.values())
-        
-        # 模拟生成雷达图
+
+        # Mock generate radar chart
         radar_config = {
             'type': 'radar',
             'data': skills_data,
-            'title': '技能分布雷达图',
+            'title': 'Skill Distribution Radar Chart',
             'max_value': 5
         }
-        
-        # 验证雷达图配置
+
+        # Verify radar chart configuration
         assert radar_config['type'] == 'radar'
         assert len(radar_config['data']) == 4
         assert radar_config['max_value'] == 5
-        
-        # 验证技能维度完整性
-        required_skills = ['领导与激励', '计划组织', '决策创新', '专业控制']
+
+        # Verify skill dimension completeness
+        required_skills = ['Leadership & Motivation', 'Planning & Organization', 'Decision & Innovation', 'Professional Control']
         for skill in required_skills:
             assert skill in radar_config['data']
-        
-        print("✅ 技能分布雷达图功能测试通过")
-        print(f"   技能数据: {skills_data}")
+
+        print("✅ Skill distribution radar chart function test passed")
+        print(f"   Skill data: {skills_data}")
 
 def test_growth_line_chart(app, sample_data):
-    """测试成长趋势折线图功能"""
+    """Test growth trend line chart function"""
     with app.app_context():
         visualizer = DataVisualizer()
-        
-        # 模拟时间序列数据（不同时间点的技能得分）
+
+        # Mock time series data (skill scores at different time points)
         time_series_data = {
             '2024-01': {'leadership': 3.5, 'planning': 3.3, 'decision': 3.2, 'professional': 3.4},
             '2024-02': {'leadership': 3.7, 'planning': 3.6, 'decision': 3.5, 'professional': 3.6},
             '2024-03': {'leadership': 4.0, 'planning': 3.9, 'decision': 3.8, 'professional': 3.9},
         }
-        
-        # 验证折线图数据结构
+
+        # Verify line chart data structure
         assert len(time_series_data) == 3
-        
+
         for month, scores in time_series_data.items():
             assert len(scores) == 4
             assert all(0 <= score <= 5 for score in scores.values())
-        
-        # 模拟生成折线图配置
+
+        # Mock generate line chart configuration
         line_config = {
             'type': 'line',
             'data': time_series_data,
-            'title': '技能成长趋势图',
+            'title': 'Skill Growth Trend Chart',
             'x_axis': 'time',
             'y_axis': 'score'
         }
-        
-        # 验证折线图配置
+
+        # Verify line chart configuration
         assert line_config['type'] == 'line'
         assert line_config['x_axis'] == 'time'
         assert line_config['y_axis'] == 'score'
-        
-        print("✅ 成长趋势折线图功能测试通过")
+
+        print("✅ Growth trend line chart function test passed")
 
 def test_low_score_heatmap(app, sample_data):
-    """测试低分预警热力图功能"""
+    """Test low score alert heatmap function"""
     with app.app_context():
         visualizer = DataVisualizer()
-        
-        # 重新查询responses以避免DetachedInstanceError
+
+        # Re-query responses to avoid DetachedInstanceError
         responses = SurveyResponse.query.all()
-        
-        # 构建热力图数据矩阵
+
+        # Build heatmap data matrix
         heatmap_data = []
         for response in responses:
             row_data = {
@@ -153,11 +153,11 @@ def test_low_score_heatmap(app, sample_data):
                 'professional': response.professional_score
             }
             heatmap_data.append(row_data)
-        
-        # 识别低分项（假设低于3.5分为低分）
+
+        # Identify low score items (assume less than 3.5 is low score)
         low_score_threshold = 3.5
         low_score_items = []
-        
+
         for item in heatmap_data:
             for skill in ['leadership', 'planning', 'decision', 'professional']:
                 if item[skill] < low_score_threshold:
@@ -167,25 +167,25 @@ def test_low_score_heatmap(app, sample_data):
                         'skill': skill,
                         'score': item[skill]
                     })
-        
-        # 验证低分预警功能
-        assert len(low_score_items) > 0  # 应该有低分项
-        
-        # 验证热力图配置
+
+        # Verify low score alert function
+        assert len(low_score_items) > 0  # Should have low score items
+
+        # Verify heatmap configuration
         heatmap_config = {
             'type': 'heatmap',
             'data': heatmap_data,
-            'title': '技能得分热力图',
+            'title': 'Skill Score Heatmap',
             'threshold': low_score_threshold,
             'low_score_items': low_score_items
         }
-        
+
         assert heatmap_config['type'] == 'heatmap'
         assert heatmap_config['threshold'] == 3.5
         assert len(heatmap_config['low_score_items']) > 0
-        
-        print("✅ 低分预警热力图功能测试通过")
-        print(f"   发现 {len(low_score_items)} 个低分预警项")
+
+        print("✅ Low score alert heatmap function test passed")
+        print(f"   Found {len(low_score_items)} low score alert item(s)")
         for item in low_score_items:
             print(f"   - {item['name']} ({item['department']}): {item['skill']} = {item['score']}")
 

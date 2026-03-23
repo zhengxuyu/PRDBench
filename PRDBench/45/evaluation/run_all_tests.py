@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Chord DHT仿真系统完整测试执行脚本
+Chord DHT Simulation System Complete Test Execution Script
 
-此脚本根据detailed_test_plan.json中的测试计划执行所有测试用例。
+This script executes all test cases according to the test plan in detailed_test_plan.json.
 """
 
 import json
@@ -13,10 +13,10 @@ from pathlib import Path
 
 
 def load_test_plan():
-    """加载测试计划"""
+    """Load test plan"""
     test_plan_path = Path("evaluation/detailed_test_plan.json")
     if not test_plan_path.exists():
-        print(f"错误：找不到测试计划文件: {test_plan_path}")
+        print(f"Error: Cannot find test plan file: {test_plan_path}")
         return None
 
     with open(test_plan_path, 'r', encoding='utf-8') as f:
@@ -24,15 +24,15 @@ def load_test_plan():
 
 
 def run_shell_interaction_test(test_case):
-    """运行shell交互测试"""
-    print(f"执行交互测试: {test_case['metric']}")
+    """Run shell interaction test"""
+    print(f"Execute interactive test: {test_case['metric']}")
 
     for testcase in test_case['testcases']:
         cmd = testcase['test_command']
         input_file = testcase.get('test_input')
 
         if input_file and os.path.exists(input_file):
-            print(f"  命令: {cmd} < {input_file}")
+            print(f"  Command: {cmd} < {input_file}")
             try:
                 with open(input_file, 'r') as stdin_file:
                     result = subprocess.run(
@@ -44,31 +44,31 @@ def run_shell_interaction_test(test_case):
                     )
 
                 if result.returncode == 0:
-                    print(f"  ✓ 测试通过")
+                    print(f"  ✓ Test Passed")
                     return True
                 else:
-                    print(f"  ✗ 测试失败 (返回码: {result.returncode})")
-                    print(f"  错误输出: {result.stderr}")
+                    print(f"  ✗ Test Failed (Return code: {result.returncode})")
+                    print(f"  Error output: {result.stderr}")
                     return False
 
             except subprocess.TimeoutExpired:
-                print(f"  ✗ 测试超时")
+                print(f"  ✗ Test Timeout")
                 return False
             except Exception as e:
-                print(f"  ✗ 测试异常: {e}")
+                print(f"  ✗ Test Exception: {e}")
                 return False
         else:
-            print(f"  ✗ 输入文件不存在: {input_file}")
+            print(f"  ✗ Input file not found: {input_file}")
             return False
 
 
 def run_unit_test(test_case):
-    """运行单元测试"""
-    print(f"执行单元测试: {test_case['metric']}")
+    """Run unit test"""
+    print(f"Execute unit test: {test_case['metric']}")
 
     for testcase in test_case['testcases']:
         cmd = testcase['test_command']
-        print(f"  命令: {cmd}")
+        print(f"  Command: {cmd}")
 
         try:
             result = subprocess.run(
@@ -79,32 +79,32 @@ def run_unit_test(test_case):
             )
 
             if result.returncode == 0:
-                print(f"  ✓ 测试通过")
+                print(f"  ✓ Test Passed")
                 return True
             else:
-                print(f"  ✗ 测试失败 (返回码: {result.returncode})")
-                print(f"  错误输出: {result.stderr}")
+                print(f"  ✗ Test Failed (Return code: {result.returncode})")
+                print(f"  Error output: {result.stderr}")
                 return False
 
         except subprocess.TimeoutExpired:
-            print(f"  ✗ 测试超时")
+            print(f"  ✗ Test Timeout")
             return False
         except Exception as e:
-            print(f"  ✗ 测试异常: {e}")
+            print(f"  ✗ Test Exception: {e}")
             return False
 
 
 def run_file_comparison_test(test_case):
-    """运行文件比较测试"""
-    print(f"执行文件比较测试: {test_case['metric']}")
+    """Run file comparison test"""
+    print(f"Execute file comparison test: {test_case['metric']}")
 
     for testcase in test_case['testcases']:
         cmd = testcase['test_command']
         input_file = testcase.get('test_input')
 
-        # 先执行命令生成文件
+        # First execute command to generate file
         if input_file and os.path.exists(input_file):
-            print(f"  生成命令: {cmd} < {input_file}")
+            print(f"  Generation command: {cmd} < {input_file}")
             try:
                 with open(input_file, 'r') as stdin_file:
                     result = subprocess.run(
@@ -116,77 +116,77 @@ def run_file_comparison_test(test_case):
                     )
 
                 if result.returncode != 0:
-                    print(f"  ✗ 文件生成失败 (返回码: {result.returncode})")
+                    print(f"  ✗ File generation failed (Return code: {result.returncode})")
                     return False
 
-                # 检查生成的文件
-                if test_case['metric'] == "8.1a 网络拓扑可视化 - DOT文件生成":
+                # Check generated file
+                if test_case['metric'] == "8.1a Network Topology Visualization - DOT File Generation":
                     if os.path.exists("graph.dot"):
-                        print(f"  ✓ graph.dot文件生成成功")
+                        print(f"  ✓ graph.dot file generated successfully")
 
-                        # 可选：比较文件内容
+                        # Optional: Compare file content
                         expected_files = test_case.get('expected_output_files')
                         if expected_files and expected_files[0] and os.path.exists(expected_files[0]):
                             try:
                                 with open("graph.dot", 'r') as f1, open(expected_files[0], 'r') as f2:
                                     if "digraph G" in f1.read() and "digraph G" in f2.read():
-                                        print(f"  ✓ DOT文件格式验证通过")
+                                        print(f"  ✓ DOT file format validation passed")
                                         return True
                                     else:
-                                        print(f"  ! DOT文件格式可能不同，但生成成功")
+                                        print(f"  ! DOT file format may differ, but generation succeeded")
                                         return True
                             except Exception as e:
-                                print(f"  ! 文件比较出错，但生成成功: {e}")
+                                print(f"  ! File comparison error, but generation succeeded: {e}")
                                 return True
                         return True
                     else:
-                        print(f"  ✗ graph.dot文件未生成")
+                        print(f"  ✗ graph.dot file not generated")
                         return False
 
-                elif test_case['metric'] == "8.1b 网络拓扑可视化 - PNG文件生成":
+                elif test_case['metric'] == "8.1b Network Topology Visualization - PNG File Generation":
                     if os.path.exists("graph.png"):
-                        print(f"  ✓ graph.png文件生成成功")
+                        print(f"  ✓ graph.png file generated successfully")
                         return True
                     else:
-                        print(f"  ! graph.png文件未生成（可能缺少Graphviz）")
-                        return True  # 不强制要求PNG生成成功
+                        print(f"  ! graph.png file not generated (may be missing Graphviz)")
+                        return True  # Not mandatory to require PNG generation success
 
                 return True
 
             except subprocess.TimeoutExpired:
-                print(f"  ✗ 文件生成超时")
+                print(f"  ✗ File generation timeout")
                 return False
             except Exception as e:
-                print(f"  ✗ 文件生成异常: {e}")
+                print(f"  ✗ File generation exception: {e}")
                 return False
         else:
-            print(f"  ✗ 输入文件不存在: {input_file}")
+            print(f"  ✗ Input file not found: {input_file}")
             return False
 
 
 def main():
-    """主函数"""
+    """Main function"""
     print("=" * 60)
-    print("Chord DHT仿真系统测试执行器")
+    print("Chord DHT Simulation System Test Suite")
     print("=" * 60)
 
-    # 检查当前目录
+    # Check current directory
     if not os.path.exists("src/Main.py"):
-        print("错误：请从项目根目录执行此脚本")
-        print("当前目录应包含src/Main.py文件")
+        print("Error: Please run this script from the project root directory")
+        print("Current directory should contain src/Main.py file")
         sys.exit(1)
 
-    # 加载测试计划
+    # Load test plan
     test_plan = load_test_plan()
     if not test_plan:
         sys.exit(1)
 
-    # 统计变量
+    # Statistics variables
     total_tests = len(test_plan)
     passed_tests = 0
     failed_tests = 0
 
-    # 执行测试
+    # Execute tests
     for i, test_case in enumerate(test_plan, 1):
         print(f"\n[{i}/{total_tests}] {test_case['metric']}")
         print("-" * 50)
@@ -201,27 +201,27 @@ def main():
         elif test_type == "file_comparison":
             success = run_file_comparison_test(test_case)
         else:
-            print(f"  ✗ 未知测试类型: {test_type}")
+            print(f"  ✗ Unknown test type: {test_type}")
 
         if success:
             passed_tests += 1
         else:
             failed_tests += 1
 
-    # 输出总结
+    # Output summary
     print("\n" + "=" * 60)
-    print("测试执行总结")
+    print("Test Execution Summary")
     print("=" * 60)
-    print(f"总测试数: {total_tests}")
-    print(f"通过测试: {passed_tests}")
-    print(f"失败测试: {failed_tests}")
-    print(f"成功率: {passed_tests/total_tests*100:.1f}%")
+    print(f"Total tests: {total_tests}")
+    print(f"Passed tests: {passed_tests}")
+    print(f"Failed tests: {failed_tests}")
+    print(f"Success rate: {passed_tests/total_tests*100:.1f}%")
 
     if failed_tests > 0:
-        print(f"\n⚠️  有 {failed_tests} 个测试失败，请检查上述输出")
+        print(f"\n⚠️  {failed_tests} test(s) failed, please check the output above")
         sys.exit(1)
     else:
-        print(f"\n🎉 所有测试通过！")
+        print(f"\n🎉 All tests passed!")
         sys.exit(0)
 
 

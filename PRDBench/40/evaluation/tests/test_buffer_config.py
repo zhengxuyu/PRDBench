@@ -4,20 +4,20 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'code'))
 
 def test_buffer_size_constants():
-    """测试缓冲区大小配置"""
+    """Test buffer size configuration"""
     try:
-        # 尝试从不同模块导入缓冲区常量
+        # Try to import buffer constants from different modules
         buffer_constants = {}
-        
-        # 尝试从params模块导入
+
+        # Try to import from params module
         try:
             from utils.params import INTER_NE_BUFSIZE, IN_NE_BUFSIZE
             buffer_constants['INTER_NE_BUFSIZE'] = INTER_NE_BUFSIZE
             buffer_constants['IN_NE_BUFSIZE'] = IN_NE_BUFSIZE
         except ImportError:
             pass
-        
-        # 尝试从其他可能的模块导入
+
+        # Try to import from other possible modules
         if not buffer_constants:
             try:
                 from utils.config import INTER_NE_BUFSIZE, IN_NE_BUFSIZE
@@ -25,8 +25,8 @@ def test_buffer_size_constants():
                 buffer_constants['IN_NE_BUFSIZE'] = IN_NE_BUFSIZE
             except ImportError:
                 pass
-        
-        # 尝试从主模块导入
+
+        # Try to import from main module
         if not buffer_constants:
             try:
                 import main
@@ -36,28 +36,28 @@ def test_buffer_size_constants():
                     buffer_constants['IN_NE_BUFSIZE'] = main.IN_NE_BUFSIZE
             except ImportError:
                 pass
-        
-        # 检查是否找到了缓冲区常量
+
+        # Check if buffer constants are found
         found_constants = len(buffer_constants)
-        assert found_constants >= 1, f"至少应定义1个缓冲区大小常量，实际找到{found_constants}个"
-        
-        # 验证常量值
+        assert found_constants >= 1, f"At least 1 buffer size constant should be defined, found {found_constants}"
+
+        # Verify constant values
         for const_name, const_value in buffer_constants.items():
-            assert isinstance(const_value, int), f"{const_name}应为整数类型"
-            assert const_value > 0, f"{const_name}应为正数，实际值: {const_value}"
-            assert const_value <= 65536, f"{const_name}值过大，实际值: {const_value}"
-        
-        # 检查是否定义了两个必需的常量
+            assert isinstance(const_value, int), f"{const_name} should be an integer type"
+            assert const_value > 0, f"{const_name} should be a positive number, got value: {const_value}"
+            assert const_value <= 65536, f"{const_name} value is too large, got value: {const_value}"
+
+        # Check if both required constants are defined
         required_constants = ['INTER_NE_BUFSIZE', 'IN_NE_BUFSIZE']
         found_required = [const for const in required_constants if const in buffer_constants]
-        
+
         if len(found_required) == 2:
-            # 验证两个缓冲区大小的合理性
+            # Verify that the two buffer sizes are reasonable
             inter_size = buffer_constants['INTER_NE_BUFSIZE']
             in_size = buffer_constants['IN_NE_BUFSIZE']
-            
-            assert inter_size >= 512, "网元间通信缓冲区应至少512字节"
-            assert in_size >= 256, "网元内通信缓冲区应至少256字节"
-        
+
+            assert inter_size >= 512, "Inter-network-element communication buffer should be at least 512 bytes"
+            assert in_size >= 256, "Intra-network-element communication buffer should be at least 256 bytes"
+
     except Exception as e:
-        pytest.fail(f"测试失败: {str(e)}")
+        pytest.fail(f"Test Failed: {str(e)}")

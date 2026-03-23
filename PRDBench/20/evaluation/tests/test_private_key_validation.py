@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import serialization
 def test_private_key_validation():
     """Test private key file reading and validation."""
     # Test with existing user private key
-    test_key_path = "data/user_keys/测试用户_private_key.pem"
+    test_key_path = "data/user_keys/test_user_private_key.pem"
     
     if os.path.exists(test_key_path):
         with open(test_key_path, "rb") as f:

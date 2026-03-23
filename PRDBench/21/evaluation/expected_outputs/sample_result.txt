@@ -1,50 +1,50 @@
-程青岛一区抽奖系统 - 抽奖结果报告
+Qingdao District 1 Lottery System - Lottery Results Report
 ============================================================
-生成时间：2024年03月15日 14:30:22
+Generation Time: March 15, 2024 14:30:22
 
-【抽奖结果】
+【Lottery Results】
 ----------------------------------------
 
-🏆 一等奖 (1 人):
-序号  姓名       工号         部门   积分   入职时长
+🏆 First Prize (1 person):
+No.   Name       Employee ID  Dept   Score  Tenure
 --------------------------------------------------
-1    张三       0101001      01    85    24      
+1     Zhang San  0101001      01     85     24
 
-🏆 二等奖 (2 人):
-序号  姓名       工号         部门   积分   入职时长
+🏆 Second Prize (2 people):
+No.   Name       Employee ID  Dept   Score  Tenure
 --------------------------------------------------
-1    李四       0101002      01    92    18      
-2    王五       0102001      02    78    36      
+1     Li Si      0101002      01     92     18
+2     Wang Wu    0102001      02     78     36
 
 
-【公平性统计报告】
+【Fairness Statistical Report】
 ----------------------------------------
 
-积分分布Z检验：
-总体积分均值：85.50
-总体积分标准差：5.89
+Score Distribution Z-Test:
+Overall Score Mean: 85.50
+Overall Score Standard Deviation: 5.89
 
-一等奖:
-  中奖者积分均值：85.00
-  Z统计量：-0.0849
-  p值：0.9323
-  ✅ 统计结果符合随机性要求
+First Prize:
+  Winner Score Mean: 85.00
+  Z Statistic: -0.0849
+  p-value: 0.9323
+  ✅ Statistical results meet randomness requirements
 
-二等奖:
-  中奖者积分均值：85.00
-  Z统计量：-0.0600
-  p值：0.9522
-  ✅ 统计结果符合随机性要求
+Second Prize:
+  Winner Score Mean: 85.00
+  Z Statistic: -0.0600
+  p-value: 0.9522
+  ✅ Statistical results meet randomness requirements
 
-部门分布卡方检验：
-部门    总体占比    中奖占比    观察频数  期望频数
+Department Distribution Chi-Square Test:
+Dept    Overall Ratio   Winner Ratio   Observed   Expected
 --------------------------------------------------
-01     60.0%     66.7%     2       1.8    
-02     40.0%     33.3%     1       1.2    
+01      60.0%          66.7%          2          1.8
+02      40.0%          33.3%          1          1.2
 
-卡方统计量 (χ²)：0.1389
-p值：0.7094
-✅ 统计结果符合随机性要求
+Chi-Square Statistic (χ²): 0.1389
+p-value: 0.7094
+✅ Statistical results meet randomness requirements
 
 ============================================================
-报告结束
+End of Report

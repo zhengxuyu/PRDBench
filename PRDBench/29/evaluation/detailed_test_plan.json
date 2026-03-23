@@ -57,7 +57,7 @@
   },
   {
     "metric": "2.1c Command Recognition - orders Command",
-    "description": "1. **Pre-check (User Path):** Can order details be viewed by entering the `orders` command?\n2. **Act:** Enter the `orders` command.\n3. **Assert:** Observe whether the program correctly recognizes the command and displays order information (even if empty).",
+    "description": "1. **Pre-check (User Path):** Can order details be viewed by entering the `orders` command?\n2. **Act:** Enter the `orders` command.\n3. **Assert:** Observe whether the program correctly recognizes the command and displays order information.if the list is empty, verify that a clear prompt (e.g., \"No orders found\") is displayed.",
     "type": "shell_interaction",
     "testcases": [
       {

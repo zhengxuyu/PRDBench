@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-直接测试2.6.1核心操作日志记录
+DirectInterfaceTest2.6.1Core Operation LogRecord
 """
 
 import subprocess
@@ -9,19 +9,19 @@ import sys
 import os
 
 def test_operation_log():
-    """测试操作日志记录"""
+    """TestoperationWorkLogRecord"""
     print("=" * 60)
-    print("2.6.1 核心操作日志-完整记录 测试")
+    print("2.6.1 Core Operation Log-Complete Record Test")
     print("=" * 60)
     
-    # 输入序列：数据管理(1) → 初始化示例数据(3) → 确认(y) → 返回(0) → 退出(0)
+    # OutputInputSequenceSeries：DataManagement(1) → InitialInitializationSampleData(3) → AccurateCertified(y) → ReturnReturn(0) → Exit(0)
     inputs = "1\n3\ny\n0\n0\n"
     
-    print(f"输入序列: {repr(inputs)}")
-    print("解释: 数据管理 → 初始化示例数据 → 确认 → 返回 → 退出")
+    print(f"OutputInputSequenceSeries: {repr(inputs)}")
+    print("Explanation: DataManagement → InitialInitializationSampleData → AccurateCertified → ReturnReturn → Exit")
     
     try:
-        # 执行测试
+        # ExecuteTest
         result = subprocess.run(
             ['python', 'main.py'],
             input=inputs,
@@ -33,72 +33,72 @@ def test_operation_log():
             errors='ignore'
         )
         
-        print(f"退出码: {result.returncode}")
+        print(f"ExitCode: {result.returncode}")
         
-        # 检查是否有无效选择错误
-        has_invalid_choice = "无效选择" in result.stdout
-        has_normal_exit = "感谢使用推荐系统" in result.stdout
+        # CheckYesNoHasNoEffectSelectChooseError
+        has_invalid_choice = "NoEffectSelectChoose" in result.stdout
+        has_normal_exit = "InfectionThanksUseUseRecommendation System" in result.stdout
         
-        print(f"是否有'无效选择'错误: {'是' if has_invalid_choice else '否'}")
-        print(f"程序正常退出: {'是' if has_normal_exit else '否'}")
+        print(f"YesNoHas'NoEffectSelectChoose'Error: {'Yes' if has_invalid_choice else 'No'}")
+        print(f"ProgramNormalExit: {'Yes' if has_normal_exit else 'No'}")
         
-        # 显示关键输出
+        # DisplayRelatedKeyOutput
         if result.stdout:
-            print("\n关键输出片段:")
+            print("\nRelatedKeyOutputChipSegment:")
             lines = result.stdout.split('\n')
             for line in lines:
-                if any(keyword in line for keyword in ['数据管理', '初始化', '示例数据', '确认', '返回']):
+                if any(keyword in line for keyword in ['DataManagement', 'InitialInitialization', 'SampleData', 'AccurateCertified', 'ReturnReturn']):
                     print(f"  {line}")
         
-        # 检查日志文件
+        # CheckLogFile
         log_path = '../src/logs/system.log'
         if os.path.exists(log_path):
-            print(f"\n检查日志文件: {log_path}")
+            print(f"\nCheckLogFile: {log_path}")
             
-            # 读取最新的日志条目
+            # ReadMostNewLogEntries
             with open(log_path, 'r', encoding='utf-8', errors='ignore') as f:
                 log_content = f.read()
                 
-            # 查找今天的日志
+            # FindTodayDayLog
             from datetime import datetime
             today = datetime.now().strftime('%Y-%m-%d')
             
             recent_logs = []
             for line in log_content.split('\n'):
-                if today in line and any(keyword in line for keyword in ['初始化', '创建', '加载']):
+                if today in line and any(keyword in line for keyword in ['InitialInitialization', 'Create', 'Load']):
                     recent_logs.append(line)
             
-            print(f"找到今日相关日志: {len(recent_logs)} 条")
+            print(f"FoundTodayJapaneseCameraRelatedLog: {len(recent_logs)}  records")
             if recent_logs:
-                print("最新日志样本:")
-                for log in recent_logs[-5:]:  # 显示最新5条
+                print("MostNewLogDiversityBook:")
+                for log in recent_logs[-5:]:  # DisplayMostNew5 records
                     print(f"  {log}")
                 
-                # 检查是否包含测试要求的4类信息
+                # CheckYesNoContainsTestRequirements4CategoryInformation
                 has_time = any('2025-' in log for log in recent_logs)
                 has_operation = any('INFO' in log for log in recent_logs)
-                has_params = any('创建' in log or '加载' in log for log in recent_logs)
-                has_results = any('完成' in log or '条记录' in log for log in recent_logs)
+                has_params = any('Create' in log or 'Load' in log for log in recent_logs)
+                has_results = any('CompleteSuccess' in log or 'records' in log for log in recent_logs)
                 
-                print(f"\n日志内容检查:")
-                print(f"  包含操作时间: {'是' if has_time else '否'}")
-                print(f"  包含操作类型: {'是' if has_operation else '否'}")
-                print(f"  包含输入参数: {'是' if has_params else '否'}")
-                print(f"  包含处理结果: {'是' if has_results else '否'}")
+                print(f"\nLogContentCheck:")
+                print(f"  ContainsoperationWorkTimeBetween: {'Yes' if has_time else 'No'}")
+                print(f"  ContainsoperationWorkCategoryType: {'Yes' if has_operation else 'No'}")
+                print(f"  ContainsOutputInputParameter: {'Yes' if has_params else 'No'}")
+                print(f"  ContainsProcessingResult: {'Yes' if has_results else 'No'}")
                 
                 criteria_met = sum([has_time, has_operation, has_params, has_results])
-                print(f"  满足条件: {criteria_met}/4项")
+                print(f"  Meets recordsPiece: {criteria_met}/4item(s)")
                 
             return not has_invalid_choice and has_normal_exit and len(recent_logs) > 0
         else:
-            print(f"日志文件不存在: {log_path}")
+            print(f"LogFileNotSavein: {log_path}")
             return False
             
     except Exception as e:
-        print(f"测试执行失败: {e}")
+        print(f"TestExecuteFailure: {e}")
         return False
 
 if __name__ == "__main__":
     success = test_operation_log()
-    print(f"\n测试结果: {'通过' if success else '失败'}")
+    print(f"\nTest Results: {'Pass' if success else 'Failure'}")
     sys.exit(0 if success else 1)

@@ -3,75 +3,78 @@ import os
 import json
 from src.utils import validate_chinese_name, is_valid_date, is_future_date, calculate_bazi_wuxing
 
-# --- 1.1 用户信息录入流程 - 姓名输入 ---
+# --- 1.1 User Information Entry Flow - Name Input ---
 def test_validate_chinese_name_valid():
-    assert validate_chinese_name("张三") == True
-    assert validate_chinese_name("张三李四王五赵六") == True
+    assert validate_chinese_name("Zhang San") == True
+    assert validate_chinese_name("John Doe") == True
+    assert validate_chinese_name("Li Si") == True
+    assert validate_chinese_name("Wang Wu Zhao Liu") == True
 
 def test_validate_chinese_name_invalid():
-    assert validate_chinese_name("李") == False  # 太短
-    assert validate_chinese_name("张三李四王五赵六钱") == False  # 太长
-    assert validate_chinese_name("Zhang") == False  # 非中文
+    assert validate_chinese_name("A") == False  # Too short
+    assert validate_chinese_name("VeryLongNameThatExceedsTwentyCharactersLimit") == False  # Too long (Chinese)
+    assert validate_chinese_name("VeryLongNameThatExceedsTwentyCharactersLimit") == False  # Too long (English)
+    assert validate_chinese_name("A") == False  # Too short
 
-# --- 1.2 用户信息录入流程 - 出生日期输入 ---
+# --- 1.2 User Information Entry Flow - Birth Date Input ---
 def test_is_valid_date():
     assert is_valid_date(1990, 1, 1) == True
-    assert is_valid_date(1990, 13, 1) == False  # 无效月份
-    assert is_valid_date(1990, 2, 30) == False  # 无效日期
+    assert is_valid_date(1990, 13, 1) == False  # Invalid month
+    assert is_valid_date(1990, 2, 30) == False  # Invalid date
 
 def test_is_future_date():
     from datetime import date
-    # 假设今天是2023-10-27，测试一个未来的日期
+    # Assuming today is 2023-10-27, test a future date
     future_date = date.today().replace(year=date.today().year + 1)
     assert is_future_date(future_date.year, future_date.month, future_date.day) == True
-    # 测试一个过去的日期
+    # Test a past date
     assert is_future_date(1990, 1, 1) == False
 
-# --- 4.1a 运势综合计算 - 八字五行计算 ---
-# 这个测试点验证八字计算的基本逻辑，不追求绝对精确（因为PRD提到是简化版）
+# --- 4.1a Fortune Comprehensive Calculation - BaZi Five Elements Calculation ---
+# This test verifies the basic logic of BaZi calculation, not pursuing absolute precision (as PRD mentions simplified version)
 def test_calculate_bazi_wuxing():
     result = calculate_bazi_wuxing(1990, 1, 1)
     bazi = result['bazi']
     wuxing_dist = result['wuxing_distribution']
-    
-    # 验证返回结构
+
+    # Verify return structure
     assert 'year' in bazi
     assert 'month' in bazi
     assert 'day' in bazi
     assert 'hour' in bazi
-    assert set(wuxing_dist.keys()) == {'金', '木', '水', '火', '土'}
-    
-    # 验证五行分布是数值
+    assert set(wuxing_dist.keys()) == {'Metal', 'Wood', 'Water', 'Fire', 'Earth'}
+
+    # Verify Five Elements distribution are numeric values
     for value in wuxing_dist.values():
         assert isinstance(value, (int, float))
 
-# --- 1.4 用户信息存储与加载 ---
-# 这个测试点更适合用shell_interaction测试，因为涉及文件I/O和完整的程序流程
-# 但我们可以测试save/load逻辑的核心部分
+# --- 1.4 User Information Storage and Loading ---
+# This test is more suitable for shell_interaction testing as it involves file I/O and complete program flow
+# But we can test the core part of save/load logic
 def test_user_data_save_load_logic():
-    # 注意：这个测试假设在测试环境中可以安全地写入和读取文件
-    # 在实际的pytest环境中，可能需要使用tmp_path fixture
+    # Note: This test assumes it's safe to write and read files in the test environment
+    # In actual pytest environment, may need to use tmp_path fixture
     test_data = {
-        'name': '测试用户',
+        'name': 'Test User',
         'birth_date': '1990-01-01',
-        'gender': '男'
+        'gender': 'Male'
     }
-    
-    # 为了不污染源代码目录，我们在当前测试目录下创建临时文件
-    # 在实际pytest中，应使用tmp_path
+
+    # To avoid polluting source code directory, create temp file in current test directory
+    # In actual pytest, should use tmp_path
     test_file = 'test_user_data.json'
-    
+
     try:
-        # 模拟保存
+        # Simulate save
         with open(test_file, 'w', encoding='utf-8') as f:
             json.dump(test_data, f, ensure_ascii=False, indent=4)
-        
-        # 模拟加载
+
+        # Simulate load
         with open(test_file, 'r', encoding='utf-8') as f:
             loaded_data = json.load(f)
-        
+
         assert loaded_data == test_data
     finally:
-        # 清理临时文件
+        # Cleanup temp file
         if os.path.exists(test_file):
             os.remove(test_file)

@@ -68,71 +68,71 @@ def compare_csv_files(actual_file, expected_file):
 
 def test_anonymization():
     """Main test function for data anonymization"""
-    print("开始数据脱敏功能测试...")
-    
+    print("Starting data anonymization functionality test...")
+
     # Step 1: Setup test data
-    print("步骤1: 设置测试数据...")
+    print("Step 1: Setting up test data...")
     setup_script = os.path.join(os.path.dirname(__file__), 'setup_test_data.py')
     returncode, stdout, stderr = run_command(f"python {setup_script}")
-    
+
     if returncode != 0:
-        print(f"设置测试数据失败:")
+        print(f"Test data setup failed:")
         print(f"stdout: {stdout}")
         print(f"stderr: {stderr}")
         return False
-    
-    print("测试数据设置成功")
-    
+
+    print("Test data setup successful")
+
     # Step 2: Run anonymization export
-    print("步骤2: 执行数据脱敏导出...")
+    print("Step 2: Executing data anonymization export...")
     output_file = os.path.join(os.path.dirname(__file__), 'anonymized_data.csv')
-    
+
     # Remove output file if it exists
     if os.path.exists(output_file):
         os.remove(output_file)
-    
+
     export_command = f"python -m src.main data export --anonymize --output-path {output_file}"
     returncode, stdout, stderr = run_command(export_command, cwd=os.path.join(os.path.dirname(__file__), '..'))
-    
+
     if returncode != 0:
-        print(f"数据导出失败:")
+        print(f"Data export failed:")
         print(f"stdout: {stdout}")
         print(f"stderr: {stderr}")
         return False
-    
-    print("数据导出成功")
-    print(f"输出信息: {stdout.strip()}")
-    
+
+    print("Data export successful")
+    print(f"Output info: {stdout.strip()}")
+
     # Step 3: Verify output file exists
     if not os.path.exists(output_file):
-        print(f"输出文件不存在: {output_file}")
+        print(f"Output file does not exist: {output_file}")
         return False
-    
-    print("输出文件已创建")
-    
+
+    print("Output file created")
+
     # Step 4: Compare with expected output
-    print("步骤3: 验证脱敏结果...")
+    print("Step 3: Verifying anonymization results...")
     expected_file = os.path.join(os.path.dirname(__file__), 'expected_anonymized_data.csv')
-    
+
     if not os.path.exists(expected_file):
-        print(f"期望输出文件不存在: {expected_file}")
+        print(f"Expected output file does not exist: {expected_file}")
         return False
-    
+
     if compare_csv_files(output_file, expected_file):
-        print("脱敏结果验证成功！数据已正确脱敏。")
+        print("Anonymization verification successful! Data has been correctly anonymized.")
         return True
     else:
-        print("脱敏结果验证失败！")
-        
+        print("Anonymization verification failed!")
+
         # Show actual content for debugging
-        print("\n实际输出内容:")
+        print("\nActual output content:")
         with open(output_file, 'r', encoding='utf-8-sig') as f:
             print(f.read())
-        
-        print("\n期望输出内容:")
+
+        print("\nExpected output content:")
         with open(expected_file, 'r', encoding='utf-8') as f:
             print(f.read())
-        
+
         return False
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-participant_id,total_score,completed_at,item_1,item_2,item_3,item_4,item_5,item_6,item_7,item_8,dim_注意持续,dim_注意集中,dim_注意控制,dim_注意转换,dim_注意分配
+participant_id,total_score,completed_at,item_1,item_2,item_3,item_4,item_5,item_6,item_7,item_8,dim_Attention_Sustaining,dim_Attention_Focusing,dim_Attention_Control,dim_Attention_Switching,dim_Attention_Distribution
 S001,4.125,2025-08-27 07:51:36,4,5,4,4,5,4,3,4,4.0,3.5,4.5,5.0,4.0
 S002,3.75,2025-08-27 07:51:36,3,1,2,3,2,3,2,2,3.0,6.0,2.0,6.0,2.0
 S003,3.875,2025-08-27 07:51:36,5,4,5,5,3,4,4,3,4.5,3.5,4.0,4.0,3.0

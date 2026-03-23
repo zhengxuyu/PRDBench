@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试日志内容完整性
+Test log content completeness
 """
 
 import pytest
@@ -10,17 +10,17 @@ import sys
 import glob
 import re
 
-# 添加项目根目录到Python路径
+# Add project root directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 def test_log_completeness():
-    """测试日志内容完整性"""
+    """Test log content completeness"""
 
-    # 查找日志文件
+    # Find log files
     log_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'log_file')
     evaluation_log_dir = os.path.join(os.path.dirname(__file__), '..')
 
-    # 检查多个可能的日志位置
+    # Check multiple possible log locations
     log_patterns = [
         os.path.join(log_dir, '*.log'),
         os.path.join(evaluation_log_dir, '*.log'),
@@ -31,7 +31,7 @@ def test_log_completeness():
     for pattern in log_patterns:
         log_files.extend(glob.glob(pattern))
 
-    # 如果没有找到日志文件，创建一个测试日志文件
+    # If no log files found, create a test log file
     if not log_files:
         test_log_path = os.path.join(evaluation_log_dir, 'test_training.log')
         with open(test_log_path, 'w', encoding='utf-8') as f:
@@ -42,45 +42,45 @@ def test_log_completeness():
             f.write('[2024-01-15 10:30:29] Training completed successfully\n')
         log_files = [test_log_path]
 
-    # 验证至少有一个日志文件
-    assert len(log_files) > 0, "应该存在训练日志文件"
+    # Verify at least one log file exists
+    assert len(log_files) > 0, "Training log files should exist"
 
-    # 检查每个日志文件的内容
+    # Check content of each log file
     for log_file in log_files:
         with open(log_file, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # 检查是否包含3类关键信息
-        has_test_loss = bool(re.search(r'(Test Loss|测试损失|loss)', content, re.IGNORECASE))
-        has_accuracy = bool(re.search(r'(Accuracy|准确率|acc)', content, re.IGNORECASE))
-        has_model_save = bool(re.search(r'(model.*save|模型.*保存|Best model|最佳模型)', content, re.IGNORECASE))
+        # Check if it contains 3 types of key information
+        has_test_loss = bool(re.search(r'(Test Loss|Test loss|loss)', content, re.IGNORECASE))
+        has_accuracy = bool(re.search(r'(Accuracy|acc)', content, re.IGNORECASE))
+        has_model_save = bool(re.search(r'(model.*save|Best model)', content, re.IGNORECASE))
 
-        # 至少应该包含其中两类信息
+        # Should contain at least two types of information
         info_count = sum([has_test_loss, has_accuracy, has_model_save])
-        assert info_count >= 2, f"日志文件 {log_file} 应该包含至少2类关键信息（测试损失、准确率、模型保存状态），实际包含 {info_count} 类"
+        assert info_count >= 2, f"Log file {log_file} should contain at least 2 types of key information (test loss, accuracy, model save status), actually contains {info_count} types"
 
-        print(f"日志文件 {log_file} 验证通过:")
-        print(f"  - 测试损失: {'✓' if has_test_loss else '✗'}")
-        print(f"  - 准确率: {'✓' if has_accuracy else '✗'}")
-        print(f"  - 模型保存状态: {'✓' if has_model_save else '✗'}")
+        print(f"Log file {log_file} verification passed:")
+        print(f"  - Test loss: {'✓' if has_test_loss else '✗'}")
+        print(f"  - Accuracy: {'✓' if has_accuracy else '✗'}")
+        print(f"  - Model save status: {'✓' if has_model_save else '✗'}")
 
 def test_log_format():
-    """测试日志格式"""
-    # 检查期望的日志文件
+    """Test log format"""
+    # Check expected log file
     expected_log = os.path.join(os.path.dirname(__file__), '..', 'expected_training_log.log')
 
     if os.path.exists(expected_log):
         with open(expected_log, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # 检查时间戳格式
+        # Check timestamp format
         timestamp_pattern = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]'
         timestamps = re.findall(timestamp_pattern, content)
-        assert len(timestamps) > 0, "日志应该包含时间戳"
+        assert len(timestamps) > 0, "Log should contain timestamps"
 
-        # 检查日志结构
+        # Check log structure
         lines = content.strip().split('\n')
-        assert len(lines) >= 3, "日志应该包含多行记录"
+        assert len(lines) >= 3, "Log should contain multiple records"
 
 if __name__ == "__main__":
     pytest.main([__file__])

@@ -5,9 +5,12 @@ evaluation/sample_data.csv
 SELECT * FROM df
 
 y
+n
 
 4
-1
-1
+2
+3
 y
 n
+
+6

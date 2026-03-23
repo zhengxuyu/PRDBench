@@ -1,9 +1,9 @@
-# SEIR状态数据汇总 - 湖北省COVID-19真实数据
-# 处理时间: 2025-08-21 21:21:31.775022
-# 数据来源: 湖北省COVID-19疫情数据
-# 总人口: 59170000
-# 数据点数: 77
-# 格式: 时间	易感者	潜伏者	感染者	康复者
+# SEIR State Data Summary - Hubei Province COVID-19 Real Data
+# Processing Time: 2025-08-21 21:21:31.775022
+# Data Source: Hubei Province COVID-19 Epidemic Data
+# Total Population: 59170000
+# Data Points: 77
+# Format: Time	Susceptible	Exposed	Infected	Recovered
 0	59169367	0	0	633
 1	59165960	3367	40	633
 2	59169327	0	0	673

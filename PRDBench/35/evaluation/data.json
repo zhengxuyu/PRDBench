@@ -10,7 +10,7 @@
   "departments": [
     {
       "id": 1,
-      "name": "公司",
+      "name": "Company",
       "parent_id": null
     }
   ],
@@ -31,7 +31,7 @@
   "categories": [
     {
       "id": 1,
-      "name": "资产",
+      "name": "Asset",
       "parent_id": null
     }
   ],

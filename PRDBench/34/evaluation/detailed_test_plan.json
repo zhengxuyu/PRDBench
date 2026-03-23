@@ -14,7 +14,7 @@
     "expected_output": "Program starts successfully and displays main menu containing the following options: 1.Add Member Information 2.Query Member Information by Kinship Relationship 3.Query Basic Member Information 4.Statistical Member Information 5.Tree Display 6.Exit System"
   },
   {
-    "metric": "2.1.1.1 Member Information Entry: Date Format Validation - Birth/Death dates must conform to YYYYMMDD format.",
+    "metric": "2.1.1.1 Member Information Entry: Date Format Validation - Birth or Death dates must conform to YYYYMMDD format.",
     "description": "1. Arrange: Prepare member information where birth date or death date is filled with illegal format (such as '1990-01-01' or '900101').\\n2. Act: Select add new member function, then attempt to submit prepared information.\\n3. Assert: Observe whether system prompts date format error (such as \"Date format should be YYYYMMDD\") and prevents submission.",
     "type": "shell_interaction",
     "testcases": [

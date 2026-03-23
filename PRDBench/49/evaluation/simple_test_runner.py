@@ -87,7 +87,7 @@ def main():
     # Define test cases
     test_cases = [
         {
-            'name': '系统启动与帮助信息',
+            'name': 'System Start and Help Information',
             'type': 'shell',
             'commands': [
                 'python run.py help',
@@ -95,67 +95,67 @@ def main():
             ]
         },
         {
-            'name': 'MQTT单条数据发布',
+            'name': 'MQTT Single Data Publishing',
             'type': 'shell',
             'commands': ['cd src && python main.py mqtt publish --random']
         },
         {
-            'name': 'MQTT批量数据发布',
+            'name': 'MQTT Batch Data Publishing',
             'type': 'shell',
             'commands': ['cd src && python main.py mqtt publish --file samples/environmental_sample.csv --count 5']
         },
         {
-            'name': 'MQTT数据订阅',
+            'name': 'MQTT Data Subscription',
             'type': 'shell',
             'commands': ['cd src && python main.py mqtt subscribe --duration 10 --save']
         },
         {
-            'name': '数据分析功能',
+            'name': 'Data Analysis Function',
             'type': 'shell',
             'commands': ['cd src && python main.py data analyze']
         },
         {
-            'name': '数据清洗功能',
+            'name': 'Data Cleaning Function',
             'type': 'shell',
             'commands': ['cd src && python main.py data clean']
         },
         {
-            'name': '机器学习预测功能',
+            'name': 'Machine Learning Prediction Function',
             'type': 'shell',
             'commands': ['cd src && python main.py ml predict --temperature 25.0 --humidity 60.0 --pressure 1013.25']
         },
         {
-            'name': '模型评估功能',
+            'name': 'Model Evaluation Function',
             'type': 'shell',
             'commands': ['cd src && python main.py ml evaluate']
         },
         {
-            'name': '系统状态监控',
+            'name': 'System Status Monitoring',
             'type': 'shell',
             'commands': ['cd src && python main.py system status']
         },
         {
-            'name': 'Web界面启动',
+            'name': 'Web Interface Start',
             'type': 'shell',
             'commands': ['cd src && timeout 5s python main.py web --port 8080 || echo "Web service test completed"']
         },
         {
-            'name': '功能完整性测试',
+            'name': 'Functional Completeness Test',
             'type': 'python',
             'commands': ['tests/test_functionality_completeness.py']
         },
         {
-            'name': '错误处理测试',
+            'name': 'Error Processing Test',
             'type': 'python',
             'commands': ['tests/test_error_handling.py']
         },
         {
-            'name': '日志功能测试',
+            'name': 'Log Function Test',
             'type': 'python',
             'commands': ['tests/test_logging.py']
         },
         {
-            'name': '数据质量测试',
+            'name': 'Data Quality Test',
             'type': 'python',
             'commands': ['tests/test_data_quality.py']
         }
@@ -214,15 +214,15 @@ def main():
     
     # Determine grade
     if success_rate >= 90:
-        grade = "A (优秀)"
+        grade = "A (Excellent)"
     elif success_rate >= 80:
-        grade = "B (良好)"
+        grade = "B (Good)"
     elif success_rate >= 70:
-        grade = "C (中等)"
+        grade = "C (Average)"
     elif success_rate >= 60:
-        grade = "D (及格)"
+        grade = "D (Passing)"
     else:
-        grade = "F (不及格)"
+        grade = "F (Failing)"
     
     print(f"Grade: {grade}")
     

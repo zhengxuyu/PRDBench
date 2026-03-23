@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试计划格式转换脚本
-只保留标准格式字段，移除运行时生成的字段
+TestDesignPlanFormatStyleConversionScript
+OnlyProtectionKeepMarkStandardFormatStyleCharacterSegment，MoveRemoveRunTimeGenerateCharacterSegment
 """
 
 import json
 import os
 
 def format_test_plan():
-    """格式化测试计划，只保留标准字段"""
+    """FormatStyleizationTestDesignPlan，OnlyProtectionKeepMarkStandardCharacterSegment"""
     
-    # 读取原始测试计划
+    # ReadNativeInitialTestDesignPlan
     input_file = 'detailed_test_plan.json'
     output_file = 'detailed_test_plan_fixed.json'
     
     with open(input_file, 'r', encoding='utf-8') as f:
         original_data = json.load(f)
     
-    # 标准格式字段
+    # MarkStandardFormatStyleCharacterSegment
     standard_fields = [
         'metric',
         'description', 
@@ -29,11 +29,11 @@ def format_test_plan():
         'expected_output'
     ]
     
-    # 转换数据
+    # ConversionData
     formatted_data = []
     
     for item in original_data:
-        # 只保留标准字段
+        # OnlyProtectionKeepMarkStandardCharacterSegment
         formatted_item = {}
         for field in standard_fields:
             if field in item:
@@ -41,16 +41,16 @@ def format_test_plan():
         
         formatted_data.append(formatted_item)
     
-    # 保存格式化后的数据
+    # SaveFormatStyleizationafterData
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(formatted_data, f, ensure_ascii=False, indent=4)
     
-    print(f"格式转换完成!")
-    print(f"输入文件: {input_file}")
-    print(f"输出文件: {output_file}")
-    print(f"处理项目数: {len(formatted_data)}")
+    print(f"FormatStyleConversionCompleteSuccess!")
+    print(f"OutputInputFile: {input_file}")
+    print(f"OutputFile: {output_file}")
+    print(f"Processingitem(s)Number: {len(formatted_data)}")
     
-    # 显示移除的字段
+    # DisplayMoveRemoveCharacterSegment
     removed_fields = set()
     for item in original_data:
         for field in item.keys():
@@ -58,7 +58,7 @@ def format_test_plan():
                 removed_fields.add(field)
     
     if removed_fields:
-        print(f"移除字段: {', '.join(removed_fields)}")
+        print(f"MoveRemoveCharacterSegment: {', '.join(removed_fields)}")
 
 if __name__ == '__main__':
     format_test_plan()

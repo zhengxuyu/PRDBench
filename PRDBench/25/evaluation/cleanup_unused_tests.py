@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-清理不在详细测试计划中的测试方法
+CleanProcessorNotindetailedTestDesignplaninTestOfficialMethod
 """
 
 import os
 import re
 
-# 详细测试计划中实际包含的pytest测试方法
+# detailedTestDesignplaninImplementationInternationalContainspytestTestOfficialMethod
 REQUIRED_TESTS = {
     'test_si_model_algorithm.py': ['test_si_model_core_algorithm'],
     'test_sir_model_algorithm.py': ['test_sir_model_core_algorithm', 'test_sir_model_parameter_validation'],
@@ -26,32 +26,32 @@ REQUIRED_TESTS = {
 }
 
 def cleanup_test_file(file_path, required_methods):
-    """清理测试文件，只保留必需的测试方法"""
+    """CleanProcessorTestFile,onlyProtectionkeep requiredTestOfficialMethod"""
     if not os.path.exists(file_path):
         return
     
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # 找到所有测试方法
+    # findtoPlaceHasTestOfficialMethod
     test_methods = re.findall(r'def (test_\w+)\(', content)
     print(f"\n{os.path.basename(file_path)}:")
-    print(f"  现有测试方法: {len(test_methods)}个")
-    print(f"  需要保留: {required_methods}")
+    print(f"  ImplementationHasTestOfficialMethod: {len(test_methods)}item(s)")
+    print(f"  needrequiredProtectionkeep: {required_methods}")
     
     methods_to_remove = [m for m in test_methods if m not in required_methods]
     if methods_to_remove:
-        print(f"  需要删除: {methods_to_remove}")
+        print(f"  needrequiredDelete: {methods_to_remove}")
         
-        # 为了快速处理，我只标记需要删除的方法
+        # asQuickProcessing,IonlyMarkmark requiredDeleteOfficialMethod
         for method in methods_to_remove:
-            # 简单的方法：注释掉不需要的测试方法
+            # SimpleSingleOfficialMethod:NotereleaseremoveNotneedrequiredTestOfficialMethod
             pattern = rf'def {method}\(.*?\n(.*?\n)*?.*?def |def {method}\(.*?\n(.*?\n)*?$'
-            # 这里只是标识，实际删除需要更精确的处理
+            # thisinsideonlyYesMarkmark,ImplementationInternationalDeleteneedrequiredUpdateEliteAccurateProcessing
         
         return methods_to_remove
     else:
-        print("  无需删除")
+        print("  NoneedDelete")
         return []
 
 def main():
@@ -63,7 +63,7 @@ def main():
         removed = cleanup_test_file(file_path, required_methods)
         total_removed += len(removed)
     
-    print(f"\n总共标记删除 {total_removed} 个不需要的测试方法")
+    print(f"\nTotaltotalMarkmarkDelete {total_removed} item(s)NotneedrequiredTestOfficialMethod")
 
 if __name__ == "__main__":
     main()

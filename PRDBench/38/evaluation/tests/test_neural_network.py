@@ -5,16 +5,16 @@ import os
 import pandas as pd
 import numpy as np
 
-# 添加src目录到Python路径
+# AddsrcDirectorytoPythonPath
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../src'))
 
 from recommenders.neural_network_recommender import NeuralNetworkRecommender
 
 class TestNeuralNetwork:
-    """轻量级神经网络推荐-MLPRegressor使用测试"""
+    """LightweightNeuralNetworkRecommendation-MLPRegressorUseUseTest"""
     
     def setup_method(self):
-        """测试前准备"""
+        """TestbeforeStandardPrepare"""
         self.config = {
             'recommendation': {
                 'default_top_n': 5,
@@ -27,18 +27,18 @@ class TestNeuralNetwork:
             }
         }
         
-        # 创建测试数据
-        # 创建足够大的测试数据集（30条记录以满足验证集要求）
+        # CreateTestData
+        # CreateSufficientLargeTestDataSet（30recordsByMeetsVerifySetRequirements）
         user_ids = []
         product_ids = []
         ratings = []
         
-        for user in range(1, 11):  # 10个用户
-            for product in range(1, 6):  # 5个商品
-                if np.random.random() > 0.3:  # 70%概率有评分
+        for user in range(1, 11):  # 10item(s)User
+            for product in range(1, 6):  # 5item(s)ProductBrand
+                if np.random.random() > 0.3:  # 70%SummaryRateHasScore
                     user_ids.append(user)
                     product_ids.append(product)
-                    ratings.append(np.random.randint(3, 6))  # 3-5分评分
+                    ratings.append(np.random.randint(3, 6))  # 3-5DivideScore
         
         self.ratings_df = pd.DataFrame({
             'user_id': user_ids,
@@ -48,42 +48,48 @@ class TestNeuralNetwork:
         
         self.products_df = pd.DataFrame({
             'product_id': [1, 2, 3, 4, 5],
-            'name': ['商品A', '商品B', '商品C', '商品D', '商品E'],
-            'category': ['电子产品', '服装', '家居', '图书', '运动'],
-            'brand': ['品牌A', '品牌B', '品牌C', '品牌D', '品牌E'],
+            'name': ['ProductBrandA', 'ProductBrandB', 'ProductBrandC', 'ProductBrandD', 'ProductBrandE'],
+            'category': ['Electronics', 'Clothing', 'Home', 'Book', 'RunAuto'],
+            'brand': ['BrandBrandA', 'BrandBrandB', 'BrandBrandC', 'BrandBrandD', 'BrandBrandE'],
             'price': [100.0, 200.0, 300.0, 400.0, 500.0],
-            'price_range': ['低价', '中价', '中价', '高价', '高价'],
+            'price_range': ['LowPrice', 'MidPrice', 'MidPrice', 'HighPrice', 'HighPrice'],
             'avg_rating': [4.0, 4.5, 3.5, 4.5, 3.8]
         })
         
         self.users_df = pd.DataFrame({
             'user_id': range(1, 11),
             'age': np.random.randint(20, 60, 10),
-            'gender': np.random.choice(['男', '女'], 10)
+            'gender': np.random.choice(['Male', 'Female'], 10)
         })
     
     def test_mlp_regressor_usage(self):
-        """测试MLPRegressor使用和CPU训练"""
+        """TestMLPRegressorUseUseandCPUTraining"""
         recommender = NeuralNetworkRecommender(self.config)
         
-        # 训练模型
+        # TrainingModelType
         recommender.fit(self.ratings_df, self.products_df, self.users_df)
         
-        # 断言：模型使用MLPRegressor
-        assert hasattr(recommender, 'model'), "应该有训练好的模型"
+        # Breakassertion：ModelTypeUseUseMLPRegressor
+        assert hasattr(recommender, 'model'), "ShouldThisHasWellTrainedModelType"
         
-        # 断言：CPU训练成功（无GPU依赖）
-        assert recommender.is_trained, "模型应该成功训练"
+        # Breakassertion：CPUTrainingSuccess（NoGPUDependDepend）
+        assert recommender.is_trained, "ModelTypeShouldThisSuccessTraining"
         
-        # 生成推荐
+        # GenerateRecommendation
         recommendations = recommender.predict(user_id=1, top_n=5)
         
-        # 断言：能输出推荐结果
-        assert len(recommendations) > 0, "应该能生成推荐结果"
-        assert all('score' in rec for rec in recommendations), "推荐结果应包含分数"
+        # Breakassertion：EnergyOutputRecommendationResult
+        assert len(recommendations) > 0, "ShouldThisEnergyGenerateRecommendationResult"
+        assert all('score' in rec for rec in recommendations), "RecommendationResultShouldContainsDivideNumber"
         
-        # 断言：验证模型类型和训练状态
-        assert str(type(recommender.model)).find('MLPRegressor') != -1, "应使用scikit-learn的MLPRegressor"
-        print("✓ 使用scikit-learn MLPRegressor，CPU训练完成")
-        
-        return True
+        # Breakassertion：VerifyModelTypeCategoryTypeandTrainingStatus
+        assert str(type(recommender.model)).find('MLPRegressor') != -1, "ShouldUseUsescikit-learnMLPRegressor"
+        print("✓ UseUsescikit-learn MLPRegressor，CPUTrainingCompleteSuccess")
+
+
+# AddIndependentTestFunctionNumber，CanByDirectInterfacePassFunctionNumberNameAdjustUse
+def test_mlp_regressor_usage():
+    """TestMLPRegressorUseUseandCPUTraining（IndependentFunctionNumberEditionBook）"""
+    test_instance = TestNeuralNetwork()
+    test_instance.setup_method()
+    test_instance.test_mlp_regressor_usage()

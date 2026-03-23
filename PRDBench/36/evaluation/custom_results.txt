@@ -1,56 +1,56 @@
-东野圭吾小说文本挖掘分析结果
+Keigo HigashinoSmallnovel textminingAnalysisResult
 ==================================================
 
-实体识别结果:
+entity recognitionResult:
 ------------------------------
 
 PERSONS:
-- 加贺恭一郎 (nr): 3次
-  上下文: 在东京的一个雨夜，侦探加贺恭一郎正在调查一起神秘的案件
-- 田中雪穗 (nr): 2次
-  上下文: 受害者是一名叫做田中雪穗的年轻女性，她是一名护士
-- 石神哲哉 (nr): 2次
-  上下文: 与他的同事石神哲哉讨论案情。石神是一名经验丰富的刑警
+- Kaga Kyoichiro (nr): 3Times
+  onunderText: inTokyoOneitem(s)rainy night, detectiveKaga KyoichiroCorrectinAdjustinvestigateOnemysterious case
+- Tanaka Yukiho (nr): 2Times
+  onunderText: victimErYesOneNamenamedTanaka Yukihoyoungwoman, sheYesOneNamenurse
+- Ishigami Tetsuya (nr): 2Times
+  onunderText: and his coworker Ishigami TetsuyadiscussedCaseSituation.IshiGodYesOneNameEconomyExperienceexperienced detective
 
 LOCATIONS:
-- 东京 (ns): 1次
-  上下文: 在东京的一个雨夜，侦探加贺恭一郎正在调查
-- 涩谷区 (ns): 1次
-  上下文: 地点是涩谷区的一栋公寓楼
+- Tokyo (ns): 1Times
+  onunderText: inTokyoOneitem(s)rainy night, detectiveKaga KyoichiroCorrectinAdjustinvestigate
+- Shibuya District (ns): 1Times
+  onunderText: locationYesShibuya DistrictOnebuildingOfficeapartment building
 
 TIMES:
-- 2023年3月15日 (t): 1次
-  上下文: 案件发生在2023年3月15日晚上八点
-- 晚上八点 (t): 1次
-  上下文: 2023年3月15日晚上八点，地点是涩谷区
+- March 15, 2023 (t): 1Times
+  onunderText: CasePieceSendNativeinMarch 15, 20238 PM
+- 8 PM (t): 1Times
+  onunderText: March 15, 20238 PM, locationYesShibuya District
 
 PROFESSIONS:
-- 侦探 (nn): 1次
-  上下文: 在东京的一个雨夜，侦探加贺恭一郎正在调查
-- 护士 (nn): 2次
-  上下文: 她是一名护士，在附近的医院工作
+- detective (nn): 1Times
+  onunderText: inTokyoOneitem(s)rainy night, detectiveKaga KyoichiroCorrectinAdjustinvestigate
+- nurse (nn): 2Times
+  onunderText: sheYesOneNamenurse, innearby hospitalEngineeringWork
 
 
-频次统计结果:
+frequencySystemDesignResult:
 ------------------------------
-1. 加贺恭一郎 (nr): 3次
-2. 田中雪穗 (nr): 2次
-3. 石神哲哉 (nr): 2次
-4. 护士 (nn): 2次
-5. 东京 (ns): 1次
-6. 涩谷区 (ns): 1次
-7. 2023年3月15日 (t): 1次
-8. 晚上八点 (t): 1次
-9. 侦探 (nn): 1次
+1. Kaga Kyoichiro (nr): 3Times
+2. Tanaka Yukiho (nr): 2Times
+3. Ishigami Tetsuya (nr): 2Times
+4. nurse (nn): 2Times
+5. Tokyo (ns): 1Times
+6. Shibuya District (ns): 1Times
+7. March 15, 2023 (t): 1Times
+8. 8 PM (t): 1Times
+9. detective (nn): 1Times
 
 
-语义相似度分析结果:
+semantic similarity analysisResult:
 ------------------------------
-Word2Vec模型参数:
-- 使用模拟Word2Vec模型
+Word2VecModelTypeParameter:
+- UseUseModelSimulationWord2VecModelType
 
 
-关系推理分析结果:
+RelatedSeriesPushProcessorAnalysisResult:
 ------------------------------
-支持向量空间类比推理算法 (D = C + B - A)
-关系模式识别功能已启用
+SupportSupportDirectionEditionEmptyBetweenCategoryBiferPushProcessorCalculateMethod (D = C + B - A)
+relationship pattern recognitionFunctionAlreadyEnableUse

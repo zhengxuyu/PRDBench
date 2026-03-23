@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PNG文件验证脚本
+PNG File Verification Script
 """
 import os
 import glob
 
 def verify_png_files():
-    """验证PNG图表文件生成"""
+    """Verify PNG chart file generation"""
     files = glob.glob('src/output/figures/*.png')
     
     if files:

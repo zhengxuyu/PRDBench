@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试运行脚本
-用于自动化执行测试计划中的各种测试
+TestRunScript
+UseAtAutomatedExecutetest planinEachTypeTest
 """
 
 import os
@@ -13,17 +13,17 @@ import time
 from pathlib import Path
 
 def load_test_plan():
-    """加载测试计划"""
+    """Loadtest plan"""
     test_plan_path = Path(__file__).parent / "detailed_test_plan.json"
     with open(test_plan_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def run_shell_interaction_test(testcase):
-    """运行shell交互测试"""
+    """RunshellinteractiveTest"""
     cmd = testcase['test_command']
     input_file = testcase.get('test_input')
 
-    print(f"运行命令: {cmd}")
+    print(f"RunCommand: {cmd}")
 
     if input_file:
         input_path = Path(__file__).parent.parent / input_file
@@ -42,53 +42,53 @@ def run_shell_interaction_test(testcase):
                 )
                 return result.returncode == 0, result.stdout, result.stderr
             except subprocess.TimeoutExpired:
-                return False, "", "测试超时"
+                return False, "", "TestUltraTime"
         else:
-            return False, "", f"输入文件不存在: {input_file}"
+            return False, "", f"OutputInputFileNotSavein: {input_file}"
     else:
         try:
             result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)
             return result.returncode == 0, result.stdout, result.stderr
         except subprocess.TimeoutExpired:
-            return False, "", "测试超时"
+            return False, "", "TestUltraTime"
 
 def run_unit_test(testcase):
-    """运行单元测试"""
+    """RunUnit Test"""
     cmd = testcase['test_command']
-    print(f"运行单元测试: {cmd}")
+    print(f"RunUnit Test: {cmd}")
 
     try:
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=60)
         return result.returncode == 0, result.stdout, result.stderr
     except subprocess.TimeoutExpired:
-        return False, "", "测试超时"
+        return False, "", "TestUltraTime"
 
 def run_file_comparison_test(testcase):
-    """运行文件比较测试"""
-    # 先运行命令生成文件
+    """RunFileBiferCompareTest"""
+    # firstRunCommandGenerateFile
     success, stdout, stderr = run_shell_interaction_test(testcase)
 
     if not success:
         return False, stdout, stderr
 
-    # 这里可以添加文件比较逻辑
-    return True, "文件比较测试通过", ""
+    # hereCantoAddFileBiferComparelogic
+    return True, "FileBiferCompareTest Passed", ""
 
 def run_single_test(test_item):
-    """运行单个测试"""
+    """RunSingleitem(s)Test"""
     metric = test_item['metric']
     test_type = test_item['type']
     testcases = test_item['testcases']
 
     print(f"\n{'='*60}")
-    print(f"测试项目: {metric}")
-    print(f"测试类型: {test_type}")
+    print(f"Test Itemitem: {metric}")
+    print(f"TestCategoryType: {test_type}")
     print(f"{'='*60}")
 
     all_passed = True
 
     for i, testcase in enumerate(testcases, 1):
-        print(f"\n--- 测试用例 {i} ---")
+        print(f"\n--- Test Case {i} ---")
 
         if test_type == "shell_interaction":
             success, stdout, stderr = run_shell_interaction_test(testcase)
@@ -97,41 +97,41 @@ def run_single_test(test_item):
         elif test_type == "file_comparison":
             success, stdout, stderr = run_file_comparison_test(testcase)
         else:
-            success, stdout, stderr = False, "", f"未知测试类型: {test_type}"
+            success, stdout, stderr = False, "", f"NotKnowTestCategoryType: {test_type}"
 
         if success:
-            print("✅ 测试通过")
+            print("✅ Test Passed")
         else:
-            print("❌ 测试失败")
+            print("❌ Test Failed")
             all_passed = False
 
         if stdout:
-            print(f"输出: {stdout[:200]}...")
+            print(f"Output: {stdout[:200]}...")
         if stderr:
-            print(f"错误: {stderr[:200]}...")
+            print(f"Error: {stderr[:200]}...")
 
     return all_passed
 
 def main():
-    """主函数"""
-    print("东野圭吾小说文本挖掘与语义分析工具 - 自动化测试")
+    """mainFunctionNumber"""
+    print("Keigo HigashinoSmallnovel textminingandLanguageDefinitionAnalysisTool - AutomatedTest")
     print("="*60)
 
-    # 检查当前目录
+    # CheckWhenbeforeDirectory
     current_dir = Path.cwd()
     if current_dir.name != "problem8":
-        print("请在项目根目录下运行此脚本")
+        print("pleaseinitem(s)project rootDirectoryunderRunthisScript")
         sys.exit(1)
 
-    # 加载测试计划
+    # Loadtest plan
     try:
         test_plan = load_test_plan()
-        print(f"加载了 {len(test_plan)} 个测试项目")
+        print(f"Load {len(test_plan)} item(s)Test Itemitem")
     except Exception as e:
-        print(f"加载测试计划失败: {e}")
+        print(f"Loadtest planFailure: {e}")
         sys.exit(1)
 
-    # 运行测试
+    # RunTest
     passed_tests = 0
     total_tests = len(test_plan)
 
@@ -140,15 +140,15 @@ def main():
             if run_single_test(test_item):
                 passed_tests += 1
         except KeyboardInterrupt:
-            print("\n测试被用户中断")
+            print("\nTestbyUserinBreak")
             break
         except Exception as e:
-            print(f"测试执行出错: {e}")
+            print(f"TestExecuteOutputWrong: {e}")
 
-    # 输出结果
+    # OutputResult
     print(f"\n{'='*60}")
-    print(f"测试完成: {passed_tests}/{total_tests} 项测试通过")
-    print(f"通过率: {passed_tests/total_tests*100:.1f}%")
+    print(f"TestCompleteSuccess: {passed_tests}/{total_tests} item(s)Test Passed")
+    print(f"Pass Rate: {passed_tests/total_tests*100:.1f}%")
     print(f"{'='*60}")
 
 if __name__ == "__main__":

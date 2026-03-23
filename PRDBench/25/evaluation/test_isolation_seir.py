@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-"""测试 改进隔离机制SEIR模型"""
-import sys; sys.path.append('src')
+"""Test ChangeImportIsolationDistanceMachineControlSEIRModelType"""
+import sys
+import os
+sys.path.insert(0, os.path.abspath('src'))
 from models.isolation_seir_model import IsolationSEIRModel
 
-print("测试: 改进隔离机制SEIR模型")
+print("Test: ChangeImportIsolationDistanceMachineControlSEIRModelType")
 model = IsolationSEIRModel()
 result = model.run_simulation()
 if result:
-    print("[成功] 隔离SEIR模型运行完成!")
+    print("[Success] IsolationDistanceSEIRModelTypeRunCompleteSuccess!")
 else:
-    print("[失败] 隔离SEIR模型运行失败")
+    print("[Failure] IsolationDistanceSEIRModelTypeRunFailure")

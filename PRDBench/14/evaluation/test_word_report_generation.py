@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Word报告生成测试脚本
-测试 [2.3.2b 完整报告导出 (Word)] 功能
+Word report generation test script
+Test [2.3.2b Full Report Export (Word)] functionality
 """
 
 import subprocess
@@ -10,133 +10,133 @@ import sys
 from pathlib import Path
 
 def test_word_report_generation():
-    """测试Word报告生成功能"""
-    print("🧪 开始测试Word报告生成功能...")
-    
-    # 1. 执行Word报告生成命令
+    """Test Word report generation functionality"""
+    print("🧪 Starting Word report generation functionality test...")
+
+    # 1. Execute Word report generation command
     cmd = [
         "python", "-m", "src.main", "report", "generate-full",
         "--data-path", "evaluation/sample_data.csv",
         "--format", "word",
         "--output-path", "evaluation/full_report.docx"
     ]
-    
-    print(f"📋 执行命令: {' '.join(cmd)}")
-    
+
+    print(f"📋 Executing command: {' '.join(cmd)}")
+
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8')
-        
+
         if result.returncode != 0:
-            print(f"❌ 命令执行失败，退出码: {result.returncode}")
-            print(f"错误输出: {result.stderr}")
+            print(f"❌ Command execution failed, exit code: {result.returncode}")
+            print(f"Error output: {result.stderr}")
             return False
-        
-        print("✅ 命令执行成功")
-        print(f"输出: {result.stdout}")
-        
-        # 2. 检查期望的输出文件是否存在
+
+        print("✅ Command execution successful")
+        print(f"Output: {result.stdout}")
+
+        # 2. Check if expected output files exist
         output_file = "evaluation/full_report.docx"
         expected_file = "evaluation/expected_full_report.docx"
-        
+
         if not os.path.exists(output_file):
-            print(f"❌ 输出文件不存在: {output_file}")
+            print(f"❌ Output file does not exist: {output_file}")
             return False
-        print(f"✅ 输出文件存在: {output_file}")
-        
+        print(f"✅ Output file exists: {output_file}")
+
         if not os.path.exists(expected_file):
-            print(f"❌ 期望文件不存在: {expected_file}")
+            print(f"❌ Expected file does not exist: {expected_file}")
             return False
-        print(f"✅ 期望文件存在: {expected_file}")
-        
-        # 3. 验证文件大小不为零
+        print(f"✅ Expected file exists: {expected_file}")
+
+        # 3. Verify file size is not zero
         output_size = os.path.getsize(output_file)
         expected_size = os.path.getsize(expected_file)
-        
+
         if output_size == 0:
-            print(f"❌ 输出文件大小为零: {output_file}")
+            print(f"❌ Output file size is zero: {output_file}")
             return False
-        print(f"✅ 输出文件大小: {output_size} 字节")
-        
+        print(f"✅ Output file size: {output_size} bytes")
+
         if expected_size == 0:
-            print(f"❌ 期望文件大小为零: {expected_file}")
+            print(f"❌ Expected file size is zero: {expected_file}")
             return False
-        print(f"✅ 期望文件大小: {expected_size} 字节")
-        
-        # 4. 验证文件格式（简单检查文件扩展名和魔数）
+        print(f"✅ Expected file size: {expected_size} bytes")
+
+        # 4. Verify file format (simple check of file extension and magic number)
         if not output_file.endswith('.docx'):
-            print(f"❌ 输出文件不是Word格式: {output_file}")
+            print(f"❌ Output file is not in Word format: {output_file}")
             return False
-        
-        # 检查DOCX文件的魔数（ZIP格式）
+
+        # Check DOCX file magic number (ZIP format)
         with open(output_file, 'rb') as f:
             magic = f.read(4)
             if magic != b'PK\x03\x04':
-                print(f"❌ 输出文件不是有效的DOCX格式")
+                print(f"❌ Output file is not a valid DOCX format")
                 return False
-        print(f"✅ 输出文件是有效的DOCX格式")
-        
-        # 5. 比较文件大小是否在合理范围内
+        print(f"✅ Output file is in valid DOCX format")
+
+        # 5. Compare file sizes are within reasonable range
         size_diff_ratio = abs(output_size - expected_size) / expected_size
-        if size_diff_ratio > 0.1:  # 允许10%的差异
-            print(f"⚠️  文件大小差异较大: {size_diff_ratio:.2%}")
+        if size_diff_ratio > 0.1:  # Allow 10% difference
+            print(f"⚠️  File size difference is significant: {size_diff_ratio:.2%}")
         else:
-            print(f"✅ 文件大小差异在合理范围内: {size_diff_ratio:.2%}")
-        
-        print("🎉 所有测试通过！Word报告生成功能正常工作。")
+            print(f"✅ File size difference is within reasonable range: {size_diff_ratio:.2%}")
+
+        print("🎉 All tests passed! Word report generation functionality works correctly.")
         return True
-        
+
     except Exception as e:
-        print(f"❌ 测试过程中发生异常: {e}")
+        print(f"❌ Exception occurred during test: {e}")
         return False
 
 def validate_word_document_content(file_path):
-    """验证Word文档内容（需要python-docx库）"""
+    """Validate Word document content (requires python-docx library)"""
     try:
         from docx import Document
-        
+
         doc = Document(file_path)
-        print(f"🔍 验证Word文档内容: {file_path}")
-        
-        # 检查段落数量
+        print(f"🔍 Validating Word document content: {file_path}")
+
+        # Check paragraph count
         paragraphs = doc.paragraphs
-        print(f"✅ 文档包含 {len(paragraphs)} 个段落")
-        
-        # 检查表格数量
+        print(f"✅ Document contains {len(paragraphs)} paragraphs")
+
+        # Check table count
         tables = doc.tables
-        print(f"✅ 文档包含 {len(tables)} 个表格")
-        
-        # 检查是否包含关键内容
+        print(f"✅ Document contains {len(tables)} tables")
+
+        # Check if key content is included
         full_text = '\n'.join([p.text for p in paragraphs])
-        
+
         required_sections = [
-            "高尔夫旅游者消费行为分析报告",
-            "执行摘要",
-            "数据概览",
-            "描述性统计分析",
-            "分析结论",
-            "营销建议"
+            "Golf Tourist Consumer Behavior Analysis Report",
+            "Executive Summary",
+            "Data Overview",
+            "Descriptive Statistical Analysis",
+            "Analysis Conclusion",
+            "Marketing Recommendations"
         ]
-        
+
         for section in required_sections:
             if section in full_text:
-                print(f"✅ 包含必需章节: {section}")
+                print(f"✅ Contains required section: {section}")
             else:
-                print(f"❌ 缺少必需章节: {section}")
+                print(f"❌ Missing required section: {section}")
                 return False
-        
+
         return True
-        
+
     except ImportError:
-        print("⚠️  python-docx库未安装，跳过内容验证")
+        print("⚠️  python-docx library not installed, skipping content validation")
         return True
     except Exception as e:
-        print(f"❌ 文档内容验证失败: {e}")
+        print(f"❌ Document content validation failed: {e}")
         return False
 
 if __name__ == "__main__":
     success = test_word_report_generation()
     
-    # 如果基本测试通过，尝试验证文档内容
+    # If basic test passes, attempt to validate document content
     if success:
         validate_word_document_content("evaluation/full_report.docx")
     

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-自动化测试执行脚本
-根据detailed_test_plan.json执行所有测试并生成报告
+Automated test execution script
+Execute all tests based on detailed_test_plan.json and generate report
 """
 
 import json
@@ -22,16 +22,16 @@ class TestExecutor:
         self.failed_tests = 0
 
     def load_test_plan(self) -> List[Dict]:
-        """加载测试计划"""
+        """Load test plan"""
         try:
             with open(self.test_plan_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except Exception as e:
-            print(f"错误：无法加载测试计划文件 - {e}")
+            print(f"Error: Cannot load test plan file - {e}")
             return []
 
     def execute_shell_interaction_test(self, test_case: Dict) -> Dict:
-        """执行shell交互测试"""
+        """Execute shell interaction test"""
         result = {
             "status": "UNKNOWN",
             "output": "",
@@ -42,12 +42,12 @@ class TestExecutor:
         try:
             start_time = time.time()
 
-            # 构建命令
+            # Build command
             cmd = test_case["test_command"]
             test_input_file = test_case.get("test_input")
 
             if test_input_file and os.path.exists(test_input_file):
-                # 使用输入文件
+                # Use input file
                 with open(test_input_file, 'r') as f:
                     input_data = f.read()
 
@@ -59,7 +59,7 @@ class TestExecutor:
                     timeout=10
                 )
             else:
-                # 无输入文件
+                # No input file
                 process = subprocess.run(
                     cmd.split(),
                     text=True,
@@ -79,7 +79,7 @@ class TestExecutor:
 
         except subprocess.TimeoutExpired:
             result["status"] = "TIMEOUT"
-            result["error"] = "测试超时"
+            result["error"] = "Test timeout"
         except Exception as e:
             result["status"] = "ERROR"
             result["error"] = str(e)
@@ -87,7 +87,7 @@ class TestExecutor:
         return result
 
     def execute_unit_test(self, test_case: Dict) -> Dict:
-        """执行单元测试"""
+        """Execute unit test"""
         result = {
             "status": "UNKNOWN",
             "output": "",
@@ -118,7 +118,7 @@ class TestExecutor:
 
         except subprocess.TimeoutExpired:
             result["status"] = "TIMEOUT"
-            result["error"] = "测试超时"
+            result["error"] = "Test timeout"
         except Exception as e:
             result["status"] = "ERROR"
             result["error"] = str(e)
@@ -126,7 +126,7 @@ class TestExecutor:
         return result
 
     def execute_file_comparison_test(self, test_case: Dict, expected_files: List[str]) -> Dict:
-        """执行文件对比测试"""
+        """Execute file comparison test"""
         result = {
             "status": "UNKNOWN",
             "output": "",
@@ -137,7 +137,7 @@ class TestExecutor:
         try:
             start_time = time.time()
 
-            # 先执行命令生成文件
+            # First execute command to generate files
             cmd = test_case["test_command"]
             test_input_file = test_case.get("test_input")
 
@@ -165,20 +165,20 @@ class TestExecutor:
             result["output"] = process.stdout
             result["error"] = process.stderr
 
-            # 检查期望文件是否存在
+            # Check if expected files exist
             if expected_files:
                 files_exist = all(os.path.exists(f) for f in expected_files)
                 if files_exist:
                     result["status"] = "PASSED"
                 else:
                     result["status"] = "FAILED"
-                    result["error"] = "期望输出文件不存在"
+                    result["error"] = "Expected output files do not exist"
             else:
                 result["status"] = "PASSED" if process.returncode == 0 else "FAILED"
 
         except subprocess.TimeoutExpired:
             result["status"] = "TIMEOUT"
-            result["error"] = "测试超时"
+            result["error"] = "Test timeout"
         except Exception as e:
             result["status"] = "ERROR"
             result["error"] = str(e)
@@ -186,8 +186,8 @@ class TestExecutor:
         return result
 
     def execute_test(self, test_item: Dict) -> Dict:
-        """执行单个测试"""
-        print(f"执行测试: {test_item['metric']}")
+        """Execute single test"""
+        print(f"Executing test: {test_item['metric']}")
 
         test_result = {
             "metric": test_item["metric"],
@@ -210,7 +210,7 @@ class TestExecutor:
                 expected_files = test_item.get("expected_output_files", [])
                 result = self.execute_file_comparison_test(test_case, expected_files)
             else:
-                result = {"status": "ERROR", "error": "未知测试类型"}
+                result = {"status": "ERROR", "error": "Unknown test type"}
 
             test_result["details"].append(result)
             total_time += result.get("execution_time", 0)
@@ -225,13 +225,13 @@ class TestExecutor:
         return test_result
 
     def run_all_tests(self):
-        """运行所有测试"""
-        print("开始执行自动化测试...")
+        """Run all tests"""
+        print("Starting automated tests...")
         print("="*60)
 
         test_plan = self.load_test_plan()
         if not test_plan:
-            print("无法加载测试计划，退出")
+            print("Cannot load test plan, exiting")
             return
 
         self.total_tests = len(test_plan)
@@ -248,23 +248,23 @@ class TestExecutor:
                 self.failed_tests += 1
                 print(f"✗ {result['metric']} - FAILED")
                 if result["error_message"]:
-                    print(f"  错误: {result['error_message']}")
+                    print(f"  Error: {result['error_message']}")
 
         end_time = time.time()
         total_execution_time = end_time - start_time
 
         print("="*60)
-        print(f"测试完成！总耗时: {total_execution_time:.2f}秒")
-        print(f"总测试数: {self.total_tests}")
-        print(f"通过: {self.passed_tests}")
-        print(f"失败: {self.failed_tests}")
-        print(f"通过率: {(self.passed_tests/self.total_tests*100):.1f}%")
+        print(f"Tests completed! Total time: {total_execution_time:.2f} seconds")
+        print(f"Total tests: {self.total_tests}")
+        print(f"Passed: {self.passed_tests}")
+        print(f"Failed: {self.failed_tests}")
+        print(f"Pass rate: {(self.passed_tests/self.total_tests*100):.1f}%")
 
-        # 生成详细报告
+        # Generate detailed report
         self.generate_report()
 
     def generate_report(self):
-        """生成测试报告"""
+        """Generate test report"""
         report = {
             "test_execution_report": {
                 "execution_date": datetime.now().isoformat(),
@@ -280,14 +280,14 @@ class TestExecutor:
         try:
             with open(report_file, 'w', encoding='utf-8') as f:
                 json.dump(report, f, ensure_ascii=False, indent=2)
-            print(f"详细测试报告已保存到: {report_file}")
+            print(f"Detailed test report saved to: {report_file}")
         except Exception as e:
-            print(f"保存测试报告失败: {e}")
+            print(f"Failed to save test report: {e}")
 
 def main():
-    """主函数"""
+    """Main function"""
     if not os.path.exists("evaluation/detailed_test_plan.json"):
-        print("错误：找不到测试计划文件 evaluation/detailed_test_plan.json")
+        print("Error: Cannot find test plan file evaluation/detailed_test_plan.json")
         sys.exit(1)
 
     executor = TestExecutor()

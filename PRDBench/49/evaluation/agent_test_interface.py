@@ -537,21 +537,21 @@ class AgentTestInterface:
         failed_tests = [r for r in self.test_results if not r['success']]
         
         if not failed_tests:
-            recommendations.append("所有测试通过！系统实现完整且功能正常。")
+            recommendations.append("All tests passed! System implementation is complete and functions are normal.")
         else:
-            recommendations.append(f"有 {len(failed_tests)} 个测试未通过，需要改进以下方面：")
-            
+            recommendations.append(f"There are {len(failed_tests)} test(s) that did not pass. Improvements needed in the following areas:")
+
             for test in failed_tests:
-                recommendations.append(f"- {test['test_name']}: 检查相关功能实现")
-        
+                recommendations.append(f"- {test['test_name']}: Check related function implementation")
+
         # Check specific patterns
         mqtt_tests = [r for r in self.test_results if 'MQTT' in r['test_name'] and not r['success']]
         if mqtt_tests:
-            recommendations.append("MQTT功能需要配置阿里云IoT平台凭据才能完全测试")
-        
-        ml_tests = [r for r in self.test_results if '机器学习' in r['test_name'] and not r['success']]
+            recommendations.append("MQTT functions require configuration of Alibaba Cloud IoT platform credentials for full automated testing")
+
+        ml_tests = [r for r in self.test_results if 'Machine Learning' in r['test_name'] or 'ML' in r['test_name'] and not r['success']]
         if ml_tests:
-            recommendations.append("机器学习功能可能需要更多训练数据或调整模型参数")
+            recommendations.append("Machine learning functions may require more training data or parameter adjustment")
         
         return recommendations
     

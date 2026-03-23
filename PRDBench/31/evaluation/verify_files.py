@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-通用文件验证脚本
+Generic File Verification Script
 """
 import os
 import sys
 
 def verify_file(path, file_type="file"):
-    """验证单个文件"""
+    """Verify a single file"""
     exists = os.path.exists(path)
     size = os.path.getsize(path) if exists else 0
     
@@ -19,7 +19,7 @@ def verify_file(path, file_type="file"):
         return False
 
 def verify_svg_content(path):
-    """验证SVG文件内容"""
+    """Verify SVG file content"""
     try:
         with open(path, 'r', encoding='utf-8') as f:
             content = f.read()[:500]
@@ -34,7 +34,7 @@ def verify_svg_content(path):
         return False
 
 def verify_csv_files(files):
-    """验证多个CSV文件"""
+    """Verify multiple CSV files"""
     results = []
     for f in files:
         exists = os.path.exists(f)

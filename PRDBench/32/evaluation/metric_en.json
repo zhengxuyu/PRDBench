@@ -31,8 +31,8 @@
   },
   {
     "metric": "1.2.2 Chinese Word Segmentation and Inverted Index",
-    "description": "1. **Arrange:** In the interactive menu, select the crawler function and crawl a page containing a clear Chinese sentence (such as '欢迎来到搜索引擎的世界').\n2. **Act:** After crawling, connect to the database.\n3. **Assert:** Query the segmentation results (such as '欢迎', '来到', '搜索引擎', '世界') in the `word` table. These entries should be found, each associated with the corresponding document ID and its position in the document.",
-    "expected_output": "2 points: Can correctly segment Chinese content and build a complete inverted index from word to document ID and position. 1 point: Can segment and store the vocabulary, but does not record word positions, or the segmentation is poor (e.g., '搜索引擎' is incorrectly separated). 0 points: Unable to process Chinese content, the `word` table is empty or has no Chinese words."
+    "description": "1. **Arrange:** In the interactive menu, select the crawler function and crawl a page containing a clear Chinese sentence (such as 'Welcome to the world of search engines').\n2. **Act:** After crawling, connect to the database.\n3. **Assert:** Query the segmentation results (such as 'Welcome', 'to', 'search', 'engine', 'world') in the `word` table. These entries should be found, each associated with the corresponding document ID and its position in the document.",
+    "expected_output": "2 points: Can correctly segment Chinese content and build a complete inverted index from word to document ID and position. 1 point: Can segment and store the vocabulary, but does not record word positions, or the segmentation is poor (e.g., 'search engine' is incorrectly separated). 0 points: Unable to process Chinese content, the `word` table is empty or has no Chinese words."
   },
   {
     "metric": "1.2.3 Incremental Indexing",
@@ -41,7 +41,7 @@
   },
   {
     "metric": "1.3.1a Command-Line Search Function - Successful Case",
-    "description": "1. **Arrange:** Use the crawler to pre-build a database file containing a specific word (such as '数据库').\n2. **Act:** In the interactive menu, choose the search function and enter the search keyword '数据库' and the database path.\n3. **Assert:** The program should output a list containing at least one result related to '数据库', with each result including a URL and title.",
+    "description": "1. **Arrange:** Use the crawler to pre-build a database file containing a specific word (such as 'database').\n2. **Act:** In the interactive menu, choose the search function and enter the search keyword 'database' and the database path.\n3. **Assert:** The program should output a list containing at least one result related to 'database', with each result including a URL and title.",
     "expected_output": "2 points: Correctly executes the command and returns a non-empty result list sorted by relevance with URL and title. 1 point: Returns results, but the format is incorrect (missing URL or title), or not sorted by relevance. 0 points: Program fails to execute, or returns empty results for words known to exist."
   },
   {

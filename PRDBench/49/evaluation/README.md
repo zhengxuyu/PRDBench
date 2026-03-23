@@ -1,181 +1,181 @@
-# 评测标准与测试接口说明
+# Evaluation Test Standard and Test Interface Description
 
-## 概述
+## Overview
 
-本目录包含了IoT环境数据采集与智能预测系统的完整评测标准和自动化测试接口，用于客观、精准、可复现地评估系统实现质量。
+This directory contains the complete evaluation test standard and automated test interface for the IoT Environmental Data Collection and Intelligent Prediction System, used to objectively, comprehensively, and reproducibly assess the implementation quality of the system.
 
-## 文件说明
+## File Description
 
 ### 1. metric.json
-人工评测标准文件，包含19个评分点，总分100分。
+Manual evaluation test standard file, containing 19 scoring items, totaling 100 points.
 
-**评分维度：**
-- 系统基础功能 (25分)
-- MQTT通信功能 (30分) 
-- 数据管理功能 (20分)
-- 机器学习功能 (15分)
-- 系统监控功能 (5分)
-- 用户体验 (5分)
+**Scoring Dimensions:**
+- System Basic Functions (25 points)
+- MQTT Communication Functions (30 points)
+- Data Management Functions (20 points)
+- Machine Learning Functions (15 points)
+- System Monitoring Functions (5 points)
+- User Experience (5 points)
 
-**评分规则：**
-- 每个评分点：0分（不可用）、1分（部分可用）、2分（完全可用）
-- 权重系数：1-5分，反映功能重要性
-- 最终得分 = Σ(评分点得分 × 权重系数)
+**Scoring Rules:**
+- Each scoring item: 0 points (not functional), 1 point (partially functional), 2 points (fully functional)
+- Weight values: 1-5 points, reflecting function importance
+- Final Score = Σ(Scoring Item Score × Weight Value)
 
 ### 2. detailed_test_plan.json
-详细测试计划文件，包含完整的测试用例定义和执行步骤。
+Detailed test plan file, containing complete test case definitions and execution steps.
 
-**包含内容：**
-- 测试环境要求
-- 预测试设置步骤
-- 19个详细测试用例
-- 评分规则和等级映射
-- 测试执行说明
+**Included Content:**
+- Test environment requirements
+- Pre-test setup steps
+- 19 detailed test cases
+- Scoring rules and grade mapping
+- Test execution instructions
 
 ### 3. agent_test_interface.py
-Agent自动化测试接口，提供程序化的测试执行能力。
+Agent automated test interface, providing programmatic test execution capabilities.
 
-**主要功能：**
-- 自动执行所有测试用例
-- 命令行操作和文件检查
-- 数据格式验证
-- 交互式CLI测试模拟
-- 自动生成测试报告
+**Main Functionality:**
+- Automatically execute all test cases
+- Command-line operations and file checks
+- Data format verification
+- Interactive CLI test simulation
+- Automatically generate test reports
 
-## 使用方法
+## Usage
 
-### 人工评测
+### Manual Evaluation Test
 
-1. 参考 `metric.json` 中的评分标准
-2. 按照"验证方法"逐项测试
-3. 根据"得分规范"给出评分
-4. 计算加权总分
+1. Refer to the scoring standard in `metric.json`
+2. Test each item according to "Verification Method"
+3. Give scores based on "Scoring Range"
+4. Calculate weighted total score
 
-### Agent自动评测
+### Agent Automated Evaluation Test
 
 ```bash
-# 运行自动化测试
+# Run automated test
 cd evaluation
 python agent_test_interface.py
 
-# 查看测试报告
+# View test report
 cat test_report.json
 ```
 
-### 单独测试特定功能
+### Test Individual Functions
 
 ```bash
-# 测试MQTT功能
+# Test MQTT function
 cd ../src
 python main.py mqtt publish --random
 
-# 测试数据分析
+# Test data analysis
 python main.py data analyze
 
-# 测试机器学习
+# Test machine learning
 python main.py ml train --data-file samples/environmental_sample.csv --epochs 10
 python main.py ml predict --temperature 25.0 --humidity 60.0 --pressure 1013.25
 
-# 测试系统监控
+# Test system monitoring
 python main.py system status
 
-# 测试Web界面
+# Test web interface
 python main.py web
 ```
 
-## 评测重点
+## Evaluation Focus
 
-### 1. 用户体验优先
-- CLI界面是否友好易用
-- 错误提示是否清晰
-- 操作流程是否符合直觉
+### 1. User Experience Priority
+- Is the CLI interface user-friendly and easy to use
+- Are error messages clear and understandable
+- Is the operation process intuitive
 
-### 2. 功能完整性
-- PRD中的每个功能点都有对应实现
-- 核心业务流程完整可用
-- 数据处理链路畅通
+### 2. Functional Completeness
+- Each function point in the PRD should be implemented
+- Core business processes are fully functional
+- Data processing pipeline is smooth
 
-### 3. 系统稳定性
-- 错误处理机制完善
-- 异常情况不会导致崩溃
-- 日志记录详细完整
+### 3. System Stability
+- Error handling mechanism is sound
+- Abnormal situations do not cause crashes
+- Log records are detailed and complete
 
-### 4. 技术规范符合性
-- 数据格式符合PRD要求
-- 技术栈使用正确
-- 性能指标达标
+### 4. Technical Specification Compliance
+- Data format complies with PRD specification
+- Technology stack usage is correct
+- Performance indicators are met
 
-## 评分标准详解
+## Scoring Standard Explanation
 
-### 高权重功能 (权重4-5)
-- **系统启动与帮助** (权重5): 基础功能，必须完全可用
-- **MQTT通信** (权重4): 核心业务功能
-- **机器学习训练** (权重5): 系统核心价值
-- **数据分析** (权重4): 重要的数据处理功能
+### High-Weight Functions (Weight 4-5)
+- **System Start and Help** (Weight 5): Basic function, must be fully functional
+- **MQTT Communication** (Weight 4): Core business function
+- **Machine Learning Training** (Weight 5): System core value
+- **Data Analysis** (Weight 4): Important data processing function
 
-### 中权重功能 (权重3)
-- **数据清洗合并**: 数据预处理功能
-- **模型评估**: ML辅助功能
-- **系统监控**: 运维支持功能
-- **配置管理**: 系统管理功能
+### Medium-Weight Functions (Weight 3)
+- **Data Cleaning and Merging**: Data preprocessing function
+- **Model Evaluation**: ML auxiliary function
+- **System Monitoring**: Operational support function
+- **Configuration Management**: System management function
 
-### 低权重功能 (权重1-2)
-- **日志记录**: 基础支持功能
-- **错误处理**: 系统健壮性
+### Low-Weight Functions (Weight 1-2)
+- **Log Recording**: Basic support function
+- **Error Handling**: System robustness
 
-## 测试执行建议
+## Test Execution Recommendations
 
-### 1. 环境准备
+### 1. Environment Preparation
 ```bash
-# 检查Python版本
+# Check Python version
 python --version
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 
-# 验证安装
+# Verify installation
 python run.py test
 ```
 
-### 2. 功能测试顺序
-1. 基础功能测试（系统启动、帮助信息）
-2. 数据管理测试（分析、清洗、合并）
-3. MQTT通信测试（发布、订阅）
-4. 机器学习测试（训练、预测、评估）
-5. 系统监控测试（状态、实时监控）
-6. Web界面测试（服务启动）
-7. 配置管理测试（设置向导）
+### 2. Function Test Sequence
+1. Basic function test (System start, Help information)
+2. Data management test (Analysis, Cleaning, Merging)
+3. MQTT communication test (Publishing, Subscription)
+4. Machine learning test (Training, Prediction, Evaluation)
+5. System monitoring test (Status, Real-time monitoring)
+6. Web interface test (Service startup)
+7. Configuration management test (Setup wizard)
 
-### 3. 评分计算
+### 3. Score Calculation
 ```
-最终得分 = Σ(各评分点得分 × 对应权重) / Σ(所有权重 × 2) × 100
+Final Score = Σ(Each Scoring Item Score × Its Weight) / Σ(All Weights × 2) × 100
 ```
 
-### 4. 等级划分
-- A级 (90-100分): 优秀，功能完整，用户体验佳
-- B级 (80-89分): 良好，主要功能可用
-- C级 (70-79分): 中等，基本功能可用但有缺陷
-- D级 (60-69分): 及格，部分功能可用
-- F级 (0-59分): 不及格，功能缺失严重
+### 4. Grade Division
+- A Level (90-100 points): Excellent, complete functions, great user experience
+- B Level (80-89 points): Good, main functions working
+- C Level (70-79 points): Average, basic functions working but with defects
+- D Level (60-69 points): Passing, partial functions working
+- F Level (0-59 points): Failing, serious function defects
 
-## 注意事项
+## Notes
 
-1. **测试环境**: 确保在干净的Python环境中测试
-2. **依赖安装**: 所有依赖必须正确安装
-3. **文件权限**: 确保有足够的文件读写权限
-4. **网络连接**: MQTT功能需要网络连接（可能因为未配置而失败，但不影响基础功能评分）
-5. **测试数据**: 使用提供的样本数据进行测试
+1. **Test Environment**: Ensure testing in a clean Python environment
+2. **Dependency Installation**: All dependencies must be correctly installed
+3. **File Permissions**: Ensure sufficient file read/write permissions
+4. **Network Connection**: MQTT function requires network connection (may fail due to lack of configuration, but does not affect basic function score)
+5. **Test Data**: Use provided sample data for testing
 
-## 故障排除
+## Troubleshooting
 
-### 常见问题
-1. **导入错误**: 检查Python路径和模块结构
-2. **依赖缺失**: 重新安装requirements.txt中的包
-3. **权限问题**: 确保对data、logs、models目录有写权限
-4. **MQTT连接失败**: 正常现象，因为未配置真实的阿里云凭据
+### Common Issues
+1. **ImportError**: Check Python path and module structure
+2. **Dependency Missing**: Reinstall packages in requirements.txt
+3. **Permission Issues**: Ensure data, logs, models directories have write permissions
+4. **MQTT Connection Failure**: Normal phenomenon, due to lack of configured Alibaba Cloud credentials
 
-### 调试建议
-1. 查看logs目录下的日志文件
-2. 使用 `python run.py test` 进行基础功能验证
-3. 逐个测试各功能模块
-4. 检查配置文件config.yaml的设置
+### Debugging Recommendations
+1. View log files in logs directory
+2. Use `python run.py test` for basic function verification
+3. Test each function module one by one
+4. Check configuration file config.yaml settings

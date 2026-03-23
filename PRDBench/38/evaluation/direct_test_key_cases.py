@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-直接测试关键的file_comparison用例
-验证之前的修复是否有效
+DirectInterfaceTestRelatedKeyfile_comparisonUseExample
+VerifyofbeforeModifyRecoveryYesNoHasEffect
 """
 
 import sys
@@ -11,18 +11,18 @@ import subprocess
 import tempfile
 
 def test_single_case(case_name, inputs, description):
-    """测试单个用例"""
+    """TestSingleitem(s)UseExample"""
     print(f"\n{'='*60}")
-    print(f"测试: {case_name}")
-    print(f"描述: {description}")
-    print(f"输入序列: {inputs}")
+    print(f"Test: {case_name}")
+    print(f"Describedescription: {description}")
+    print(f"OutputInputSequenceSeries: {inputs}")
     print('='*60)
     
-    # 将输入转换为实际的换行符
+    # WillOutputInputConversionasImplementationInternationalChangeLineSymbol
     input_text = inputs.replace('\\n', '\n')
     
     try:
-        # 使用subprocess直接执行
+        # UseUsesubprocessDirectInterfaceExecute
         result = subprocess.run(
             ['python', 'main.py'],
             input=input_text,
@@ -34,73 +34,73 @@ def test_single_case(case_name, inputs, description):
             errors='ignore'
         )
         
-        print(f"退出码: {result.returncode}")
+        print(f"ExitCode: {result.returncode}")
         
-        # 检查关键指标
+        # CheckRelatedKeyIndicatorMark
         output = result.stdout + result.stderr
         
-        has_invalid_choice = "无效选择" in output
-        has_normal_exit = "感谢使用推荐系统" in output
-        has_menu_display = "主菜单" in output
-        has_algorithm_menu = "算法评估" in output
+        has_invalid_choice = "NoEffectSelectChoose" in output
+        has_normal_exit = "InfectionThanksUseUseRecommendation System" in output
+        has_menu_display = "MainMenu" in output
+        has_algorithm_menu = "CalculateMethodEvaluation" in output
         
-        print(f"包含菜单显示: {'是' if has_menu_display else '否'}")
-        print(f"包含算法评估菜单: {'是' if has_algorithm_menu else '否'}")
-        print(f"是否有无效选择错误: {'是' if has_invalid_choice else '否'}")
-        print(f"程序正常退出: {'是' if has_normal_exit else '否'}")
+        print(f"ContainsMenuDisplay: {'Yes' if has_menu_display else 'No'}")
+        print(f"ContainsCalculateMethodEvaluationMenu: {'Yes' if has_algorithm_menu else 'No'}")
+        print(f"YesNoHasNoEffectSelectChooseError: {'Yes' if has_invalid_choice else 'No'}")
+        print(f"ProgramNormalExit: {'Yes' if has_normal_exit else 'No'}")
         
-        # 显示部分输出
+        # DisplayPartDivideOutput
         if len(output) > 0:
             preview = output[:500] + ("..." if len(output) > 500 else "")
-            print(f"\n输出预览:\n{preview}")
+            print(f"\nOutputPreview:\n{preview}")
         
-        # 判断测试结果
+        # JudgeBreakTest Results
         if has_invalid_choice:
-            result_status = "失败 - 仍有无效选择错误"
+            result_status = "Failure - StillHasNoEffectSelectChooseError"
             return False
         elif has_normal_exit:
-            result_status = "成功 - 程序正常完成"
+            result_status = "Success - ProgramNormalCompleteSuccess"
             return True
         else:
-            result_status = "警告 - 程序未正常结束"
+            result_status = "Warning - ProgramNotNormalResultBundle"
             return False
         
     except subprocess.TimeoutExpired:
-        result_status = "失败 - 测试超时"
+        result_status = "Failure - TestUltraTime"
         return False
     except Exception as e:
-        result_status = f"失败 - 执行错误: {e}"
+        result_status = f"Failure - ExecuteError: {e}"
         return False
     
     finally:
-        print(f"\n结果: {result_status}")
+        print(f"\nResult: {result_status}")
 
 def main():
-    """主测试函数"""
-    print("File Comparison 关键用例直接测试")
+    """MainTestFunctionNumber"""
+    print("File Comparison RelatedKeyUseExampleDirectInterfaceTest")
     print("="*80)
     
-    # 需要测试的关键用例
+    # NeedTestRelatedKeyUseExample
     test_cases = [
         {
-            'name': '2.3.4 稀疏矩阵处理',
+            'name': '2.3.4 SparseMatrixProcessing',
             'inputs': '5\\n4\\n0\\n0',
-            'description': '算法评估 -> 运行算法比较 -> 属性效用推荐 -> 返回 -> 退出'
+            'description': 'CalculateMethodEvaluation -> RunCalculateMethodBiferCompare -> AttributeEffectUseRecommendation -> ReturnReturn -> Exit'
         },
         {
-            'name': '2.5.2 图表生成',
+            'name': '2.5.2 ChartTableGenerate',
             'inputs': '5\\n5\\n1\\n0\\n0',
-            'description': '算法评估 -> 运行算法比较 -> 全部算法 -> 返回 -> 退出'
+            'description': 'CalculateMethodEvaluation -> RunCalculateMethodBiferCompare -> AutomaticPartCalculateMethod -> ReturnReturn -> Exit'
         },
         {
-            'name': '2.5.3 决策复杂度',
+            'name': '2.5.3 DecisionRecoveryComplexityRepublic',
             'inputs': '2\\n1\\n1\\n1\\n5\\ny\\n0\\n0',
-            'description': '推荐功能 -> 为用户生成推荐 -> 用户ID=1 -> 算法=1 -> 推荐数=5 -> 确认 -> 返回 -> 退出'
+            'description': 'RecommendationFunction -> asUserGenerateRecommendation -> UserID=1 -> CalculateMethod=1 -> RecommendationNumber=5 -> AccurateCertified -> ReturnReturn -> Exit'
         },
         {
-            'name': '2.6.2 权限管理',
+            'name': '2.6.2 PermissionManagement',
             'inputs': '7\\n3\\n1\\n0\\n0',
-            'description': '系统管理 -> 查看日志 -> 选择系统日志 -> 返回 -> 退出'
+            'description': 'SystemManagement -> ViewLog -> SelectChooseSystemLog -> ReturnReturn -> Exit'
         }
     ]
     
@@ -114,9 +114,9 @@ def main():
         )
         results.append((test_case['name'], success))
     
-    # 汇总结果
+    # entriesSummaryResult
     print(f"\n{'='*80}")
-    print("测试结果汇总")
+    print("Test ResultsentriesTotal")
     print('='*80)
     
     total = len(results)
@@ -124,19 +124,19 @@ def main():
     failed = total - passed
     
     for name, success in results:
-        status = "[通过]" if success else "[失败]"
+        status = "[Pass]" if success else "[Failure]"
         print(f"{status} {name}")
     
-    print(f"\n总计: {total} 个测试")
-    print(f"通过: {passed} 个")
-    print(f"失败: {failed} 个")
-    print(f"成功率: {passed/total*100:.1f}%")
+    print(f"\nTotal: {total} item(s)Test")
+    print(f"Pass: {passed} item(s)")
+    print(f"Failure: {failed} item(s)")
+    print(f"SuccessRate: {passed/total*100:.1f}%")
     
     if failed == 0:
-        print("\n所有关键用例测试通过！修复成功！")
+        print("\nPlaceHasRelatedKeyUseExampleTest Passed！ModifyRecoverySuccess！")
         return True
     else:
-        print(f"\n仍有 {failed} 个用例失败，需要进一步调试。")
+        print(f"\nStillHas {failed} item(s)UseExampleFailure，NeedImportOneStepAdjustTry。")
         return False
 
 if __name__ == "__main__":

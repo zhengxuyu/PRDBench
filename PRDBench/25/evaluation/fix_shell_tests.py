@@ -1,134 +1,134 @@
 # -*- coding: utf-8 -*-
 """
-修复所有shell交互测试用例
-创建对应的直接测试脚本
+ModifyRecoveryPlaceHasshellinteractiveTest Case
+CreateforShouldDirectInterfaceTestScript
 """
 
 import json
 import os
 
-# 定义shell测试命令到对应功能的映射
+# FixedDefinitionshellTest CommandtoforShouldFunctionmapping
 shell_test_mapping = {
     "echo 2 & echo 1 | python src/main.py": {
-        "description": "真实数据建模验证 → 数据预处理",
+        "description": "TrueImplementationDataBuildModelVerify → Data Preprocessing",
         "script": "evaluation/test_2_2_2a.py",
-        "function": "数据预处理"
+        "function": "Data Preprocessing"
     },
     "echo 2 & echo 2 | python src/main.py": {
-        "description": "真实数据建模验证 → SIR模型参数估计", 
+        "description": "TrueImplementationDataBuildModelVerify → SIRModelTypeParameterEstimateDesign", 
         "script": "evaluation/test_sir_parameter_estimation.py",
-        "function": "SIR参数估计"
+        "function": "SIRParameterEstimateDesign"
     },
     "echo 2 & echo 3 | python src/main.py": {
-        "description": "真实数据建模验证 → SEIR模型参数估计",
+        "description": "TrueImplementationDataBuildModelVerify → SEIRModelTypeParameterEstimateDesign",
         "script": "evaluation/test_seir_parameter_estimation.py", 
-        "function": "SEIR参数估计"
+        "function": "SEIRParameterEstimateDesign"
     },
     "echo 3 | python src/main.py": {
-        "description": "改进隔离机制SEIR模型",
+        "description": "ChangeImportIsolationDistanceMachineControlSEIRModelType",
         "script": "evaluation/test_isolation_seir.py",
-        "function": "隔离SEIR模型"
+        "function": "IsolationDistanceSEIRModelType"
     },
     "echo 4 & echo 1 | python src/main.py": {
-        "description": "布朗运动空间传播优化 → 空间传播模拟",
+        "description": "DistributionrandomSportsEmptyBetweenTraditionalSpreadOptimizeization → EmptyBetweenTraditionalSpreadModelSimulation",
         "script": "evaluation/test_spatial_simulation.py",
-        "function": "空间传播模拟"
+        "function": "EmptyBetweenTraditionalSpreadModelSimulation"
     },
     "echo 4 & echo 3 | python src/main.py": {
-        "description": "布朗运动空间传播优化 → 运行完整空间传播分析", 
+        "description": "DistributionrandomSportsEmptyBetweenTraditionalSpreadOptimizeization → RunCompleteEntireEmptyBetweenTraditionalSpreadAnalysis", 
         "script": "evaluation/test_spatial_full_analysis.py",
-        "function": "空间传播分析"
+        "function": "EmptyBetweenTraditionalSpreadAnalysis"
     },
     "echo 5 & echo 1 | python src/main.py": {
-        "description": "模型评估与分析 → 敏感性分析",
+        "description": "ModelTypeEvaluationandAnalysis → sensitivityInfectionnessAnalysis",
         "script": "evaluation/test_sensitivity_analysis.py",
-        "function": "敏感性分析"
+        "function": "sensitivityInfectionnessAnalysis"
     }
 }
 
 def create_test_scripts():
-    """创建所有需要的测试脚本"""
+    """CreatePlaceHasneedrequiredTestScript"""
     
-    # 2. SIR参数估计
+    # 2. SIRParameterEstimateDesign
     sir_test = '''# -*- coding: utf-8 -*-
-"""测试 SIR模型参数估计"""
+"""Test SIRModelTypeParameterEstimateDesign"""
 import sys; sys.path.append('src')
 from parameter_estimation import ParameterEstimator
 
-print("测试: 真实数据建模验证 → SIR模型参数估计")
+print("Test: TrueImplementationDataBuildModelVerify → SIRModelTypeParameterEstimateDesign")
 estimator = ParameterEstimator()
 result = estimator.estimate_sir_parameters()
 if result:
-    print("[成功] SIR参数估计完成!")
+    print("[Success] SIRParameterEstimateDesignCompleteSuccess!")
 else:
-    print("[失败] SIR参数估计失败")'''
+    print("[Failure] SIRParameterEstimateDesignFailure")'''
     
-    # 3. SEIR参数估计
+    # 3. SEIRParameterEstimateDesign
     seir_test = '''# -*- coding: utf-8 -*-
-"""测试 SEIR模型参数估计"""
+"""Test SEIRModelTypeParameterEstimateDesign"""
 import sys; sys.path.append('src')  
 from parameter_estimation import ParameterEstimator
 
-print("测试: 真实数据建模验证 → SEIR模型参数估计")
+print("Test: TrueImplementationDataBuildModelVerify → SEIRModelTypeParameterEstimateDesign")
 estimator = ParameterEstimator()
 result = estimator.estimate_seir_parameters()
 if result:
-    print("[成功] SEIR参数估计完成!")
+    print("[Success] SEIRParameterEstimateDesignCompleteSuccess!")
 else:
-    print("[失败] SEIR参数估计失败")'''
+    print("[Failure] SEIRParameterEstimateDesignFailure")'''
     
-    # 4. 隔离SEIR模型
+    # 4. IsolationDistanceSEIRModelType
     isolation_test = '''# -*- coding: utf-8 -*-
-"""测试 改进隔离机制SEIR模型"""
+"""Test ChangeImportIsolationDistanceMachineControlSEIRModelType"""
 import sys; sys.path.append('src')
 from models.isolation_seir_model import IsolationSEIRModel
 
-print("测试: 改进隔离机制SEIR模型")
+print("Test: ChangeImportIsolationDistanceMachineControlSEIRModelType")
 model = IsolationSEIRModel()
 result = model.run_simulation()
 if result:
-    print("[成功] 隔离SEIR模型运行完成!")
+    print("[Success] IsolationDistanceSEIRModelTypeRunCompleteSuccess!")
 else:
-    print("[失败] 隔离SEIR模型运行失败")'''
+    print("[Failure] IsolationDistanceSEIRModelTypeRunFailure")'''
     
-    # 5. 空间传播模拟
+    # 5. EmptyBetweenTraditionalSpreadModelSimulation
     spatial_sim_test = '''# -*- coding: utf-8 -*-
-"""测试 空间传播模拟"""
+"""Test EmptyBetweenTraditionalSpreadModelSimulation"""
 import sys; sys.path.append('src')
 from models.spatial_brownian_model import SpatialBrownianModel
 
-print("测试: 布朗运动空间传播优化 → 空间传播模拟") 
+print("Test: DistributionrandomSportsEmptyBetweenTraditionalSpreadOptimizeization → EmptyBetweenTraditionalSpreadModelSimulation") 
 model = SpatialBrownianModel()
 result = model.run_simulation()
 if result:
-    print("[成功] 空间传播模拟完成!")
+    print("[Success] EmptyBetweenTraditionalSpreadModelSimulationCompleteSuccess!")
 else:
-    print("[失败] 空间传播模拟失败")'''
+    print("[Failure] EmptyBetweenTraditionalSpreadModelSimulationFailure")'''
     
-    # 6. 空间传播分析
+    # 6. EmptyBetweenTraditionalSpreadAnalysis
     spatial_analysis_test = '''# -*- coding: utf-8 -*-
-"""测试 运行完整空间传播分析"""
+"""Test RunCompleteEntireEmptyBetweenTraditionalSpreadAnalysis"""
 import sys; sys.path.append('src')
 from models.spatial_brownian_model import SpatialBrownianModel
 
-print("测试: 布朗运动空间传播优化 → 运行完整空间传播分析")
+print("Test: DistributionrandomSportsEmptyBetweenTraditionalSpreadOptimizeization → RunCompleteEntireEmptyBetweenTraditionalSpreadAnalysis")
 model = SpatialBrownianModel()
 model.run_simulation()
 model.generate_animation_frames()
-print("[成功] 完整空间传播分析完成!")'''
+print("[Success] CompleteEntireEmptyBetweenTraditionalSpreadAnalysisCompleteSuccess!")'''
     
-    # 7. 敏感性分析
+    # 7. sensitivityInfectionnessAnalysis
     sensitivity_test = '''# -*- coding: utf-8 -*-
-"""测试 敏感性分析"""
+"""Test sensitivityInfectionnessAnalysis"""
 import sys; sys.path.append('src')
 from model_evaluation import ModelEvaluator
 
-print("测试: 模型评估与分析 → 敏感性分析")
+print("Test: ModelTypeEvaluationandAnalysis → sensitivityInfectionnessAnalysis")
 evaluator = ModelEvaluator()
 evaluator.sensitivity_analysis()
-print("[成功] 敏感性分析完成!")'''
+print("[Success] sensitivityInfectionnessAnalysisCompleteSuccess!")'''
     
-    # 创建测试脚本
+    # CreateTestScript
     scripts = {
         "evaluation/test_sir_parameter_estimation.py": sir_test,
         "evaluation/test_seir_parameter_estimation.py": seir_test,
@@ -141,7 +141,7 @@ print("[成功] 敏感性分析完成!")'''
     for script_path, content in scripts.items():
         with open(script_path, 'w', encoding='utf-8') as f:
             f.write(content)
-        print(f"创建测试脚本: {script_path}")
+        print(f"CreateTestScript: {script_path}")
 
 if __name__ == "__main__":
     create_test_scripts()

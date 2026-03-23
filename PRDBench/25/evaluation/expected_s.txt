@@ -1,6 +1,6 @@
-# S状态数据 - 湖北省COVID-19真实数据处理结果
-# 数据点数: 77
-# 数据范围: 59097514 - 59169367
+# S State Data - Hubei Province COVID-19 Real Data Processing Results
+# Data Points: 77
+# Data Range: 59097514 - 59169367
 59169366.779316574
 59165960.11668872
 59169326.68611479

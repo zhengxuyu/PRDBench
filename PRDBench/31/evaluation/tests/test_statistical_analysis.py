@@ -1,5 +1,5 @@
 """
-统计分析功能测试
+Statistical Analysis Functional Test
 """
 import pytest
 import sys
@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from statistical_analysis import StatisticalAnalyzer
@@ -17,36 +17,36 @@ from models import create_tables
 
 @pytest.fixture
 def setup_test_data():
-    """设置测试数据"""
+    """Setup test data"""
     create_tables()
-    
+
     scale_manager = ScaleManager()
     data_manager = DataManager()
     analyzer = StatisticalAnalyzer()
-    
-    # 创建默认量表
+
+    # Create default scales
     scale_manager.create_default_scales()
-    
-    # 创建测试被试者（增加到12个以满足回归分析需求）
+
+    # Create test participants (increased to 12 to meet regression analysis requirements)
     participants_data = [
-        {'participant_id': 'TEST001', 'gender': '男', 'age': 20, 'grade': '大二', 'major': '心理学'},
-        {'participant_id': 'TEST002', 'gender': '女', 'age': 19, 'grade': '大一', 'major': '教育学'},
-        {'participant_id': 'TEST003', 'gender': '男', 'age': 21, 'grade': '大三', 'major': '心理学'},
-        {'participant_id': 'TEST004', 'gender': '女', 'age': 20, 'grade': '大二', 'major': '教育学'},
-        {'participant_id': 'TEST005', 'gender': '男', 'age': 22, 'grade': '大四', 'major': '心理学'},
-        {'participant_id': 'TEST006', 'gender': '女', 'age': 19, 'grade': '大一', 'major': '心理学'},
-        {'participant_id': 'TEST007', 'gender': '男', 'age': 20, 'grade': '大二', 'major': '教育学'},
-        {'participant_id': 'TEST008', 'gender': '女', 'age': 21, 'grade': '大三', 'major': '心理学'},
-        {'participant_id': 'TEST009', 'gender': '男', 'age': 22, 'grade': '大四', 'major': '教育学'},
-        {'participant_id': 'TEST010', 'gender': '女', 'age': 20, 'grade': '大二', 'major': '心理学'},
-        {'participant_id': 'TEST011', 'gender': '男', 'age': 19, 'grade': '大一', 'major': '教育学'},
-        {'participant_id': 'TEST012', 'gender': '女', 'age': 21, 'grade': '大三', 'major': '心理学'},
+        {'participant_id': 'TEST001', 'gender': 'Male', 'age': 20, 'grade': 'Sophomore', 'major': 'Psychology'},
+        {'participant_id': 'TEST002', 'gender': 'Female', 'age': 19, 'grade': 'Freshman', 'major': 'Education'},
+        {'participant_id': 'TEST003', 'gender': 'Male', 'age': 21, 'grade': 'Junior', 'major': 'Psychology'},
+        {'participant_id': 'TEST004', 'gender': 'Female', 'age': 20, 'grade': 'Sophomore', 'major': 'Education'},
+        {'participant_id': 'TEST005', 'gender': 'Male', 'age': 22, 'grade': 'Senior', 'major': 'Psychology'},
+        {'participant_id': 'TEST006', 'gender': 'Female', 'age': 19, 'grade': 'Freshman', 'major': 'Psychology'},
+        {'participant_id': 'TEST007', 'gender': 'Male', 'age': 20, 'grade': 'Sophomore', 'major': 'Education'},
+        {'participant_id': 'TEST008', 'gender': 'Female', 'age': 21, 'grade': 'Junior', 'major': 'Psychology'},
+        {'participant_id': 'TEST009', 'gender': 'Male', 'age': 22, 'grade': 'Senior', 'major': 'Education'},
+        {'participant_id': 'TEST010', 'gender': 'Female', 'age': 20, 'grade': 'Sophomore', 'major': 'Psychology'},
+        {'participant_id': 'TEST011', 'gender': 'Male', 'age': 19, 'grade': 'Freshman', 'major': 'Education'},
+        {'participant_id': 'TEST012', 'gender': 'Female', 'age': 21, 'grade': 'Junior', 'major': 'Psychology'},
     ]
     
     for p_data in participants_data:
         data_manager.create_participant(**p_data)
-    
-    # 创建测试回答数据（增加到12个样本）
+
+    # Create test response data (increased to 12 samples)
     responses_data = [
         {'participant_id': 'TEST001', 'scale_id': 1, 'responses_data': {'1': 5, '2': 3, '3': 6, '4': 2, '5': 5, '6': 4, '7': 3, '8': 5}},
         {'participant_id': 'TEST002', 'scale_id': 1, 'responses_data': {'1': 6, '2': 2, '3': 7, '4': 1, '5': 6, '6': 5, '7': 2, '8': 6}},
@@ -64,8 +64,8 @@ def setup_test_data():
     
     for r_data in responses_data:
         data_manager.create_response(**r_data)
-    
-    # 为第二个量表创建回答数据（增加到12个样本）
+
+    # Create response data for second scale (increased to 12 samples)
     responses_data_scale2 = [
         {'participant_id': 'TEST001', 'scale_id': 2, 'responses_data': {'1': 4, '2': 4, '3': 5, '4': 3, '5': 4, '6': 3, '7': 4, '8': 4}},
         {'participant_id': 'TEST002', 'scale_id': 2, 'responses_data': {'1': 6, '2': 2, '3': 6, '4': 2, '5': 6, '6': 2, '7': 6, '8': 2}},
@@ -87,299 +87,299 @@ def setup_test_data():
     return scale_manager, data_manager, analyzer
 
 def test_factor_analysis_with_rotation(setup_test_data):
-    """测试带旋转的因子分析"""
+    """Test factor analysis with rotation"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 执行因子分析
+
+    # Execute factor analysis
     results = analyzer.factor_analysis(scale_id=1, n_factors=2, rotation='varimax')
-    
-    # 断言
-    assert 'error' not in results, f"因子分析失败: {results.get('error', '')}"
-    assert 'factor_loadings' in results, "缺少因子载荷矩阵"
-    assert 'eigenvalues' in results, "缺少特征值"
-    assert 'variance_explained' in results, "缺少方差解释"
-    assert 'kmo' in results, "缺少KMO检验结果"
-    assert 'bartlett_test' in results, "缺少Bartlett检验结果"
-    
-    # 验证KMO值
+
+    # Assertions
+    assert 'error' not in results, f"Factor analysis failed: {results.get('error', '')}"
+    assert 'factor_loadings' in results, "Missing factor loading matrix"
+    assert 'eigenvalues' in results, "Missing eigenvalues"
+    assert 'variance_explained' in results, "Missing variance explained"
+    assert 'kmo' in results, "Missing KMO test result"
+    assert 'bartlett_test' in results, "Missing Bartlett test result"
+
+    # Verify KMO value
     if results['kmo']:
         kmo_value = results['kmo']['overall']
-        assert 0 <= kmo_value <= 1, f"KMO值应在0-1之间，实际: {kmo_value}"
-    
-    # 验证Bartlett检验
+        assert 0 <= kmo_value <= 1, f"KMO value should be between 0-1, actual: {kmo_value}"
+
+    # Verify Bartlett test
     if results['bartlett_test']:
         p_value = results['bartlett_test']['p_value']
-        assert 0 <= p_value <= 1, f"Bartlett检验p值应在0-1之间，实际: {p_value}"
-    
-    # 验证因子载荷矩阵
+        assert 0 <= p_value <= 1, f"Bartlett test p-value should be between 0-1, actual: {p_value}"
+
+    # Verify factor loading matrix
     loadings = results['factor_loadings']
-    assert len(loadings) > 0, "因子载荷矩阵为空"
-    
-    # 验证特征值
+    assert len(loadings) > 0, "Factor loading matrix is empty"
+
+    # Verify eigenvalues
     eigenvalues = results['eigenvalues']
-    assert len(eigenvalues) > 0, "特征值列表为空"
-    assert all(isinstance(ev, (int, float)) for ev in eigenvalues), "特征值应为数值类型"
+    assert len(eigenvalues) > 0, "Eigenvalues list is empty"
+    assert all(isinstance(ev, (int, float)) for ev in eigenvalues), "Eigenvalues should be numeric type"
 
 def test_reliability_item_analysis(setup_test_data):
-    """测试信度分析中的项目分析"""
+    """Test item analysis in reliability analysis"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 执行信度分析
+
+    # Execute reliability analysis
     results = analyzer.reliability_analysis(scale_id=1)
-    
-    # 断言
-    assert 'error' not in results, f"信度分析失败: {results.get('error', '')}"
-    assert 'cronbach_alpha' in results, "缺少Cronbach's α系数"
-    assert 'item_analysis' in results, "缺少项目分析"
-    
-    # 验证Cronbach's α系数
+
+    # Assertions
+    assert 'error' not in results, f"Reliability analysis failed: {results.get('error', '')}"
+    assert 'cronbach_alpha' in results, "Missing Cronbach's alpha coefficient"
+    assert 'item_analysis' in results, "Missing item analysis"
+
+    # Verify Cronbach's alpha coefficient
     if results['cronbach_alpha']:
         alpha = results['cronbach_alpha']
-        assert 0 <= alpha <= 1, f"Cronbach's α系数应在0-1之间，实际: {alpha}"
-    
-    # 验证项目分析
+        assert 0 <= alpha <= 1, f"Cronbach's alpha coefficient should be between 0-1, actual: {alpha}"
+
+    # Verify item analysis
     item_analysis = results['item_analysis']
-    assert len(item_analysis) > 0, "项目分析结果为空"
-    
-    # 验证每个项目的分析结果
+    assert len(item_analysis) > 0, "Item analysis result is empty"
+
+    # Verify analysis result for each item
     for item_key, analysis in item_analysis.items():
-        assert 'item_total_correlation' in analysis, f"项目{item_key}缺少项目-总分相关"
-        assert 'alpha_if_deleted' in analysis, f"项目{item_key}缺少删除后α值"
-        assert 'mean' in analysis, f"项目{item_key}缺少均值"
-        assert 'std' in analysis, f"项目{item_key}缺少标准差"
-        
-        # 验证数值范围
+        assert 'item_total_correlation' in analysis, f"Item {item_key} missing item-total correlation"
+        assert 'alpha_if_deleted' in analysis, f"Item {item_key} missing alpha if deleted"
+        assert 'mean' in analysis, f"Item {item_key} missing mean"
+        assert 'std' in analysis, f"Item {item_key} missing standard deviation"
+
+        # Verify numeric ranges
         correlation = analysis['item_total_correlation']
-        assert -1 <= correlation <= 1, f"项目{item_key}的相关系数超出范围: {correlation}"
+        assert -1 <= correlation <= 1, f"Item {item_key} correlation coefficient out of range: {correlation}"
 
 def test_regression_analysis(setup_test_data):
-    """测试回归分析"""
+    """Test regression analysis"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 执行回归分析（以量表2为因变量，量表1为自变量）
+
+    # Execute regression analysis (scale 2 as dependent variable, scale 1 as independent variable)
     results = analyzer.regression_analysis(
         dependent_scale_id=2,
         independent_scale_ids=[1],
         regression_type='linear'
     )
-    
-    # 断言
-    assert 'error' not in results, f"回归分析失败: {results.get('error', '')}"
-    assert 'model_summary' in results, "缺少模型摘要"
-    assert 'coefficients' in results, "缺少回归系数"
-    
-    # 验证模型摘要
+
+    # Assertions
+    assert 'error' not in results, f"Regression analysis failed: {results.get('error', '')}"
+    assert 'model_summary' in results, "Missing model summary"
+    assert 'coefficients' in results, "Missing regression coefficients"
+
+    # Verify model summary
     model_summary = results['model_summary']
-    assert 'r_squared' in model_summary, "缺少R²值"
-    assert 'f_statistic' in model_summary, "缺少F统计量"
-    assert 'f_pvalue' in model_summary, "缺少F检验p值"
-    
-    # 验证R²值范围
+    assert 'r_squared' in model_summary, "Missing R² value"
+    assert 'f_statistic' in model_summary, "Missing F statistic"
+    assert 'f_pvalue' in model_summary, "Missing F-test p-value"
+
+    # Verify R² value range
     r_squared = model_summary['r_squared']
-    assert 0 <= r_squared <= 1, f"R²值应在0-1之间，实际: {r_squared}"
-    
-    # 验证回归系数
+    assert 0 <= r_squared <= 1, f"R² value should be between 0-1, actual: {r_squared}"
+
+    # Verify regression coefficients
     coefficients = results['coefficients']
-    assert len(coefficients) > 0, "回归系数为空"
-    
-    # 验证每个系数的信息
+    assert len(coefficients) > 0, "Regression coefficients are empty"
+
+    # Verify information for each coefficient
     for var_name, coef_info in coefficients.items():
-        assert 'coefficient' in coef_info, f"变量{var_name}缺少系数值"
-        assert 'p_value' in coef_info, f"变量{var_name}缺少p值"
-        assert 'std_error' in coef_info, f"变量{var_name}缺少标准误"
-        
-        # 验证p值范围
+        assert 'coefficient' in coef_info, f"Variable {var_name} missing coefficient value"
+        assert 'p_value' in coef_info, f"Variable {var_name} missing p-value"
+        assert 'std_error' in coef_info, f"Variable {var_name} missing standard error"
+
+        # Verify p-value range
         p_value = coef_info['p_value']
-        assert 0 <= p_value <= 1, f"变量{var_name}的p值超出范围: {p_value}"
+        assert 0 <= p_value <= 1, f"Variable {var_name} p-value out of range: {p_value}"
 
 def test_trend_analysis(setup_test_data):
-    """测试趋势分析"""
+    """Test trend analysis"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 由于当前实现中没有专门的趋势分析函数，我们测试分组比较中的趋势
-    # 这里我们测试按年级分组的分析，可以反映趋势
+
+    # Since there is no dedicated trend analysis function in the current implementation, we test trends in group comparison
+    # Here we test analysis grouped by grade, which can reflect trends
     results = analyzer.group_comparison(scale_id=1, group_by='grade')
-    
-    # 断言
-    assert 'error' not in results, f"分组比较分析失败: {results.get('error', '')}"
-    assert 'group_info' in results, "缺少分组信息"
-    assert 'test_results' in results, "缺少检验结果"
-    
-    # 验证分组信息
+
+    # Assertions
+    assert 'error' not in results, f"Group comparison analysis failed: {results.get('error', '')}"
+    assert 'group_info' in results, "Missing group information"
+    assert 'test_results' in results, "Missing test result"
+
+    # Verify group information
     group_info = results['group_info']
-    assert len(group_info) > 1, "分组数量不足"
-    
-    # 验证每组的统计信息
+    assert len(group_info) > 1, "Insufficient number of groups"
+
+    # Verify statistical information for each group
     for group_name, group_data in group_info.items():
-        assert 'count' in group_data, f"分组{group_name}缺少样本量"
-        assert 'mean' in group_data, f"分组{group_name}缺少均值"
-        assert 'std' in group_data, f"分组{group_name}缺少标准差"
-        
-        # 验证数值合理性
-        assert group_data['count'] > 0, f"分组{group_name}样本量应大于0"
-        assert group_data['std'] >= 0, f"分组{group_name}标准差应非负"
-    
-    # 验证检验结果
+        assert 'count' in group_data, f"Group {group_name} missing sample size"
+        assert 'mean' in group_data, f"Group {group_name} missing mean"
+        assert 'std' in group_data, f"Group {group_name} missing standard deviation"
+
+        # Verify numeric reasonableness
+        assert group_data['count'] > 0, f"Group {group_name} sample size should be greater than 0"
+        assert group_data['std'] >= 0, f"Group {group_name} standard deviation should be non-negative"
+
+    # Verify test results
     test_results = results['test_results']
-    assert 'test_type' in test_results, "缺少检验类型"
-    assert 'p_value' in test_results, "缺少p值"
-    assert 'significant' in test_results, "缺少显著性判断"
-    
-    # 验证p值范围
+    assert 'test_type' in test_results, "Missing test type"
+    assert 'p_value' in test_results, "Missing p-value"
+    assert 'significant' in test_results, "Missing significance judgment"
+
+    # Verify p-value range
     p_value = test_results['p_value']
-    assert 0 <= p_value <= 1, f"p值应在0-1之间，实际: {p_value}"
+    assert 0 <= p_value <= 1, f"p-value should be between 0-1, actual: {p_value}"
 
 def test_path_analysis_setup(setup_test_data):
-    """测试路径分析设置"""
+    """Test path analysis setup"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 由于当前实现中路径分析功能在可视化模块中，我们测试相关的功能
-    # 这里测试相关分析作为路径分析的基础
+
+    # Since the path analysis function in the current implementation is in the visualization module, we test related functions
+    # Here we test correlation analysis as the basis for path analysis
     results = analyzer.correlation_analysis(scale_ids=[1, 2], method='pearson')
-    
-    # 断言
-    assert 'error' not in results, f"相关分析失败: {results.get('error', '')}"
-    assert 'correlation_matrix' in results, "缺少相关矩阵"
-    assert 'p_values' in results, "缺少p值矩阵"
-    assert 'sample_size' in results, "缺少样本量信息"
-    
-    # 验证相关矩阵
+
+    # Assertions
+    assert 'error' not in results, f"Correlation analysis failed: {results.get('error', '')}"
+    assert 'correlation_matrix' in results, "Missing correlation matrix"
+    assert 'p_values' in results, "Missing p-value matrix"
+    assert 'sample_size' in results, "Missing sample size information"
+
+    # Verify correlation matrix
     correlation_matrix = results['correlation_matrix']
-    assert len(correlation_matrix) > 0, "相关矩阵为空"
-    
-    # 验证相关系数范围
+    assert len(correlation_matrix) > 0, "Correlation matrix is empty"
+
+    # Verify correlation coefficient range
     for var1, correlations in correlation_matrix.items():
         for var2, correlation in correlations.items():
-            assert -1 <= correlation <= 1, f"相关系数{var1}-{var2}超出范围: {correlation}"
-    
-    # 验证p值矩阵
+            assert -1 <= correlation <= 1, f"Correlation coefficient {var1}-{var2} out of range: {correlation}"
+
+    # Verify p-value matrix
     p_values = results['p_values']
     for var1, p_vals in p_values.items():
         for var2, p_val in p_vals.items():
-            if var1 != var2:  # 排除对角线元素
-                assert 0 <= p_val <= 1, f"p值{var1}-{var2}超出范围: {p_val}"
+            if var1 != var2:  # Exclude diagonal elements
+                assert 0 <= p_val <= 1, f"p-value {var1}-{var2} out of range: {p_val}"
 
 def test_path_analysis_results(setup_test_data):
-    """测试路径分析结果"""
+    """Test path analysis results"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 测试回归分析作为路径分析的一部分
+
+    # Test regression analysis as part of path analysis
     results = analyzer.regression_analysis(
         dependent_scale_id=2,
         independent_scale_ids=[1],
         regression_type='linear'
     )
-    
-    # 断言基本结果结构
-    assert 'error' not in results, f"回归分析失败: {results.get('error', '')}"
-    assert 'model_summary' in results, "缺少模型摘要（相当于拟合指标）"
-    assert 'coefficients' in results, "缺少路径系数"
-    
-    # 验证模型拟合指标（相当于路径分析的拟合指标）
+
+    # Assertions for basic result structure
+    assert 'error' not in results, f"Regression analysis failed: {results.get('error', '')}"
+    assert 'model_summary' in results, "Missing model summary (equivalent to fit indices)"
+    assert 'coefficients' in results, "Missing path coefficients"
+
+    # Verify model fit indices (equivalent to path analysis fit indices)
     model_summary = results['model_summary']
     required_fit_indices = ['r_squared', 'f_statistic', 'f_pvalue']
     for index in required_fit_indices:
-        assert index in model_summary, f"缺少拟合指标: {index}"
-    
-    # 验证路径系数（回归系数）
+        assert index in model_summary, f"Missing fit index: {index}"
+
+    # Verify path coefficients (regression coefficients)
     coefficients = results['coefficients']
-    assert len(coefficients) >= 1, "路径系数数量不足"
-    
-    # 验证系数信息完整性
+    assert len(coefficients) >= 1, "Insufficient number of path coefficients"
+
+    # Verify completeness of coefficient information
     for var_name, coef_info in coefficients.items():
-        if var_name != 'const':  # 排除常数项
+        if var_name != 'const':  # Exclude constant term
             required_fields = ['coefficient', 'p_value', 'std_error', 't_value']
             for field in required_fields:
-                assert field in coef_info, f"变量{var_name}缺少{field}"
+                assert field in coef_info, f"Variable {var_name} missing {field}"
 
 def test_descriptive_statistics(setup_test_data):
-    """测试描述统计分析"""
+    """Test descriptive statistical analysis"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 执行描述统计分析
+
+    # Execute descriptive statistical analysis
     results = analyzer.descriptive_statistics(scale_id=1)
-    
-    # 断言
-    assert 'error' not in results, f"描述统计分析失败: {results.get('error', '')}"
-    assert 'overall_stats' in results, "缺少整体统计信息"
-    assert 'sample_info' in results, "缺少样本信息"
-    
-    # 验证统计指标
+
+    # Assertions
+    assert 'error' not in results, f"Descriptive statistical analysis failed: {results.get('error', '')}"
+    assert 'overall_stats' in results, "Missing overall statistical information"
+    assert 'sample_info' in results, "Missing sample information"
+
+    # Verify statistical indicators
     overall_stats = results['overall_stats']
-    assert 'total_score' in overall_stats, "缺少总分统计"
-    
+    assert 'total_score' in overall_stats, "Missing total score statistics"
+
     total_score_stats = overall_stats['total_score']
     required_stats = ['count', 'mean', 'std', 'min', 'max', 'median', 'q25', 'q75']
-    
+
     for stat in required_stats:
-        assert stat in total_score_stats, f"缺少统计指标: {stat}"
-    
-    # 验证统计值的合理性
-    assert total_score_stats['count'] > 0, "样本量应大于0"
-    assert total_score_stats['std'] >= 0, "标准差应非负"
-    assert total_score_stats['min'] <= total_score_stats['max'], "最小值应小于等于最大值"
-    assert total_score_stats['q25'] <= total_score_stats['median'] <= total_score_stats['q75'], "分位数顺序错误"
+        assert stat in total_score_stats, f"Missing statistical indicator: {stat}"
+
+    # Verify reasonableness of statistical values
+    assert total_score_stats['count'] > 0, "Sample size should be greater than 0"
+    assert total_score_stats['std'] >= 0, "Standard deviation should be non-negative"
+    assert total_score_stats['min'] <= total_score_stats['max'], "Minimum value should be less than or equal to maximum value"
+    assert total_score_stats['q25'] <= total_score_stats['median'] <= total_score_stats['q75'], "Incorrect order of quantiles"
 
 def test_group_comparison_analysis(setup_test_data):
-    """测试分组比较分析"""
+    """Test group comparison analysis"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 执行分组比较（按性别）
+
+    # Execute group comparison (by gender)
     results = analyzer.group_comparison(scale_id=1, group_by='gender')
-    
-    # 断言
-    assert 'error' not in results, f"分组比较分析失败: {results.get('error', '')}"
-    assert 'group_info' in results, "缺少分组信息"
-    assert 'test_results' in results, "缺少检验结果"
-    
-    # 验证分组信息
+
+    # Assertions
+    assert 'error' not in results, f"Group comparison analysis failed: {results.get('error', '')}"
+    assert 'group_info' in results, "Missing group information"
+    assert 'test_results' in results, "Missing test result"
+
+    # Verify group information
     group_info = results['group_info']
-    assert len(group_info) == 2, f"性别分组应该有2组，实际: {len(group_info)}"
-    
-    # 验证检验结果
+    assert len(group_info) == 2, f"Gender grouping should have 2 groups, actual: {len(group_info)}"
+
+    # Verify test results
     test_results = results['test_results']
-    assert 'test_type' in test_results, "缺少检验类型"
-    assert 'p_value' in test_results, "缺少p值"
-    assert 'significant' in test_results, "缺少显著性判断"
-    
-    # 对于t检验，应该有t统计量和效应量
+    assert 'test_type' in test_results, "Missing test type"
+    assert 'p_value' in test_results, "Missing p-value"
+    assert 'significant' in test_results, "Missing significance judgment"
+
+    # For t-test, should have t-statistic and effect size
     if test_results['test_type'] == 't_test':
-        assert 'statistic' in test_results, "缺少t统计量"
-        assert 'effect_size' in test_results, "缺少效应量"
-    
-    # 对于ANOVA，应该有F统计量和效应量
+        assert 'statistic' in test_results, "Missing t-statistic"
+        assert 'effect_size' in test_results, "Missing effect size"
+
+    # For ANOVA, should have F-statistic and effect size
     elif test_results['test_type'] == 'anova':
-        assert 'f_statistic' in test_results, "缺少F统计量"
-        assert 'eta_squared' in test_results, "缺少效应量"
+        assert 'f_statistic' in test_results, "Missing F-statistic"
+        assert 'eta_squared' in test_results, "Missing effect size"
 
 def test_correlation_analysis(setup_test_data):
-    """测试相关分析"""
+    """Test correlation analysis"""
     scale_manager, data_manager, analyzer = setup_test_data
-    
-    # 执行相关分析
+
+    # Execute correlation analysis
     results = analyzer.correlation_analysis(scale_ids=[1, 2], method='pearson')
-    
-    # 断言
-    assert 'error' not in results, f"相关分析失败: {results.get('error', '')}"
-    assert 'correlation_matrix' in results, "缺少相关矩阵"
-    assert 'p_values' in results, "缺少p值矩阵"
-    assert 'method' in results, "缺少分析方法信息"
-    assert 'sample_size' in results, "缺少样本量信息"
-    
-    # 验证分析方法
-    assert results['method'] == 'pearson', "分析方法不匹配"
-    
-    # 验证样本量
+
+    # Assertions
+    assert 'error' not in results, f"Correlation analysis failed: {results.get('error', '')}"
+    assert 'correlation_matrix' in results, "Missing correlation matrix"
+    assert 'p_values' in results, "Missing p-value matrix"
+    assert 'method' in results, "Missing analysis method information"
+    assert 'sample_size' in results, "Missing sample size information"
+
+    # Verify analysis method
+    assert results['method'] == 'pearson', "Analysis method does not match"
+
+    # Verify sample size
     sample_size = results['sample_size']
-    assert sample_size > 0, "样本量应大于0"
-    
-    # 验证相关矩阵结构
+    assert sample_size > 0, "Sample size should be greater than 0"
+
+    # Verify correlation matrix structure
     correlation_matrix = results['correlation_matrix']
     p_values = results['p_values']
-    
-    # 相关矩阵和p值矩阵应该有相同的结构
-    assert len(correlation_matrix) == len(p_values), "相关矩阵和p值矩阵结构不匹配"
-    
+
+    # Correlation matrix and p-value matrix should have the same structure
+    assert len(correlation_matrix) == len(p_values), "Correlation matrix and p-value matrix structure do not match"
+
     for var1 in correlation_matrix:
-        assert var1 in p_values, f"p值矩阵中缺少变量: {var1}"
-        assert len(correlation_matrix[var1]) == len(p_values[var1]), f"变量{var1}的矩阵结构不匹配"
+        assert var1 in p_values, f"Variable missing in p-value matrix: {var1}"
+        assert len(correlation_matrix[var1]) == len(p_values[var1]), f"Variable {var1} matrix structure does not match"

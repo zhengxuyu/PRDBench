@@ -1,8 +1,8 @@
-# VSCode终端UTF-8编码配置说明
+# VSCode Terminal UTF-8 Encoding Configuration Guide
 
-## 已完成的配置
+## Completed Configuration
 
-我已经为这个项目创建了 `.vscode/settings.json` 配置文件，包含以下设置：
+I have created a `.vscode/settings.json` configuration file for this project with the following settings:
 
 ```json
 {
@@ -19,46 +19,46 @@
 }
 ```
 
-## 使配置生效的步骤
+## Steps to Activate Configuration
 
-### 方法1：重新加载VSCode窗口
-1. 按 `Ctrl + Shift + P` 打开命令面板
-2. 输入 `Developer: Reload Window`
-3. 回车执行，VSCode将重新加载
+### Method 1: Reload VSCode Window
+1. Press `Ctrl + Shift + P` to open the command palette
+2. Type `Developer: Reload Window`
+3. Press Enter, VSCode will reload
 
-### 方法2：新建终端
-1. 关闭当前终端（点击垃圾桶图标）
-2. 按 `Ctrl + Shift + `` 新建终端
-3. 新终端将自动应用UTF-8配置
+### Method 2: Create New Terminal
+1. Close the current terminal (click the trash icon)
+2. Press `Ctrl + Shift + `` to create a new terminal
+3. The new terminal will automatically apply UTF-8 configuration
 
-### 方法3：手动选择终端配置文件
-1. 点击终端右上角的 `+` 旁边的下拉箭头
-2. 选择 "Command Prompt UTF-8"
-3. 新终端将使用UTF-8编码
+### Method 3: Manually Select Terminal Profile
+1. Click the dropdown arrow next to `+` in the upper right corner of the terminal
+2. Select "Command Prompt UTF-8"
+3. The new terminal will use UTF-8 encoding
 
-## 验证配置是否生效
+## Verify Configuration is Effective
 
-新建终端后运行以下命令验证：
+After creating a new terminal, run the following commands to verify:
 
 ```bash
-# 检查代码页（应该显示 65001）
+# Check code page (should display 65001)
 chcp
 
-# 检查Python编码环境变量
+# Check Python encoding environment variable
 echo %PYTHONIOENCODING%
 
-# 测试中文显示
+# Test Chinese character display
 python evaluation/verify_file_comparison_test.py
 ```
 
-## 预期结果
+## Expected Results
 
-- `chcp` 应该显示 `Active code page: 65001`
-- `echo %PYTHONIOENCODING%` 应该显示 `utf-8`
-- Python脚本的中文输出应该正常显示，不再有乱码
+- `chcp` should display `Active code page: 65001`
+- `echo %PYTHONIOENCODING%` should display `utf-8`
+- Python script's Chinese output should display normally without garbled characters
 
-## 其他说明
+## Additional Notes
 
-- 这个配置只对当前项目有效（工作区级别设置）
-- 如果要全局生效，需要在用户设置中添加相同配置
-- 配置文件位置：`.vscode/settings.json`
+- This configuration is only effective for the current project (workspace-level settings)
+- To make it effective globally, add the same configuration to user settings
+- Configuration file location: `.vscode/settings.json`

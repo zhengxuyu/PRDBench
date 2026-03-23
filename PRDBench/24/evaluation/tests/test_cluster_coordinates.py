@@ -6,42 +6,42 @@ from sklearn.preprocessing import StandardScaler
 import sys
 import os
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../src'))
 
 def test_cluster_centers_in_anhui_range():
-    """测试K-means聚类中心坐标是否在安徽省地理范围内"""
-    
-    # 读取数据文件
+    """Test whether K-means cluster center coordinates are within the geographical range of Anhui Province"""
+
+    # Read data file
     data_path = os.path.join(os.path.dirname(__file__), '../../src/mdl4.xlsx')
     data = pd.read_excel(data_path)
-    
-    # 提取经度和纬度列数据
+
+    # Extract longitude and latitude column data
     coordinates = data.iloc[:, 1:].values
-    
-    # 特征缩放
+
+    # Feature scaling
     scaler = StandardScaler()
     scaled_coordinates = scaler.fit_transform(coordinates)
-    
-    # 设置聚类数目
+
+    # Set number of clusters
     k = 14
-    
-    # 运行K-means算法
+
+    # Run K-means algorithm
     kmeans = KMeans(n_clusters=k, random_state=42)
     kmeans.fit(scaled_coordinates)
-    
-    # 反向转换聚类中心坐标到原始范围
+
+    # Inverse transform cluster center coordinates to original range
     cluster_centers = scaler.inverse_transform(kmeans.cluster_centers_)
-    
-    # 验证聚类中心坐标在安徽省地理范围内
+
+    # Verify cluster center coordinates are within Anhui Province geographical range
     valid_centers = 0
     for i, center in enumerate(cluster_centers):
         longitude, latitude = center[0], center[1]
         if 115 <= longitude <= 120 and 30 <= latitude <= 35:
             valid_centers += 1
-        print(f"聚类中心 {i+1}: 经度={longitude:.6f}, 纬度={latitude:.6f}")
-    
-    # 至少12个聚类中心应该在合理范围内
-    assert valid_centers >= 12, f"只有 {valid_centers} 个聚类中心在安徽省范围内，少于要求的12个"
-    
-    print(f"聚类中心坐标验证通过: {valid_centers}/14 个中心在安徽省范围内")
+        print(f"Cluster center {i+1}: longitude={longitude:.6f}, latitude={latitude:.6f}")
+
+    # At least 12 cluster centers should be within reasonable range
+    assert valid_centers >= 12, f"Only {valid_centers} cluster centers are within Anhui Province range, less than the required 12"
+
+    print(f"Cluster center coordinate verification passed: {valid_centers}/14 centers are within Anhui Province range")

@@ -1,108 +1,108 @@
-# 测试执行指南
+# Test Execution Guide
 
-## 为什么需要先运行 `python src/main.py init`？
+## Why Do We Need to Run `python src/main.py init` First?
 
-### 1. **数据库表创建**
+### 1. **Database Table Creation**
 ```python
 def init():
-    # 创建数据库表
-    create_tables()  # 这会创建所有必要的数据库表结构
-    
-    # 创建默认量表
+    # Create database tables
+    create_tables()  # This creates all necessary database table structures
+
+    # Create default scales
     scale_manager.create_default_scales()
 ```
 
-### 2. **系统依赖关系**
-- **数据库表**: 系统使用SQLite数据库存储数据，需要先创建表结构
-- **默认量表**: 系统预置了3个标准心理量表，为后续测试提供基础数据
-- **配置初始化**: 确保所有配置和路径正确设置
+### 2. **System Dependencies**
+- **Database tables**: The system uses SQLite database to store data and needs to create table structure first
+- **Default scales**: The system comes with 3 standard psychological scales, providing basic data for subsequent tests
+- **Configuration initialization**: Ensures all configurations and paths are set correctly
 
-### 3. **测试执行顺序的重要性**
+### 3. **Importance of Test Execution Order**
 
-#### 错误的执行方式：
+#### Wrong Execution Method:
 ```bash
-# ❌ 直接导入量表 - 会失败
+# ❌ Directly import scale - will fail
 python src/main.py scales import-csv evaluation/test_scale.csv
-# 错误：数据库表不存在，无法保存量表数据
+# Error: Database tables don't exist, cannot save scale data
 ```
 
-#### 正确的执行方式：
+#### Correct Execution Method:
 ```bash
-# ✅ 先初始化系统
+# ✅ Initialize system first
 python src/main.py init
-# 创建数据库表：scales, scale_items, participants, responses等
+# Creates database tables: scales, scale_items, participants, responses, etc.
 
-# ✅ 然后导入量表
+# ✅ Then import scale
 python src/main.py scales import-csv evaluation/test_scale.csv
-# 现在可以成功保存到数据库
+# Now can successfully save to database
 ```
 
-### 4. **init命令具体做了什么**
+### 4. **What the init Command Does Specifically**
 
-1. **创建数据库表结构**：
-   - `scales` 表：存储量表基本信息
-   - `scale_items` 表：存储量表条目
-   - `participants` 表：存储被试者信息
-   - `responses` 表：存储问卷回答
-   - `analysis_results` 表：存储分析结果
+1. **Create database table structure**:
+   - `scales` table: Store scale basic information
+   - `scale_items` table: Store scale items
+   - `participants` table: Store participant information
+   - `responses` table: Store questionnaire responses
+   - `analysis_results` table: Store analysis results
 
-2. **创建默认量表**：
-   - 大学生注意稳定性量表（8个条目）
-   - 大学生自控力量表（10个条目）
-   - 大学生情绪稳定性量表（6个条目）
+2. **Create default scales**:
+   - College Student Attention Stability Scale (8 items)
+   - College Student Self-Control Scale (10 items)
+   - College Student Emotional Stability Scale (6 items)
 
-3. **验证系统完整性**：
-   - 检查数据库连接
-   - 验证配置文件
-   - 确保输出目录存在
+3. **Verify system integrity**:
+   - Check database connection
+   - Verify configuration files
+   - Ensure output directories exist
 
-### 5. **测试场景分析**
+### 5. **Test Scenario Analysis**
 
-#### Shell交互测试的典型流程：
+#### Typical Shell Interaction Test Flow:
 ```bash
-# 步骤1：系统准备
-python src/main.py init                    # 必需：创建基础环境
+# Step 1: System preparation
+python src/main.py init                    # Required: Create basic environment
 
-# 步骤2：执行具体功能
-python src/main.py scales import-csv file.csv  # 测试目标功能
+# Step 2: Execute specific function
+python src/main.py scales import-csv file.csv  # Test target function
 
-# 步骤3：验证结果
-python src/main.py scales list             # 确认导入成功
+# Step 3: Verify results
+python src/main.py scales list             # Confirm import success
 ```
 
-#### 为什么不能跳过init：
-- **数据库错误**: 没有表结构，无法保存数据
-- **配置缺失**: 系统配置未初始化
-- **依赖缺失**: 缺少默认量表等基础数据
+#### Why init Cannot Be Skipped:
+- **Database error**: No table structure, cannot save data
+- **Configuration missing**: System configuration not initialized
+- **Dependency missing**: Missing default scales and other basic data
 
-### 6. **测试独立性考虑**
+### 6. **Test Independence Considerations**
 
-虽然每个测试都需要init，但这是**系统级别的前置条件**，不是测试设计问题：
+Although every test needs init, this is a **system-level prerequisite**, not a test design issue:
 
-- **真实用户场景**: 用户首次使用系统时也需要先初始化
-- **系统架构要求**: 基于数据库的系统必须先创建表结构
-- **功能依赖**: 很多功能依赖于默认量表的存在
+- **Real user scenario**: Users also need to initialize when first using the system
+- **System architecture requirement**: Database-based systems must create table structure first
+- **Function dependency**: Many functions depend on the existence of default scales
 
-### 7. **优化建议**
+### 7. **Optimization Recommendations**
 
-对于频繁测试，可以考虑：
+For frequent testing, consider:
 
 ```bash
-# 一次性初始化
+# One-time initialization
 python src/main.py init
 
-# 然后运行多个测试
+# Then run multiple tests
 python src/main.py scales import-csv test1.csv
 python src/main.py scales import-csv test2.csv
 python src/main.py data import-participants participants.csv
 ```
 
-### 8. **测试结果验证**
+### 8. **Test Result Verification**
 
-init命令成功的标志：
-- ✅ 显示"系统初始化完成！"
-- ✅ 列出创建的默认量表
-- ✅ 无错误信息输出
-- ✅ 退出码为0
+Signs of successful init command:
+- ✅ Display "System initialization complete!"
+- ✅ List created default scales
+- ✅ No error information output
+- ✅ Exit code is 0
 
-这样的设计确保了测试的**真实性**和**可靠性**，模拟了用户的实际使用流程。
+This design ensures the **authenticity** and **reliability** of tests, simulating actual user workflows.

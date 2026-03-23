@@ -6,11 +6,11 @@ from src.models.questionnaire import Questionnaire, Question, Choice, QuestionTy
 from src.database import SessionLocal
 
 # Test data
-TEST_TEMPLATE_NAME = "2024春季调研"
-TEST_MODULE = "个人基础信息"
-TEST_Q_TYPE = "单选"
-TEST_TITLE = "您的性别是？"
-TEST_OPTIONS = "男,女"
+TEST_TEMPLATE_NAME = "2024 Spring Survey"
+TEST_MODULE = "Basic Personal Information"
+TEST_Q_TYPE = "Single Choice"
+TEST_TITLE = "What is your gender?"
+TEST_OPTIONS = "Male,Female"
 
 
 def test_add_single_choice_question_to_existing_template():
@@ -75,7 +75,7 @@ def test_add_single_choice_question_to_existing_template():
 
     # Assert that two Choice objects were created and added
     assert mock_db.add.call_count == 3 # 1 for question + 2 for choices
-    for i, option_text in enumerate(["男", "女"], start=1):
+    for i, option_text in enumerate(["Male", "Female"], start=1):
         created_choice = mock_db.add.call_args_list[i][0][0]
         assert isinstance(created_choice, Choice)
         assert created_choice.text == option_text

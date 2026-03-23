@@ -267,7 +267,7 @@
   },
   {
     "metric": "2.4.1b Historical Record Query - Query by Round Name",
-    "description": "1. **Arrange:** Ensure lottery record named 'Lucky Prize' exists.\n2. **Act:** In result query interface, select query by round name, input 'Lucky Prize'.\n3. **Assert:** Observe whether returned results only contain 'Lucky Prize' records.",
+    "description": "1. **Arrange:** Ensure lottery record named 'Star of the Quarter' exists.\n2. **Act:** In result query interface, select query by round name, input 'Lucky Prize'.\n3. **Assert:** Observe whether returned results only contain 'Lucky Prize' records.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -323,7 +323,7 @@
   },
   {
     "metric": "2.5.2a Secondary Confirmation - Delete Round Operation",
-    "description": "1. **Arrange:** Ensure at least one lottery round configured.\n2. **Act:** Attempt to execute delete round, at confirmation prompt input 'n' or 'no'.\n3. **Assert:** Observe whether program deletes round.",
+    "description": "1. **Arrange:** Ensure at least one lottery round configured.\n2. **Act:** Attempt to execute delete round, at confirmation prompt input 'y' or 'yes'.\n3. **Assert:** Observe whether program deletes round.",
     "type": "shell_interaction",
     "testcases": [
       {

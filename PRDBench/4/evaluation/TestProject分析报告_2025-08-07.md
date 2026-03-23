@@ -1,23 +1,23 @@
-# TestProject - 商业可行性分析报告
-> 报告生成日期: 2025-08-07
+# TestProject - Business Feasibility Analysis Report
+> Report GenerationJapanesePeriod: 2025-08-07
 
-## 核心财务指标
-| 指标 | 数值 |
+## Core Financial Metrics
+| IndicatorMark | NumberValue |
 |:---|:---|
-| 日均单量 | **103** |
-| 客单价 | **35.00 元** |
-| 月均净利润 | **-3,702.78 元** |
-| 净利率 | **-3.42%** |
-| 毛利率 | **65.00%** |
-| 投资回收期 | **无法回收** |
+| JapaneseAverageSingleEdition | **103** |
+| Average Ticket Price | **35.00 CNY** |
+| Monthly Net Profit | **-3,702.78 CNY** |
+| PureLiRate | **-3.42%** |
+| Gross Margin | **65.00%** |
+| Payback Period | **NoMethodReturnReceive** |
 
 
-## 关键决策建议
+## Key Decision Recommendations
 
 
-## 本量利分析
-![本量利分析图](TestProject_break_even_chart.png)
+## BookEditionLiAnalysis
+![Break-even Analysis Chart](TestProject_break_even_chart.png)
 
 
-## 利润敏感性分析
-关键变量提升10%对月净利润的影响：
+## Profit Sensitivity Analysis
+Impact on monthly net profit after a 10% increase in each key variable: 

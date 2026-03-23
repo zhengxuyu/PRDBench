@@ -1,5 +1,5 @@
 """
-测试API推荐结果扩展信息
+Test API recommendation result extended information
 """
 import pytest
 import requests
@@ -10,7 +10,7 @@ import sys
 import os
 from pathlib import Path
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from api.main import app
@@ -20,8 +20,8 @@ import uvicorn
 class TestAPIExtendedInfo:
     @classmethod
     def setup_class(cls):
-        """启动API服务器"""
-        cls.port = 8003  # 使用不同端口避免冲突
+        """Start API server"""
+        cls.port = 8003  # Use different port to avoid conflict
         cls.base_url = f"http://localhost:{cls.port}"
         cls.server_thread = None
         cls._start_server()
@@ -29,174 +29,174 @@ class TestAPIExtendedInfo:
     
     @classmethod
     def _start_server(cls):
-        """在后台线程中启动服务器"""
+        """Start server in background thread"""
         def run_server():
             try:
                 uvicorn.run(app, host="127.0.0.1", port=cls.port, log_level="error")
             except Exception as e:
-                print(f"服务器启动失败: {e}")
+                print(f"Server startup failed: {e}")
         
         cls.server_thread = threading.Thread(target=run_server, daemon=True)
         cls.server_thread.start()
     
     @classmethod
     def _wait_for_server(cls):
-        """等待服务器启动完成"""
+        """Wait for server startup completion"""
         import time
         max_attempts = 30
         for i in range(max_attempts):
             try:
                 response = requests.get(f"{cls.base_url}/health", timeout=1)
                 if response.status_code == 200:
-                    print(f"✓ 服务器在{i+1}秒后成功启动")
+                    print(f"✓ Server started successfully after {i+1} seconds")
                     return
             except:
                 pass
             time.sleep(1)
-        
+
         for i in range(10):
             try:
                 response = requests.get(cls.base_url, timeout=1)
-                print(f"✓ 服务器启动成功 (状态码: {response.status_code})")
+                print(f"✓ Server started successfully (status code: {response.status_code})")
                 return
             except:
                 pass
             time.sleep(1)
-        
-        raise Exception("服务器启动超时")
+
+        raise Exception("Server startup timeout")
     
     @classmethod
     def teardown_class(cls):
-        """清理资源"""
+        """Clean up resources"""
         pass
     
     def test_recommend_extended_response(self):
-        """测试推荐结果扩展信息"""
+        """Test recommendation result extended information"""
         try:
-            # 准备测试数据
+            # Prepare test data
             test_data = {
                 "user_id": 1,
                 "top_n": 5
             }
-            
-            # 发送POST请求到推荐接口
+
+            # Send POST request to recommendation API
             response = requests.post(
                 f"{self.base_url}/api/v1/recommend",
                 json=test_data,
-                timeout=60  # 增加超时时间
+                timeout=60  # Increase timeout
             )
-            
-            # 验证响应状态码
-            assert response.status_code == 200, f"API响应状态码错误: {response.status_code}"
-            
-            # 解析响应
+
+            # Verify response status code
+            assert response.status_code == 200, f"API response status code error: {response.status_code}"
+
+            # Parse response
             result = response.json()
-            
-            # 验证基础响应结构
-            assert "recommendations" in result, "响应中缺少recommendations字段"
-            assert "strategy" in result, "响应中缺少strategy字段"
-            assert "diversity_score" in result, "响应中缺少diversity_score字段"
-            assert "processing_time" in result, "响应中缺少processing_time字段"
-            
+
+            # Verify basic response structure
+            assert "recommendations" in result, "Missing recommendations field in response"
+            assert "strategy" in result, "Missing strategy field in response"
+            assert "diversity_score" in result, "Missing diversity_score field in response"
+            assert "processing_time" in result, "Missing processing_time field in response"
+
             recommendations = result["recommendations"]
-            assert len(recommendations) > 0, "推荐结果不能为空"
-            
-            # 验证推荐结果的扩展信息
+            assert len(recommendations) > 0, "Recommendation result cannot be empty"
+
+            # Verify extended information in recommendation results
             extended_fields_found = set()
-            
+
             for i, item in enumerate(recommendations):
-                # 验证必需的基础字段
-                assert "item_id" in item, f"第{i+1}个推荐商品缺少item_id字段"
-                assert "score" in item, f"第{i+1}个推荐商品缺少score字段"
-                assert "title" in item, f"第{i+1}个推荐商品缺少title字段"
-                
-                # 收集扩展信息字段
+                # Verify required basic fields
+                assert "item_id" in item, f"Recommended item #{i+1} missing item_id field"
+                assert "score" in item, f"Recommended item #{i+1} missing score field"
+                assert "title" in item, f"Recommended item #{i+1} missing title field"
+
+                # Collect extended information fields
                 if "reason" in item and item["reason"]:
-                    extended_fields_found.add("推荐原因")
-                
+                    extended_fields_found.add("recommendation_reason")
+
                 if "category" in item and item["category"]:
-                    extended_fields_found.add("商品类别")
-                
+                    extended_fields_found.add("item_category")
+
                 if "price" in item and item["price"] is not None:
-                    extended_fields_found.add("商品价格")
-                
+                    extended_fields_found.add("item_price")
+
                 if "brand" in item and item["brand"]:
-                    extended_fields_found.add("商品品牌")
-                
+                    extended_fields_found.add("item_brand")
+
                 if "description" in item and item["description"]:
-                    extended_fields_found.add("商品描述")
-            
-            # 检查推荐算法来源（在根级别）
+                    extended_fields_found.add("item_description")
+
+            # Check recommendation algorithm source (at root level)
             if "strategy" in result and result["strategy"]:
-                extended_fields_found.add("推荐算法来源")
-            
-            # 检查多样性分数（多样性标签）
+                extended_fields_found.add("recommendation_algorithm_source")
+
+            # Check diversity score (diversity label)
             if "diversity_score" in result:
                 if isinstance(result["diversity_score"], (int, float)):
-                    extended_fields_found.add("多样性分数")
+                    extended_fields_found.add("diversity_score")
                 elif isinstance(result["diversity_score"], dict):
-                    extended_fields_found.add("多样性分数")
-            
-            # 验证至少包含3种扩展信息
-            assert len(extended_fields_found) >= 3, f"扩展信息不足，只找到{len(extended_fields_found)}种: {extended_fields_found}"
-            
-            # 验证具体的扩展信息内容
+                    extended_fields_found.add("diversity_score")
+
+            # Verify at least 3 types of extended information
+            assert len(extended_fields_found) >= 3, f"Insufficient extended information, only found {len(extended_fields_found)} types: {extended_fields_found}"
+
+            # Verify specific extended information content
             sample_item = recommendations[0]
-            
-            # 验证推荐原因
+
+            # Verify recommendation reason
             if "reason" in sample_item:
-                assert isinstance(sample_item["reason"], str), "推荐原因应为字符串类型"
-                assert len(sample_item["reason"]) > 0, "推荐原因不能为空"
-            
-            # 验证商品类别
+                assert isinstance(sample_item["reason"], str), "Recommendation reason should be string type"
+                assert len(sample_item["reason"]) > 0, "Recommendation reason cannot be empty"
+
+            # Verify item category
             if "category" in sample_item:
-                assert isinstance(sample_item["category"], str), "商品类别应为字符串类型"
-                assert len(sample_item["category"]) > 0, "商品类别不能为空"
-            
-            # 验证价格信息
+                assert isinstance(sample_item["category"], str), "Item category should be string type"
+                assert len(sample_item["category"]) > 0, "Item category cannot be empty"
+
+            # Verify price information
             if "price" in sample_item and sample_item["price"] is not None:
-                assert isinstance(sample_item["price"], (int, float)), "商品价格应为数值类型"
-                assert sample_item["price"] >= 0, "商品价格不能为负数"
-            
-            # 验证多样性分数
+                assert isinstance(sample_item["price"], (int, float)), "Item price should be numeric type"
+                assert sample_item["price"] >= 0, "Item price cannot be negative"
+
+            # Verify diversity score
             diversity_score = result["diversity_score"]
             if isinstance(diversity_score, (int, float)):
-                assert 0 <= diversity_score <= 1, f"多样性分数应在0-1之间: {diversity_score}"
+                assert 0 <= diversity_score <= 1, f"Diversity score should be between 0-1: {diversity_score}"
             elif isinstance(diversity_score, dict):
-                # 如果是字典，验证字典中的值
+                # If dictionary, verify values in dictionary
                 for key, value in diversity_score.items():
-                    assert isinstance(value, (int, float)), f"多样性分数{key}应为数值类型"
-                    assert 0 <= value <= 1, f"多样性分数{key}应在0-1之间: {value}"
+                    assert isinstance(value, (int, float)), f"Diversity score {key} should be numeric type"
+                    assert 0 <= value <= 1, f"Diversity score {key} should be between 0-1: {value}"
             else:
-                assert False, f"多样性分数格式不正确: {type(diversity_score)}"
-            
-            # 验证处理时间
-            assert isinstance(result["processing_time"], (int, float)), "处理时间应为数值类型"
-            assert result["processing_time"] > 0, "处理时间应大于0"
-            
-            print("✓ API推荐结果扩展信息测试通过")
-            print(f"✓ 找到的扩展信息类型: {extended_fields_found}")
-            
-            # 格式化多样性分数显示
+                assert False, f"Diversity score format incorrect: {type(diversity_score)}"
+
+            # Verify processing time
+            assert isinstance(result["processing_time"], (int, float)), "Processing time should be numeric type"
+            assert result["processing_time"] > 0, "Processing time should be greater than 0"
+
+            print("✓ API recommendation result extended information test passed")
+            print(f"✓ Found extended information types: {extended_fields_found}")
+
+            # Format diversity score display
             diversity_score = result['diversity_score']
             if isinstance(diversity_score, (int, float)):
-                print(f"✓ 多样性分数: {diversity_score:.3f}")
+                print(f"✓ Diversity score: {diversity_score:.3f}")
             elif isinstance(diversity_score, dict):
                 formatted_scores = {k: f"{v:.3f}" for k, v in diversity_score.items()}
-                print(f"✓ 多样性分数: {formatted_scores}")
-            
-            print(f"✓ 处理时间: {result['processing_time']:.3f}秒")
-            print(f"✓ 推荐策略: {result.get('strategy', 'N/A')}")
-            
+                print(f"✓ Diversity score: {formatted_scores}")
+
+            print(f"✓ Processing time: {result['processing_time']:.3f} seconds")
+            print(f"✓ Recommendation strategy: {result.get('strategy', 'N/A')}")
+
         except requests.exceptions.RequestException as e:
-            pytest.fail(f"API请求失败: {e}")
+            pytest.fail(f"API request failed: {e}")
         except Exception as e:
-            pytest.fail(f"测试执行失败: {e}")
+            pytest.fail(f"Test execution failed: {e}")
     
     def test_recommend_with_different_strategies(self):
-        """测试不同推荐策略返回的扩展信息"""
+        """Test extended information returned by different recommendation strategies"""
         strategies = ["hybrid_weighted", "content_based", "user_cf"]
-        
+
         for strategy in strategies:
             try:
                 test_data = {
@@ -204,31 +204,31 @@ class TestAPIExtendedInfo:
                     "top_n": 3,
                     "strategy": strategy
                 }
-                
+
                 response = requests.post(
                     f"{self.base_url}/api/v1/recommend",
                     json=test_data,
                     timeout=10
                 )
-                
+
                 if response.status_code == 200:
                     result = response.json()
-                    
-                    # 验证策略信息被正确返回
-                    assert "strategy" in result, f"策略{strategy}的响应中缺少strategy字段"
-                    
-                    # 验证推荐结果包含扩展信息
+
+                    # Verify strategy information is correctly returned
+                    assert "strategy" in result, f"Strategy {strategy} response missing strategy field"
+
+                    # Verify recommendation results contain extended information
                     if result.get("recommendations"):
                         sample_item = result["recommendations"][0]
-                        
-                        # 验证至少有推荐原因
-                        assert "reason" in sample_item, f"策略{strategy}的推荐结果缺少推荐原因"
-                        
-                        print(f"✓ 策略 {strategy} 测试通过")
-                
+
+                        # Verify at least has recommendation reason
+                        assert "reason" in sample_item, f"Strategy {strategy} recommendation result missing recommendation reason"
+
+                        print(f"✓ Strategy {strategy} test passed")
+
             except Exception as e:
-                print(f"⚠ 策略 {strategy} 测试失败: {e}")
-                # 不让单个策略失败影响整体测试
+                print(f"⚠ Strategy {strategy} test failed: {e}")
+                # Don't let single strategy failure affect overall test
                 continue
 
 

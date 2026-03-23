@@ -1,7 +1,7 @@
 [
     {
-      "metric": "0.1.1 环境与文档：提供清晰的说明文档（README.md）",
-      "description": "1. **断言**：检查项目根目录下是否存在 `README.md` 文件.\n2. **断言**：若文件存在，读取其内容，验证是否包含至少三个明确的部分：项目介绍、环境配置说明（如何安装依赖）、程序启动指令。",
+      "metric": "0.1.1 Environment and Documentation: Provide clear documentation (README.md)",
+      "description": "1. **Assert**: Check if `README.md` file exists in the project root directory.\n2. **Assert**: If the file exists, read its content and verify it contains at least three clear sections: project introduction, environment setup instructions (how to install dependencies), program launch instructions.",
       "type": "file_comparison",
       "testcases": [
         {
@@ -11,11 +11,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "README.md文件存在，读取其内容，验证是否包含至少三个明确的部分：项目介绍、环境配置说明（如何安装依赖）、程序启动指令。"
+      "expected_output": "README.md file exists, read its content, verify it contains at least three clear sections: project introduction, environment setup instructions (how to install dependencies), program launch instructions."
     },
     {
-      "metric": "0.2.1 程序可运行性：程序能够成功启动并显示主菜单",
-      "description": "1. **执行**：根据 `README.md` 中的启动指令（例如 `python main.py`）执行程序.\n2. **断言**：观察程序输出，验证是否成功启动并展示了一个包含多个选项、可交互的主菜单界面。",
+      "metric": "0.2.1 Program Runnability: Program can successfully start and display main menu",
+      "description": "1. **Execute**: Execute the program according to the launch instructions in `README.md` (e.g., `python main.py`).\n2. **Assert**: Observe program output, verify it successfully starts and displays an interactive main menu with multiple options.",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -25,11 +25,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序成功启动并显示包含'创建/编辑需求模板'、'基于模板生成产品PRD'和'退出工具'选项的清晰主菜单"
+      "expected_output": "Program successfully starts and displays a clear main menu with options including 'Create/Edit Requirement Template', 'Generate Product PRD Based on Template', and 'Exit Tool'"
     },
     {
-      "metric": "2.1.1 模板创建 - 基础信息输入",
-      "description": "1. **前置校验 (用户路径):** 在主菜单中选择'1. 创建/编辑需求模板'选项，是否能进入模板创建流程？\n2. **准备 (Arrange):** 准备产品名称\"测试产品\"和目标用户\"年轻用户\"。\n3. **执行 (Act):** 在模板创建流程中，依次输入产品名称和目标用户。\n4. **断言 (Assert):** 程序是否正确接收并保存这些信息？",
+      "metric": "2.1.1 Template Creation - Basic Information Input",
+      "description": "1. **Pre-check (User Path):** Select '1. Create/Edit Requirement Template' option in main menu, can it enter template creation process?\n2. **Arrange:** Prepare product name \"Test Product\" and target users \"Young Users\".\n3. **Act:** In template creation process, enter product name and target users in sequence.\n4. **Assert:** Does the program correctly receive and save this information?",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -39,11 +39,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确接收并保存产品名称和目标用户信息"
+      "expected_output": "Program can correctly receive and save product name and target user information"
     },
     {
-      "metric": "2.1.2 模板创建 - 风格关键词输入",
-      "description": "1. **前置校验 (用户路径):** 在模板创建流程中，是否存在输入风格关键词的步骤？\n2. **准备 (Arrange):** 准备风格关键词\"极简主义, 现代\"。\n3. **执行 (Act):** 按提示输入风格关键词。\n4. **断言 (Assert):** 程序是否正确解析并保存了这些关键词？",
+      "metric": "2.1.2 Template Creation - Style Keyword Input",
+      "description": "1. **Pre-check (User Path):** In template creation process, is there a step to input style keywords?\n2. **Arrange:** Prepare style keywords \"Minimalism, Modern\".\n3. **Act:** Input style keywords as prompted.\n4. **Assert:** Does the program correctly parse and save these keywords?",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -53,11 +53,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确解析并保存多个风格关键词"
+      "expected_output": "Program can correctly parse and save multiple style keywords"
     },
     {
-      "metric": "2.1.3 模板创建 - 色彩情感倾向选择",
-      "description": "1. **前置校验 (用户路径):** 在模板创建流程中，是否存在选择色彩情感倾向的步骤？\n2. **准备 (Arrange):** 准备选择\"冷色调-专业感\"（对应选项1）。\n3. **执行 (Act):** 按提示选择色彩情感倾向。\n4. **断言 (Assert):** 程序是否正确保存了选择的色彩情感倾向？",
+      "metric": "2.1.3 Template Creation - Color Emotion Preference Selection",
+      "description": "1. **Pre-check (User Path):** In template creation process, is there a step to select color emotion preference?\n2. **Arrange:** Prepare selection \"Cool Tone - Professional\" (corresponds to option 1).\n3. **Act:** Select color emotion preference as prompted.\n4. **Assert:** Does the program correctly save the selected color emotion preference?",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -67,11 +67,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确保存色彩情感倾向选择"
+      "expected_output": "Program can correctly save color emotion preference selection"
     },
     {
-      "metric": "2.1.4 模板保存 - 命名与覆盖确认",
-      "description": "1. **前置校验 (用户路径):** 在模板创建完成后，是否存在保存模板的步骤？\n2. **准备 (Arrange):** 准备模板名称\"test_template\"。\n3. **执行 (Act):** 输入模板名称，并在模板已存在时选择是否覆盖。\n4. **断言 (Assert):** 程序是否正确保存模板并在文件系统中创建相应文件？",
+      "metric": "2.1.4 Template Save - Naming and Overwrite Confirmation",
+      "description": "1. **Pre-check (User Path):** After template creation, is there a step to save the template?\n2. **Arrange:** Prepare template name \"test_template\".\n3. **Act:** Input template name, and choose whether to overwrite if template already exists.\n4. **Assert:** Does the program correctly save the template and create corresponding files in the file system?",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -81,11 +81,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确保存模板并在指定路径创建文件"
+      "expected_output": "Program can correctly save template and create file at specified path"
     },
     {
-      "metric": "2.1.5 模板验证 - 必填字段检查",
-      "description": "1. **准备 (Arrange):** 创建一个缺少必填字段的模板（如不输入产品名称）。\n2. **执行 (Act):** 尝试保存该模板。\n3. **断言 (Assert):** 程序是否拒绝保存并提示相应字段不能为空？",
+      "metric": "2.1.5 Template Validation - Required Field Check",
+      "description": "1. **Arrange:** Create a template missing required fields (e.g., not entering product name).\n2. **Act:** Try to save this template.\n3. **Assert:** Does the program refuse to save and prompt that the corresponding field cannot be empty?",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -95,15 +95,15 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确识别所有必填字段的缺失并给出明确提示"
+      "expected_output": "Program can correctly identify missing required fields and provide clear prompts"
     },
     {
-      "metric": "2.1.6 模板文件格式验证",
-      "description": "1. **准备 (Arrange):** 创建并保存一个模板。\n2. **执行 (Act):** 使用文本编辑器打开保存的模板文件。\n3. **断言 (Assert):** 验证文件是否为有效的JSON格式且包含所有输入的字段信息。",
+      "metric": "2.1.6 Template File Format Validation",
+      "description": "1. **Arrange:** Create and save a template.\n2. **Act:** Open the saved template file with a text editor.\n3. **Assert:** Verify the file is in valid JSON format and contains all input field information.",
       "type": "file_comparison",
       "testcases": [
         {
-          "test_command": "python src/main.py\n1\n测试产品\n年轻用户\n极简主义, 现代\n1\ntest_template_json\ny",
+          "test_command": "python src/main.py\n1\nTest Product\nYoung Users\nMinimalism, Modern\n1\ntest_template_json\ny",
           "test_input": null
         }
       ],
@@ -111,11 +111,11 @@
       "expected_output_files": [
         "evaluation/expected_template.json"
       ],
-      "expected_output": "模板文件是有效的JSON格式，包含所有输入信息"
+      "expected_output": "Template file is in valid JSON format, contains all input information"
     },
     {
-      "metric": "2.2.1 图片路径验证",
-      "description": "1. **前置校验 (用户路径):** 在生成PRD流程中，是否存在输入图片路径的步骤？\n2. **准备 (Arrange):** 准备一个不存在的图片路径。\n3. **执行 (Act):** 输入这个路径。\n4. **断言 (Assert):** 程序是否能正确识别并拒绝无效路径？",
+      "metric": "2.2.1 Image Path Validation",
+      "description": "1. **Pre-check (User Path):** In PRD generation process, is there a step to input image path?\n2. **Arrange:** Prepare a non-existent image path.\n3. **Act:** Input this path.\n4. **Assert:** Can the program correctly identify and reject invalid paths?",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -125,11 +125,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确识别有效路径并拒绝无效路径"
+      "expected_output": "Program can correctly identify valid paths and reject invalid paths"
     },
     {
-      "metric": "2.2.2 图片格式验证",
-      "description": "1. **前置校验 (用户路径):** 在生成PRD流程中，程序是否会验证图片格式？\n2. **准备 (Arrange):** 准备一个TXT文件。\n3. **执行 (Act):** 尝试用这个文件生成PRD。\n4. **断言 (Assert):** 程序是否拒绝TXT文件？",
+      "metric": "2.2.2 Image Format Validation",
+      "description": "1. **Pre-check (User Path):** In PRD generation process, does the program validate image format?\n2. **Arrange:** Prepare a TXT file.\n3. **Act:** Try to use this file to generate PRD.\n4. **Assert:** Does the program reject the TXT file?",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -141,11 +141,11 @@
         "evaluation/Test.txt"
       ],
       "expected_output_files": null,
-      "expected_output": "程序能正确验证图片格式并拒绝不符合要求的文件"
+      "expected_output": "Program can correctly validate image format and reject files that don't meet requirements"
     },
     {
-      "metric": "2.2.3 图片预处理 - 元数据清理",
-      "description": "1. **准备 (Arrange):** 准备一张带有EXIF信息的图片。\n2. **执行 (Act):** 使用该图片生成PRD。\n3. **断言 (Assert):** 检查处理后的图片是否已清除EXIF信息。",
+      "metric": "2.2.3 Image Preprocessing - Metadata Cleaning",
+      "description": "1. **Arrange:** Prepare an image with EXIF information.\n2. **Act:** Use this image to generate PRD.\n3. **Assert:** Check if the processed image has EXIF information removed.",
       "type": "unit_test",
       "testcases": [
         {
@@ -157,11 +157,11 @@
         "evaluation/EXIF.jpg"
       ],
       "expected_output_files": null,
-      "expected_output": "程序能通过此项单元测试"
+      "expected_output": "Program can pass this unit test"
     },
     {
-      "metric": "2.3.1 主色调提取准确性",
-      "description": "1. **准备 (Arrange):** 准备多张不同颜色但主色调明显的图片。\n2. **执行 (Act):** 使用这些图片生成PRD。\n3. **断言 (Assert):** 检查PRD文档中的主色调信息是否准确反映了图片的主要颜色。",
+      "metric": "2.3.1 Dominant Color Extraction Accuracy",
+      "description": "1. **Arrange:** Prepare multiple images with different colors but obvious dominant colors.\n2. **Act:** Use these images to generate PRD.\n3. **Assert:** Check if the dominant color information in the PRD document accurately reflects the main colors of the images.",
       "type": "unit_test",
       "testcases": [
         {
@@ -175,11 +175,11 @@
         "evaluation/Yellow.jpg"
       ],
       "expected_output_files": null,
-      "expected_output": "程序能通过此项单元测试"
+      "expected_output": "Program can pass this unit test"
     },
     {
-      "metric": "2.3.2 纹理特征识别准确性",
-      "description": "1. **准备 (Arrange):** 准备两张纹理差异明显的图片（一张光滑，一张粗糙）。\n2. **执行 (Act):** 分别使用这两张图片生成PRD。\n3. **断言 (Assert):** 检查PRD文档中的纹理特征标签是否与图片实际纹理相符。",
+      "metric": "2.3.2 Texture Feature Recognition Accuracy",
+      "description": "1. **Arrange:** Prepare two images with obvious texture differences (one smooth, one rough).\n2. **Act:** Use these two images to generate PRD separately.\n3. **Assert:** Check if the texture feature labels in the PRD documents match the actual textures of the images.",
       "type": "unit_test",
       "testcases": [
         {
@@ -192,11 +192,11 @@
         "evaluation/Rough.jpg"
       ],
       "expected_output_files": null,
-      "expected_output": "程序能通过此项单元测试"
+      "expected_output": "Program can pass this unit test"
     },
     {
-      "metric": "2.3.3 风格描述生成",
-      "description": "1. **前置校验 (用户路径):** 在生成PRD流程中，是否存在输入API密钥的步骤？\n2. **准备 (Arrange):** 准备一个有效的OpenAI API密钥（或使用'skip'跳过）。\n3. **执行 (Act):** 输入API密钥（或'skip'）并完成PRD生成。\n4. **断言 (Assert):** 检查PRD文档中是否包含风格描述（或跳过说明）。",
+      "metric": "2.3.3 Style Description Generation",
+      "description": "1. **Pre-check (User Path):** In PRD generation process, is there a step to input API key?\n2. **Arrange:** Prepare a valid OpenAI API key (or use 'skip' to skip).\n3. **Act:** Input API key (or 'skip') and complete PRD generation.\n4. **Assert:** Check if the PRD document contains style description (or skip explanation).",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -208,11 +208,11 @@
         "evaluation/Test.jpeg"
       ],
       "expected_output_files": null,
-      "expected_output": "程序能成功调用API生成风格描述或正确处理跳过操作"
+      "expected_output": "Program can successfully call API to generate style description or correctly handle skip operation"
     },
     {
-      "metric": "2.4.1 PRD文档结构完整性",
-      "description": "1. **准备 (Arrange):** 生成一个PRD文档。\n2. **执行 (Act):** 使用文本编辑器打开生成的文档。\n3. **断言 (Assert):** 验证文档是否包含以下部分：产品概述、图片资源规范、核心特征描述、开发排期建议。",
+      "metric": "2.4.1 PRD Document Structure Completeness",
+      "description": "1. **Arrange:** Generate a PRD document.\n2. **Act:** Open the generated document with a text editor.\n3. **Assert:** Verify the document contains the following sections: product overview, image resource specifications, core feature descriptions, development schedule recommendations.",
       "type": "file_comparison",
       "testcases": [
         {
@@ -226,11 +226,11 @@
       "expected_output_files": [
         "evaluation/expected_prd.md"
       ],
-      "expected_output": "文档结构完整，包含以下部分：产品概述、图片资源规范、核心特征描述、开发排期建议。"
+      "expected_output": "Document structure is complete, contains the following sections: product overview, image resource specifications, core feature descriptions, development schedule recommendations."
     },
     {
-      "metric": "2.4.2 文档输出路径与提示",
-      "description": "1. **前置校验 (用户路径):** 在生成PRD流程中，是否存在指定文档名称的步骤？\n2. **准备 (Arrange):** 准备文档名称\"test_prd\"。\n3. **执行 (Act):** 输入文档名称并完成PRD生成。\n4. **断言 (Assert):** 检查文档是否保存在src/output目录下，并验证程序是否显示'文档生成完成'的提示。",
+      "metric": "2.4.2 Document Output Path and Prompt",
+      "description": "1. **Pre-check (User Path):** In PRD generation process, is there a step to specify document name?\n2. **Arrange:** Prepare document name \"test_prd\".\n3. **Act:** Input document name and complete PRD generation.\n4. **Assert:** Check if the document is saved in src/output directory, and verify if the program displays 'Document generation completed' prompt.",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -242,11 +242,11 @@
         "evaluation/Test.jpeg"
       ],
       "expected_output_files": null,
-      "expected_output": "文档保存在正确路径且有生成完成提示"
+      "expected_output": "Document saved to correct path with generation completion prompt"
     },
     {
-      "metric": "2.5.1a 用户输入合法性校验 - 菜单选择非法输入",
-      "description": "1. **准备 (Arrange):** 准备负数作为菜单选项。\n2. **执行 (Act):** 在主菜单中输入负数。\n3. **断言 (Assert):** 观察程序是否能正确识别并拒绝非法数值输入。",
+      "metric": "2.5.1a User Input Validation - Menu Selection Invalid Input",
+      "description": "1. **Arrange:** Prepare negative number as menu option.\n2. **Act:** Input negative number in main menu.\n3. **Assert:** Observe if program can correctly identify and reject invalid numeric input.",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -256,11 +256,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确识别并拒绝非法菜单选项输入"
+      "expected_output": "Program can correctly identify and reject invalid menu option input"
     },
     {
-      "metric": "2.5.1b 用户输入合法性校验 - API密钥格式验证",
-      "description": "1. **准备 (Arrange):** 准备格式不正确的API密钥（如包含特殊字符或长度不足）。\n2. **执行 (Act):** 在生成PRD流程中输入非法格式的API密钥。\n3. **断言 (Assert):** 观察程序是否能正确识别并拒绝非法格式的API密钥输入。",
+      "metric": "2.5.1b User Input Validation - API Key Format Validation",
+      "description": "1. **Arrange:** Prepare API key with incorrect format (e.g., contains special characters or insufficient length).\n2. **Act:** Input API key with invalid format in PRD generation process.\n3. **Assert:** Observe if program can correctly identify and reject API key input with invalid format.",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -270,11 +270,11 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "程序能正确识别并拒绝格式不正确的API密钥输入"
+      "expected_output": "Program can correctly identify and reject API key input with incorrect format"
     },
     {
-      "metric": "2.5.2 错误处理与用户提示",
-      "description": "1. **准备 (Arrange):** 准备一些会导致错误的输入（如不存在的模板名称）。\n2. **执行 (Act):** 在相应环节输入这些内容。\n3. **断言 (Assert):** 观察程序是否显示中文错误提示并允许用户重新输入。",
+      "metric": "2.5.2 Error Handling and User Prompts",
+      "description": "1. **Arrange:** Prepare some inputs that will cause errors (e.g., non-existent template name).\n2. **Act:** Input these contents in the corresponding steps.\n3. **Assert:** Observe if the program displays error prompts and allows users to re-enter.",
       "type": "shell_interaction",
       "testcases": [
         {
@@ -284,6 +284,6 @@
       ],
       "input_files": null,
       "expected_output_files": null,
-      "expected_output": "所有错误都有中文提示且支持重新输入"
+      "expected_output": "All errors have prompts and support re-entry"
     }
   ]

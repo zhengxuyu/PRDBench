@@ -1,11 +1,11 @@
 """
-分类搜索功能测试
+Category Search Functional Test
 """
 import sys
 import os
 import pytest
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../src'))
 
 from locallens.core.config import Config
@@ -14,35 +14,36 @@ from locallens.search.engine import SearchEngine
 
 @pytest.fixture(scope="module")
 def search_engine():
-    """初始化并返回一个SearchEngine实例"""
+    """Initialize and return a search engine instance"""
     config = Config()
     db_manager = DatabaseManager(config.database_path)
     engine = SearchEngine(config, db_manager)
-    # 确保加载了商家数据
+    # Make sure to load business data
     engine._get_businesses()
     return engine
 
 def test_category_search_strictness(search_engine):
-    """
-    测试按子分类搜索时，结果是否严格匹配。
-    """
-    # 执行分类搜索
+    “””
+    Test that when searching by subcategory, results strictly match.
+    “””
+    # Execute category search
     results = search_engine.search_by_category(
-        category="Restaurants",
-        subcategory="Chinese",
+        category=”Restaurants”,
+        subcategory=”Chinese”,
         limit=20
     )
 
-    # 断言结果不为空
-    assert results is not None, "搜索结果不应为None"
-    assert 'businesses' in results, "搜索结果应包含 'businesses' 键"
-    
-    businesses = results['businesses']
-    
-    # 断言返回了商家
-    assert len(businesses) > 0, "应至少返回一个商家"
+    # Assert result is not empty
+    assert results is not None, “Search result should not be None”
+    assert 'businesses' in results, “Search result should contain 'businesses' key”
 
-    # 改进后的断言：检查每个返回的商家是否都包含“Chinese”分类
+    businesses = results['businesses']
+
+    # Assert returned businesses exist
+    assert len(businesses) > 0, “Should return at least one business”
+
+    # Important assertion: check that each returned business contains the “Chinese” category
     for business in businesses:
         categories = business.get('categories', '')
-        assert 'chinese' in categories.lower(),             f"商家 '{business.get('name')}' (ID: {business.get('business_id')}) 的分类 '{categories}' 中不包含 'chinese'"
+        assert 'chinese' in categories.lower(), \
+            f”Business '{business.get('name')}' (ID: {business.get('business_id')}) with categories '{categories}' does not contain 'chinese'”

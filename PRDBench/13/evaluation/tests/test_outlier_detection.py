@@ -4,143 +4,143 @@ import numpy as np
 import sys
 import os
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
-# 添加项目根目录到Python路径
+# Add project root directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-# 创建简化的配置以避免导入错误
+# Create simplified configuration to avoid import errors
 RECOMMENDATION_CONFIG = {
     'similarity_threshold': 0.1,
     'min_interactions': 5
 }
 
-# 简化的数据预处理器，避免复杂依赖
+# Simplified data preprocessor to avoid complex dependencies
 class DataPreprocessor:
-    """简化的数据预处理器用于测试"""
-    
+    """Simplified data preprocessor for testing"""
+
     def __init__(self):
         pass
-        
+
     def _detect_outliers(self, df):
-        """异常值检测"""
+        """Outlier detection"""
         numeric_columns = df.select_dtypes(include=[np.number]).columns
-        
+
         for col in numeric_columns:
-            if col in ['user_id']:  # 跳过ID列
+            if col in ['user_id']:  # Skip ID columns
                 continue
-                
+
             Q1 = df[col].quantile(0.25)
             Q3 = df[col].quantile(0.75)
             IQR = Q3 - Q1
-            
-            # 定义异常值范围
+
+            # Define outlier range
             lower_bound = Q1 - 1.5 * IQR
             upper_bound = Q3 + 1.5 * IQR
-            
-            # 用边界值替换异常值
+
+            # Replace outliers with boundary values
             df.loc[df[col] < lower_bound, col] = lower_bound
             df.loc[df[col] > upper_bound, col] = upper_bound
-        
+
         return df
 
 
 class TestOutlierDetection:
-    """异常值检测单元测试"""
-    
+    """Outlier detection unit tests"""
+
     def setup_method(self):
-        """测试前准备"""
+        """Test setup"""
         self.preprocessor = DataPreprocessor()
         
     def create_test_data_with_outliers(self):
-        """创建包含异常值的测试数据"""
-        # 创建正常数据
+        """Create test data with outliers"""
+        # Create normal data
         np.random.seed(42)
         normal_data = {
             'user_id': range(1, 101),
-            'age': np.random.normal(30, 10, 100),  # 正常年龄分布
-            'price': np.random.normal(100, 30, 100),  # 正常价格分布
-            'rating': np.random.normal(4.0, 0.5, 100),  # 正常评分分布
-            'category': ['电子产品', '服装', '食品', '图书', '家居'] * 20
+            'age': np.random.normal(30, 10, 100),  # Normal age distribution
+            'price': np.random.normal(100, 30, 100),  # Normal price distribution
+            'rating': np.random.normal(4.0, 0.5, 100),  # Normal rating distribution
+            'category': ['electronics', 'clothing', 'food', 'books', 'home'] * 20
         }
-        
+
         df = pd.DataFrame(normal_data)
-        
-        # 插入异常值
-        df.loc[0, 'age'] = -5  # 负年龄
-        df.loc[1, 'age'] = 250  # 超大年龄
-        df.loc[2, 'price'] = -100  # 负价格
-        df.loc[3, 'price'] = 10000  # 超高价格
-        df.loc[4, 'rating'] = 10  # 超高评分
-        df.loc[5, 'rating'] = -2  # 负评分
-        
+
+        # Insert outliers
+        df.loc[0, 'age'] = -5  # Negative age
+        df.loc[1, 'age'] = 250  # Very high age
+        df.loc[2, 'price'] = -100  # Negative price
+        df.loc[3, 'price'] = 10000  # Very high price
+        df.loc[4, 'rating'] = 10  # Very high rating
+        df.loc[5, 'rating'] = -2  # Negative rating
+
         return df
     
     def test_outlier_detection(self):
-        """测试异常值检测功能"""
-        # 准备测试数据
+        """Test outlier detection function"""
+        # Prepare test data
         df = self.create_test_data_with_outliers()
-        
-        # 记录原始异常值数量
+
+        # Record original outlier count
         original_outliers = self.count_outliers_iqr(df)
-        
-        # 执行异常值检测和处理
+
+        # Execute outlier detection and processing
         cleaned_df = self.preprocessor._detect_outliers(df.copy())
-        
-        # 验证异常值被处理
+
+        # Verify outliers are handled
         processed_outliers = self.count_outliers_iqr(cleaned_df)
-        
-        # 断言：处理后的异常值数量应该减少
-        assert processed_outliers['total'] < original_outliers['total'], "异常值检测应该减少异常值数量"
-        
-        # 验证数据的合理性
-        assert cleaned_df['age'].min() >= 0, "年龄不应该为负值"
-        assert cleaned_df['price'].min() >= 0, "价格不应该为负值"
-        assert cleaned_df['rating'].max() <= 5.5, "评分不应该过高"
-        assert cleaned_df['rating'].min() >= 0, "评分不应该为负值"
-        
-        # 验证数据完整性
-        assert len(cleaned_df) == len(df), "异常值处理不应该删除数据行"
-        
+
+        # Assertion: outlier count should decrease after processing
+        assert processed_outliers['total'] < original_outliers['total'], "Outlier detection should reduce outlier count"
+
+        # Verify data reasonableness
+        assert cleaned_df['age'].min() >= 0, "Age should not be negative"
+        assert cleaned_df['price'].min() >= 0, "Price should not be negative"
+        assert cleaned_df['rating'].max() <= 5.5, "Rating should not be too high"
+        assert cleaned_df['rating'].min() >= 0, "Rating should not be negative"
+
+        # Verify data integrity
+        assert len(cleaned_df) == len(df), "Outlier handling should not delete data rows"
+
     def count_outliers_iqr(self, df):
-        """使用IQR方法统计异常值"""
+        """Count outliers using IQR method"""
         numeric_columns = df.select_dtypes(include=[np.number]).columns
         outlier_count = {'total': 0}
-        
+
         for col in numeric_columns:
-            if col in ['user_id']:  # 跳过ID列
+            if col in ['user_id']:  # Skip ID columns
                 continue
-                
+
             Q1 = df[col].quantile(0.25)
             Q3 = df[col].quantile(0.75)
             IQR = Q3 - Q1
-            
+
             lower_bound = Q1 - 1.5 * IQR
             upper_bound = Q3 + 1.5 * IQR
-            
+
             outliers = df[(df[col] < lower_bound) | (df[col] > upper_bound)]
             outlier_count[col] = len(outliers)
             outlier_count['total'] += len(outliers)
-            
+
         return outlier_count
     
     def test_outlier_detection_edge_cases(self):
-        """测试边界情况"""
-        # 测试空数据框
+        """Test edge cases"""
+        # Test empty dataframe
         empty_df = pd.DataFrame()
         result = self.preprocessor._detect_outliers(empty_df)
-        assert len(result) == 0, "空数据框应该返回空结果"
-        
-        # 测试只有ID列的数据
+        assert len(result) == 0, "Empty dataframe should return empty result"
+
+        # Test data with only ID columns
         id_only_df = pd.DataFrame({'user_id': [1, 2, 3]})
         result = self.preprocessor._detect_outliers(id_only_df)
-        assert result.equals(id_only_df), "只有ID列的数据不应该被修改"
-        
-        # 测试所有值相同的列
+        assert result.equals(id_only_df), "Data with only ID columns should not be modified"
+
+        # Test column with all same values
         same_values_df = pd.DataFrame({
             'user_id': [1, 2, 3],
             'constant_col': [100, 100, 100]
         })
         result = self.preprocessor._detect_outliers(same_values_df)
-        assert result['constant_col'].equals(same_values_df['constant_col']), "常数列不应该被修改"
+        assert result['constant_col'].equals(same_values_df['constant_col']), "Constant column should not be modified"

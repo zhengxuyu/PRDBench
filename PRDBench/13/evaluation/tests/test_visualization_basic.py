@@ -1,5 +1,5 @@
 """
-测试基础图表可视化功能
+Test basic chart visualization functions
 """
 import pytest
 import matplotlib.pyplot as plt
@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 try:
@@ -21,29 +21,29 @@ except ImportError:
 
 
 class TestVisualizationBasic:
-    """基础可视化功能测试"""
+    """Basic visualization function tests"""
     
     def setup_method(self):
-        """测试前准备"""
+        """Pre-test setup"""
         self.metrics = EvaluationMetrics()
         self.test_data = self._create_test_data()
         
-        # 设置matplotlib为非交互模式
+        # Set matplotlib to non-interactive mode
         plt.ioff()
         plt.switch_backend('Agg')
     
     def _create_test_data(self):
-        """创建测试数据"""
-        # 模拟评估结果数据
+        """Create test data"""
+        # Simulate evaluation result data
         algorithms = ['Content-Based', 'User-CF', 'Item-CF', 'Hybrid']
         metrics = ['Precision@5', 'Recall@5', 'F1@5', 'NDCG@5']
         
-        # 生成模拟性能数据
+        # Generate simulated performance data
         np.random.seed(42)
         data = []
         for alg in algorithms:
             for metric in metrics:
-                # 生成合理的指标值
+                # Generate reasonable metric values
                 if 'Precision' in metric:
                     value = np.random.uniform(0.1, 0.8)
                 elif 'Recall' in metric:
@@ -64,62 +64,62 @@ class TestVisualizationBasic:
         return pd.DataFrame(data)
     
     def test_basic_chart_generation(self):
-        """测试基础图表生成功能"""
+        """Test basic chart generation function"""
         try:
             chart_types_generated = []
             
-            # 1. 测试柱状图生成
+            # 1. Test bar chart generation
             bar_chart_success = self._test_bar_chart()
             if bar_chart_success:
-                chart_types_generated.append("柱状图")
+                chart_types_generated.append("bar chart")
             
-            # 2. 测试折线图生成
+            # 2. Test line chart generation
             line_chart_success = self._test_line_chart()
             if line_chart_success:
-                chart_types_generated.append("折线图")
+                chart_types_generated.append("line chart")
             
-            # 3. 测试散点图生成
+            # 3. Test scatter chart generation
             scatter_chart_success = self._test_scatter_chart()
             if scatter_chart_success:
-                chart_types_generated.append("散点图")
+                chart_types_generated.append("scatter chart")
             
-            # 4. 测试饼图生成（额外类型）
+            # 4. Test pie chart generation (extra type)
             pie_chart_success = self._test_pie_chart()
             if pie_chart_success:
-                chart_types_generated.append("饼图")
+                chart_types_generated.append("pie chart")
             
-            # 5. 测试箱线图生成（额外类型）
+            # 5. Test box chart generation (extra type)
             box_chart_success = self._test_box_chart()
             if box_chart_success:
-                chart_types_generated.append("箱线图")
+                chart_types_generated.append("box chart")
             
-            # 验证至少支持3种图表类型
-            assert len(chart_types_generated) >= 3, f"系统应支持至少3种图表类型，实际支持{len(chart_types_generated)}种: {chart_types_generated}"
+            # Verify at least 3 chart types are supported
+            assert len(chart_types_generated) >= 3, f"System should support at least 3 chart types, actual support: {len(chart_types_generated)} types: {chart_types_generated}"
             
-            print("✓ 基础图表生成测试通过")
-            print(f"✓ 支持的图表类型: {chart_types_generated}")
-            print(f"✓ 总共支持{len(chart_types_generated)}种图表类型")
+            print("✓ Basic chart generation test passed")
+            print(f"✓ Supported chart types: {chart_types_generated}")
+            print(f"✓ Total support for {len(chart_types_generated)} types of charts")
             
-            # 测试图表保存功能
+            # Test chart saving functionality
             self._test_chart_saving()
             
         except Exception as e:
-            pytest.fail(f"基础图表生成测试失败: {e}")
+            pytest.fail(f"Basic chart generation test failed: {e}")
     
     def _test_bar_chart(self):
-        """测试柱状图"""
+        """Test bar chart"""
         try:
-            # 准备柱状图数据
+            # Prepare bar chart data
             precision_data = self.test_data[self.test_data['Metric'] == 'Precision@5']
             
             fig, ax = plt.subplots(figsize=(10, 6))
             bars = ax.bar(precision_data['Algorithm'], precision_data['Value'])
-            ax.set_title('算法Precision@5对比')
-            ax.set_xlabel('算法')
+            ax.set_title('Algorithm Precision@5 Comparison')
+            ax.set_xlabel('Algorithm')
             ax.set_ylabel('Precision@5')
             ax.set_ylim(0, 1)
             
-            # 添加数值标签
+            # Add value labels
             for bar, value in zip(bars, precision_data['Value']):
                 ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01,
                        f'{value:.3f}', ha='center', va='bottom')
@@ -130,35 +130,35 @@ class TestVisualizationBasic:
             return True
             
         except Exception as e:
-            print(f"柱状图生成失败: {e}")
+            print(f"Bar chart generation failed: {e}")
             return False
     
     def _test_line_chart(self):
-        """测试折线图"""
+        """Test line chart"""
         try:
-            # 模拟训练过程中的指标变化
+            # Simulate metric changes during training
             epochs = list(range(1, 11))
             np.random.seed(42)
             
             fig, ax = plt.subplots(figsize=(10, 6))
             
-            # 绘制多个算法的性能曲线
+            # Plot performance curves for multiple algorithms
             algorithms = self.test_data['Algorithm'].unique()
             for alg in algorithms:
-                # 模拟训练过程中指标提升
+                # Simulate metric improvement during training
                 base_value = self.test_data[
                     (self.test_data['Algorithm'] == alg) & 
                     (self.test_data['Metric'] == 'Precision@5')
                 ]['Value'].iloc[0]
                 
-                # 生成学习曲线
+                # Generate learning curves
                 values = [base_value * (0.3 + 0.7 * (1 - np.exp(-epoch/3))) for epoch in epochs]
-                values = [v + np.random.normal(0, 0.02) for v in values]  # 添加噪声
+                values = [v + np.random.normal(0, 0.02) for v in values]  # Add noise
                 
                 ax.plot(epochs, values, marker='o', label=alg, linewidth=2)
             
-            ax.set_title('算法训练过程Precision@5变化')
-            ax.set_xlabel('训练轮次')
+            ax.set_title('Algorithm Training Process Precision@5 Changes')
+            ax.set_xlabel('Training Epochs')
             ax.set_ylabel('Precision@5')
             ax.legend()
             ax.grid(True, alpha=0.3)
@@ -169,17 +169,17 @@ class TestVisualizationBasic:
             return True
             
         except Exception as e:
-            print(f"折线图生成失败: {e}")
+            print(f"Line chart generation failed: {e}")
             return False
     
     def _test_scatter_chart(self):
-        """测试散点图"""
+        """Test scatter chart"""
         try:
-            # 准备散点图数据：Precision vs Recall
+            # Prepare scatter chart data: Precision vs Recall
             precision_data = self.test_data[self.test_data['Metric'] == 'Precision@5']
             recall_data = self.test_data[self.test_data['Metric'] == 'Recall@5']
             
-            # 合并数据
+            # Merge data
             scatter_data = precision_data.merge(
                 recall_data, 
                 on='Algorithm', 
@@ -188,7 +188,7 @@ class TestVisualizationBasic:
             
             fig, ax = plt.subplots(figsize=(10, 8))
             
-            # 为不同算法使用不同颜色和标记
+            # Use different colors and markers for different algorithms
             colors = ['red', 'blue', 'green', 'orange']
             markers = ['o', 's', '^', 'D']
             
@@ -199,20 +199,20 @@ class TestVisualizationBasic:
                           marker=markers[i % len(markers)],
                           s=100, label=alg, alpha=0.7)
                 
-                # 添加算法名称标注
+                # Add algorithm name annotation
                 ax.annotate(alg, 
                            (row['Value_precision'].iloc[0], row['Value_recall'].iloc[0]),
                            xytext=(5, 5), textcoords='offset points')
             
-            ax.set_title('算法Precision vs Recall散点图')
+            ax.set_title('Algorithm Precision vs Recall Scatter Plot')
             ax.set_xlabel('Precision@5')
             ax.set_ylabel('Recall@5')
             ax.legend()
             ax.grid(True, alpha=0.3)
             
-            # 添加对角线（理想情况）
+            # Add diagonal line (ideal case)
             max_val = max(ax.get_xlim()[1], ax.get_ylim()[1])
-            ax.plot([0, max_val], [0, max_val], 'k--', alpha=0.3, label='理想线')
+            ax.plot([0, max_val], [0, max_val], 'k--', alpha=0.3, label='Ideal Line')
             
             plt.tight_layout()
             plt.close(fig)
@@ -220,26 +220,26 @@ class TestVisualizationBasic:
             return True
             
         except Exception as e:
-            print(f"散点图生成失败: {e}")
+            print(f"Scatter chart generation failed: {e}")
             return False
     
     def _test_pie_chart(self):
-        """测试饼图"""
+        """Test pie chart"""
         try:
-            # 模拟推荐类别分布数据
-            categories = ['电子产品', '服装', '图书', '食品', '家居']
+            # Simulate recommendation category distribution data
+            categories = ['Electronics', 'Clothing', 'Books', 'Food', 'Home']
             proportions = [0.3, 0.25, 0.2, 0.15, 0.1]
             
             fig, ax = plt.subplots(figsize=(8, 8))
             
-            # 创建饼图
+            # Create pie chart
             wedges, texts, autotexts = ax.pie(proportions, labels=categories, 
                                              autopct='%1.1f%%', startangle=90,
                                              colors=['#ff9999','#66b3ff','#99ff99','#ffcc99','#ff99cc'])
             
-            ax.set_title('推荐商品类别分布')
+            ax.set_title('Recommended Product Category Distribution')
             
-            # 美化文本
+            # Beautify text
             for autotext in autotexts:
                 autotext.set_color('white')
                 autotext.set_fontweight('bold')
@@ -250,13 +250,13 @@ class TestVisualizationBasic:
             return True
             
         except Exception as e:
-            print(f"饼图生成失败: {e}")
+            print(f"Pie chart generation failed: {e}")
             return False
     
     def _test_box_chart(self):
-        """测试箱线图"""
+        """Test box chart"""
         try:
-            # 模拟不同算法的性能分布数据
+            # Simulate performance distribution data for different algorithms
             np.random.seed(42)
             algorithms = self.test_data['Algorithm'].unique()
             
@@ -264,30 +264,30 @@ class TestVisualizationBasic:
             labels = []
             
             for alg in algorithms:
-                # 生成该算法的性能分布数据
+                # Generate performance distribution data for this algorithm
                 base_performance = self.test_data[
                     (self.test_data['Algorithm'] == alg) & 
                     (self.test_data['Metric'] == 'F1@5')
                 ]['Value'].iloc[0]
                 
-                # 生成正态分布的性能数据
+                # Generate normally distributed performance data
                 performance_samples = np.random.normal(base_performance, 0.05, 50)
-                performance_samples = np.clip(performance_samples, 0, 1)  # 限制在[0,1]范围
+                performance_samples = np.clip(performance_samples, 0, 1)  # Limit to [0,1] range
                 
                 box_data.append(performance_samples)
                 labels.append(alg)
             
             fig, ax = plt.subplots(figsize=(10, 6))
             
-            # 创建箱线图
+            # Create box plot
             box_plot = ax.boxplot(box_data, labels=labels, patch_artist=True)
             
-            # 美化箱线图
+            # Beautify box plot
             colors = ['lightblue', 'lightgreen', 'lightcoral', 'lightyellow']
             for patch, color in zip(box_plot['boxes'], colors):
                 patch.set_facecolor(color)
             
-            ax.set_title('算法F1@5性能分布')
+            ax.set_title('Algorithm F1@5 Performance Distribution')
             ax.set_ylabel('F1@5')
             ax.grid(True, alpha=0.3)
             
@@ -297,18 +297,18 @@ class TestVisualizationBasic:
             return True
             
         except Exception as e:
-            print(f"箱线图生成失败: {e}")
+            print(f"Box chart generation failed: {e}")
             return False
     
     def _test_chart_saving(self):
-        """测试图表保存功能"""
+        """Test chart saving functionality"""
         try:
-            # 创建一个简单的图表并保存
+            # Create a simple chart and save
             fig, ax = plt.subplots(figsize=(8, 6))
             ax.plot([1, 2, 3, 4], [1, 4, 2, 3], 'b-o')
-            ax.set_title('测试图表保存')
+            ax.set_title('Test Chart Saving')
             
-            # 测试保存为不同格式
+            # Test saving in different formats
             save_path = Path("test_chart")
             formats = ['png', 'jpg', 'pdf']
             
@@ -318,58 +318,58 @@ class TestVisualizationBasic:
                     plt.savefig(f"{save_path}.{fmt}", format=fmt, dpi=100, bbox_inches='tight')
                     saved_formats.append(fmt)
                     
-                    # 删除测试文件
+                    # Delete test file
                     test_file = Path(f"{save_path}.{fmt}")
                     if test_file.exists():
                         test_file.unlink()
                         
                 except Exception as e:
-                    print(f"保存{fmt}格式失败: {e}")
+                    print(f"Failed to save {fmt} format: {e}")
             
             plt.close(fig)
             
-            print(f"✓ 图表保存功能测试通过，支持格式: {saved_formats}")
+            print(f"✓ Chart saving functionality test passed, supported formats: {saved_formats}")
             
         except Exception as e:
-            print(f"图表保存测试失败: {e}")
+            print(f"Chart saving test failed: {e}")
     
     def test_chart_customization(self):
-        """测试图表自定义功能"""
+        """Test chart customization functionality"""
         try:
             customization_features = []
             
-            # 测试颜色自定义
+            # Test color customization
             fig, ax = plt.subplots()
             ax.bar(['A', 'B', 'C'], [1, 2, 3], color=['red', 'green', 'blue'])
-            customization_features.append("颜色自定义")
+            customization_features.append("Color Customization")
             plt.close(fig)
             
-            # 测试字体自定义
+            # Test font customization
             fig, ax = plt.subplots()
             ax.plot([1, 2, 3], [1, 2, 3])
-            ax.set_title('测试标题', fontsize=16, fontweight='bold')
-            customization_features.append("字体自定义")
+            ax.set_title('Test Title', fontsize=16, fontweight='bold')
+            customization_features.append("Font Customization")
             plt.close(fig)
             
-            # 测试网格自定义
+            # Test grid customization
             fig, ax = plt.subplots()
             ax.plot([1, 2, 3], [1, 2, 3])
             ax.grid(True, linestyle='--', alpha=0.5)
-            customization_features.append("网格自定义")
+            customization_features.append("Grid Customization")
             plt.close(fig)
             
-            # 测试图例自定义
+            # Test legend customization
             fig, ax = plt.subplots()
-            ax.plot([1, 2, 3], [1, 2, 3], label='数据1')
-            ax.plot([1, 2, 3], [2, 3, 1], label='数据2')
+            ax.plot([1, 2, 3], [1, 2, 3], label='Data1')
+            ax.plot([1, 2, 3], [2, 3, 1], label='Data2')
             ax.legend(loc='upper right', framealpha=0.8)
-            customization_features.append("图例自定义")
+            customization_features.append("Legend Customization")
             plt.close(fig)
             
-            print(f"✓ 图表自定义功能测试通过，支持: {customization_features}")
+            print(f"✓ Chart customization functionality test passed, supports: {customization_features}")
             
         except Exception as e:
-            pytest.fail(f"图表自定义测试失败: {e}")
+            pytest.fail(f"Chart customization test failed: {e}")
 
 
 if __name__ == "__main__":

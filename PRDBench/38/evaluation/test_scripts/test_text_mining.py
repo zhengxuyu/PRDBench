@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-# 添加src目录到Python路径
+# AddsrcDirectorytoPythonPath
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 src_dir = os.path.join(project_root, 'src')
@@ -11,31 +11,31 @@ sys.path.insert(0, src_dir)
 from text_mining import TextMining
 
 def test_text_mining_functions():
-    """测试文本挖掘功能"""
+    """TestTextBookMiningFunction"""
     try:
         text_mining = TextMining(os.path.join(src_dir, "config/sentiment_dict.txt"))
         
-        # 测试jieba分词和属性词识别
-        test_text = "这个手机性能很好，外观漂亮，价格实惠，质量不错"
+        # TestjiebaDivideWordandAttributeWordRecognition
+        test_text = "thisitem(s)PhonePerformancevery good，outerViewAttractive，PriceFormatImplementationHP，QualityEditionNotWrong"
         words = text_mining.segment_text(test_text)
         
         if len(words) > 0:
-            print("SUCCESS: jieba分词处理成功")
-            print(f"分词结果: {words}")
+            print("SUCCESS: JiebaSegmentationSuccess")
+            print(f"DivideWordResult: {words}")
         
-        # 测试情感分析
+        # TestSentimentAnalysis
         sentiment_score = text_mining.calculate_sentiment_score(words)
-        print(f"SUCCESS: 情感分析完成，情感得分: {sentiment_score}")
+        print(f"SUCCESS: SentimentAnalysisCompleteSuccess，SituationInfectionScore: {sentiment_score}")
         
-        # 测试属性情感对识别
+        # TestAttributeSentimentRecognition
         emotion_pairs = text_mining.extract_attribute_emotion_pairs(test_text)
         if len(emotion_pairs) > 0:
-            print(f"SUCCESS: 属性情感对识别成功: {emotion_pairs}")
+            print(f"SUCCESS: AttributeSentimentRecognitionSuccess: {emotion_pairs}")
         
         return True
         
     except Exception as e:
-        print(f"ERROR: 文本挖掘测试失败: {e}")
+        print(f"ERROR: TextBookMiningTest Failed: {e}")
         return False
 
 if __name__ == "__main__":

@@ -1,10 +1,10 @@
-查询SQL:
+Query SQL:
 SELECT * FROM df WHERE Industry = 'Technology'
 
-分析指标: 市值
-分析维度: Sector
+Analysis Metric: Market Value
+Analysis Dimensions: Sector
 
---- 方差分解结果 ---
+--- Variance Decomposition Results ---
 +----------+----------------+-----------+------------+------------------+
 | Source   |         sum_sq |        df |         F |   PR(>F)         |
 |----------+----------------+-----------+------------+------------------|
@@ -12,9 +12,9 @@ SELECT * FROM df WHERE Industry = 'Technology'
 | Residual | 2.15e+22       | 18        | nan        | nan              |
 +----------+----------------+-----------+------------+------------------+
 
---- 深度分析: C(Sector) ---
+--- Deep Analysis: C(Sector) ---
 +----------------+-----------------+-----------------+
-| Sector         | 市值_均值       | 市值_标准差     |
+| Sector         | Market Value_mean | Market Value_std |
 |----------------+-----------------+-----------------|
 | Technology     | 2.89e+10        | 4.65e+10        |
 +----------------+-----------------+-----------------+

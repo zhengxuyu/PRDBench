@@ -10,7 +10,7 @@ This tool aims to implement a complete workflow from product requirements templa
 - **Template Fields**: Include the following mandatory fields:
   - Basic Information (Product Name, Target Users)
   - Image Resource Specifications (Source Type: Local Path; Allowed File Types: JPG/PNG/jpeg/WebP)
-  - Product Feature Requirements (Style Keywords: e.g., "Minimalism", "Retro Style"; Color Emotion Tendency: select from predefined options such as "Cool Tone-Professional", "Warm Tone-Affinity", "Neutral Tone-Balance", and must comply with psychological color emotion theory)
+  - Product Feature Requirements (Style Keywords: e.g., "Minimalism", "Retro Style")
 
 - **Template Validation and Saving**: Validate user input for field completeness (mandatory fields are not empty) and file type validity (MIME type check). Upon successful validation, save in JSON format to the `src/templates/` directory, supporting template naming and overwrite confirmation.
 
@@ -31,7 +31,7 @@ This tool aims to implement a complete workflow from product requirements templa
   - Texture feature extraction: Calculate the image's LBP (Local Binary Pattern) histogram to generate "fine/coarse" texture tags
 
 - **Style Description Generation**: Users need to input a large language model API key (e.g., OpenAI API Key). The system calls the API and inputs:
-  - "Style Keywords" and "Color Emotion Tendency" from the template
+  - "Style Keywords"
   - Extracted dominant colors and texture tags
   - Generate product visual style description text conforming to the AIDA model (Attention-Interest-Desire-Action), limited to 200 words
   - Users may choose to input "skip" to bypass the API call, in which case the style description section will display "Style description not generated".

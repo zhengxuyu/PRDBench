@@ -1,17 +1,17 @@
-姓名,出生地,出生日期,死亡日期,身高,学历,职业,最高职务,亲属,关系,性别
-王大明,北京,19500101,0,170.0,高中,工人,车间主任,,0,男
-张美华,天津,19520303,0,160.0,初中,纺织工,组长,王大明,0,女
-王小强,广州,19800808,0,172.0,本科,工程师,项目经理,王大明,1,男
-李小丽,深圳,19820315,0,165.0,本科,教师,班主任,王小强,0,女
-王宝宝,杭州,20100101,0,120.0,小学,学生,,王小强,1,男
-王妞妞,成都,20120505,0,115.0,小学,学生,,王小强,1,女
-刘芳芳,上海,19900101,0,160.0,本科,护士,护士长,,0,女
-陈志强,武汉,19950505,0,175.0,本科,程序员,高级工程师,,0,男
-赵建国,西安,19700101,0,168.0,高中,司机,队长,,0,男
-孙丽华,西安,19720202,0,158.0,高中,会计,主管,赵建国,0,女
-李明华,南京,19600101,0,170.0,本科,医生,主任,,0,男
-李小明,苏州,19900101,0,165.0,本科,律师,合伙人,李明华,1,男
-周大富,重庆,19580101,0,175.0,高中,商人,老板,,0,男
-周大强,重庆,19850101,0,170.0,本科,经理,总监,周大富,1,男
-周二强,重庆,19870101,0,168.0,本科,工程师,主管,周大富,1,男
-周小花,重庆,19900101,0,162.0,本科,设计师,主管,周大富,1,女
+Name,Birthplace,Birth Date,Death Date,Height,Education,Occupation,Highest Position,Relative,Relationship,Gender
+Wang Daming,Beijing,19500101,0,170.0,High School,Worker,Workshop Director,,0,Male
+Zhang Meihua,Tianjin,19520303,0,160.0,Middle School,Textile Worker,Group Leader,Wang Daming,0,Female
+Wang Xiaoqiang,Guangzhou,19800808,0,172.0,Bachelor's Degree,Engineer,Project Manager,Wang Daming,1,Male
+Li Xiaoli,Shenzhen,19820315,0,165.0,Bachelor's Degree,Teacher,Class Teacher,Wang Xiaoqiang,0,Female
+Wang Baobao,Hangzhou,20100101,0,120.0,Elementary School,Student,,Wang Xiaoqiang,1,Male
+Wang Niuniu,Chengdu,20120505,0,115.0,Elementary School,Student,,Wang Xiaoqiang,1,Female
+Liu Fangfang,Shanghai,19900101,0,160.0,Bachelor's Degree,Nurse,Head Nurse,,0,Female
+Chen Zhiqiang,Wuhan,19950505,0,175.0,Bachelor's Degree,Programmer,Senior Engineer,,0,Male
+Zhao Jianguo,Xi'an,19700101,0,168.0,High School,Driver,Captain,,0,Male
+Sun Lihua,Xi'an,19720202,0,158.0,High School,Accountant,Supervisor,Zhao Jianguo,0,Female
+Li Minghua,Nanjing,19600101,0,170.0,Bachelor's Degree,Doctor,Director,,0,Male
+Li Xiaoming,Suzhou,19900101,0,165.0,Bachelor's Degree,Lawyer,Partner,Li Minghua,1,Male
+Zhou Dafu,Chongqing,19580101,0,175.0,High School,Businessman,Boss,,0,Male
+Zhou Daqiang,Chongqing,19850101,0,170.0,Bachelor's Degree,Manager,Director,Zhou Dafu,1,Male
+Zhou Erqiang,Chongqing,19870101,0,168.0,Bachelor's Degree,Engineer,Supervisor,Zhou Dafu,1,Male
+Zhou Xiaohua,Chongqing,19900101,0,162.0,Bachelor's Degree,Designer,Supervisor,Zhou Dafu,1,Female

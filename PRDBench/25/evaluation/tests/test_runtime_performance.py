@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-运行时间性能测试单元测试
-测试系统各模块的运行时间性能
+RunTimeBetweenPerformanceTestUnit Test
+TestSystemEachModuleRunTimeBetweenPerformance
 """
 
 import pytest
@@ -13,7 +13,7 @@ import psutil
 import threading
 from contextlib import contextmanager
 
-# 添加src目录到路径
+# AddsrcDirectorytoPath
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from data_processing import DataProcessor
@@ -26,36 +26,36 @@ from utils import create_directories
 
 @contextmanager
 def performance_timer():
-    """性能计时器上下文管理器"""
+    """PerformanceDesignTimeDeviceonunderTextManagementDevice"""
     start_time = time.time()
     yield lambda: time.time() - start_time
     end_time = time.time()
 
 
 class TestRuntimePerformance:
-    """运行时间性能测试类"""
+    """RunTimeBetweenPerformanceTestCategory"""
     
     def setup_method(self):
-        """每个测试方法前的设置"""
-        self.max_acceptable_time = 30  # 最大可接受运行时间（秒）
-        self.long_simulation_days = 200  # 长时间序列模拟天数
+        """eachitem(s)TestOfficialMethodbeforeDesignSet"""
+        self.max_acceptable_time = 30  # MostLargeCanInterfaceacceptableRunTimeBetween(Second)
+        self.long_simulation_days = 200  # LengthTimeBetweenSequenceSeriesModelSimulationDayNumber
         
     def test_complete_simulation_runtime(self):
-        """测试完整模拟运行时间
+        """TestCompleteEntireModelSimulationRunTimeBetween
         
-        验证：
-        1. 单次完整模拟运行时间≤30秒
-        2. 支持≥200天长时间序列模拟
+        Verify:
+        1. SingleTimesCompleteEntireModelSimulationRunTimeBetween≤30Second
+        2. SupportSupport≥200DayLengthTimeBetweenSequenceSeriesModelSimulation
         """
         
-        print("开始完整模拟性能测试...")
+        print("StartingCompleteEntireModelSimulationPerformanceTest...")
         
-        # 确保输出目录存在
+        # AccurateProtectionOutputDirectorySavein
         create_directories()
         
         with performance_timer() as get_elapsed:
-            # 1. 数据处理性能测试
-            print("测试数据处理性能...")
+            # 1. Data ProcessingPerformanceTest
+            print("TestData ProcessingPerformance...")
             data_start = time.time()
             
             processor = DataProcessor()
@@ -65,10 +65,10 @@ class TestRuntimePerformance:
             processor.save_processed_data()
             
             data_time = time.time() - data_start
-            print(f"数据处理用时: {data_time:.2f}秒")
+            print(f"Data ProcessingUseTime: {data_time:.2f}Second")
             
-            # 2. SIR模型性能测试
-            print("测试SIR模型性能...")
+            # 2. SIRModelTypePerformanceTest
+            print("TestSIRModelTypePerformance...")
             sir_start = time.time()
             
             sir_config = {
@@ -78,7 +78,7 @@ class TestRuntimePerformance:
                 'S0': 9999,
                 'I0': 1,
                 'R0': 0,
-                'days': self.long_simulation_days,  # 200天长时间序列
+                'days': self.long_simulation_days,  # 200DayLengthTimeBetweenSequenceSeries
                 'dt': 1
             }
             
@@ -87,10 +87,10 @@ class TestRuntimePerformance:
             sir_model.plot_results()
             
             sir_time = time.time() - sir_start
-            print(f"SIR模型用时: {sir_time:.2f}秒")
+            print(f"SIRModelTypeUseTime: {sir_time:.2f}Second")
             
-            # 3. SEIR模型性能测试
-            print("测试SEIR模型性能...")
+            # 3. SEIRModelTypePerformanceTest
+            print("TestSEIRModelTypePerformance...")
             seir_start = time.time()
             
             seir_config = {
@@ -98,12 +98,12 @@ class TestRuntimePerformance:
                 'beta': 0.03,
                 'sigma': 0.1,
                 'gamma': 0.1,
-                'r': 20,                 # 添加接触率参数
+                'r': 20,                 # AddInterfaceTouchRateParameter
                 'S0': 9999,
                 'E0': 0,
                 'I0': 1,
                 'R0': 0,
-                'days': self.long_simulation_days,  # 200天长时间序列
+                'days': self.long_simulation_days,  # 200DayLengthTimeBetweenSequenceSeries
                 'dt': 1
             }
             
@@ -112,10 +112,10 @@ class TestRuntimePerformance:
             seir_model.plot_results()
             
             seir_time = time.time() - seir_start
-            print(f"SEIR模型用时: {seir_time:.2f}秒")
+            print(f"SEIRModelTypeUseTime: {seir_time:.2f}Second")
             
-            # 4. 隔离SEIR模型性能测试（相对复杂）
-            print("测试隔离SEIR模型性能...")
+            # 4. IsolationDistanceSEIRModelTypePerformanceTest(CameraforRecoverymisc)
+            print("TestIsolationDistanceSEIRModelTypePerformance...")
             isolation_start = time.time()
             
             isolation_config = {
@@ -136,7 +136,7 @@ class TestRuntimePerformance:
                 'Eq0': 0,
                 'H0': 0,
                 'R0': 0,
-                'days': 100,  # 适中的天数
+                'days': 100,  # SuitableinDayNumber
                 'dt': 1
             }
             
@@ -145,65 +145,65 @@ class TestRuntimePerformance:
             isolation_model.plot_results()
             
             isolation_time = time.time() - isolation_start
-            print(f"隔离SEIR模型用时: {isolation_time:.2f}秒")
+            print(f"IsolationDistanceSEIRModelTypeUseTime: {isolation_time:.2f}Second")
         
-        # 计算总运行时间
+        # DesignCalculateTotalRunTimeBetween
         total_time = get_elapsed()
         
-        print(f"\n性能测试结果:")
-        print(f"数据处理: {data_time:.2f}秒")
-        print(f"SIR模型({self.long_simulation_days}天): {sir_time:.2f}秒")
-        print(f"SEIR模型({self.long_simulation_days}天): {seir_time:.2f}秒")
-        print(f"隔离SEIR模型(100天): {isolation_time:.2f}秒")
-        print(f"总运行时间: {total_time:.2f}秒")
+        print(f"\nPerformanceTest Results:")
+        print(f"Data Processing: {data_time:.2f}Second")
+        print(f"SIRModelType({self.long_simulation_days}Day): {sir_time:.2f}Second")
+        print(f"SEIRModelType({self.long_simulation_days}Day): {seir_time:.2f}Second")
+        print(f"IsolationDistanceSEIRModelType(100Day): {isolation_time:.2f}Second")
+        print(f"TotalRunTimeBetween: {total_time:.2f}Second")
         
-        # 验证性能要求
+        # VerifyPerformance Requirements
         assert total_time <= self.max_acceptable_time, \
-            f"完整模拟运行时间{total_time:.2f}秒超过限制{self.max_acceptable_time}秒"
+            f"CompleteEntireModelSimulationRunTimeBetween{total_time:.2f}SecondUltraOverLimitedControl{self.max_acceptable_time}Second"
         
-        # 验证支持长时间序列模拟
-        assert sir_config['days'] >= 200, f"应支持≥200天模拟，实际支持{sir_config['days']}天"
-        assert seir_config['days'] >= 200, f"应支持≥200天模拟，实际支持{seir_config['days']}天"
+        # VerifySupportSupportLengthTimeBetweenSequenceSeriesModelSimulation
+        assert sir_config['days'] >= 200, f"ShouldSupportSupport≥200DayModelSimulation,ImplementationInternationalSupportSupport{sir_config['days']}Day"
+        assert seir_config['days'] >= 200, f"ShouldSupportSupport≥200DayModelSimulation,ImplementationInternationalSupportSupport{seir_config['days']}Day"
         
-        print("完整模拟运行时间性能测试通过")
+        print("CompleteEntireModelSimulationRunTimeBetweenPerformanceTest Passed")
     
     def test_individual_component_performance(self):
-        """测试各个组件的单独性能"""
+        """TestEachitem(s)GroupPieceSingleindependentPerformance"""
         
-        # 测试数据处理组件性能
+        # TestData ProcessingGroupPiecePerformance
         with performance_timer() as get_elapsed:
             processor = DataProcessor()
             processor.create_sample_data()
         
         data_creation_time = get_elapsed()
         assert data_creation_time <= 5.0, \
-            f"数据创建用时{data_creation_time:.2f}秒超过5秒限制"
+            f"DataCreateUseTime{data_creation_time:.2f}SecondUltraOver5SecondLimitedControl"
         
-        # 测试数据验证性能
+        # TestDataVerifyPerformance
         with performance_timer() as get_elapsed:
             processor.validate_data()
         
         validation_time = get_elapsed()
         assert validation_time <= 2.0, \
-            f"数据验证用时{validation_time:.2f}秒超过2秒限制"
+            f"DataVerifyUseTime{validation_time:.2f}SecondUltraOver2SecondLimitedControl"
         
-        # 测试SEIR状态计算性能
+        # TestSEIRStatusDesignCalculatePerformance
         with performance_timer() as get_elapsed:
             processor.calculate_seir_states()
         
         calculation_time = get_elapsed()
         assert calculation_time <= 3.0, \
-            f"SEIR计算用时{calculation_time:.2f}秒超过3秒限制"
+            f"SEIRDesignCalculateUseTime{calculation_time:.2f}SecondUltraOver3SecondLimitedControl"
         
-        print(f"组件性能测试:")
-        print(f"数据创建: {data_creation_time:.2f}秒")
-        print(f"数据验证: {validation_time:.2f}秒")
-        print(f"SEIR计算: {calculation_time:.2f}秒")
+        print(f"GroupPiecePerformanceTest:")
+        print(f"DataCreate: {data_creation_time:.2f}Second")
+        print(f"DataVerify: {validation_time:.2f}Second")
+        print(f"SEIRDesignCalculate: {calculation_time:.2f}Second")
         
-        print("组件性能测试通过")
+        print("GroupPiecePerformanceTest Passed")
     
     def test_scalability_performance(self):
-        """测试系统扩展性能（不同规模数据）"""
+        """TestSystemExtendextensionPerformance(NotSameRuleModelData)"""
         
         population_sizes = [1000, 5000, 10000, 20000]
         performance_results = []
@@ -216,7 +216,7 @@ class TestRuntimePerformance:
                 'S0': N-1,
                 'I0': 1,
                 'R0': 0,
-                'days': 50,  # 固定天数以比较扩展性
+                'days': 50,  # fixedFixedDayNumbertoBiferCompareExtendextensionness
                 'dt': 1
             }
             
@@ -226,30 +226,30 @@ class TestRuntimePerformance:
             
             runtime = get_elapsed()
             performance_results.append((N, runtime))
-            print(f"人口{N}: {runtime:.2f}秒")
+            print(f"PersonPort{N}: {runtime:.2f}Second")
         
-        # 验证扩展性合理（时间复杂度不应过高）
-        # 人口增加20倍，时间不应增加超过100倍
+        # VerifyExtendextensionnessCombineProcessor(TimeBetweenRecoverymiscDegreesNotShouldOverHigh)
+        # PersonPortIncreasePlus20times,TimeBetweenNotShouldIncreasePlusUltraOver100times
         time_ratio = performance_results[-1][1] / performance_results[0][1]
         population_ratio = population_sizes[-1] / population_sizes[0]
         
         efficiency_ratio = time_ratio / population_ratio
         
-        print(f"扩展性分析:")
-        print(f"人口扩展倍数: {population_ratio}")
-        print(f"时间增长倍数: {time_ratio:.2f}")
-        print(f"效率比: {efficiency_ratio:.2f}")
+        print(f"ExtendextensionnessAnalysis:")
+        print(f"PersonPortExtendmultiplesNumber: {population_ratio}")
+        print(f"TimeBetweenIncreaseLengthtimesNumber: {time_ratio:.2f}")
+        print(f"EffectRateBifer: {efficiency_ratio:.2f}")
         
         assert efficiency_ratio <= 5.0, \
-            f"扩展性效率比{efficiency_ratio:.2f}过高，系统扩展性不佳"
+            f"ExtendextensionnessEffectRateBifer{efficiency_ratio:.2f}OverHigh,SystemExtendextensionnessNotgood"
         
-        print("扩展性能测试通过")
+        print("ExtendextensionPerformanceTest Passed")
     
     def test_long_duration_simulation_performance(self):
-        """测试长时间模拟的性能稳定性"""
+        """TestLengthTimeBetweenModelSimulationPerformancestableFixedness"""
         
-        # 测试不同天数的模拟性能
-        day_configs = [50, 100, 200, 365]  # 包含一年的模拟
+        # TestNotSameDayNumberModelSimulationPerformance
+        day_configs = [50, 100, 200, 365]  # ContainsOneyearModelSimulation
         
         for days in day_configs:
             config = {
@@ -272,24 +272,24 @@ class TestRuntimePerformance:
             runtime = get_elapsed()
             time_per_day = runtime / days
             
-            print(f"{days}天模拟: {runtime:.2f}秒 (每天{time_per_day:.4f}秒)")
+            print(f"{days}DayModelSimulation: {runtime:.2f}Second (eachDay{time_per_day:.4f}Second)")
             
-            # 验证时间复杂度基本线性
+            # VerifyTimeBetweenRecoverymiscDegreesFoundationBookLineness
             assert time_per_day <= 0.1, \
-                f"{days}天模拟每天用时{time_per_day:.4f}秒过长"
+                f"{days}DayModelSimulationeachDayUseTime{time_per_day:.4f}SecondOverLength"
             
-            # 验证长时间模拟仍在可接受范围内
+            # VerifyLengthTimeBetweenModelSimulationstillinCanInterfaceacceptableRangerangeInternal
             if days >= 200:
                 assert runtime <= self.max_acceptable_time, \
-                    f"{days}天模拟用时{runtime:.2f}秒超过{self.max_acceptable_time}秒限制"
+                    f"{days}DayModelSimulationUseTime{runtime:.2f}SecondUltraOver{self.max_acceptable_time}SecondLimitedControl"
         
-        print("长时间模拟性能测试通过")
+        print("LengthTimeBetweenModelSimulationPerformanceTest Passed")
     
     def test_concurrent_performance(self):
-        """测试并发性能（多个模型同时运行）"""
+        """TestparallelSendPerformance(Manyitem(s)ModelTypeSameTimeRun)"""
         
         def run_sir_model(model_id):
-            """运行SIR模型的函数"""
+            """RunSIRModelTypeFunctionNumber"""
             config = {
                 'N': 5000,
                 'beta': 0.05,
@@ -308,7 +308,7 @@ class TestRuntimePerformance:
             
             return model_id, end_time - start_time
         
-        # 测试顺序执行
+        # TestForwardSequenceExecute
         sequential_start = time.time()
         sequential_results = []
         for i in range(3):
@@ -316,7 +316,7 @@ class TestRuntimePerformance:
             sequential_results.append(runtime)
         sequential_total = time.time() - sequential_start
         
-        # 测试并发执行
+        # TestparallelSendExecute
         concurrent_start = time.time()
         threads = []
         concurrent_results = []
@@ -335,19 +335,19 @@ class TestRuntimePerformance:
         
         concurrent_total = time.time() - concurrent_start
         
-        print(f"性能对比:")
-        print(f"顺序执行: {sequential_total:.2f}秒")
-        print(f"并发执行: {concurrent_total:.2f}秒")
-        print(f"加速比: {sequential_total/concurrent_total:.2f}x")
+        print(f"PerformanceforBifer:")
+        print(f"ForwardSequenceExecute: {sequential_total:.2f}Second")
+        print(f"parallelSendExecute: {concurrent_total:.2f}Second")
+        print(f"PlusSpeedBifer: {sequential_total/concurrent_total:.2f}x")
         
-        # 验证并发执行有性能提升（至少节省20%时间）
+        # VerifyparallelSendExecuteHasPerformanceExtractrise(at_leastless_thanEnergyProvince20%TimeBetween)
         speedup = sequential_total / concurrent_total
-        assert speedup >= 1.2, f"并发执行加速比{speedup:.2f}低于1.2"
+        assert speedup >= 1.2, f"parallelSendExecutePlusSpeedBifer{speedup:.2f}LowAt1.2"
         
-        print("并发性能测试通过")
+        print("parallelSendPerformanceTest Passed")
     
     def test_performance_consistency(self):
-        """测试性能一致性（多次运行结果稳定）"""
+        """TestPerformanceOneCauseness(ManyTimesRunResultstableFixed)"""
         
         config = {
             'N': 10000,
@@ -360,7 +360,7 @@ class TestRuntimePerformance:
             'dt': 1
         }
         
-        # 多次运行相同配置
+        # ManyTimesRunCameraSameConfigure
         runtimes = []
         num_runs = 5
         
@@ -371,31 +371,31 @@ class TestRuntimePerformance:
             
             runtime = get_elapsed()
             runtimes.append(runtime)
-            print(f"第{run+1}次运行: {runtime:.2f}秒")
+            print(f"index{run+1}TimesRun: {runtime:.2f}Second")
         
-        # 计算性能统计
+        # DesignCalculatePerformanceSystemDesign
         mean_time = np.mean(runtimes)
         std_time = np.std(runtimes)
-        cv = std_time / mean_time  # 变异系数
+        cv = std_time / mean_time  # ChangeDifferentSeriesNumber
         
-        print(f"性能统计:")
-        print(f"平均时间: {mean_time:.2f}秒")
-        print(f"标准差: {std_time:.2f}秒")
-        print(f"变异系数: {cv:.2f}")
+        print(f"PerformanceSystemDesign:")
+        print(f"AverageAverageTimeBetween: {mean_time:.2f}Second")
+        print(f"MarkStandardDifference: {std_time:.2f}Second")
+        print(f"ChangeDifferentSeriesNumber: {cv:.2f}")
         
-        # 验证性能一致性（变异系数应小于20%）
-        assert cv <= 0.2, f"性能变异系数{cv:.2f}过高，性能不稳定"
+        # VerifyPerformanceOneCauseness(ChangeDifferentSeriesNumberShouldSmallAt20%)
+        assert cv <= 0.2, f"PerformanceChangeDifferentSeriesNumber{cv:.2f}OverHigh,PerformanceNotstableFixed"
         
-        # 验证所有运行都在可接受时间内
+        # VerifyPlaceHasRunallinCanInterfaceacceptableTimeBetweenInternal
         for i, runtime in enumerate(runtimes):
             assert runtime <= self.max_acceptable_time, \
-                f"第{i+1}次运行用时{runtime:.2f}秒超过限制"
+                f"index{i+1}TimesRunUseTime{runtime:.2f}SecondUltraOverLimitedControl"
         
-        print("性能一致性测试通过")
+        print("PerformanceOneCausenessTest Passed")
 
 
 if __name__ == "__main__":
-    # 运行测试
+    # RunTest
     test_instance = TestRuntimePerformance()
     test_instance.setup_method()
     
@@ -406,8 +406,8 @@ if __name__ == "__main__":
         test_instance.test_long_duration_simulation_performance()
         test_instance.test_concurrent_performance()
         test_instance.test_performance_consistency()
-        print("\n所有运行时间性能测试通过！")
+        print("\nPlaceHasRunTimeBetweenPerformanceTest Passed!")
     except AssertionError as e:
-        print(f"\n测试失败: {e}")
+        print(f"\nTest Failed: {e}")
     except Exception as e:
-        print(f"\n测试出错: {e}")
+        print(f"\nTestOutputWrong: {e}")

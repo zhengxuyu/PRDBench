@@ -4,22 +4,22 @@ import os
 import re
 from collections import Counter
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../src'))
 
 try:
     from main import real_entity_extraction, simulate_entity_extraction, JIEBA_AVAILABLE
 except ImportError:
-    # 如果无法导入，创建模拟函数
+    # If import fails, create simulation functions
     def real_entity_extraction(text):
         return simulate_entity_extraction()
 
     def simulate_entity_extraction():
         return {
-            'persons': [{'name': '加贺恭一郎', 'type': 'nr', 'count': 1, 'context': '加贺恭一郎是一名优秀的侦探'}],
-            'locations': [{'name': '东京', 'type': 'ns', 'count': 1, 'context': '案件发生在东京的涩谷区'}],
-            'times': [{'name': '2023年3月15日', 'type': 't', 'count': 1, 'context': '案件发生在2023年3月15日晚上八点'}],
-            'professions': [{'name': '护士', 'type': 'nn', 'count': 1, 'context': '田中雪穗是一名护士'}]
+            'persons': [{'name': 'Kaga Kyoichiro', 'type': 'nr', 'count': 1, 'context': 'Kaga KyoichiroYesOneNameOptimizebrilliant detective'}],
+            'locations': [{'name': 'Tokyo', 'type': 'ns', 'count': 1, 'context': 'CasePieceSendNativeinTokyoShibuya District'}],
+            'times': [{'name': 'March 15, 2023', 'type': 't', 'count': 1, 'context': 'CasePieceSendNativeinMarch 15, 20238 PM'}],
+            'professions': [{'name': 'nurse', 'type': 'nn', 'count': 1, 'context': 'Tanaka YukihoYesOneNamenurse'}]
         }
 
     JIEBA_AVAILABLE = False
@@ -27,183 +27,183 @@ except ImportError:
 class TestEntityRecognition:
 
     def test_person_name_recognition(self):
-        """测试人物姓名识别功能"""
-        # 读取测试文件
+        """Test person name recognition function"""
+        # Read test file
         test_file = os.path.join(os.path.dirname(__file__), '../input_files/person_name_test.txt')
 
         if os.path.exists(test_file):
             with open(test_file, 'r', encoding='utf-8') as f:
                 text = f.read()
 
-            # 使用真实的实体识别功能
+            # Use real entity recognition function
             if JIEBA_AVAILABLE:
                 entities = real_entity_extraction(text)
             else:
                 entities = simulate_entity_extraction()
 
-            # 验证是否识别出人物姓名
+            # Verify if person names are recognized
             persons = entities.get('persons', [])
-            assert len(persons) > 0, "应该识别出至少一个人物姓名"
+            assert len(persons) > 0, "Should recognize at least one person name"
 
-            # 检查是否包含预期的人物
+            # Check if expected persons are included
             person_names = [p['name'] for p in persons]
-            expected_persons = ['加贺恭一郎', '田中雪穗', '石神哲哉', '桐原亮司']
+            expected_persons = ['Kaga Kyoichiro', 'Tanaka Yukiho', 'Ishigami Tetsuya', 'Kirihara Ryoji']
             found_persons = [name for name in expected_persons if name in person_names or name in text]
 
-            assert len(found_persons) > 0, f"应该识别出预期的人物姓名，找到的人物：{person_names}"
+            assert len(found_persons) > 0, f"Should recognize expected person names, found persons: {person_names}"
 
-            # 验证类型标注
+            # Verify type annotation
             for person in persons:
-                assert person['type'] == 'nr', f"人物实体{person['name']}应该标注为nr类型"
-                assert person['count'] > 0, f"人物实体{person['name']}的频次应该大于0"
-                assert 'context' in person, f"人物实体{person['name']}应该包含上下文信息"
+                assert person['type'] == 'nr', f"Person entity {person['name']} should be annotated as nr type"
+                assert person['count'] > 0, f"Person entity {person['name']} frequency should be greater than 0"
+                assert 'context' in person, f"Person entity {person['name']} should contain context information"
         else:
-            # 如果测试文件不存在，创建基本测试
-            test_text = "加贺恭一郎是一名优秀的侦探"
+            # If test file doesn't exist, create basic test
+            test_text = "Kaga KyoichiroYesOneNameOptimizebrilliant detective"
             entities = simulate_entity_extraction()
             persons = entities.get('persons', [])
-            assert len(persons) > 0, "应该能识别人物姓名"
+            assert len(persons) > 0, "Should be able to recognize person names"
 
     def test_location_recognition(self):
-        """测试地理名称识别功能"""
+        """Test location name recognition function"""
         test_file = os.path.join(os.path.dirname(__file__), '../input_files/location_test.txt')
 
         if os.path.exists(test_file):
             with open(test_file, 'r', encoding='utf-8') as f:
                 text = f.read()
 
-            # 使用真实的实体识别功能
+            # Use real entity recognition function
             if JIEBA_AVAILABLE:
                 entities = real_entity_extraction(text)
             else:
                 entities = simulate_entity_extraction()
 
-            # 验证是否识别出地理名称
+            # Verify if location names are recognized
             locations = entities.get('locations', [])
-            assert len(locations) > 0, "应该识别出至少一个地理名称"
+            assert len(locations) > 0, "Should recognize at least one location name"
 
-            # 检查是否包含预期的地点
+            # Check if expected locations are included
             location_names = [l['name'] for l in locations]
-            expected_locations = ['东京', '涩谷区', '大阪', '北京', '新宿区', '品川区']
+            expected_locations = ['Tokyo', 'Shibuya District', 'Osaka', 'Beijing', 'Shinjuku District', 'Shinagawa District']
             found_locations = [name for name in expected_locations if name in location_names or name in text]
 
-            assert len(found_locations) > 0, f"应该识别出预期的地理名称，找到的地点：{location_names}"
+            assert len(found_locations) > 0, f"Should recognize expected location names, found locations: {location_names}"
 
-            # 验证类型标注
+            # Verify type annotation
             for location in locations:
-                assert location['type'] == 'ns', f"地理实体{location['name']}应该标注为ns类型"
-                assert location['count'] > 0, f"地理实体{location['name']}的频次应该大于0"
-                assert 'context' in location, f"地理实体{location['name']}应该包含上下文信息"
+                assert location['type'] == 'ns', f"Location entity {location['name']} should be annotated as ns type"
+                assert location['count'] > 0, f"Location entity {location['name']} frequency should be greater than 0"
+                assert 'context' in location, f"Location entity {location['name']} should contain context information"
         else:
-            test_text = "案件发生在东京的涩谷区"
+            test_text = "CasePieceSendNativeinTokyoShibuya District"
             entities = simulate_entity_extraction()
             locations = entities.get('locations', [])
-            assert len(locations) > 0, "应该能识别地理名称"
+            assert len(locations) > 0, "Should be able to recognize location names"
 
     def test_time_recognition(self):
-        """测试时间表达识别功能"""
+        """Test time expression recognition function"""
         test_file = os.path.join(os.path.dirname(__file__), '../input_files/time_test.txt')
 
         if os.path.exists(test_file):
             with open(test_file, 'r', encoding='utf-8') as f:
                 text = f.read()
 
-            # 使用真实的实体识别功能
+            # Use real entity recognition function
             if JIEBA_AVAILABLE:
                 entities = real_entity_extraction(text)
             else:
                 entities = simulate_entity_extraction()
 
-            # 验证是否识别出时间表达
+            # Verify if time expressions are recognized
             times = entities.get('times', [])
 
-            # 如果jieba可用，检查实际识别结果；否则检查模拟结果
+            # If jieba is available, check actual recognition results; otherwise check simulation results
             if JIEBA_AVAILABLE:
-                # 使用正则表达式检查文本中的时间表达
-                time_patterns = [r'\d{4}年\d{1,2}月\d{1,2}日', r'昨天', r'明天', r'去年', r'下午\d{1,2}点']
+                # Use regular expressions to check time expressions in text
+                time_patterns = [r'\d{4}year\d{1,2}month\d{1,2}Japanese', r'yesterdayDay', r'tomorrow', r'last year', r'underPM\d{1,2}Point']
                 found_times = []
                 for pattern in time_patterns:
                     found_times.extend(re.findall(pattern, text))
 
-                # 如果文本中有时间表达，应该能识别出一些
+                # If there are time expressions in text, should be able to recognize some
                 if found_times:
-                    assert len(times) >= 0, "如果文本中有时间表达，应该能识别出一些时间实体"
+                    assert len(times) >= 0, "If there are time expressions in text, should be able to recognize some time entities"
             else:
-                assert len(times) > 0, "应该识别出至少一个时间表达"
+                assert len(times) > 0, "Should recognize at least one time expression"
 
-            # 验证类型标注
+            # Verify type annotation
             for time_entity in times:
-                assert time_entity['type'] == 't', f"时间实体{time_entity['name']}应该标注为t类型"
-                assert time_entity['count'] > 0, f"时间实体{time_entity['name']}的频次应该大于0"
-                assert 'context' in time_entity, f"时间实体{time_entity['name']}应该包含上下文信息"
+                assert time_entity['type'] == 't', f"Time entity {time_entity['name']} should be annotated as t type"
+                assert time_entity['count'] > 0, f"Time entity {time_entity['name']} frequency should be greater than 0"
+                assert 'context' in time_entity, f"Time entity {time_entity['name']} should contain context information"
         else:
-            test_text = "案件发生在2023年3月15日晚上八点"
+            test_text = "CasePieceSendNativeinMarch 15, 20238 PM"
             entities = simulate_entity_extraction()
             times = entities.get('times', [])
-            assert len(times) > 0, "应该能识别时间表达"
+            assert len(times) > 0, "Should be able to recognize time expressions"
 
     def test_profession_recognition(self):
-        """测试职业称谓识别功能"""
+        """Test profession recognition function"""
         test_file = os.path.join(os.path.dirname(__file__), '../input_files/profession_test.txt')
 
         if os.path.exists(test_file):
             with open(test_file, 'r', encoding='utf-8') as f:
                 text = f.read()
 
-            # 使用真实的实体识别功能
+            # Use real entity recognition function
             if JIEBA_AVAILABLE:
                 entities = real_entity_extraction(text)
             else:
                 entities = simulate_entity_extraction()
 
-            # 验证是否识别出职业称谓
+            # Verify if professions are recognized
             professions = entities.get('professions', [])
-            assert len(professions) > 0, "应该识别出至少一个职业称谓"
+            assert len(professions) > 0, "Should recognize at least one profession"
 
-            # 检查是否包含预期的职业
+            # Check if expected professions are included
             profession_names = [p['name'] for p in professions]
-            expected_professions = ['护士', '侦探', '刑警', '工程师', '院长', '律师', '医生']
+            expected_professions = ['nurse', 'detective', 'police detective', 'engineer', 'dean', 'lawyer', 'doctor']
             found_professions = [name for name in expected_professions if name in profession_names or name in text]
 
-            assert len(found_professions) > 0, f"应该识别出预期的职业称谓，找到的职业：{profession_names}"
+            assert len(found_professions) > 0, f"Should recognize expected professions, found professions: {profession_names}"
 
-            # 验证类型标注
+            # Verify type annotation
             for profession in professions:
-                assert profession['type'] == 'nn', f"职业实体{profession['name']}应该标注为nn类型"
-                assert profession['count'] > 0, f"职业实体{profession['name']}的频次应该大于0"
-                assert 'context' in profession, f"职业实体{profession['name']}应该包含上下文信息"
+                assert profession['type'] == 'nn', f"Profession entity {profession['name']} should be annotated as nn type"
+                assert profession['count'] > 0, f"Profession entity {profession['name']} frequency should be greater than 0"
+                assert 'context' in profession, f"Profession entity {profession['name']} should contain context information"
         else:
-            test_text = "田中雪穗是一名护士"
+            test_text = "Tanaka YukihoYesOneNamenurse"
             entities = simulate_entity_extraction()
             professions = entities.get('professions', [])
-            assert len(professions) > 0, "应该能识别职业称谓"
+            assert len(professions) > 0, "Should be able to recognize professions"
 
     def test_entity_output_format(self):
-        """测试实体输出格式"""
-        # 使用模拟数据测试输出格式
+        """Test entity output format"""
+        # Use simulated data to test output format
         entities = simulate_entity_extraction()
 
-        # 检查所有类别
+        # Check all categories
         for category_name, category_entities in entities.items():
-            assert isinstance(category_entities, list), f"{category_name}应该是一个列表"
+            assert isinstance(category_entities, list), f"{category_name} should be a list"
 
             for entity in category_entities:
-                # 检查必需的字段
-                assert 'name' in entity, f"{category_name}中的实体应该包含name字段"
-                assert 'type' in entity, f"{category_name}中的实体应该包含type字段"
-                assert 'count' in entity, f"{category_name}中的实体应该包含count字段"
-                assert 'context' in entity, f"{category_name}中的实体应该包含context字段"
+                # Check required fields
+                assert 'name' in entity, f"Entity in {category_name} should contain name field"
+                assert 'type' in entity, f"Entity in {category_name} should contain type field"
+                assert 'count' in entity, f"Entity in {category_name} should contain count field"
+                assert 'context' in entity, f"Entity in {category_name} should contain context field"
 
-                # 检查字段类型
-                assert isinstance(entity['name'], str), "实体名称应该是字符串"
-                assert isinstance(entity['type'], str), "实体类型应该是字符串"
-                assert isinstance(entity['count'], int), "实体频次应该是整数"
-                assert isinstance(entity['context'], str), "实体上下文应该是字符串"
+                # Check field types
+                assert isinstance(entity['name'], str), "Entity name should be a string"
+                assert isinstance(entity['type'], str), "Entity type should be a string"
+                assert isinstance(entity['count'], int), "Entity count should be an integer"
+                assert isinstance(entity['context'], str), "Entity context should be a string"
 
-                # 检查字段值
-                assert len(entity['name']) > 0, "实体名称不能为空"
-                assert entity['count'] > 0, "实体频次应该大于0"
-                assert len(entity['context']) >= 0, "实体上下文应该存在"
+                # Check field values
+                assert len(entity['name']) > 0, "Entity name cannot be empty"
+                assert entity['count'] > 0, "Entity count should be greater than 0"
+                assert len(entity['context']) >= 0, "Entity context should exist"
 
 if __name__ == '__main__':
     pytest.main([__file__, '-v'])

@@ -4,78 +4,78 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'code'))
 
 def test_path_structure_fields():
-    """测试Dijkstra算法路径字段"""
+    """Test Dijkstra algorithm path fields"""
     try:
-        # 尝试导入Dijkstra相关类
+        # Try to import Dijkstra-related classes
         from layer.router import Router, Path
-        
-        # 创建Path实例或检查Path结构
+
+        # Create Path instance or check Path structure
         try:
             path_instance = Path()
         except:
-            # 如果Path是数据类或结构体，尝试其他方式
+            # If Path is a data class or integrated structure, try another method
             router = Router()
             if hasattr(router, 'dijkstra') or hasattr(router, 'calculate_shortest_path'):
-                # 通过路由器获取Path结构信息
+                # Get path structure information through router
                 pass
-        
-        # 检查Path结构的必需字段
+
+        # Check Path structure required fields
         required_fields = [
-            'next',       # 下一跳
-            'exit',       # 出口端口
-            'cost',       # 费用
-            'optimized'   # 优化状态
+            'next',       # Next hop
+            'exit',       # Exit port
+            'cost',       # Cost
+            'optimized'   # Optimization status
         ]
-        
-        # 尝试不同的方式检查字段
+
+        # Try different methods to check fields
         if 'path_instance' in locals():
             missing_fields = []
             for field in required_fields:
                 if not hasattr(path_instance, field):
                     missing_fields.append(field)
-            
-            assert len(missing_fields) == 0, f"Path结构缺少字段: {missing_fields}"
-        
+
+            assert len(missing_fields) == 0, f"Path structure missing fields: {missing_fields}"
+
         else:
-            # 尝试从路由器类中查找Path相关信息
+            # Try to find Path-related information from router class
             router = Router()
-            
-            # 检查是否有Dijkstra算法实现
+
+            # Check if there is Dijkstra algorithm implementation
             dijkstra_methods = ['dijkstra', 'calculate_shortest_path', 'find_shortest_path', 'compute_routes']
             found_dijkstra = False
-            
+
             for method in dijkstra_methods:
                 if hasattr(router, method):
                     found_dijkstra = True
                     break
-            
-            assert found_dijkstra, "路由器缺少Dijkstra算法实现"
-            
-            # 检查路由表中是否有Path相关结构
+
+            assert found_dijkstra, "Router is missing Dijkstra algorithm implementation"
+
+            # Check if routing table has Path-related structure
             if hasattr(router, 'routing_table') or hasattr(router, 'routes'):
                 table = getattr(router, 'routing_table', None) or getattr(router, 'routes', None)
                 if table and isinstance(table, dict):
-                    # 检查路由表条目是否包含必需字段
+                    # Check if routing table entries contain required fields
                     for route_id, route_info in table.items():
                         if isinstance(route_info, dict):
-                            # 检查是否包含必需字段
+                            # Check if contains required fields
                             field_count = 0
                             for field in required_fields:
                                 if field in route_info:
                                     field_count += 1
-                            
-                            if field_count >= 3:  # 至少包含3个字段
+
+                            if field_count >= 3:  # At least contains 3 fields
                                 break
                     else:
-                        # 如果没有找到合适的路由条目，假设结构正确
+                        # If no suitable routing entry is found, assume the structure is correct
                         pass
-        
+
     except ImportError:
-        # 尝试其他导入路径
+        # Try other import paths
         try:
             from router import Router
-            # 重复上述测试
+            # Repeat the above tests
         except ImportError:
-            pytest.fail("无法导入Router或Path类")
+            pytest.fail("Unable to import Router or Path class")
     except Exception as e:
-        pytest.fail(f"测试失败: {str(e)}")
+        pytest.fail(f"Test Failed: {str(e)}")

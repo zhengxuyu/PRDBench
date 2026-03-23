@@ -95,7 +95,7 @@
     "type": "shell_interaction",
     "testcases": [
       {
-        "test_command": "python -m src.main template import --file-path evaluation/expert_questions.csv --template-name '专家模板'",
+        "test_command": "python -m src.main template import --file-path evaluation/expert_questions.csv --template-name 'Expert Template'",
         "test_input": null
       }
     ],
@@ -139,13 +139,13 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "python src/main.py data export --output-path evaluation/actual_collected_data.csv",
+        "test_command": "python src/main.py data export --output-path src/actual_collected_data.csv",
         "test_input": null
       }
     ],
     "input_files": null,
-    "expected_output_files": null,
-    "expected_output": "Standard output should contain a successful data export confirmation, such as: 'Data successfully exported to evaluation/actual_collected_data.csv'. The file actual_collected_data.csv should be created successfully and its content should not be empty."
+    "expected_output_files": "evaluation/expected_actual_collected_data.csv",
+    "expected_output": "Standard output should contain a successful data export confirmation, such as: 'Data successfully exported to src/actual_collected_data.csv'. The file actual_collected_data.csv should be created successfully and its content should not be empty."
   },
   {
     "metric": "2.1.3b Data Anonymization",
@@ -153,14 +153,14 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "python -m src.main data export --anonymize --output-path evaluation/anonymized_data.csv",
+        "test_command": "python -m src.main data export --anonymize --output-path src/anonymized_data.csv",
         "test_input": null
       }
     ],
     "input_files": [
       "evaluation/test_data_with_personal_info.csv"
     ],
-    "expected_output_files": null,
+    "expected_output_files": "evaluation/anonymized_data.csv",
     "expected_output": "Standard output should contain confirmation of data anonymization and export, such as: 'Data has been successfully anonymized and exported to evaluation/anonymized_data.csv'. The anonymized_data.csv file should be created successfully, and personal privacy information (name, phone, etc.) should be properly anonymized, e.g. 'Zhang San' becomes 'Zhang*', '13812345678' becomes '138****5678', while non-privacy information (gender, age group, etc.) remains unchanged."
   },
   {
@@ -285,11 +285,11 @@
         "test_input": null
       },
       {
-        "test_command": "python -m src.main --role \"普通用户\" analyze stats --data-path evaluation/sample_data.csv --output-dir evaluation/reports/descriptive",
+        "test_command": "python -m src.main --role \"Regular User\" analyze stats --data-path evaluation/sample_data.csv --output-dir evaluation/reports/descriptive",
         "test_input": null
       },
       {
-        "test_command": "python -m src.main --role \"分析员\" analyze stats --data-path evaluation/sample_data.csv --output-dir evaluation/reports/descriptive",
+        "test_command": "python -m src.main --role \"Analyst\" analyze stats --data-path evaluation/sample_data.csv --output-dir evaluation/reports/descriptive",
         "test_input": null
       }
     ],

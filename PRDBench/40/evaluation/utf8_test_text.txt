@@ -1,5 +1,5 @@
-测试UTF-8编码支持
-Hello World! 你好世界！
-English and 中文 mixed text
-Special characters: ！@#￥%……&*（）
+Test UTF-8 encoding support
+Hello World! Hello World!
+English and Chinese mixed text
+Special characters: !@#$%......&*()
 Emoji: 😀🌟🎉

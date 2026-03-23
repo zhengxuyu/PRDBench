@@ -1,142 +1,142 @@
-# 东野圭吾小说文本挖掘与语义分析工具 - 测试方案总结
+# Keigo HigashinoSmallnovel textminingandLanguageDefinitionAnalysisTool - TestOfficialCaseSummary
 
-## 项目概述
+## item(s)itemOverview
 
-本项目为东野圭吾小说文本挖掘与语义分析工具生成了一套完整、可执行的测试方案。该方案严格按照 `evaluation/metric.json` 中定义的功能指标进行设计，确保对所有功能点进行全面验证。
+Bookitem(s)itemasKeigo HigashinoSmallnovel textminingandLanguageDefinitionAnalysisToolGenerateOneset ofCompleteEntire, CanExecuteTestOfficialCase.ThisOfficialCasestrictFormatAccordingAccording `evaluation/metric.json` inFixedDefinitionFunctionIndicatorMarkImportLineDesign, AccurateProtectionforPlaceHasFunctionPointImportLineAutomaticSurfaceVerify.
 
-## 生成的产物
+## GenerateMadeObject
 
-### 1. 详细的JSON测试计划 (`evaluation/detailed_test_plan.json`)
+### 1. detailedJSONtest plan (`evaluation/detailed_test_plan.json`)
 
-- **总计**: 37个测试项目
-- **测试类型分布**:
-  - Shell Interaction: 28个测试项目
-  - Unit Test: 8个测试项目
-  - File Comparison: 1个测试项目
+- **Total**: 37item(s)Test Itemitem
+- **TestCategoryTypeDivideDistribution**:
+  - Shell Interaction: 28item(s)Test Itemitem
+  - Unit Test: 8item(s)Test Itemitem
+  - File Comparison: 1item(s)Test Itemitem
 
-每个测试项目包含：
-- `metric`: 对应metric.json中的得分点
-- `description`: 详细的验证方法
-- `type`: 测试类型
-- `testcases`: 具体的测试命令和输入
-- `input_files`: 所需的输入文件
-- `expected_output_files`: 期望的输出文件
-- `expected_output`: 预期行为描述
+eachTest ItemitemContains: 
+- `metric`: forShouldmetric.jsoninScorePoint
+- `description`: detailedVerifyOfficialMethod
+- `type`: TestCategoryType
+- `testcases`: ToolIntegratedTest CommandandOutputInput
+- `input_files`: requiredOutputInputFile
+- `expected_output_files`: expectedOutputFile
+- `expected_output`: expectedLineasDescribedescription
 
-### 2. 辅助文件
+### 2. supporting files
 
-#### 输入文件 (`evaluation/input_files/`)
-- **交互输入文件**: 37个 `.in` 文件，用于模拟用户与程序的交互
-- **测试数据文件**:
-  - `test_novel.txt`: 主要测试小说文本
-  - `test_novel_gbk.txt`: GBK编码测试文件
-  - `test_novel_utf8.txt`: UTF-8编码测试文件
-  - `person_name_test.txt`: 人物姓名测试数据
-  - `location_test.txt`: 地理名称测试数据
-  - `time_test.txt`: 时间表达测试数据
-  - `profession_test.txt`: 职业称谓测试数据
-  - `corrupted_file.txt`: 损坏文件测试数据
+#### OutputInputFile (`evaluation/input_files/`)
+- **interactiveOutputInputFile**: 37item(s) `.in` File, UseAtModelSimulationUserandPrograminteractive
+- **TestDataFile**:
+  - `test_novel.txt`: MainTestSmallnovel text
+  - `test_novel_gbk.txt`: GBKCodeCodeTestFile
+  - `test_novel_utf8.txt`: UTF-8CodeCodeTestFile
+  - `person_name_test.txt`: PersonObjectfull nameTestData
+  - `location_test.txt`: place nameTestData
+  - `time_test.txt`: TimeBetweenTableexpressionTestData
+  - `profession_test.txt`: profession titleTestData
+  - `corrupted_file.txt`: corruptedFileTestData
 
-#### 期望输出文件 (`evaluation/expected_output/`)
-- `expected_results.txt`: 完整的分析结果期望输出
+#### Expected OutputFile (`evaluation/expected_output/`)
+- `expected_results.txt`: CompleteEntireAnalysisResultExpected Output
 
-### 3. 自动化测试脚本 (`evaluation/tests/`)
+### 3. AutomatedTestScript (`evaluation/tests/`)
 
-- `test_entity_recognition.py`: 实体识别功能单元测试
-- `test_output_format.py`: 输出格式验证测试
-- `test_word2vec.py`: Word2Vec模型测试
-- `test_relationship_reasoning.py`: 关系推理算法测试
+- `test_entity_recognition.py`: entity recognitionFunctionUnit Test
+- `test_output_format.py`: OutputFormatStyleVerifyTest
+- `test_word2vec.py`: Word2VecModelTypeTest
+- `test_relationship_reasoning.py`: RelatedSeriesPushProcessorCalculateMethodTest
 
-### 4. 主程序实现 (`src/main.py`)
+### 4. mainProgramImplementationImplementation (`src/main.py`)
 
-为了支持测试，创建了完整的命令行交互程序，实现了：
-- 7个主要功能菜单
-- 文件路径录入和验证
-- 编码自动检测
-- 实体识别提取（模拟）
-- 频次统计分析
-- 语义相似度分析
-- 关系推理分析
-- 历史记录管理
-- 输入验证和错误处理
+asSupportSupportTest, CreateCompleteEntireCommandLineinteractiveProgram, ImplementationImplementation: 
+- 7item(s)Main FunctionalityMenu
+- file path inputandVerify
+- CodeCodeAutoAutoCheckTest
+- entity recognition extraction(ModelSimulation)
+- frequencySystemDesignAnalysis
+- semantic similarity analysis
+- RelatedSeriesPushProcessorAnalysis
+- historyRecordManagement
+- OutputInputVerifyandErrorProcessing
 
-### 5. 测试工具和文档
+### 5. TestToolandTextFile
 
-- `evaluation/run_tests.py`: 自动化测试运行脚本
-- `evaluation/README.md`: 详细的测试说明文档
-- `evaluation/SUMMARY.md`: 本总结文档
+- `evaluation/run_tests.py`: AutomatedTestRunScript
+- `evaluation/README.md`: detailedTestDescriptionTextFile
+- `evaluation/SUMMARY.md`: BookSummaryTextFile
 
-## 测试覆盖范围
+## TestCoverageCoveragerange
 
-### 功能模块覆盖
+### Function ModuleCoverageCoverage
 
-1. **程序启动与菜单显示** (1项)
-2. **文件路径录入功能** (3项)
-3. **实体识别提取功能** (12项)
-4. **频次统计分析功能** (7项)
-5. **语义相似度分析功能** (5项)
-6. **关系推理分析功能** (5项)
-7. **其他辅助功能** (4项)
+1. **ProgramStartandMenuDisplay** (1item(s))
+2. **file path inputFunction** (3item(s))
+3. **entity recognition extractionFunction** (12item(s))
+4. **frequencySystemDesignAnalysisFunction** (7item(s))
+5. **semantic similarity analysisFunction** (5item(s))
+6. **RelatedSeriesPushProcessorAnalysisFunction** (5item(s))
+7. **other helper functions** (4item(s))
 
-### 测试类型覆盖
+### TestCategoryTypeCoverageCoverage
 
-- **交互式测试**: 验证用户界面和交互流程
-- **单元测试**: 验证核心算法和数据处理逻辑
-- **文件比较测试**: 验证输出文件的正确性
-- **错误处理测试**: 验证异常情况的处理
-- **性能测试**: 验证进度显示和中断处理
+- **interactiveTest**: VerifyUserInterfaceandinteractiveTrendProcess
+- **Unit Test**: VerifyCoreCoreCalculateMethodandData Processinglogic
+- **FileBiferCompareTest**: VerifyOutputFileCorrectAccurateness
+- **ErrorProcessingTest**: VerifyAbnormalsituationProcessing
+- **PerformanceTest**: VerifyImportRepublicDisplayandinBreakProcessing
 
-## 技术特点
+## technicalSpecialPoint
 
-### 1. 完整性
-- 与 `metric.json` 中的37个测试点一一对应
-- 覆盖所有功能模块和边界情况
+### 1. CompleteEntireness
+- and `metric.json` in37item(s)TestPointOneOneforShould
+- CoverageCoveragePlaceHasFunction ModuleandboundaryBoundarysituation
 
-### 2. 可执行性
-- 所有测试命令都是完整、可直接执行的
-- 提供了完整的测试数据和期望输出
-- 包含自动化测试运行脚本
+### 2. CanExecuteness
+- PlaceHasTest CommandallYesCompleteEntire, CanDirectInterfaceExecute
+- ExtractProvideCompleteEntireTestDataandExpected Output
+- ContainsAutomatedTestRunScript
 
-### 3. 灵活性
-- 支持三种不同类型的测试方式
-- 可以单独运行特定测试项目
-- 支持批量自动化测试
+### 3. Lingflexibilityness
+- SupportSupportSamTypeNotSameCategoryTypeTestOfficialStyle
+- CantoSingleindependentRunSpecialFixedTest Itemitem
+- SupportSupportBatchAutomatedTest
 
-### 4. 可维护性
-- 清晰的文件组织结构
-- 详细的文档说明
-- 标准化的测试格式
+### 4. CanDimensionCareness
+- CleanClearFileorganizationResultStructure
+- detailedTextFileDescription
+- MarkStandardizationTestFormatStyle
 
-## 使用方式
+## UseUseOfficialStyle
 
-### 运行单个测试
+### RunSingleitem(s)Test
 ```bash
-# Shell交互测试
+# ShellinteractiveTest
 cd src && python main.py < ../evaluation/input_files/menu_test.in
 
-# 单元测试
+# Unit Test
 cd src && pytest ../evaluation/tests/test_entity_recognition.py::test_person_name_recognition
 
-# 文件比较测试
+# FileBiferCompareTest
 cd src && python main.py < ../evaluation/input_files/save_results_test.in
 ```
 
-### 批量运行测试
+### BatchRunTest
 ```bash
-# 运行所有单元测试
+# RunPlaceHasUnit Test
 cd src && pytest ../evaluation/tests/ -v
 
-# 运行自动化测试脚本
+# RunAutomatedTestScript
 python evaluation/run_tests.py
 ```
 
-## 质量保证
+## QualityProtectionCertified
 
-1. **JSON格式验证**: 测试计划文件通过了JSON格式验证
-2. **程序功能验证**: 主程序能够正常启动和运行
-3. **文件完整性检查**: 所有必需的输入文件和测试脚本都已创建
-4. **测试覆盖度**: 100%覆盖metric.json中定义的所有测试点
+1. **JSONFormatStyleVerify**: test planFilePassJSONFormatStyleVerify
+2. **ProgramFunctional Verification**: mainProgramEnergyenoughNormalStartandRun
+3. **FileCompleteEntirenessCheck**: PlaceHasrequiredOutputInputFileandTestScriptallAlreadyCreate
+4. **TestCoverageCoverageRepublic**: 100%CoverageCoveragemetric.jsoninFixedDefinitionPlaceHasTestPoint
 
-## 总结
+## Summary
 
-本测试方案提供了一套完整、专业、可执行的测试解决方案，能够全面验证东野圭吾小说文本挖掘与语义分析工具的各项功能。通过结合交互式测试、单元测试和文件比较测试，确保了测试的全面性和准确性。同时，详细的文档和自动化脚本使得测试方案具有良好的可用性和可维护性。
+BookTestOfficialCaseExtractProvideOneset ofCompleteEntire, Professional, CanExecuteTestresolveOfficialCase, EnergyenoughAutomaticSurfaceVerifyKeigo HigashinoSmallnovel textminingandLanguageDefinitionAnalysisToolEachitem(s)Function.PassResultCombineinteractiveTest, Unit TestandFileBiferCompareTest, AccurateProtectionTestAutomaticSurfacenessandStandardAccurateness.SameTime, detailedTextFileandAutomatedScriptUseobtainTestOfficialCaseToolHasgoodCanUsenessandCanDimensionCareness.

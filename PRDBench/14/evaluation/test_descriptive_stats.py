@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-测试脚本：验证描述性统计分析功能
+Test script: Verify descriptive statistics analysis functionality
 """
 
 import subprocess
@@ -9,20 +9,20 @@ import sys
 from pathlib import Path
 
 def test_descriptive_stats():
-    """测试描述性统计分析功能"""
-    
-    # 测试命令
+    """Test descriptive statistics analysis functionality"""
+
+    # Test command
     test_command = [
         "python", "-m", "src.main", "analyze", "stats",
         "--data-path", "evaluation/sample_data.csv",
         "--output-dir", "evaluation/reports/descriptive"
     ]
-    
-    print("🧪 开始测试描述性统计分析...")
-    print(f"📋 执行命令: {' '.join(test_command)}")
-    
+
+    print("🧪 Starting descriptive statistics analysis test...")
+    print(f"📋 Executing command: {' '.join(test_command)}")
+
     try:
-        # 执行命令
+        # Execute command
         result = subprocess.run(
             test_command,
             capture_output=True,
@@ -30,54 +30,54 @@ def test_descriptive_stats():
             encoding='utf-8',
             cwd=os.getcwd()
         )
-        
-        # 检查退出码
+
+        # Check exit code
         if result.returncode != 0:
-            print(f"❌ 命令执行失败，退出码: {result.returncode}")
-            print(f"错误输出: {result.stderr}")
+            print(f"❌ Command execution failed, exit code: {result.returncode}")
+            print(f"Error output: {result.stderr}")
             return False
-        
-        print("✅ 命令执行成功")
-        print(f"📤 标准输出: {result.stdout}")
-        
-        # 检查输出文件是否存在
+
+        print("✅ Command execution successful")
+        print(f"📤 Standard output: {result.stdout}")
+
+        # Check if output file exists
         expected_file = Path("evaluation/reports/descriptive/descriptive_stats.md")
         if not expected_file.exists():
-            print(f"❌ 期望的输出文件不存在: {expected_file}")
+            print(f"❌ Expected output file does not exist: {expected_file}")
             return False
-        
-        print(f"✅ 输出文件已生成: {expected_file}")
-        
-        # 检查文件内容
+
+        print(f"✅ Output file generated: {expected_file}")
+
+        # Check file content
         with open(expected_file, 'r', encoding='utf-8') as f:
             content = f.read()
-        
-        # 验证关键内容
+
+        # Verify key content
         required_elements = [
-            "# 描述性统计分析报告",
-            "数据概览",
-            "数值型字段统计",
-            "均值",
-            "标准差",
-            "分类型字段分布",
-            "占比"
+            "# Descriptive Statistics Analysis Report",
+            "Data Overview",
+            "Numerical Field Statistics",
+            "Mean",
+            "Standard Deviation",
+            "Categorical Field Distribution",
+            "Percentage"
         ]
-        
+
         missing_elements = []
         for element in required_elements:
             if element not in content:
                 missing_elements.append(element)
-        
+
         if missing_elements:
-            print(f"❌ 输出文件缺少必要元素: {missing_elements}")
+            print(f"❌ Output file missing required elements: {missing_elements}")
             return False
-        
-        print("✅ 输出文件包含所有必要的统计信息")
-        print("🎉 描述性统计分析测试通过！")
+
+        print("✅ Output file contains all required statistical information")
+        print("🎉 Descriptive statistics analysis test passed!")
         return True
-        
+
     except Exception as e:
-        print(f"❌ 测试过程中发生异常: {e}")
+        print(f"❌ Exception occurred during test: {e}")
         return False
 
 if __name__ == "__main__":

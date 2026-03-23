@@ -4,29 +4,29 @@ import os
 import time
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../src'))
 
-# 导入基础算法
+# Import basic algorithms
 from DP import DP
 from A_star import A_star
 from GA import GA
 
 def test_optimization_techniques():
-    """测试优化技术集成"""
-    # 准备测试数据
+    """Test optimization techniques application"""
+    # Prepare test data
     query = "ATCGATCG"
     target = "GCTAGCTA"
 
-    # 测试基础动态规划算法
+    # Test basic dynamic programming algorithm
     start_time = time.time()
     aligned_query, aligned_target, cost_matrix = DP(query, target)
     dp_time = time.time() - start_time
 
-    # 验证基础算法工作正常
+    # Verify basic algorithm works normally
     assert aligned_query is not None
     assert aligned_target is not None
     assert cost_matrix is not None
     assert dp_time > 0
 
-    # 测试A*搜索算法
+    # Test A* search algorithm
     start_time = time.time()
     final_node = A_star(query, target)
     astar_time = time.time() - start_time
@@ -34,7 +34,7 @@ def test_optimization_techniques():
     assert final_node is not None
     assert astar_time > 0
 
-    # 测试遗传算法（使用安全参数）
+    # Test genetic algorithm (use safe parameters)
     start_time = time.time()
     cost, out_a, out_b = GA(query, target, 1.2, 10, 5, 2)
     ga_time = time.time() - start_time
@@ -45,69 +45,69 @@ def test_optimization_techniques():
     assert ga_time > 0
 
 def test_lbe_optimization():
-    """测试LBE优化技术"""
-    # 模拟LBE优化测试
+    """Test LBE optimization technique"""
+    # Simulate LBE optimization test
     query = "ATCGATCG"
     target = "GCTAGCTA"
 
-    # 基础算法
+    # Basic algorithm
     start_time = time.time()
     aligned_query, aligned_target, cost_matrix = DP(query, target)
     base_time = time.time() - start_time
 
-    # 验证LBE优化存在（通过检查是否有优化版本的文件）
+    # Verify LBE optimization exists (check if there are optimized version files)
     lbe_files = []
     src_dir = os.path.join(os.path.dirname(__file__), '../../src')
     for file in os.listdir(src_dir):
         if 'lbe' in file.lower() or 'LBE' in file:
             lbe_files.append(file)
 
-    # 如果存在LBE相关文件，说明有优化技术实现
-    assert len(lbe_files) >= 0  # 允许没有LBE文件，但测试框架存在
+    # If there are LBE related files, it indicates optimization techniques are implemented
+    assert len(lbe_files) >= 0  # Allow no LBE files, but test framework exists
     assert base_time > 0
 
 def test_hashbin_optimization():
-    """测试HashBin优化技术"""
+    """Test HashBin optimization technique"""
     query = "ATCGATCG"
     target = "GCTAGCTA"
 
-    # 基础算法测试
+    # Basic algorithm test
     aligned_query, aligned_target, cost_matrix = DP(query, target)
 
-    # 验证HashBin优化存在
+    # Verify HashBin optimization exists
     src_dir = os.path.join(os.path.dirname(__file__), '../../src')
     hashbin_files = []
     for file in os.listdir(src_dir):
         if 'hashbin' in file.lower() or 'hash' in file.lower():
             hashbin_files.append(file)
 
-    assert len(hashbin_files) >= 0  # 允许没有HashBin文件，但测试框架存在
+    assert len(hashbin_files) >= 0  # Allow no HashBin files, but test framework exists
     assert aligned_query is not None
 
 def test_numba_optimization():
-    """测试Numba优化技术"""
+    """Test Numba optimization technique"""
     query = "ATCGATCG"
     target = "GCTAGCTA"
 
-    # 基础算法测试
+    # Basic algorithm test
     final_node = A_star(query, target)
 
-    # 验证Numba优化存在
+    # Verify Numba optimization exists
     src_dir = os.path.join(os.path.dirname(__file__), '../../src')
     numba_files = []
     for file in os.listdir(src_dir):
         if 'numba' in file.lower() or 'jit' in file.lower():
             numba_files.append(file)
 
-    assert len(numba_files) >= 0  # 允许没有Numba文件，但测试框架存在
+    assert len(numba_files) >= 0  # Allow no Numba files, but test framework exists
     assert final_node is not None
 
 def test_performance_improvement():
-    """测试性能提升效果"""
+    """Test performance improvement effect"""
     query = "ATCGATCGATCG"
     target = "GCTAGCTAGCTA"
 
-    # 测试多次运行的一致性
+    # Test multiple runs for consistency
     times = []
     for _ in range(3):
         start_time = time.time()
@@ -118,21 +118,21 @@ def test_performance_improvement():
         assert aligned_query is not None
         assert aligned_target is not None
 
-    # 验证执行时间的合理性
+    # Verify execution time is reasonable
     avg_time = sum(times) / len(times)
     assert avg_time > 0
-    assert avg_time < 1.0  # 应该在1秒内完成
+    assert avg_time < 1.0  # Should complete within 1 second
 
 def test_optimization_integration():
-    """测试优化技术集成到统一界面"""
-    # 这个测试验证优化技术是否能被统一管理
+    """Test optimization techniques integration into system"""
+    # This test verifies if optimization techniques can be managed by system
     query = "ATCG"
     target = "GCTA"
 
-    # 测试所有三种基础算法都能正常工作
+    # Test all three basic algorithms work normally
     algorithms = []
 
-    # 动态规划
+    # Dynamic programming
     try:
         aligned_query, aligned_target, cost_matrix = DP(query, target)
         if aligned_query is not None:
@@ -140,7 +140,7 @@ def test_optimization_integration():
     except:
         pass
 
-    # A*搜索
+    # A* search
     try:
         final_node = A_star(query, target)
         if final_node is not None:
@@ -148,7 +148,7 @@ def test_optimization_integration():
     except:
         pass
 
-    # 遗传算法
+    # Genetic algorithm
     try:
         cost, out_a, out_b = GA(query, target, 1.2, 5, 3, 1)
         if cost >= 0:
@@ -156,5 +156,5 @@ def test_optimization_integration():
     except:
         pass
 
-    # 至少应该有2种算法能正常工作
+    # At least 2 algorithms should work normally
     assert len(algorithms) >= 2

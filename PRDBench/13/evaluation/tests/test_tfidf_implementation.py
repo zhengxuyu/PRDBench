@@ -4,244 +4,244 @@ import numpy as np
 import sys
 import os
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from algorithms.content_based import ContentBasedRecommender
 
 
 class TestTFIDFImplementation:
-    """TF-IDF实现单元测试"""
-    
+    """TF-IDF implementation unit tests"""
+
     def setup_method(self):
-        """测试前准备"""
+        """Pre-test setup"""
         self.recommender = ContentBasedRecommender()
         
     def create_items_data(self):
-        """创建商品文本描述数据集"""
+        """Create product text description dataset"""
         items_data = {
             'item_id': range(1, 101),
             'title': [
-                "苹果iPhone 14 Pro智能手机", "华为Mate50 Pro 5G手机", "小米13 Ultra徕卡相机", 
-                "OPPO Find X6 Pro哈苏影像", "vivo X90 Pro+蔡司光学", "三星Galaxy S23 Ultra",
-                "一加11骁龙8Gen2处理器", "魅族20 Pro无界设计", "索尼Xperia 1 V显示屏",
-                "谷歌Pixel 7 Pro系统", "联想拯救者Y9000P游戏本", "戴尔XPS 13 Plus超极本",
-                "华硕ROG玩家国度电竞", "惠普暗影精灵8游戏本", "ThinkPad X1商务办公",
-                "MacBook Pro 14英寸专业", "Surface Laptop微软认证", "机械革命蛟龙16K电竞",
-                "炫龙毁灭者DD2游戏", "神舟战神Z8性价比", "耐克Air Jordan篮球鞋",
-                "阿迪达斯Ultraboost跑步鞋", "新百伦990v5复古跑鞋", "匡威All Star帆布鞋",
-                "万斯Old Skool滑板鞋", "彪马Suede Classic板鞋", "安踏KT7汤普森篮球",
-                "李宁韦德之道10篮球鞋", "361度专业跑步鞋", "特步竞速160X马拉松",
-                "美的变频空调节能静音", "格力品悦壁挂式空调", "海尔统帅智能空调",
-                "奥克斯金典变频空调", "TCL卧室空调制冷", "海信舒适家变频空调",
-                "长虹悦享节能空调", "志高云空调远程控制", "科龙悦雅静音空调",
-                "春兰经典机械空调", "西门子滚筒洗衣机", "海尔波轮洗衣机",
-                "小天鹅比佛利洗护", "美的洗烘一体机", "松下罗密欧洗衣机",
-                "LG蒸汽洗衣机除菌", "博世欧洲进口洗衣机", "惠而浦美式洗衣机",
-                "三洋波轮洗衣机", "统帅海尔洗衣机"
-            ] + [f"商品{i}智能设备" for i in range(51, 101)],
+                "Apple iPhone 14 Pro Smartphone", "Huawei Mate50 Pro 5G Phone", "Xiaomi 13 Ultra Leica Camera",
+                "OPPO Find X6 Pro Hasselblad Image", "vivo X90 Pro+ Zeiss Optics", "Samsung Galaxy S23 Ultra",
+                "OnePlus 11 Snapdragon 8Gen2 Processor", "Meizu 20 Pro Boundless Design", "Sony Xperia 1 V Display",
+                "Google Pixel 7 Pro System", "Lenovo Legion Y9000P Gaming Laptop", "Dell XPS 13 Plus Ultrabook",
+                "ASUS ROG Republic of Gamers", "HP Omen 8 Gaming Laptop", "ThinkPad X1 Business Office",
+                "MacBook Pro 14-inch Professional", "Surface Laptop Microsoft Certified", "Mechrevo Jiao Long 16K Esports",
+                "Shinelon Destroyer DD2 Gaming", "Hasee War God Z8 Cost-effective", "Nike Air Jordan Basketball Shoes",
+                "Adidas Ultraboost Running Shoes", "New Balance 990v5 Retro Sneakers", "Converse All Star Canvas Shoes",
+                "Vans Old Skool Skateboard Shoes", "Puma Suede Classic Sneakers", "Anta KT7 Thompson Basketball",
+                "Li-Ning Way of Wade 10 Basketball Shoes", "361 Degrees Professional Running Shoes", "Xtep Speed 160X Marathon",
+                "Midea Inverter Air Conditioner Energy Saving Silent", "Gree Pinyue Wall-mounted Air Conditioner", "Haier Smart Air Conditioner",
+                "AUX Golden Classic Inverter Air Conditioner", "TCL Bedroom Air Conditioner Cooling", "Hisense Comfort Home Inverter Air Conditioner",
+                "Changhong Joy Energy Saving Air Conditioner", "Chigo Cloud Air Conditioner Remote Control", "Kelon Elegant Silent Air Conditioner",
+                "Chunlan Classic Mechanical Air Conditioner", "Siemens Drum Washing Machine", "Haier Wave Wheel Washing Machine",
+                "Little Swan Beverly Laundry", "Midea Washer-Dryer All-in-one", "Panasonic Romeo Washing Machine",
+                "LG Steam Washing Machine Sterilization", "Bosch European Import Washing Machine", "Whirlpool American Washing Machine",
+                "Sanyo Wave Wheel Washing Machine", "Leader Haier Washing Machine"
+            ] + [f"Product{i} Smart Device" for i in range(51, 101)],
             'description': [
-                "这是一款高端智能手机，具有强大的摄影功能和优秀的性能表现，适合商务和娱乐使用。",
-                "5G网络支持，鸿蒙操作系统，拍照效果出色，是华为最新旗舰产品。",
-                "搭载徕卡影像系统，骁龙8Gen2处理器，提供专业级拍照体验。",
-                "哈苏影像技术加持，旗舰级拍照手机，色彩还原真实自然。",
-                "蔡司光学镜头，极夜人像拍摄能力强，夜景模式效果出众。",
-                "S Pen手写笔支持，大屏幕设计，适合办公和创作。",
-                "骁龙8Gen2处理器，2K 120Hz曲面屏，游戏性能强劲。",
-                "星纪魅族双品牌，无界设计理念，外观简约时尚。",
-                "4K HDR OLED显示技术，索尼专业显示调校。",
-                "原生Android系统，谷歌服务完整，纯净系统体验。"
-            ] + [f"这是商品{i}的详细描述，包含多种功能特性和使用场景。" for i in range(11, 101)],
-            'category': ['手机'] * 10 + ['电脑'] * 10 + ['鞋服'] * 10 + ['家电'] * 20 + ['其他'] * 50,
+                "This is a high-end smartphone with powerful photography features and excellent performance, suitable for business and entertainment use.",
+                "5G network support, HarmonyOS operating system, excellent photography, Huawei's latest flagship product.",
+                "Equipped with Leica imaging system, Snapdragon 8Gen2 processor, provides professional-grade photography experience.",
+                "Hasselblad imaging technology, flagship photography phone, true-to-life color reproduction.",
+                "Zeiss optical lens, strong night portrait shooting capability, outstanding night mode effects.",
+                "S Pen stylus support, large screen design, suitable for office work and creation.",
+                "Snapdragon 8Gen2 processor, 2K 120Hz curved screen, powerful gaming performance.",
+                "Star Era Meizu dual brand, boundless design concept, simple and fashionable appearance.",
+                "4K HDR OLED display technology, Sony professional display tuning.",
+                "Native Android system, complete Google services, pure system experience."
+            ] + [f"This is a detailed description of product{i}, including various functional features and usage scenarios." for i in range(11, 101)],
+            'category': ['phone'] * 10 + ['computer'] * 10 + ['clothing'] * 10 + ['appliance'] * 20 + ['other'] * 50,
             'tags': [
-                "智能手机,摄影,高端", "5G,华为,旗舰", "徕卡,拍照,骁龙", "哈苏,影像,拍照",
-                "蔡司,光学,夜景", "三星,S Pen,大屏", "一加,游戏,性能", "魅族,设计,时尚",
-                "索尼,显示,专业", "谷歌,Android,纯净", "联想,游戏本,高性能", "戴尔,超极本,轻薄",
-                "华硕,电竞,游戏", "惠普,游戏,性能", "联想,商务,办公", "苹果,专业,设计",
-                "微软,认证,办公", "机械革命,电竞,游戏", "炫龙,游戏,高端", "神舟,性价比,游戏",
-                "耐克,篮球,运动", "阿迪达斯,跑步,运动", "新百伦,复古,跑步", "匡威,帆布,潮流",
-                "万斯,滑板,街头", "彪马,复古,经典", "安踏,篮球,专业", "李宁,篮球,专业",
-                "361度,跑步,专业", "特步,马拉松,跑步", "美的,空调,节能", "格力,空调,家用",
-                "海尔,智能,空调", "奥克斯,变频,空调", "TCL,制冷,空调", "海信,变频,智能",
-                "长虹,节能,环保", "志高,远程,智能", "科龙,静音,舒适", "春兰,经典,传统",
-                "西门子,洗衣机,滚筒", "海尔,洗衣机,波轮", "小天鹅,洗护,高端", "美的,洗烘,智能",
-                "松下,日式,精工", "LG,蒸汽,除菌", "博世,进口,品质", "惠而浦,美式,大容量",
-                "三洋,波轮,实用", "统帅,性价比,实用"
-            ] + [f"标签{i},功能{i},特色{i}" for i in range(51, 101)]
+                "smartphone,photography,high-end", "5G,Huawei,flagship", "Leica,photography,Snapdragon", "Hasselblad,imaging,photography",
+                "Zeiss,optics,night", "Samsung,S Pen,large screen", "OnePlus,gaming,performance", "Meizu,design,fashion",
+                "Sony,display,professional", "Google,Android,pure", "Lenovo,gaming laptop,high performance", "Dell,ultrabook,thin and light",
+                "ASUS,esports,gaming", "HP,gaming,performance", "Lenovo,business,office", "Apple,professional,design",
+                "Microsoft,certified,office", "Mechrevo,esports,gaming", "Shinelon,gaming,high-end", "Hasee,cost-effective,gaming",
+                "Nike,basketball,sports", "Adidas,running,sports", "New Balance,retro,running", "Converse,canvas,trendy",
+                "Vans,skateboard,street", "Puma,retro,classic", "Anta,basketball,professional", "Li-Ning,basketball,professional",
+                "361 Degrees,running,professional", "Xtep,marathon,running", "Midea,air conditioner,energy saving", "Gree,air conditioner,home use",
+                "Haier,smart,air conditioner", "AUX,inverter,air conditioner", "TCL,cooling,air conditioner", "Hisense,inverter,smart",
+                "Changhong,energy saving,eco-friendly", "Chigo,remote,smart", "Kelon,silent,comfortable", "Chunlan,classic,traditional",
+                "Siemens,washing machine,drum", "Haier,washing machine,wave wheel", "Little Swan,laundry,high-end", "Midea,washer-dryer,smart",
+                "Panasonic,Japanese,precision", "LG,steam,sterilization", "Bosch,imported,quality", "Whirlpool,American,large capacity",
+                "Sanyo,wave wheel,practical", "Leader,cost-effective,practical"
+            ] + [f"tag{i},function{i},feature{i}" for i in range(51, 101)]
         }
         
         return pd.DataFrame(items_data)
     
     def test_tfidf_implementation(self):
-        """测试TF-IDF特征提取实现"""
-        # 准备测试数据
+        """Test TF-IDF feature extraction implementation"""
+        # Prepare test data
         items_df = self.create_items_data()
-        
-        # 训练模型
+
+        # Train model
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
-        
-        # 验证TF-IDF特征矩阵生成
-        assert self.recommender.item_features is not None, "应该生成TF-IDF特征矩阵"
-        assert self.recommender.tfidf_vectorizer is not None, "应该创建TF-IDF向量化器"
-        
-        # 验证特征矩阵维度
+
+        # Verify TF-IDF feature matrix generation
+        assert self.recommender.item_features is not None, "Should generate TF-IDF feature matrix"
+        assert self.recommender.tfidf_vectorizer is not None, "Should create TF-IDF vectorizer"
+
+        # Verify feature matrix dimensions
         n_items = len(items_df)
         feature_matrix = self.recommender.item_features
-        assert feature_matrix.shape[0] == n_items, f"特征矩阵行数应该等于商品数量{n_items}"
-        
-        # 验证特征矩阵不全为零
-        assert feature_matrix.sum() > 0, "特征矩阵不应该全为零"
-        
-        # 验证相似度矩阵生成
-        assert self.recommender.item_similarity_matrix is not None, "应该生成商品相似度矩阵"
-        assert self.recommender.item_similarity_matrix.shape == (n_items, n_items), "相似度矩阵维度应该正确"
-        
-        # 验证相似度矩阵的对称性
+        assert feature_matrix.shape[0] == n_items, f"Feature matrix rows should equal number of items {n_items}"
+
+        # Verify feature matrix is not all zeros
+        assert feature_matrix.sum() > 0, "Feature matrix should not be all zeros"
+
+        # Verify similarity matrix generation
+        assert self.recommender.item_similarity_matrix is not None, "Should generate item similarity matrix"
+        assert self.recommender.item_similarity_matrix.shape == (n_items, n_items), "Similarity matrix dimensions should be correct"
+
+        # Verify symmetry of similarity matrix
         similarity_matrix = self.recommender.item_similarity_matrix
-        assert np.allclose(similarity_matrix, similarity_matrix.T), "相似度矩阵应该是对称的"
-        
-        # 验证对角线为1（自己与自己的相似度）
+        assert np.allclose(similarity_matrix, similarity_matrix.T), "Similarity matrix should be symmetric"
+
+        # Verify diagonal is 1 (similarity with self)
         diagonal = np.diag(similarity_matrix)
-        assert np.allclose(diagonal, 1.0), "相似度矩阵对角线应该全为1"
+        assert np.allclose(diagonal, 1.0), "Similarity matrix diagonal should be all 1s"
     
     def test_similarity_calculation(self):
-        """测试相似度计算准确性"""
+        """Test similarity calculation accuracy"""
         items_df = self.create_items_data()
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
-        
-        # 测试相同类别商品的相似度
-        phone_items = items_df[items_df['category'] == '手机']['item_id'].values[:5]
-        computer_items = items_df[items_df['category'] == '电脑']['item_id'].values[:5]
-        
-        # 计算手机类别内部相似度
+
+        # Test similarity of same category items
+        phone_items = items_df[items_df['category'] == 'phone']['item_id'].values[:5]
+        computer_items = items_df[items_df['category'] == 'computer']['item_id'].values[:5]
+
+        # Calculate intra-phone category similarity
         phone_similarities = []
         for i in range(len(phone_items)):
             for j in range(i+1, len(phone_items)):
                 sim = self.recommender.get_item_similarity(phone_items[i], phone_items[j])
                 phone_similarities.append(sim)
-        
-        # 计算手机与电脑类别间相似度
+
+        # Calculate phone-computer cross-category similarity
         cross_similarities = []
         for phone_id in phone_items:
             for computer_id in computer_items:
                 sim = self.recommender.get_item_similarity(phone_id, computer_id)
                 cross_similarities.append(sim)
-        
-        # 验证同类别商品相似度较高
+
+        # Verify same category items have higher similarity
         avg_phone_sim = np.mean(phone_similarities)
         avg_cross_sim = np.mean(cross_similarities)
-        
-        assert avg_phone_sim > avg_cross_sim, "同类别商品相似度应该高于跨类别相似度"
-        assert avg_phone_sim > 0.1, "同类别商品相似度应该有合理的数值"
+
+        assert avg_phone_sim > avg_cross_sim, "Same category items should have higher similarity than cross-category"
+        assert avg_phone_sim > 0.1, "Same category items should have reasonable similarity values"
     
     def test_recommend_similar_items(self):
-        """测试相似商品推荐功能"""
+        """Test similar item recommendation function"""
         items_df = self.create_items_data()
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
-        
-        # 测试推荐相似商品
-        target_item_id = 1  # 苹果iPhone
+
+        # Test similar item recommendation
+        target_item_id = 1  # Apple iPhone
         similar_items = self.recommender.recommend_similar_items(target_item_id, top_n=5)
-        
-        # 验证推荐结果
-        assert len(similar_items) <= 5, "推荐数量不应该超过要求的top_n"
-        assert len(similar_items) > 0, "应该有相似商品推荐"
-        
-        # 验证推荐结果格式
+
+        # Verify recommendation results
+        assert len(similar_items) <= 5, "Number of recommendations should not exceed top_n"
+        assert len(similar_items) > 0, "Should have similar item recommendations"
+
+        # Verify recommendation result format
         for item_id, similarity in similar_items:
-            assert isinstance(item_id, (int, np.integer)), "商品ID应该是整数"
-            assert isinstance(similarity, (float, np.floating)), "相似度应该是浮点数"
-            assert 0 <= similarity <= 1, "相似度应该在[0,1]范围内"
-            assert item_id != target_item_id, "不应该推荐商品自己"
-        
-        # 验证推荐结果按相似度降序排列
+            assert isinstance(item_id, (int, np.integer)), "Item ID should be integer"
+            assert isinstance(similarity, (float, np.floating)), "Similarity should be float"
+            assert 0 <= similarity <= 1, "Similarity should be in [0,1] range"
+            assert item_id != target_item_id, "Should not recommend the item itself"
+
+        # Verify recommendations are sorted by similarity in descending order
         similarities = [sim for _, sim in similar_items]
-        assert similarities == sorted(similarities, reverse=True), "推荐结果应该按相似度降序排列"
+        assert similarities == sorted(similarities, reverse=True), "Recommendations should be sorted by similarity in descending order"
     
     def test_user_profile_recommendation(self):
-        """测试基于用户画像的推荐"""
+        """Test user profile-based recommendation"""
         items_df = self.create_items_data()
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
-        
-        # 创建用户偏好画像
+
+        # Create user preference profile
         user_preferences = {
-            'interests': '智能手机 拍照 摄影',
-            'brand_preference': '苹果 华为',
-            'category': '手机 数码'
+            'interests': 'smartphone photography camera',
+            'brand_preference': 'Apple Huawei',
+            'category': 'phone digital'
         }
-        
-        # 获取基于用户画像的推荐
+
+        # Get user profile-based recommendations
         recommendations = self.recommender.recommend_for_user_profile(
             user_preferences, items_df, top_n=10
         )
-        
-        # 验证推荐结果
-        assert len(recommendations) <= 10, "推荐数量不应该超过要求的top_n"
-        assert len(recommendations) > 0, "应该有推荐结果"
-        
-        # 验证推荐结果格式
+
+        # Verify recommendation results
+        assert len(recommendations) <= 10, "Number of recommendations should not exceed top_n"
+        assert len(recommendations) > 0, "Should have recommendation results"
+
+        # Verify recommendation result format
         for item_id, score in recommendations:
-            assert isinstance(item_id, (int, np.integer)), "商品ID应该是整数"
-            assert isinstance(score, (float, np.floating)), "推荐分数应该是浮点数"
-            assert score >= 0, "推荐分数应该为非负数"
-        
-        # 验证推荐结果按分数降序排列
+            assert isinstance(item_id, (int, np.integer)), "Item ID should be integer"
+            assert isinstance(score, (float, np.floating)), "Recommendation score should be float"
+            assert score >= 0, "Recommendation score should be non-negative"
+
+        # Verify recommendations are sorted by score in descending order
         scores = [score for _, score in recommendations]
-        assert scores == sorted(scores, reverse=True), "推荐结果应该按分数降序排列"
-        
-        # 验证推荐的商品与用户偏好相关
+        assert scores == sorted(scores, reverse=True), "Recommendations should be sorted by score in descending order"
+
+        # Verify recommended items are relevant to user preferences
         recommended_items = items_df[items_df['item_id'].isin([item_id for item_id, _ in recommendations])]
-        phone_count = len(recommended_items[recommended_items['category'] == '手机'])
+        phone_count = len(recommended_items[recommended_items['category'] == 'phone'])
         phone_ratio = phone_count / len(recommended_items) if len(recommended_items) > 0 else 0
-        
-        assert phone_ratio >= 0.3, "推荐结果中手机类商品占比应该较高（≥30%）"
+
+        assert phone_ratio >= 0.3, "Phone category items should have a high ratio (≥30%) in recommendations"
     
     def test_tfidf_parameters(self):
-        """测试TF-IDF参数配置"""
+        """Test TF-IDF parameter configuration"""
         items_df = self.create_items_data()
-        
-        # 测试不同的参数配置
+
+        # Test different parameter configurations
         recommender = ContentBasedRecommender()
         recommender.fit(items_df, text_columns=['title', 'description'])
-        
-        # 验证TF-IDF向量化器参数
+
+        # Verify TF-IDF vectorizer parameters
         vectorizer = recommender.tfidf_vectorizer
-        assert hasattr(vectorizer, 'max_features'), "应该配置max_features参数"
-        assert hasattr(vectorizer, 'min_df'), "应该配置min_df参数"
-        assert hasattr(vectorizer, 'max_df'), "应该配置max_df参数"
-        assert vectorizer.ngram_range == (1, 2), "应该使用1-2gram"
-        
-        # 验证词汇表大小合理
+        assert hasattr(vectorizer, 'max_features'), "Should configure max_features parameter"
+        assert hasattr(vectorizer, 'min_df'), "Should configure min_df parameter"
+        assert hasattr(vectorizer, 'max_df'), "Should configure max_df parameter"
+        assert vectorizer.ngram_range == (1, 2), "Should use 1-2 gram"
+
+        # Verify vocabulary size is reasonable
         feature_names = vectorizer.get_feature_names_out()
-        assert len(feature_names) > 10, "词汇表应该包含足够的特征"
-        assert len(feature_names) < 10000, "词汇表大小应该在合理范围内"
+        assert len(feature_names) > 10, "Vocabulary should contain sufficient features"
+        assert len(feature_names) < 10000, "Vocabulary size should be within reasonable range"
     
     def test_edge_cases(self):
-        """测试边界情况"""
-        # 测试空数据
+        """Test edge cases"""
+        # Test empty data
         empty_df = pd.DataFrame(columns=['item_id', 'title', 'description'])
-        
+
         with pytest.raises(Exception):
             self.recommender.fit(empty_df)
-        
-        # 测试单个商品
+
+        # Test single item
         single_item_df = pd.DataFrame({
             'item_id': [1],
-            'title': ['测试商品'],
-            'description': ['这是一个测试商品'],
-            'tags': ['测试,商品']
+            'title': ['Test Product'],
+            'description': ['This is a test product'],
+            'tags': ['test,product']
         })
-        
+
         self.recommender.fit(single_item_df)
         similar_items = self.recommender.recommend_similar_items(1, top_n=5)
-        assert len(similar_items) == 0, "单个商品不应该有相似商品推荐"
-        
-        # 测试不存在的商品ID
+        assert len(similar_items) == 0, "Single item should have no similar item recommendations"
+
+        # Test non-existent item ID
         items_df = self.create_items_data()
         self.recommender.fit(items_df)
-        
+
         similarity = self.recommender.get_item_similarity(999, 1000)
-        assert similarity == 0.0, "不存在的商品ID相似度应该为0"
-        
+        assert similarity == 0.0, "Non-existent item ID similarity should be 0"
+
         similar_items = self.recommender.recommend_similar_items(999)
-        assert len(similar_items) == 0, "不存在的商品ID不应该有推荐结果"
+        assert len(similar_items) == 0, "Non-existent item ID should have no recommendation results"

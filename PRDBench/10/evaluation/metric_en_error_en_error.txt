@@ -1,118 +1,118 @@
 ```json
 [
   {
-    "得分点": "0.1 程序启动与主菜单",
-    "验证方法": "1. **执行 (Act):** 在shell中执行命令 `python src/main.py`。\n2. **断言 (Assert):** 观察程序是否成功启动，并显示一个包含'输入数据', '生成哈夫曼树和编码', '导出结果', '退出'等选项的清晰主菜单。",
-    "得分规范": "2分：程序成功启动，并显示包含4个主要操作选项的清晰主菜单。1分：程序启动，但菜单选项少于4个、不清晰或存在乱码。0分：程序无法启动或启动后立即崩溃。",
-    "赋分权重": 5.0
+    "score_point": "0.1 Program Startup and Main Menu",
+    "verification_method": "1. **Execute (Act):** Execute the command `python src/main.py` in the shell.\n2. **Assert:** Observe whether the program starts successfully and displays a clear main menu containing options such as 'Input Data', 'Generate Huffman Tree and Codes', 'Export Results', 'Exit'.",
+    "scoring_specification": "2 points: Program starts successfully and displays a clear main menu with 4 main operation options. 1 point: Program starts, but the menu has fewer than 4 options, is unclear, or contains garbled text. 0 points: Program cannot start or crashes immediately after starting.",
+    "scoring_weight": 5.0
   },
   {
-    "得分点": "1.1 菜单导航 - 主菜单选项响应",
-    "验证方法": "1. **执行 (Act):** 启动程序后，依次输入 '1', '5', '2', '3', '4'，然后输入一个无效选项如 '9'。\n2. **断言 (Assert):** 观察程序是否能正确进入子菜单、执行操作或对无效输入给出提示。",
-    "得分规范": "2分：所有有效主菜单选项(1,2,3,4)都能被正确识别和响应，无效输入也能得到适当提示。1分：大部分有效选项能响应，但个别有误或无效输入提示不明确。0分：主菜单选项无法响应或程序崩溃。",
-    "赋分权重": 2.0
+    "score_point": "1.1 Menu Navigation - Main Menu Option Response",
+    "verification_method": "1. **Execute (Act):** After starting the program, sequentially enter '1', '5', '2', '3', '4', then enter an invalid option such as '9'.\n2. **Assert:** Observe whether the program can correctly enter submenus, execute operations, or provide prompts for invalid input.",
+    "scoring_specification": "2 points: All valid main menu options (1,2,3,4) are correctly recognized and responded to, and invalid input receives appropriate prompts. 1 point: Most valid options respond, but some are incorrect or invalid input prompts are unclear. 0 points: Main menu options do not respond or the program crashes.",
+    "scoring_weight": 2.0
   },
   {
-    "得分点": "1.2 菜单导航 - 输入数据子菜单",
-    "验证方法": "1. **执行 (Act):** 启动程序，选择主菜单 '1' 进入输入数据菜单。\n2. **断言 (Assert):** 观察是否显示包含'从TXT文件读取', '生成随机文本', '手动输入文本', '输入键值对', '返回主菜单'的子菜单。",
-    "得分规范": "2分：成功显示完整的输入数据子菜单，包含5个选项。1分：显示了子菜单但选项不全或有错误。0分：未显示子菜单或程序出错。",
-    "赋分权重": 1.5
+    "score_point": "1.2 Menu Navigation - Input Data Submenu",
+    "verification_method": "1. **Execute (Act):** Start the program, select main menu '1' to enter the input data menu.\n2. **Assert:** Observe whether a submenu is displayed containing 'Read from TXT file', 'Generate random text', 'Manually enter text', 'Enter key-value pairs', 'Return to main menu'.",
+    "scoring_specification": "2 points: Successfully displays complete input data submenu with 5 options. 1 point: Displays submenu but options are incomplete or incorrect. 0 points: Submenu not displayed or program error.",
+    "scoring_weight": 1.5
   },
   {
-    "得分点": "1.3 菜单导航 - 导出结果子菜单",
-    "验证方法": "1. **执行 (Act):** 启动程序，选择主菜单 '3' 进入导出结果菜单。\n2. **断言 (Assert):** 观察是否显示包含'导出哈夫曼编码到 CSV', '导出哈夫曼树到 JSON', '返回主菜单'的子菜单。",
-    "得分规范": "2分：成功显示完整的导出结果子菜单，包含3个选项。1分：显示了子菜单但选项不全或有错误。0分：未显示子菜单或程序出错。",
-    "赋分权重": 1.5
+    "score_point": "1.3 Menu Navigation - Export Results Submenu",
+    "verification_method": "1. **Execute (Act):** Start the program, select main menu '3' to enter the export results menu.\n2. **Assert:** Observe whether a submenu is displayed containing 'Export Huffman codes to CSV', 'Export Huffman tree to JSON', 'Return to main menu'.",
+    "scoring_specification": "2 points: Successfully displays complete export results submenu with 3 options. 1 point: Displays submenu but options are incomplete or incorrect. 0 points: Submenu not displayed or program error.",
+    "scoring_weight": 1.5
   },
   {
-    "得分点": "2.1.1a 文本导入 - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在主菜单中选择 '1' 进入输入数据菜单后，是否存在一个清晰的选项如'从TXT文件读取'或类似功能？\n2. **准备 (Arrange):** 确保项目根目录下存在一个名为 `Test.txt` 的文本文件。\n3. **执行 (Act):** 选择'从TXT文件读取'选项，并输入 `Test.txt` 作为文件路径。\n4. **断言 (Assert):** 观察程序是否显示成功读取文件并创建频度表的信息。",
-    "得分规范": "2分：前置校验通过，且能成功读取指定文件内容并生成频度表。1分：前置校验通过，但读取文件或生成频度表时出现非致命错误。0分：前置校验失败，或无法读取文件，或程序报错。",
-    "赋分权重": 3.5
+    "score_point": "2.1.1a Text Import - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** After selecting '1' in the main menu to enter the input data menu, is there a clear option such as 'Read from TXT file' or similar functionality?\n2. **Prepare (Arrange):** Ensure a file named `Test.txt` exists in the project root directory.\n3. **Execute (Act):** Select the 'Read from TXT file' option and enter `Test.txt` as the file path.\n4. **Assert:** Observe whether the program displays information about successfully reading the file and creating a frequency table.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully read the specified file content and generate a frequency table. 1 point: Precondition check passes, but non-fatal errors occur when reading the file or generating the frequency table. 0 points: Precondition check fails, or cannot read the file, or program error.",
+    "scoring_weight": 3.5
   },
   {
-    "得分点": "2.1.2a 随机文本生成 (数字) - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在输入数据菜单中，是否存在一个清晰的选项如'生成随机文本'或类似功能？\n2. **准备 (Arrange):** 准备输入数据：长度为10，类型为'数字'。\n3. **执行 (Act):** 选择'生成随机文本'选项，然后依次输入长度10和类型'数字'。\n4. **断言 (Assert):** 观察程序是否成功生成一段10位的纯数字文本，并显示生成的文本内容。",
-    "得分规范": "2分：前置校验通过，且能成功生成指定长度和类型的随机文本。1分：前置校验通过，但生成的文本类型或长度与要求不符，或未显示生成的文本。0分：前置校验失败，或无法生成文本，或程序报错。",
-    "赋分权重": 2.0
+    "score_point": "2.1.2a Random Text Generation (Digits) - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the input data menu, is there a clear option such as 'Generate random text' or similar functionality?\n2. **Prepare (Arrange):** Prepare input data: length of 10, type 'digits'.\n3. **Execute (Act):** Select the 'Generate random text' option, then enter length 10 and type 'digits'.\n4. **Assert:** Observe whether the program successfully generates a 10-digit pure numeric text and displays the generated text content.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully generate random text of the specified length and type. 1 point: Precondition check passes, but the generated text type or length does not match requirements, or the generated text is not displayed. 0 points: Precondition check fails, or cannot generate text, or program error.",
+    "scoring_weight": 2.0
   },
   {
-    "得分点": "2.1.2b 随机文本生成 (字母) - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在输入数据菜单中，是否存在一个清晰的选项如'生成随机文本'或类似功能？\n2. **准备 (Arrange):** 准备输入数据：长度为15，类型为'字母'。\n3. **执行 (Act):** 选择'生成随机文本'选项，然后依次输入长度15和类型'字母'。\n4. **断言 (Assert):** 观察程序是否成功生成一段15位的纯字母文本，并显示生成的文本内容。",
-    "得分规范": "2分：前置校验通过，且能成功生成指定长度和类型的随机文本。1分：前置校验通过，但生成的文本类型或长度与要求不符，或未显示生成的文本。0分：前置校验失败，或无法生成文本，或程序报错。",
-    "赋分权重": 2.0
+    "score_point": "2.1.2b Random Text Generation (Letters) - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the input data menu, is there a clear option such as 'Generate random text' or similar functionality?\n2. **Prepare (Arrange):** Prepare input data: length of 15, type 'letters'.\n3. **Execute (Act):** Select the 'Generate random text' option, then enter length 15 and type 'letters'.\n4. **Assert:** Observe whether the program successfully generates a 15-character pure letter text and displays the generated text content.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully generate random text of the specified length and type. 1 point: Precondition check passes, but the generated text type or length does not match requirements, or the generated text is not displayed. 0 points: Precondition check fails, or cannot generate text, or program error.",
+    "scoring_weight": 2.0
   },
   {
-    "得分点": "2.1.2c 随机文本生成 (字符串) - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在输入数据菜单中，是否存在一个清晰的选项如'生成随机文本'或类似功能？\n2. **准备 (Arrange):** 准备输入数据：长度为20，类型为'字符串'。\n3. **执行 (Act):** 选择'生成随机文本'选项，然后依次输入长度20和类型'字符串'。\n4. **断言 (Assert):** 观察程序是否成功生成一段20位的包含字母、数字和标点符号的文本，并显示生成的文本内容。",
-    "得分规范": "2分：前置校验通过，且能成功生成指定长度和类型的随机文本。1分：前置校验通过，但生成的文本类型或长度与要求不符，或未显示生成的文本。0分：前置校验失败，或无法生成文本，或程序报错。",
-    "赋分权重": 2.0
+    "score_point": "2.1.2c Random Text Generation (String) - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the input data menu, is there a clear option such as 'Generate random text' or similar functionality?\n2. **Prepare (Arrange):** Prepare input data: length of 20, type 'string'.\n3. **Execute (Act):** Select the 'Generate random text' option, then enter length 20 and type 'string'.\n4. **Assert:** Observe whether the program successfully generates a 20-character text containing letters, digits, and punctuation marks, and displays the generated text content.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully generate random text of the specified length and type. 1 point: Precondition check passes, but the generated text type or length does not match requirements, or the generated text is not displayed. 0 points: Precondition check fails, or cannot generate text, or program error.",
+    "scoring_weight": 2.0
   },
   {
-    "得分点": "2.1.2d 随机文本生成 (中文) - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在输入数据菜单中，是否存在一个清晰的选项如'生成随机文本'或类似功能？\n2. **准备 (Arrange):** 准备输入数据：长度为8，类型为'中文'。\n3. **执行 (Act):** 选择'生成随机文本'选项，然后依次输入长度8和类型'中文'。\n4. **断言 (Assert):** 观察程序是否成功生成一段8个中文字符的文本，并显示生成的文本内容。",
-    "得分规范": "2分：前置校验通过，且能成功生成指定长度和类型的随机文本。1分：前置校验通过，但生成的文本类型或长度与要求不符，或未显示生成的文本。0分：前置校验失败，或无法生成文本，或程序报错。",
-    "赋分权重": 2.0
+    "score_point": "2.1.2d Random Text Generation (Chinese) - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the input data menu, is there a clear option such as 'Generate random text' or similar functionality?\n2. **Prepare (Arrange):** Prepare input data: length of 8, type 'chinese'.\n3. **Execute (Act):** Select the 'Generate random text' option, then enter length 8 and type 'chinese'.\n4. **Assert:** Observe whether the program successfully generates an 8-character Chinese text and displays the generated text content.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully generate random text of the specified length and type. 1 point: Precondition check passes, but the generated text type or length does not match requirements, or the generated text is not displayed. 0 points: Precondition check fails, or cannot generate text, or program error.",
+    "scoring_weight": 2.0
   },
   {
-    "得分点": "2.1.3a 手动输入文本 - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在输入数据菜单中，是否存在一个清晰的选项如'手动输入文本'或类似功能？\n2. **准备 (Arrange):** 准备输入数据：文本 'AABBBCCCCDDDDDE'。\n3. **执行 (Act):** 选择'手动输入文本'选项，然后输入文本 'AABBBCCCCDDDDDE'。\n4. **断言 (Assert):** 观察程序是否显示成功创建频度表的信息。",
-    "得分规范": "2分：前置校验通过，且能成功根据输入文本创建频度表。1分：前置校验通过，但创建频度表时出现非致命错误或未显示成功信息。0分：前置校验失败，或无法创建频度表，或程序报错。",
-    "赋分权重": 2.0
+    "score_point": "2.1.3a Manual Text Input - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the input data menu, is there a clear option such as 'Manually enter text' or similar functionality?\n2. **Prepare (Arrange):** Prepare input data: text 'AABBBCCCCDDDDDE'.\n3. **Execute (Act):** Select the 'Manually enter text' option, then enter the text 'AABBBCCCCDDDDDE'.\n4. **Assert:** Observe whether the program displays information about successfully creating a frequency table.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully create a frequency table based on the input text. 1 point: Precondition check passes, but non-fatal errors occur when creating the frequency table or success information is not displayed. 0 points: Precondition check fails, or cannot create frequency table, or program error.",
+    "scoring_weight": 2.0
   },
   {
-    "得分点": "2.1.4a 键值对输入 - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在输入数据菜单中，是否存在一个清晰的选项如'输入键值对'或类似功能？\n2. **准备 (Arrange):** 准备输入数据：键值对 'a:5', 'b:9', 'c:12'。\n3. **执行 (Act):** 选择'输入键值对'选项，然后依次输入 'a' 和 '5'，'b' 和 '9'，'c' 和 '12'，最后输入 '完成'。\n4. **断言 (Assert):** 观察程序是否显示成功创建频度表的信息。",
-    "得分规范": "2分：前置校验通过，且能成功根据输入的键值对创建频度表。1分：前置校验通过，但创建频度表时出现非致命错误或未显示成功信息。0分：前置校验失败，或无法创建频度表，或程序报错。",
-    "赋分权重": 2.0
+    "score_point": "2.1.4a Key-Value Pair Input - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the input data menu, is there a clear option such as 'Enter key-value pairs' or similar functionality?\n2. **Prepare (Arrange):** Prepare input data: key-value pairs 'a:5', 'b:9', 'c:12'.\n3. **Execute (Act):** Select the 'Enter key-value pairs' option, then sequentially enter 'a' and '5', 'b' and '9', 'c' and '12', and finally enter 'done'.\n4. **Assert:** Observe whether the program displays information about successfully creating a frequency table.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully create a frequency table based on the input key-value pairs. 1 point: Precondition check passes, but non-fatal errors occur when creating the frequency table or success information is not displayed. 0 points: Precondition check fails, or cannot create frequency table, or program error.",
+    "scoring_weight": 2.0
   },
   {
-    "得分点": "2.2.1a 哈夫曼树构建 - 正常流程",
-    "验证方法": "1. **前置校验 (用户路径):** 是否存在一个从频度表构建哈夫曼树的功能？\n2. **准备 (Arrange):** 准备一个有效的频度表，例如通过手动输入 'AABBBCCCCDDDDDE' 得到。\n3. **执行 (Act):** 在主菜单中选择 '2'。\n4. **断言 (Assert):** 观察程序是否显示成功生成哈夫曼树和编码的信息，并打印出编码表。",
-    "得分规范": "2分：前置校验通过，且能成功根据频度表构建哈夫曼树并生成编码。1分：前置校验通过，但构建过程出现非致命错误或未显示完整信息。0分：前置校验失败，或无法构建哈夫曼树，或程序报错。",
-    "赋分权重": 3.0
+    "score_point": "2.2.1a Huffman Tree Construction - Normal Process",
+    "verification_method": "1. **Precondition Check (User Path):** Does functionality exist to build a Huffman tree from a frequency table?\n2. **Prepare (Arrange):** Prepare a valid frequency table, for example by manually entering 'AABBBCCCCDDDDDE'.\n3. **Execute (Act):** Select '2' in the main menu.\n4. **Assert:** Observe whether the program displays information about successfully generating the Huffman tree and codes, and prints the encoding table.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully build a Huffman tree from the frequency table and generate codes. 1 point: Precondition check passes, but non-fatal errors occur during the build process or complete information is not displayed. 0 points: Precondition check fails, or cannot build Huffman tree, or program error.",
+    "scoring_weight": 3.0
   },
   {
-    "得分点": "2.2.1b 哈夫曼树构建 - 异常处理 (单字符)",
-    "验证方法": "1. **前置校验 (用户路径):** 是否存在一个从频度表构建哈夫曼树的功能？\n2. **准备 (Arrange):** 准备一个只有一个字符的频度表，例如通过手动输入 'A' 得到。\n3. **执行 (Act):** 在主菜单中选择 '2'。\n4. **断言 (Assert):** 观察程序是否显示一个明确的错误信息，例如 '输入必须包含至少两个字符才能构建哈夫曼树。'。",
-    "得分规范": "2分：前置校验通过，且在输入无效数据时能显示明确、正确的错误信息。1分：前置校验通过，但错误信息不明确或不完全正确。0分：前置校验失败，或未显示错误信息，或程序崩溃。",
-    "赋分权重": 1.5
+    "score_point": "2.2.1b Huffman Tree Construction - Exception Handling (Single Character)",
+    "verification_method": "1. **Precondition Check (User Path):** Does functionality exist to build a Huffman tree from a frequency table?\n2. **Prepare (Arrange):** Prepare a frequency table with only one character, for example by manually entering 'A'.\n3. **Execute (Act):** Select '2' in the main menu.\n4. **Assert:** Observe whether the program displays a clear error message, such as 'Input must contain at least two characters to build a Huffman tree.'",
+    "scoring_specification": "2 points: Precondition check passes, and displays clear, correct error messages when invalid data is input. 1 point: Precondition check passes, but error message is unclear or not completely correct. 0 points: Precondition check fails, or no error message is displayed, or program crashes.",
+    "scoring_weight": 1.5
   },
   {
-    "得分点": "2.3.1a CSV导出 - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在导出结果菜单中，是否存在一个清晰的选项如'导出哈夫曼编码到 CSV'或类似功能？\n2. **准备 (Arrange):** 确保程序中已有生成的哈夫曼编码（例如，通过输入 'AABBBCCCCDDDDDE' 并构建树）。\n3. **执行 (Act):** 选择'导出哈夫曼编码到 CSV'选项，然后输入文件名 'export.csv'。\n4. **断言 (Assert):** 观察程序是否显示成功导出的信息，并检查文件是否已创建。",
-    "得分规范": "2分：前置校验通过，且能成功将哈夫曼编码导出到CSV文件，并显示成功信息。1分：前置校验通过，但导出过程出现非致命错误或未显示成功信息。0分：前置校验失败，或无法导出文件，或程序报错。",
-    "赋分权重": 2.5
+    "score_point": "2.3.1a CSV Export - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the export results menu, is there a clear option such as 'Export Huffman codes to CSV' or similar functionality?\n2. **Prepare (Arrange):** Ensure that Huffman codes have been generated in the program (for example, by entering 'AABBBCCCCDDDDDE' and building the tree).\n3. **Execute (Act):** Select the 'Export Huffman codes to CSV' option, then enter the filename 'export.csv'.\n4. **Assert:** Observe whether the program displays successful export information and check if the file has been created.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully export Huffman codes to a CSV file with success information displayed. 1 point: Precondition check passes, but non-fatal errors occur during export or success information is not displayed. 0 points: Precondition check fails, or cannot export file, or program error.",
+    "scoring_weight": 2.5
   },
   {
-    "得分点": "2.3.2a JSON导出 (层序遍历) - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在导出结果菜单中，是否存在一个清晰的选项如'导出哈夫曼树到 JSON'或类似功能？\n2. **准备 (Arrange):** 确保程序中已有生成的哈夫曼树（例如，通过输入 'AABBBCCCCDDDDDE' 并构建树）。\n3. **执行 (Act):** 选择'导出哈夫曼树到 JSON'选项，然后输入文件名 'tree.json' 和遍历类型 '层序遍历'。\n4. **断言 (Assert):** 观察程序是否显示成功导出的信息，并检查文件是否已创建。",
-    "得分规范": "2分：前置校验通过，且能成功将哈夫曼树（层序遍历）导出到JSON文件，并显示成功信息。1分：前置校验通过，但导出过程出现非致命错误或未显示成功信息。0分：前置校验失败，或无法导出文件，或程序报错。",
-    "赋分权重": 2.5
+    "score_point": "2.3.2a JSON Export (Level-Order Traversal) - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the export results menu, is there a clear option such as 'Export Huffman tree to JSON' or similar functionality?\n2. **Prepare (Arrange):** Ensure that a Huffman tree has been generated in the program (for example, by entering 'AABBBCCCCDDDDDE' and building the tree).\n3. **Execute (Act):** Select the 'Export Huffman tree to JSON' option, then enter the filename 'tree.json' and traversal type 'level'.\n4. **Assert:** Observe whether the program displays successful export information and check if the file has been created.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully export the Huffman tree (level-order traversal) to a JSON file with success information displayed. 1 point: Precondition check passes, but non-fatal errors occur during export or success information is not displayed. 0 points: Precondition check fails, or cannot export file, or program error.",
+    "scoring_weight": 2.5
   },
   {
-    "得分点": "2.3.2b JSON导出 (先序遍历) - 用户路径可达性",
-    "验证方法": "1. **前置校验 (用户路径):** 在导出结果菜单中，是否存在一个清晰的选项如'导出哈夫曼树到 JSON'或类似功能？\n2. **准备 (Arrange):** 确保程序中已有生成的哈夫曼树（例如，通过输入 'AABBBCCCCDDDDDE' 并构建树）。\n3. **执行 (Act):** 选择'导出哈夫曼树到 JSON'选项，然后输入文件名 'tree.json' 和遍历类型 '先序遍历'。\n4. **断言 (Assert):** 观察程序是否显示成功导出的信息，并检查文件是否已创建。",
-    "得分规范": "2分：前置校验通过，且能成功将哈夫曼树（先序遍历）导出到JSON文件，并显示成功信息。1分：前置校验通过，但导出过程出现非致命错误或未显示成功信息。0分：前置校验失败，或无法导出文件，或程序报错。",
-    "赋分权重": 2.5
+    "score_point": "2.3.2b JSON Export (Pre-Order Traversal) - User Path Accessibility",
+    "verification_method": "1. **Precondition Check (User Path):** In the export results menu, is there a clear option such as 'Export Huffman tree to JSON' or similar functionality?\n2. **Prepare (Arrange):** Ensure that a Huffman tree has been generated in the program (for example, by entering 'AABBBCCCCDDDDDE' and building the tree).\n3. **Execute (Act):** Select the 'Export Huffman tree to JSON' option, then enter the filename 'tree.json' and traversal type 'preorder'.\n4. **Assert:** Observe whether the program displays successful export information and check if the file has been created.",
+    "scoring_specification": "2 points: Precondition check passes, and can successfully export the Huffman tree (pre-order traversal) to a JSON file with success information displayed. 1 point: Precondition check passes, but non-fatal errors occur during export or success information is not displayed. 0 points: Precondition check fails, or cannot export file, or program error.",
+    "scoring_weight": 2.5
   },
   {
-    "得分点": "3.1 单元测试 - 构建哈夫曼树",
-    "验证方法": "1. **前置校验 (用户路径):** 在 `src/tests/` 或类似目录中是否存在针对 `build_huffman_tree` 函数的单元测试？\n2. **准备 (Arrange):** 准备测试数据，例如一个包含多个字符及其频度的字典 `{'a': 5, 'b': 9, 'c': 12, 'd': 13, 'e': 16, 'f': 45}`。\n3. **执行 (Act):** 执行单元测试命令 `pytest src/tests/test_huffman.py::TestHuffman::test_build_huffman_tree -v`。\n4. **断言 (Assert):** 观察测试是否通过。",
-    "得分规范": "2分：前置校验通过，且单元测试 `test_build_huffman_tree` 执行通过。1分：前置校验通过，但单元测试未能完全覆盖功能或存在轻微问题。0分：前置校验失败，或单元测试不存在，或测试不通过。",
-    "赋分权重": 1.0
+    "score_point": "3.1 Unit Testing - Build Huffman Tree",
+    "verification_method": "1. **Precondition Check (User Path):** Does a unit test for the `build_huffman_tree` function exist in `src/tests/` or similar directory?\n2. **Prepare (Arrange):** Prepare test data, for example a dictionary containing multiple characters and their frequencies `{'a': 5, 'b': 9, 'c': 12, 'd': 13, 'e': 16, 'f': 45}`.\n3. **Execute (Act):** Execute the unit test command `pytest src/tests/test_huffman.py::TestHuffman::test_build_huffman_tree -v`.\n4. **Assert:** Observe whether the test passes.",
+    "scoring_specification": "2 points: Precondition check passes, and unit test `test_build_huffman_tree` executes successfully. 1 point: Precondition check passes, but unit test does not fully cover functionality or has minor issues. 0 points: Precondition check fails, or unit test does not exist, or test does not pass.",
+    "scoring_weight": 1.0
   },
   {
-    "得分点": "3.2 单元测试 - 生成哈夫曼编码",
-    "验证方法": "1. **前置校验 (用户路径):** 在 `src/tests/` 或类似目录中是否存在针对 `generate_huffman_codes` 函数的单元测试？\n2. **准备 (Arrange):** 准备测试数据，例如一个已构建好的哈夫曼树和预期的编码字典。\n3. **执行 (Act):** 执行单元测试命令 `pytest src/tests/test_huffman.py::TestHuffman::test_generate_huffman_codes -v`。\n4. **断言 (Assert):** 观察测试是否通过。",
-    "得分规范": "2分：前置校验通过，且单元测试 `test_generate_huffman_codes` 执行通过。1分：前置校验通过，但单元测试未能完全覆盖功能或存在轻微问题。0分：前置校验失败，或单元测试不存在，或测试不通过。",
-    "赋分权重": 1.0
+    "score_point": "3.2 Unit Testing - Generate Huffman Codes",
+    "verification_method": "1. **Precondition Check (User Path):** Does a unit test for the `generate_huffman_codes` function exist in `src/tests/` or similar directory?\n2. **Prepare (Arrange):** Prepare test data, for example a pre-built Huffman tree and expected encoding dictionary.\n3. **Execute (Act):** Execute the unit test command `pytest src/tests/test_huffman.py::TestHuffman::test_generate_huffman_codes -v`.\n4. **Assert:** Observe whether the test passes.",
+    "scoring_specification": "2 points: Precondition check passes, and unit test `test_generate_huffman_codes` executes successfully. 1 point: Precondition check passes, but unit test does not fully cover functionality or has minor issues. 0 points: Precondition check fails, or unit test does not exist, or test does not pass.",
+    "scoring_weight": 1.0
   },
   {
-    "得分点": "3.3 单元测试 - 异常处理 (构建树时节点不足)",
-    "验证方法": "1. **前置校验 (用户路径):** 在 `src/tests/` 或类似目录中是否存在针对 `build_huffman_tree` 函数处理异常输入的单元测试？\n2. **准备 (Arrange):** 准备测试数据，例如一个只包含一个字符的字典 `{'a': 1}`。\n3. **执行 (Act):** 执行单元测试命令 `pytest src/tests/test_huffman.py::TestHuffman::test_build_tree_with_insufficient_nodes -v`。\n4. **断言 (Assert):** 观察测试是否通过，确认函数在接收到无效输入时抛出了 `ValueError`。",
-    "得分规范": "2分：前置校验通过，且单元测试 `test_build_tree_with_insufficient_nodes` 成功验证了异常处理逻辑。1分：前置校验通过，但单元测试未能完全验证异常处理或存在轻微问题。0分：前置校验失败，或单元测试不存在，或测试不通过。",
-    "赋分权重": 1.0
+    "score_point": "3.3 Unit Testing - Exception Handling (Insufficient Nodes When Building Tree)",
+    "verification_method": "1. **Precondition Check (User Path):** Does a unit test for the `build_huffman_tree` function handling exceptional input exist in `src/tests/` or similar directory?\n2. **Prepare (Arrange):** Prepare test data, for example a dictionary containing only one character `{'a': 1}`.\n3. **Execute (Act):** Execute the unit test command `pytest src/tests/test_huffman.py::TestHuffman::test_build_tree_with_insufficient_nodes -v`.\n4. **Assert:** Observe whether the test passes, confirming that the function throws a `ValueError` when receiving invalid input.",
+    "scoring_specification": "2 points: Precondition check passes, and unit test `test_build_tree_with_insufficient_nodes` successfully verifies exception handling logic. 1 point: Precondition check passes, but unit test does not fully verify exception handling or has minor issues. 0 points: Precondition check fails, or unit test does not exist, or test does not pass.",
+    "scoring_weight": 1.0
   }
 ]
 ```

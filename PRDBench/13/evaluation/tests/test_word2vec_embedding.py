@@ -4,12 +4,12 @@ import numpy as np
 import sys
 import os
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from algorithms.content_based import Word2VecRecommender
 
-# 检查 gensim 是否可用
+# Check if gensim is available
 try:
     from gensim.models import Word2Vec
     GENSIM_AVAILABLE = True
@@ -18,185 +18,185 @@ except ImportError:
 
 
 class TestWord2VecEmbedding:
-    """Word2Vec/Embedding支持单元测试"""
+    """Word2Vec/Embedding support unit tests"""
     
     def setup_method(self):
-        """测试前准备"""
+        """Pre-test setup"""
         self.recommender = Word2VecRecommender(vector_size=128, window=5, min_count=2)
         
     def create_text_corpus_data(self):
-        """创建用于训练词向量模型的文本数据"""
-        # 创建包含丰富中文文本的商品数据
+        """Create text data for training word vector model"""
+        # Create product data with rich Chinese text
         items_data = []
         
-        # 手机类商品文本
+        # Phone category product text
         phone_texts = [
-            "苹果iPhone 14 Pro Max 智能手机 A16仿生芯片 超视网膜XDR显示屏 专业级相机系统",
-            "华为Mate50 Pro 鸿蒙系统 麒麟芯片 超感知徕卡影像 曲面屏设计 无线充电",
-            "小米13 Ultra 徕卡光学镜头 骁龙8Gen2处理器 2K AMOLED显示屏 120W快充",
-            "OPPO Find X6 Pro 哈苏影像系统 天玑9200处理器 潜望式长焦镜头 ColorOS系统",
-            "vivo X90 Pro+ 蔡司T*镀膜镜头 天玑9200芯片 120Hz高刷屏幕 闪充技术",
-            "三星Galaxy S23 Ultra S Pen手写笔 Exynos2200处理器 Dynamic AMOLED屏幕",
-            "一加11 哈苏专业模式 骁龙8Gen2芯片 2K 120Hz曲面屏 SUPERVOOC闪充",
-            "魅族20 Pro 星纪魅族设计 骁龙8Gen2处理器 无界全面屏 Flyme系统",
-            "索尼Xperia 1 V 4K HDR OLED显示屏 骁龙8Gen2芯片 专业摄影功能",
-            "谷歌Pixel 7 Pro Tensor G2芯片 计算摄影技术 纯净Android系统 AI功能"
+            "Apple iPhone 14 Pro Max smartphone A16 Bionic chip Super Retina XDR display professional camera system",
+            "Huawei Mate50 Pro HarmonyOS system Kirin chip Leica image curved screen design wireless charging",
+            "Xiaomi 13 Ultra Leica optical lens Snapdragon 8Gen2 processor 2K AMOLED display 120W fast charge",
+            "OPPO Find X6 Pro Hasselblad imaging system Dimensity 9200 processor periscope telephoto lens ColorOS system",
+            "vivo X90 Pro+ Zeiss T coating lens Dimensity 9200 chip 120Hz high refresh screen flash charging technology",
+            "Samsung Galaxy S23 Ultra S Pen stylus Exynos2200 processor Dynamic AMOLED screen",
+            "OnePlus 11 Hasselblad professional mode Snapdragon 8Gen2 chip 2K 120Hz curved screen SUPERVOOC flash charging",
+            "Meizu 20 Pro Star Era Meizu design Snapdragon 8Gen2 processor boundless full screen Flyme system",
+            "Sony Xperia 1 V 4K HDR OLED display Snapdragon 8Gen2 chip professional photography function",
+            "Google Pixel 7 Pro Tensor G2 chip computational photography technology pure Android system AI function"
         ]
         
-        # 电脑类商品文本
+        # Laptop category product text
         laptop_texts = [
-            "联想拯救者Y9000P 游戏笔记本电脑 RTX4080显卡 13代酷睿i9处理器 16GB内存",
-            "戴尔XPS 13 Plus 超极本 12代酷睿i7处理器 OLED触控屏 轻薄便携设计",
-            "华硕ROG 玩家国度 电竞游戏本 RTX4090显卡 AMD锐龙9处理器 240Hz电竞屏",
-            "惠普暗影精灵8 高性能游戏笔记本 RTX4070显卡 酷睿i7处理器 RGB背光键盘",
-            "ThinkPad X1 Carbon 商务办公本 12代酷睿处理器 碳纤维机身 指纹识别",
-            "MacBook Pro 14英寸 M2 Pro芯片 Liquid视网膜XDR显示屏 专业级性能",
-            "微软Surface Laptop 5 触控笔记本 12代酷睿处理器 PixelSense触摸屏",
-            "机械革命蛟龙16K 电竞游戏本 RTX4060显卡 AMD处理器 高刷新率屏幕",
-            "炫龙毁灭者DD2 高端游戏笔记本 RTX显卡 英特尔处理器 机械键盘设计",
-            "神舟战神Z8 性价比游戏本 GTX显卡 酷睿处理器 大容量硬盘存储"
+            "Lenovo Legion Y9000P gaming laptop RTX4080 graphics card 13th gen Core i9 processor 16GB memory",
+            "Dell XPS 13 Plus ultrabook 12th gen Core i7 processor OLED touchscreen thin portable design",
+            "ASUS ROG Republic of Gamers gaming laptop RTX4090 graphics card AMD Ryzen 9 processor 240Hz gaming screen",
+            "HP Omen 8 high performance gaming laptop RTX4070 graphics card Core i7 processor RGB backlit keyboard",
+            "ThinkPad X1 Carbon business office laptop 12th gen Core processor carbon fiber body fingerprint recognition",
+            "MacBook Pro 14 inch M2 Pro chip Liquid Retina XDR display professional grade performance",
+            "Microsoft Surface Laptop 5 touchscreen laptop 12th gen Core processor PixelSense touchscreen",
+            "Mechrevo Jiao Long 16K esports gaming laptop RTX4060 graphics card AMD processor high refresh rate screen",
+            "Shinelon Destroyer DD2 high-end gaming laptop RTX graphics card Intel processor mechanical keyboard design",
+            "Hasee War God Z8 cost-effective gaming laptop GTX graphics card Core processor large capacity hard drive storage"
         ]
         
-        # 鞋服类商品文本
+        # Footwear and clothing category product text
         shoe_texts = [
-            "耐克Air Jordan 1 经典复古篮球鞋 真皮材质 气垫缓震 街头潮流单品",
-            "阿迪达斯Ultraboost 22 跑步运动鞋 Boost缓震科技 Primeknit鞋面",
-            "新百伦990v5 美产限量版 复古跑鞋 ENCAP缓震技术 麂皮革材质",
-            "匡威All Star 经典帆布鞋 高帮低帮设计 橡胶大底 潮流百搭款式",
-            "万斯Old Skool 滑板鞋 侧边条纹设计 耐磨橡胶底 街头滑板文化",
-            "彪马Suede Classic 复古板鞋 麂皮材质 经典条纹logo 舒适内里",
-            "安踏KT7 汤普森签名篮球战靴 专业篮球科技 TPU支撑 耐磨外底",
-            "李宁韦德之道10 专业篮球鞋 缓震科技 碳纤维板 专业球员同款",
-            "361度国际线 专业跑步鞋 轻量化设计 透气网面 专业跑步科技",
-            "特步竞速160X 马拉松跑鞋 专业竞赛设计 轻量回弹 专业运动员推荐"
+            "Nike Air Jordan 1 classic retro basketball shoes genuine leather material air cushion shock absorption street fashion item",
+            "Adidas Ultraboost 22 running sports shoes Boost cushioning technology Primeknit upper",
+            "New Balance 990v5 USA made limited edition retro running shoes ENCAP cushioning technology suede material",
+            "Converse All Star classic canvas shoes high-top low-top design rubber outsole trendy versatile style",
+            "Vans Old Skool skateboard shoes side stripe design wear-resistant rubber sole street skateboard culture",
+            "Puma Suede Classic retro sneakers suede material classic stripe logo comfortable lining",
+            "Anta KT7 Thompson signature basketball shoes professional basketball technology TPU support wear-resistant outsole",
+            "Li-Ning Way of Wade 10 professional basketball shoes cushioning technology carbon fiber plate professional player same model",
+            "361 Degrees international line professional running shoes lightweight design breathable mesh professional running technology",
+            "Xtep Speed 160X marathon running shoes professional race design lightweight rebound professional athlete recommended"
         ]
         
-        # 家电类商品文本
+        # Appliance category product text
         appliance_texts = [
-            "美的变频空调 1.5匹挂机 节能静音设计 智能温控 WiFi远程控制",
-            "格力品悦 壁挂式家用冷暖空调 变频节能 快速制冷制热 静音运行",
-            "海尔统帅 智能WiFi控制空调 语音操控 自清洁功能 节能环保",
-            "奥克斯金典 变频冷暖空调 智能除湿 快速制冷 低噪音设计",
-            "TCL卧室空调 快速制冷制热 节能省电 智能睡眠模式 遥控操作",
-            "西门子滚筒洗衣机 10KG大容量 智能投放 95度高温洗涤 节能静音",
-            "海尔波轮洗衣机 全自动家用 大容量设计 多种洗涤程序 操作简单",
-            "小天鹅比佛利 高端洗护一体机 智能洗涤 烘干功能 欧式设计",
-            "美的洗烘一体机 智能投放洗衣液 多种洗涤模式 节能省水设计",
-            "松下罗密欧 日式精工洗衣机 泡沫净技术 柔和洗涤 静音马达"
+            "Midea inverter air conditioner 1.5HP wall mount energy saving silent design smart temperature control WiFi remote control",
+            "Gree Pinyue wall-mounted home cooling heating air conditioner inverter energy saving fast cooling heating quiet operation",
+            "Haier Commander smart WiFi control air conditioner voice control self-cleaning function energy saving eco-friendly",
+            "AUX Golden Classic inverter cooling heating air conditioner smart dehumidification fast cooling low noise design",
+            "TCL bedroom air conditioner fast cooling heating energy saving smart sleep mode remote control operation",
+            "Siemens drum washing machine 10KG large capacity smart dosing 95 degree high temperature washing energy saving quiet",
+            "Haier wave wheel washing machine fully automatic household large capacity design multiple washing programs simple operation",
+            "Little Swan Beverly high-end washer dryer combo smart washing drying function European design",
+            "Midea washer dryer combo smart dosing detergent multiple washing modes energy saving water saving design",
+            "Panasonic Romeo Japanese precision washing machine foam clean technology gentle washing quiet motor"
         ]
         
-        # 合并所有文本数据
+        # Merge all text data
         all_texts = phone_texts + laptop_texts + shoe_texts + appliance_texts
-        categories = ['手机'] * 10 + ['电脑'] * 10 + ['鞋服'] * 10 + ['家电'] * 10
+        categories = ['phone'] * 10 + ['computer'] * 10 + ['footwear'] * 10 + ['appliance'] * 10
         
         for i, (text, category) in enumerate(zip(all_texts, categories), 1):
             items_data.append({
                 'item_id': i,
-                'title': text.split(' ')[0] + ' ' + text.split(' ')[1],  # 提取品牌和型号
+                'title': text.split(' ')[0] + ' ' + text.split(' ')[1],  # Extract brand and model
                 'description': text,
-                'tags': ' '.join(text.split(' ')[:5]),  # 前5个词作为标签
+                'tags': ' '.join(text.split(' ')[:5]),  # First 5 words as tags
                 'category': category
             })
         
-        # 为了达到至少1000个文档的要求，复制和变化现有数据
+        # To reach at least 1000 documents requirement, copy and vary existing data
         extended_data = []
         for i, item in enumerate(items_data):
-            # 原始数据
+            # Original data
             extended_data.append(item)
             
-            # 创建变化版本
-            for j in range(24):  # 每个原始商品创建24个变化版本
+            # Create variation versions
+            for j in range(24):  # Create 24 variation versions for each original product
                 new_item = item.copy()
                 new_item['item_id'] = len(all_texts) + i * 24 + j + 1
-                new_item['title'] = f"{item['title']} 版本{j+1}"
-                new_item['description'] = f"{item['description']} 特别版本{j+1} 增强功能"
-                new_item['tags'] = f"{item['tags']} 版本{j+1}"
+                new_item['title'] = f"{item['title']} Version{j+1}"
+                new_item['description'] = f"{item['description']} Special Version{j+1} Enhanced Features"
+                new_item['tags'] = f"{item['tags']} Version{j+1}"
                 extended_data.append(new_item)
         
         return pd.DataFrame(extended_data)
     
     def test_word2vec_training(self):
-        """测试Word2Vec模型训练"""
-        # 准备测试数据
+        """Test Word2Vec model training"""
+        # Prepare test data
         items_df = self.create_text_corpus_data()
         
-        # 训练Word2Vec模型
+        # Train Word2Vec model
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
         
         if not GENSIM_AVAILABLE:
-            # 当 gensim 不可用时，测试模型确实没有被训练
-            assert self.recommender.model is None, "Gensim不可用时，Word2Vec模型应该为None"
-            assert len(self.recommender.item_vectors) == 0, "Gensim不可用时，不应该生成商品向量"
-            print("警告：Gensim库不可用，Word2Vec功能被禁用")
+            # When gensim is unavailable, test that model is indeed not trained
+            assert self.recommender.model is None, "When Gensim is unavailable, Word2Vec model should be None"
+            assert len(self.recommender.item_vectors) == 0, "When Gensim is unavailable, should not generate item vectors"
+            print("Warning: Gensim library unavailable, Word2Vec functionality disabled")
             return
         
-        # 验证模型训练成功（只有当 gensim 可用时）
-        assert self.recommender.model is not None, "Word2Vec模型应该被成功训练"
-        assert len(self.recommender.item_vectors) > 0, "应该生成商品向量"
+        # Verify model training success (only when gensim is available)
+        assert self.recommender.model is not None, "Word2Vec model should be successfully trained"
+        assert len(self.recommender.item_vectors) > 0, "Should generate item vectors"
         
-        # 验证向量维度
+        # Verify vector dimensions
         for item_id, vector in self.recommender.item_vectors.items():
-            assert len(vector) == self.recommender.vector_size, f"向量维度应该为{self.recommender.vector_size}"
-            assert isinstance(vector, np.ndarray), "向量应该是numpy数组"
+            assert len(vector) == self.recommender.vector_size, f"Vector dimension should be {self.recommender.vector_size}"
+            assert isinstance(vector, np.ndarray), "Vector should be numpy array"
         
-        # 验证词汇表大小
+        # Verify vocabulary size
         vocab_size = len(self.recommender.model.wv.key_to_index)
-        assert vocab_size >= 100, f"词汇表大小应该≥100，实际为{vocab_size}"
+        assert vocab_size >= 100, f"Vocabulary size should be ≥100, actual: {vocab_size}"
         
-        # 验证模型能识别常见词汇
-        common_words = ['智能', '手机', '电脑', '游戏', '处理器']
+        # Verify model can recognize common words
+        common_words = ['smart', 'phone', 'computer', 'gaming', 'processor']
         found_words = 0
         for word in common_words:
             if word in self.recommender.model.wv:
                 found_words += 1
         
         word_coverage = found_words / len(common_words)
-        assert word_coverage >= 0.6, f"常见词汇覆盖率应该≥60%，实际为{word_coverage:.2%}"
+        assert word_coverage >= 0.6, f"Common word coverage should be ≥60%, actual: {word_coverage:.2%}"
     
     def test_vector_similarity_calculation(self):
-        """测试向量相似度计算"""
+        """Test vector similarity calculation"""
         items_df = self.create_text_corpus_data()
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
         
         if not GENSIM_AVAILABLE:
-            # 当 gensim 不可用时，测试推荐返回空列表
+            # When gensim is unavailable, test recommendations return empty list
             target_item_id = 1
             similar_items = self.recommender.get_similar_items(target_item_id, top_n=5)
-            assert len(similar_items) == 0, "Gensim不可用时，相似度推荐应该返回空列表"
-            print("警告：Gensim库不可用，跳过向量相似度计算测试")
+            assert len(similar_items) == 0, "When Gensim is unavailable, similarity recommendations should return empty list"
+            print("Warning: Gensim library unavailable, skipping vector similarity calculation test")
             return
         
-        # 测试相似商品推荐
-        target_item_id = 1  # 第一个手机商品
+        # Test similar item recommendation
+        target_item_id = 1  # First phone product
         similar_items = self.recommender.get_similar_items(target_item_id, top_n=5)
         
-        # 验证推荐结果
-        assert len(similar_items) <= 5, "推荐数量不应该超过top_n"
+        # Verify recommendation results
+        assert len(similar_items) <= 5, "Number of recommendations should not exceed top_n"
         
         for item_id, similarity in similar_items:
-            assert isinstance(item_id, (int, np.integer)), "商品ID应该是整数"
-            assert isinstance(similarity, (float, np.floating)), "相似度应该是浮点数"
-            assert -1 <= similarity <= 1, "余弦相似度应该在[-1,1]范围内"
-            assert item_id != target_item_id, "不应该推荐商品自己"
+            assert isinstance(item_id, (int, np.integer)), "Item ID should be integer"
+            assert isinstance(similarity, (float, np.floating)), "Similarity should be float"
+            assert -1 <= similarity <= 1, "Cosine similarity should be in [-1,1] range"
+            assert item_id != target_item_id, "Should not recommend the item itself"
         
-        # 验证推荐结果按相似度降序排列
+        # Verify recommendation resultssorted by similarity in descending order
         similarities = [sim for _, sim in similar_items]
-        assert similarities == sorted(similarities, reverse=True), "推荐结果应该按相似度降序排列"
+        assert similarities == sorted(similarities, reverse=True), "Recommendations should be sorted by similarity in descending order"
     
     def test_semantic_similarity(self):
-        """测试语义相似度"""
+        """Test semantic similarity"""
         items_df = self.create_text_corpus_data()
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
         
         if not GENSIM_AVAILABLE:
-            print("警告：Gensim库不可用，跳过语义相似度测试")
+            print("Warning: Gensim library unavailable, skipping semantic similarity test")
             return
         
-        # 获取不同类别的商品
-        phone_items = items_df[items_df['category'] == '手机']['item_id'].values[:10]
-        laptop_items = items_df[items_df['category'] == '电脑']['item_id'].values[:10]
+        # Get items from different categories
+        phone_items = items_df[items_df['category'] == 'phone']['item_id'].values[:10]
+        laptop_items = items_df[items_df['category'] == 'computer']['item_id'].values[:10]
         
-        # 计算同类别商品间的平均相似度
+        # Calculate average similarity between same category items
         phone_similarities = []
         for i in range(len(phone_items)):
             for j in range(i+1, len(phone_items)):
@@ -207,7 +207,7 @@ class TestWord2VecEmbedding:
                             phone_similarities.append(sim)
                             break
         
-        # 计算跨类别商品间的平均相似度
+        # Calculate average similarity between cross-category items
         cross_similarities = []
         for phone_id in phone_items[:5]:
             if phone_id in self.recommender.item_vectors:
@@ -217,54 +217,54 @@ class TestWord2VecEmbedding:
                         cross_similarities.append(sim)
                         break
         
-        # 验证语义理解能力
+        # Verify semantic understanding capability
         if phone_similarities and cross_similarities:
             avg_phone_sim = np.mean(phone_similarities)
             avg_cross_sim = np.mean(cross_similarities)
             
-            assert avg_phone_sim > avg_cross_sim, "同类别商品相似度应该高于跨类别相似度"
+            assert avg_phone_sim > avg_cross_sim, "Same category item similarity should be higher than cross-category"
     
     def test_word2vec_parameters(self):
-        """测试Word2Vec参数配置"""
+        """Test Word2Vec parameter configuration"""
         if not GENSIM_AVAILABLE:
-            print("警告：Gensim库不可用，跳过Word2Vec参数测试")
+            print("Warning: Gensim library unavailable, skipping Word2Vec parameter test")
             return
             
         items_df = self.create_text_corpus_data()
         
-        # 测试不同参数配置
+        # Test different parameter configurations
         recommender_128 = Word2VecRecommender(vector_size=128, window=5, min_count=2)
         recommender_64 = Word2VecRecommender(vector_size=64, window=3, min_count=1)
         
         recommender_128.fit(items_df, text_columns=['title', 'description'])
         recommender_64.fit(items_df, text_columns=['title', 'description'])
         
-        # 验证不同向量维度
+        # Verify different vector dimensions
         for item_id, vector in recommender_128.item_vectors.items():
-            assert len(vector) == 128, "128维模型向量维度应该为128"
+            assert len(vector) == 128, "128-dimensional model vector dimension should be 128"
         
         for item_id, vector in recommender_64.item_vectors.items():
-            assert len(vector) == 64, "64维模型向量维度应该为64"
+            assert len(vector) == 64, "64-dimensional model vector dimension should be 64"
         
-        # 验证模型参数设置
-        assert recommender_128.model.vector_size == 128, "向量维度参数应该正确设置"
-        assert recommender_128.model.window == 5, "窗口大小参数应该正确设置"
-        assert recommender_128.model.min_count == 2, "最小词频参数应该正确设置"
+        # Verify model parameter settings
+        assert recommender_128.model.vector_size == 128, "Vector dimension parameter should be correctly set"
+        assert recommender_128.model.window == 5, "Window size parameter should be correctly set"
+        assert recommender_128.model.min_count == 2, "Minimum word frequency parameter should be correctly set"
     
     def test_chinese_word_embeddings(self):
-        """测试中文词向量效果"""
+        """Test Chinese word embedding effects"""
         if not GENSIM_AVAILABLE:
-            print("警告：Gensim库不可用，跳过中文词向量测试")
+            print("Warning: Gensim library unavailable, skipping Chinese word embedding test")
             return
             
         items_df = self.create_text_corpus_data()
         self.recommender.fit(items_df, text_columns=['title', 'description', 'tags'])
         
-        # 测试中文词汇的词向量质量
-        chinese_tech_words = ['智能', '处理器', '显示屏', '摄像头', '电池']
-        chinese_brand_words = ['苹果', '华为', '小米', '三星', 'OPPO']
+        # Test Chinese word vector quality
+        chinese_tech_words = ['smart', 'processor', 'display', 'camera', 'battery']
+        chinese_brand_words = ['Apple', 'Huawei', 'Xiaomi', 'Samsung', 'OPPO']
         
-        # 验证技术词汇间的相似性
+        # Verify similarity between technical vocabulary
         tech_similarities = []
         for i in range(len(chinese_tech_words)):
             for j in range(i+1, len(chinese_tech_words)):
@@ -273,7 +273,7 @@ class TestWord2VecEmbedding:
                     similarity = self.recommender.model.wv.similarity(word1, word2)
                     tech_similarities.append(similarity)
         
-        # 验证品牌词汇间的相似性
+        # Verify similarity between brand vocabulary
         brand_similarities = []
         for i in range(len(chinese_brand_words)):
             for j in range(i+1, len(chinese_brand_words)):
@@ -282,41 +282,41 @@ class TestWord2VecEmbedding:
                     similarity = self.recommender.model.wv.similarity(word1, word2)
                     brand_similarities.append(similarity)
         
-        # 验证词向量学习效果
+        # Verify word vector learning effects
         if tech_similarities:
             avg_tech_sim = np.mean(tech_similarities)
-            assert avg_tech_sim > 0, "技术词汇应该有正相关性"
+            assert avg_tech_sim > 0, "Technical vocabulary should have positive correlation"
         
         if brand_similarities:
             avg_brand_sim = np.mean(brand_similarities)
-            assert avg_brand_sim > 0, "品牌词汇应该有正相关性"
+            assert avg_brand_sim > 0, "Brand vocabulary should have positive correlation"
     
     def test_edge_cases_and_robustness(self):
-        """测试边界情况和鲁棒性"""
+        """Test edge cases and robustness"""
         if not GENSIM_AVAILABLE:
-            print("警告：Gensim库不可用，跳过边界情况测试")
+            print("Warning: Gensim library unavailable, skipping edge case test")
             return
             
-        # 测试小数据集
+        # Test small dataset
         small_df = pd.DataFrame({
             'item_id': [1, 2, 3],
-            'title': ['苹果手机', '华为电脑', '耐克鞋子'],
-            'description': ['智能手机产品', '高性能笔记本', '运动休闲鞋'],
-            'tags': ['手机 智能', '电脑 性能', '鞋子 运动']
+            'title': ['Apple Phone', 'Huawei Computer', 'Nike Shoes'],
+            'description': ['Smartphone Product', 'High Performance Laptop', 'Sports Casual Shoes'],
+            'tags': ['phone smart', 'computer performance', 'shoes sports']
         })
         
         small_recommender = Word2VecRecommender(vector_size=50, min_count=1)
         small_recommender.fit(small_df)
         
-        # 验证小数据集也能正常工作
-        assert small_recommender.model is not None, "小数据集也应该能训练模型"
-        assert len(small_recommender.item_vectors) > 0, "小数据集也应该生成商品向量"
+        # Verify small dataset also works normally
+        assert small_recommender.model is not None, "Small dataset should also be able to train model"
+        assert len(small_recommender.item_vectors) > 0, "Small dataset should also generate item vectors"
         
-        # 测试不存在的商品ID
+        # Test non-existent item ID
         similar_items = self.recommender.get_similar_items(99999, top_n=5)
-        assert len(similar_items) == 0, "不存在的商品ID应该返回空推荐"
+        assert len(similar_items) == 0, "Non-existent item ID should return empty recommendations"
         
-        # 测试空文本处理
+        # Test empty text processing
         empty_text_df = pd.DataFrame({
             'item_id': [1, 2],
             'title': ['', ''],
@@ -325,34 +325,34 @@ class TestWord2VecEmbedding:
         })
         
         empty_recommender = Word2VecRecommender(min_count=1)
-        # 空文本应该能处理，但可能没有有效向量
+        # Empty text should be processable, but may not have valid vectors
         try:
             empty_recommender.fit(empty_text_df)
-            # 如果成功训练，验证结果
-            assert len(empty_recommender.item_vectors) >= 0, "空文本处理后向量数量应该≥0"
+            # If training succeeds, verify results
+            assert len(empty_recommender.item_vectors) >= 0, "Vector count after empty text processing should be ≥0"
         except Exception:
-            # 空文本可能导致训练失败，这是可以接受的
+            # Empty text may cause training failure, which is acceptable
             pass
     
     def test_model_persistence_and_consistency(self):
-        """测试模型持久性和一致性"""
+        """Test model persistence and consistency"""
         if not GENSIM_AVAILABLE:
-            print("警告：Gensim库不可用，跳过模型持久性测试")
+            print("Warning: Gensim library unavailable, skipping model persistence test")
             return
             
         items_df = self.create_text_corpus_data()
         
-        # 训练两个相同参数的模型
+        # Train two models with same parameters
         recommender1 = Word2VecRecommender(vector_size=100, window=5, min_count=2)
         recommender2 = Word2VecRecommender(vector_size=100, window=5, min_count=2)
         
-        # 使用相同的随机种子确保一致性
+        # Use same random seed to ensure consistency
         np.random.seed(42)
         recommender1.fit(items_df)
         
         np.random.seed(42)
         recommender2.fit(items_df)
         
-        # 验证模型参数一致性
-        assert recommender1.vector_size == recommender2.vector_size, "相同参数模型向量维度应该一致"
-        assert len(recommender1.item_vectors) == len(recommender2.item_vectors), "相同数据训练的模型应该生成相同数量的向量"
+        # Verify model parameter consistency
+        assert recommender1.vector_size == recommender2.vector_size, "Models with same parameters should have consistent vector dimensions"
+        assert len(recommender1.item_vectors) == len(recommender2.item_vectors), "Models trained on same data should generate same number of vectors"

@@ -24,34 +24,34 @@ def setup_test_data():
     try:
         # Create a test questionnaire
         q = Questionnaire(
-            title="导出测试问卷",
-            description="用于测试数据导出功能的问卷"
+            title="Data Export Test Questionnaire",
+            description="Questionnaire for testing data export functionality"
         )
         db.add(q)
         db.flush()
 
         # Add test questions
-        q1 = Question(text="您的性别是？", module="个人信息", question_type=QuestionType.SINGLE_CHOICE, questionnaire_id=q.id)
-        q2 = Question(text="您的满意度？", module="评价", question_type=QuestionType.SCALE, questionnaire_id=q.id)
+        q1 = Question(text="What is your gender?", module="Personal Information", question_type=QuestionType.SINGLE_CHOICE, questionnaire_id=q.id)
+        q2 = Question(text="What is your satisfaction level?", module="Evaluation", question_type=QuestionType.SCALE, questionnaire_id=q.id)
         db.add_all([q1, q2])
         db.flush()
 
         # Add choices
-        db.add(Choice(text="男", question_id=q1.id))
-        db.add(Choice(text="女", question_id=q1.id))
+        db.add(Choice(text="Male", question_id=q1.id))
+        db.add(Choice(text="Female", question_id=q1.id))
         db.add(Choice(text="Scale Range: 1-5", question_id=q2.id))
 
         # Create test response sessions
-        session1 = ResponseSession(questionnaire_id=q.id, collector="测试员A", location="测试地点A")
-        session2 = ResponseSession(questionnaire_id=q.id, collector="测试员B", location="测试地点B")
+        session1 = ResponseSession(questionnaire_id=q.id, collector="Test Surveyor A", location="Test Location A")
+        session2 = ResponseSession(questionnaire_id=q.id, collector="Test Surveyor B", location="Test Location B")
         db.add_all([session1, session2])
         db.flush()
 
         # Add test responses
         responses = [
-            Response(session_id=session1.id, question_id=q1.id, answer="男"),
+            Response(session_id=session1.id, question_id=q1.id, answer="Male"),
             Response(session_id=session1.id, question_id=q2.id, answer="4"),
-            Response(session_id=session2.id, question_id=q1.id, answer="女"),
+            Response(session_id=session2.id, question_id=q1.id, answer="Female"),
             Response(session_id=session2.id, question_id=q2.id, answer="5"),
         ]
         db.add_all(responses)
@@ -76,16 +76,16 @@ def test_export_data_to_csv(setup_test_data, tmp_path):
     
     # Assert command succeeded
     assert result.exit_code == 0, f"Command failed with output: {result.stdout}"
-    assert "数据已成功导出到" in result.stdout
-    
+    assert "Data successfully exported to" in result.stdout
+
     # Assert file was created
     assert output_file.exists()
-    
+
     # Verify CSV content
     with open(output_file, "r", encoding="utf-8-sig") as f:
         reader = csv.reader(f)
         header = next(reader)
-        
+
         # Check header (wide format: each question becomes a column)
         expected_header_start = [
             "session_id",
@@ -96,16 +96,16 @@ def test_export_data_to_csv(setup_test_data, tmp_path):
         ]
         # The header should start with these fields, followed by question texts as columns
         assert header[:5] == expected_header_start
-        assert "您的性别是？" in header
-        assert "您的满意度？" in header
-        
+        assert "What is your gender?" in header
+        assert "What is your satisfaction level?" in header
+
         # Check data rows (wide format: one row per session)
         rows = list(reader)
         assert len(rows) == 2  # 2 sessions, each as one row
-        
+
         # Verify data content
         row1, row2 = rows
-        assert "测试员A" in row1
-        assert "测试员B" in row2
-        assert "导出测试问卷" in row1  # questionnaire_title
-        assert "导出测试问卷" in row2  # questionnaire_title
+        assert "Test Surveyor A" in row1
+        assert "Test Surveyor B" in row2
+        assert "Data Export Test Questionnaire" in row1  # questionnaire_title
+        assert "Data Export Test Questionnaire" in row2  # questionnaire_title

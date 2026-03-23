@@ -1,228 +1,228 @@
-# 企业管理人才培训与技能分析系统 - 纯命令行测试方案
+# Enterprise Talent Training and Skill Analysis System - pureCommandLineTesttest suite
 
-## 🎯 纯命令行设计优势
+## 🎯 pure command-lineadvantages
 
-基于您的要求，我已将整个测试方案调整为**纯命令行界面**，具有以下优势：
+Based on your requirements, I have alreadyEntireitem(s)Testtest suiteAdjustEntireas**pure command-line interface**, ToolHasthe followingadvantages: 
 
-### ✅ 自动化测试友好
-- 所有功能通过CLI命令执行
-- 输出结果直接在控制台显示
-- 无GUI界面，无网页依赖
-- 适合CI/CD集成和批量测试
+### ✅ AutomatedTestfriendly
+- PlaceHasFunctionPassCLICommandExecute
+- OutputResultDirectInterfaceinControlconsole display
+- NoGUIInterface, No web-page dependencies
+- SuitableCombineCI/CDSetSuccessandBatchTest
 
-### ✅ 轻量级部署
-- 最小化依赖包需求
-- 无需Web服务器
-- 可在任何支持Python的环境运行
-- 适合服务器端和容器化部署
+### ✅ lightweight deployment
+- MostSmallizationDependDependPackagerequested
+- no need forweb service
+- Caninany supported Python environment
+- SuitableCombineservice-sideEndandCapacityDeviceizationdeployment
 
-## 📋 核心CLI命令演示
+## 📋 CoreCLICommanddemo
 
-### 1. 系统启动验证
+### 1. SystemStartVerify
 ```bash
-# 核心功能演示（推荐用于测试）
+# Core Functionalitydemo(RecommendationUseAtTest)
 python src/demo.py
 
-# CLI工具帮助
+# CLIToolhelp
 python src/cli.py --help
 ```
 
-### 2. 数据管理命令
+### 2. DataManagementCommand
 ```bash
-# 导入问卷数据
-python src/cli.py data import-data -f evaluation/test_survey.csv -c "测试企业" -t survey
+# Importsurvey data
+python src/cli.py data import-data -f evaluation/test_survey.csv -c "TestEnterprise" -t survey
 
-# 导入访谈数据
-python src/cli.py data import-data -f evaluation/test_interview.txt -c "测试企业" -t interview
+# Importinterview data
+python src/cli.py data import-data -f evaluation/test_interview.txt -c "TestEnterprise" -t interview
 
-# 导出数据
-python src/cli.py data export-data -c "测试企业" -t survey -f csv -o output.csv
+# ExportData
+python src/cli.py data export-data -c "TestEnterprise" -t survey -f csv -o output.csv
 
-# 列出数据
-python src/cli.py data list-data -c "测试企业"
+# SeriesOutputData
+python src/cli.py data list-data -c "TestEnterprise"
 ```
 
-### 3. 数据分析命令
+### 3. Data AnalysisCommand
 ```bash
-# 因子分析
-python src/cli.py analysis factor -c "测试企业" -f 3 -r varimax
+# CauseSubAnalysis
+python src/cli.py analysis factor -c "TestEnterprise" -f 3 -r varimax
 
-# 组间比较分析
-python src/cli.py analysis compare -c "测试企业" -g management_level
+# GroupBetweenBiferCompareAnalysis
+python src/cli.py analysis compare -c "TestEnterprise" -g management_level
 
-# 相关性分析
-python src/cli.py analysis correlation -c "测试企业"
+# CameraRelatednessAnalysis
+python src/cli.py analysis correlation -c "TestEnterprise"
 
-# 列出分析结果
+# SeriesOutputAnalysisResult
 python src/cli.py analysis list-results
 ```
 
-### 4. 报告生成命令
+### 4. Report GenerationCommand
 ```bash
-# 生成企业报告
-python src/cli.py report generate -c "测试企业" -f txt
+# Generate enterprise report
+python src/cli.py report generate -c "TestEnterprise" -f txt
 
-# 生成分析报告
+# GenerateAnalysis Report
 python src/cli.py report generate -a 1 -a 2 -f docx
 
-# 列出所有报告
+# SeriesOutputPlaceHasReport
 python src/cli.py report list-reports
 ```
 
-### 5. 系统管理命令
+### 5. SystemManagementCommand
 ```bash
-# 初始化系统
+# InitialInitializationSystem
 python src/cli.py system init
 
-# 创建管理员
+# Create manager
 python src/cli.py system create-admin
 
-# 系统状态检查
+# SystemStatusCheck
 python src/cli.py system status
 ```
 
-## 🔧 环境配置
+## 🔧 Environment Configuration
 
-### 基础依赖安装
+### FoundationFoundationDependDependinstall
 ```bash
-# 安装基础依赖包（已优化兼容性）
+# installFoundationFoundationDependDependPackage(Alreadycompatibility optimization)
 pip install -r src/requirements_basic.txt
 ```
 
-### requirements_basic.txt 包含：
-- **数据处理**: pandas, numpy, scikit-learn, scipy
-- **统计分析**: factor-analyzer
-- **文件处理**: python-docx, openpyxl
-- **可视化**: matplotlib（仅用于图表生成，不显示GUI）
-- **CLI工具**: click
-- **测试框架**: pytest
-- **其他工具**: loguru, python-dotenv
+### requirements_basic.txt Contains: 
+- **Data Processing**: pandas, numpy, scikit-learn, scipy
+- **SystemDesignAnalysis**: factor-analyzer
+- **FileProcessing**: python-docx, openpyxl
+- **visualization**: matplotlib(used only forchartGenerate, NotDisplayGUI)
+- **CLITool**: click
+- **Testframework**: pytest
+- **other tools**: loguru, python-dotenv
 
-## 📊 测试执行方式
+## 📊 TestExecuteOfficialStyle
 
-### 方式1：完整测试套件
+### OfficialStyle1: complete test suite
 ```bash
 python evaluation/run_tests.py
 ```
 
-### 方式2：单独功能测试
+### OfficialStyle2: single functional test
 ```bash
-# 系统启动测试
+# SystemStartTest
 python src/demo.py
 
-# 数据导入测试
-python src/cli.py data import-data -f evaluation/test_survey.csv -c "测试企业" -t survey
+# Data ImportTest
+python src/cli.py data import-data -f evaluation/test_survey.csv -c "TestEnterprise" -t survey
 
-# 分析功能测试
-python src/cli.py analysis factor -c "测试企业" -f 3 -r varimax
+# AnalysisFunctional Test
+python src/cli.py analysis factor -c "TestEnterprise" -f 3 -r varimax
 
-# 图表生成测试（无GUI显示）
+# chartGenerateTest(NoGUIDisplay)
 python evaluation/tests/generate_histogram.py
 ```
 
-### 方式3：单元测试
+### OfficialStyle3: Unit Test
 ```bash
-# 运行所有单元测试
+# RunPlaceHasUnit Test
 pytest evaluation/tests/ -v
 
-# 运行特定测试
+# RunSpecialFixedTest
 pytest evaluation/tests/test_skill_dimensions.py -v
 ```
 
-## 🎯 纯命令行输出示例
+## 🎯 pureCommandLineOutputshowExample
 
-### demo.py 输出示例：
+### demo.py OutputshowExample: 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║        🎯 企业管理人才培训与技能分析系统 v1.0.0                ║
+║        🎯 Enterprise Talent Training and Skill Analysis System v1.0.0                ║
 ╚══════════════════════════════════════════════════════════════╝
 
-✅ 成功加载 20 条示例数据
+✅ SuccessLoad 20 sample data records
 
-📊 描述性统计分析:
-技能维度            均值       标准差      最小值      最大值
+📊 descriptiveSystemDesignAnalysis:
+skillDimensionRepublic            AverageValue       MarkStandardDifference      MostSmallValue      MostLargeValue
 -------------------------------------------------------
-领导与激励技能         3.98     0.56     3.10     4.90
-计划组织与协调技能       3.94     0.37     3.30     4.60
-决策与创新技能         3.91     0.44     3.10     4.60
-专业与控制技能         3.96     0.39     3.20     4.80
+leadershipandmotivationskill         3.98     0.56     3.10     4.90
+DesignplanGrouporganizationandProtocolAdjustskill       3.94     0.37     3.30     4.60
+DecisionandcreateNewskill         3.91     0.44     3.10     4.60
+professionalandControlskill         3.96     0.39     3.20     4.80
 
-⚖️  组间比较分析（按管理层级）:
-层级       样本数      领导激励       计划组织       决策创新       专业控制
+⚖️  GroupBetweenBiferCompareAnalysis(AccordingManagementLayerLevel):
+LayerLevel       sampleNumber      leadership motivation       DesignplanGrouporganization       DecisioncreateNew       professionalControl
 ----------------------------------------------------------------------
-初级       8        3.41       3.59       3.55       3.62
-中级       5        4.00       4.00       3.90       4.12
-高级       7        4.60       4.30       4.33       4.23
+InitialLevel       8        3.41       3.59       3.55       3.62
+inLevel       5        4.00       4.00       3.90       4.12
+HighLevel       7        4.60       4.30       4.33       4.23
 
-✅ 报告已生成: 分析报告_20250901_144756.txt
+✅ ReportAlreadyGenerate: Analysis Report_20250901_144756.txt
 ```
 
-### CLI命令输出示例：
+### CLICommandOutputshowExample: 
 ```bash
-$ python src/cli.py data import-data -f test.csv -c "企业A" -t survey
-✅ 数据导入成功
-📊 导入统计:
-   - 总记录数: 50
-   - 有效记录: 48
-   - 无效记录: 2
-   - 导入时间: 2025-01-15 14:30:25
+$ python src/cli.py data import-data -f test.csv -c "enterpriseA" -t survey
+✅ Data ImportSuccess
+📊 ImportSystemDesign:
+   - TotalRecordNumber: 50
+   - HasEffectRecord: 48
+   - NoEffectRecord: 2
+   - ImportTimeBetween: 2025-01-15 14:30:25
 
-$ python src/cli.py analysis factor -c "企业A" -f 3 -r varimax
-🔬 正在执行因子分析...
-✅ 因子分析完成
-📊 分析结果:
-   - 因子数量: 3
-   - 旋转方法: varimax
-   - 解释方差: 78.5%
-   - KMO值: 0.856
-   - Bartlett检验: p < 0.001
+$ python src/cli.py analysis factor -c "enterpriseA" -f 3 -r varimax
+🔬 CorrectinExecuteCauseSubAnalysis...
+✅ CauseSubAnalysisCompleteSuccess
+📊 AnalysisResult:
+   - CauseSubQuantity: 3
+   - rotation method: varimax
+   - explanationOfficialDifference: 78.5%
+   - KMOValue: 0.856
+   - BartlettCheckExperience: p < 0.001
 ```
 
-## 🧪 测试用例分类
+## 🧪 Test CaseClassification
 
-### Shell交互测试（12个）
-- 系统启动和CLI帮助
-- 数据导入（CSV、Excel、Word、文本）
-- 数据分析（因子分析、参数设置、统计检验）
-- 数据导出和比较分析
+### shell interaction test(12item(s))
+- SystemStartandCLIhelp
+- Data Import(CSV、Excel、Word、TextBook)
+- Data Analysis(CauseSubAnalysis、ParameterDesignSet、SystemDesignCheckExperience)
+- Data ExportandBiferCompareAnalysis
 
-### 单元测试（13个）
-- 技能维度管理
-- 样本筛选和元数据标注
-- 仪表盘功能（数据处理逻辑）
-- 版本管理
+### Unit Test(13item(s))
+- skillDimensionRepublicManagement
+- sample filteringandmetadata annotation
+- dashboardFunction(data processing logic)
+- EditionBookManagement
 
-### 文件比较测试（7个）
-- 图表生成（PNG、SVG格式）
-- 数据导出（CSV、Excel格式）
-- 报告生成
+### FileBiferCompareTest(7item(s))
+- chartGenerate(PNG、SVGFormatStyle)
+- Data Export(CSV、ExcelFormatStyle)
+- Report Generation
 
-## 💡 纯命令行的优势
+## 💡 pureCommandLineadvantages
 
-1. **自动化友好**: 所有操作都可以通过脚本自动化
-2. **资源占用低**: 无GUI界面，内存占用小
-3. **部署简单**: 无需Web服务器和前端资源
-4. **测试稳定**: 避免GUI相关的不稳定因素
-5. **CI/CD集成**: 完美适合持续集成环境
-6. **跨平台**: 在任何支持Python的系统上运行
+1. **Automatedfriendly**: PlaceHasOperationallcanPassScriptAutomated
+2. **assetslow resource usage**: NoGUIInterface, InternalSaveusageUseSmall
+3. **deploymentSimpleSingle**: no need forweb serviceandbeforeEndassets
+4. **TeststableFixed**: avoid instability caused by GUI-related factors
+5. **CI/CDSetSuccess**: CompleteAmericanSuitableCombineSupportContinueSetSuccessEnvironment
+6. **cross-platform**: inany supported Python system
 
-## 🚀 快速开始
+## 🚀 QuickStarting
 
 ```bash
-# 1. 安装依赖
+# 1. install dependencies
 pip install -r src/requirements_basic.txt
 
-# 2. 系统演示
+# 2. Systemdemo
 python src/demo.py
 
-# 3. 查看CLI帮助
+# 3. viewCLIhelp
 python src/cli.py --help
 
-# 4. 运行测试
+# 4. RunTest
 python evaluation/run_tests.py
 
-# 5. 单元测试
+# 5. Unit Test
 pytest evaluation/tests/ -v
 ```
 
-这个纯命令行方案完全满足自动化测试的需求，所有功能都通过CLI实现，输出结果直接在控制台显示，非常适合自动化测试和CI/CD集成。
+thispureCommandLinetest suiteCompleteAutomaticMeetsAutomatedTestrequested, PlaceHasFunctionallPassCLIImplementationImplementation, OutputResultDirectInterfaceinControlconsole display, especially suitable forAutomatedTestandCI/CDSetSuccess.

@@ -45,28 +45,28 @@ def test_detect_outliers_iqr():
 def test_descriptive_stats_numeric_central():
     df = pd.DataFrame({'Value': [1, 2, 3, 4, 5]})
     stats = get_descriptive_stats(df, 'Value')
-    assert stats['均值'] == 3.0
-    assert stats['中位数'] == 3.0
+    assert stats['mean'] == 3.0
+    assert stats['median'] == 3.0
 
 # Test for 4.1b - Descriptive Stats (Numeric - Dispersion)
 def test_descriptive_stats_numeric_dispersion():
     df = pd.DataFrame({'Value': [1, 2, 3, 4, 5]})
     stats = get_descriptive_stats(df, 'Value')
-    assert np.isclose(stats['标准差'], 1.581138, atol=1e-5)
-    assert stats['极差'] == 4
-    assert stats['四分位数']['25%'] == 2.0
-    assert stats['四分位数']['75%'] == 4.0
+    assert np.isclose(stats['std'], 1.581138, atol=1e-5)
+    assert stats['range'] == 4
+    assert stats['quartiles']['25%'] == 2.0
+    assert stats['quartiles']['75%'] == 4.0
 
 # Test for 4.2a - Descriptive Stats (Categorical - Frequency)
 def test_descriptive_stats_categorical_freq():
     df = pd.DataFrame({'Category': ['A', 'B', 'A', 'A', 'C']})
     stats = get_descriptive_stats(df, 'Category')
-    assert stats['频数'] == {'A': 3, 'B': 1, 'C': 1}
-    assert stats['频率'] == {'A': 0.6, 'B': 0.2, 'C': 0.2}
+    assert stats['counts'] == {'A': 3, 'B': 1, 'C': 1}
+    assert stats['frequencies'] == {'A': 0.6, 'B': 0.2, 'C': 0.2}
 
 # Test for 4.2b - Descriptive Stats (Categorical - Mode/Unique)
 def test_descriptive_stats_categorical_mode_unique():
     df = pd.DataFrame({'Category': ['A', 'B', 'A', 'A', 'C']})
     stats = get_descriptive_stats(df, 'Category')
-    assert stats['众数'] == 'A'
-    assert stats['独特值数量'] == 3
+    assert stats['mode'] == 'A'
+    assert stats['unique_count'] == 3

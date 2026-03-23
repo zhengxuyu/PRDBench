@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-测试PNG格式图表导出功能
+Test PNG Format Chart Export Function
 """
 
 import sys
@@ -10,66 +10,66 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../src'))
 
 def export_chart_png():
-    """导出PNG格式图表"""
+    """Export PNG format chart"""
     try:
-        # 设置中文字体
+        # Set Chinese font
         plt.rcParams['font.sans-serif'] = ['SimHei', 'Arial Unicode MS', 'DejaVu Sans']
         plt.rcParams['axes.unicode_minus'] = False
-        
-        # 模拟技能得分数据
-        skills = ['领导与激励', '计划组织', '决策创新', '专业控制']
+
+        # Mock skill score data
+        skills = ['Leadership & Motivation', 'Planning & Organization', 'Decision & Innovation', 'Professional Control']
         scores = [4.2, 3.9, 4.1, 4.0]
-        
-        # 创建柱状图
+
+        # Create bar chart
         fig, ax = plt.subplots(figsize=(10, 6))
-        
+
         bars = ax.bar(skills, scores, color=['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'])
-        
-        # 设置图表样式
-        ax.set_title('管理技能得分分析', fontsize=16, fontweight='bold', pad=20)
-        ax.set_ylabel('技能得分', fontsize=12)
+
+        # Set chart style
+        ax.set_title('Management Skills Score Analysis', fontsize=16, fontweight='bold', pad=20)
+        ax.set_ylabel('Skill Score', fontsize=12)
         ax.set_ylim(0, 5)
-        
-        # 添加数值标签
+
+        # Add value labels
         for bar, score in zip(bars, scores):
             height = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2., height + 0.05,
                    f'{score:.1f}', ha='center', va='bottom', fontweight='bold')
-        
-        # 添加网格
+
+        # Add grid
         ax.grid(True, alpha=0.3, axis='y')
-        
-        # 设置x轴标签旋转
+
+        # Set x-axis label rotation
         plt.xticks(rotation=45, ha='right')
-        
+
         plt.tight_layout()
-        
-        # 保存为PNG格式
+
+        # Save as PNG format
         output_path = 'evaluation/test_chart.png'
         plt.savefig(output_path, format='png', dpi=300, bbox_inches='tight')
         plt.close()
-        
-        print(f"✅ PNG格式图表已导出: {output_path}")
-        
-        # 验证文件是否存在且格式正确
+
+        print(f"✅ PNG format chart exported: {output_path}")
+
+        # Verify file exists and format is correct
         if os.path.exists(output_path):
             file_size = os.path.getsize(output_path)
-            print(f"   文件大小: {file_size} bytes")
-            
-            # 检查文件扩展名
+            print(f"   File size: {file_size} bytes")
+
+            # Check file extension
             assert output_path.endswith('.png')
-            
-            # 检查文件不为空
+
+            # Check file is not empty
             assert file_size > 0
-            
-            print("   文件验证通过")
+
+            print("   File verification passed")
             return True
         else:
-            print("❌ PNG文件生成失败")
+            print("❌ PNG file generation failed")
             return False
-            
+
     except Exception as e:
-        print(f"❌ 导出PNG图表时出错: {str(e)}")
+        print(f"❌ Error exporting PNG chart: {str(e)}")
         return False
 
 if __name__ == "__main__":

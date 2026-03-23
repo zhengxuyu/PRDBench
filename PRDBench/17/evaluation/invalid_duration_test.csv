@@ -1,4 +1,4 @@
-任务单号,任务名称,测试项目,设备时长,测试状态,测试类型,测试项目情况【反馈列】
-TASK-H-20231001,测试任务A,功能测试,-1,成功,回归测试,试验暂无异常
-TASK-M-20231002,测试任务B,性能测试,10.5,成功,新功能测试,试验暂无异常
-TASK-L-20231003,测试任务C,集成测试,5,成功,冒烟测试,试验暂无异常
+Task ID,Task Name,Test Item,Equipment Duration,Test Status,Test Type,Test Item Feedback
+TASK-H-20231001,Test Task A,Functional Test,-1,Success,Regression Test,Trial shows no anomaly
+TASK-M-20231002,Test Task B,Performance Test,10.5,Success,New Feature Test,Trial shows no anomaly
+TASK-L-20231003,Test Task C,Integration Test,5,Success,Smoke Test,Trial shows no anomaly

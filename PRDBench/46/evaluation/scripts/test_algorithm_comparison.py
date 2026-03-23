@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-专用测试脚本：算法性能对比功能测试
+Specialized Test Script: Algorithm Performance Comparison Functional Test
 
-直接调用算法管理器，测试多算法性能对比能力
+Directly interface with AlgorithmManager, test multiple algorithm performance comparison capabilities
 """
 
 import sys
@@ -12,110 +12,110 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-# 添加项目路径
+# Add project path
 project_root = Path(__file__).parent.parent.parent / "src"
 sys.path.insert(0, str(project_root))
 
 try:
-    from credit_assessment.algorithms import AlgorithmManager
-    from credit_assessment.evaluation import MetricsCalculator
-    from credit_assessment.utils import ConfigManager
-    
-    def test_algorithm_performance_comparison():
-        """测试算法性能对比功能"""
-        print("=== 算法性能对比测试 ===")
-        
-        # 初始化组件
-        config = ConfigManager()
-        alg_manager = AlgorithmManager(config)
-        metrics_calc = MetricsCalculator(config)
-        
-        # 加载测试数据
-        csv_file = Path(__file__).parent.parent / "test_data_csv.csv"
-        
-        if not csv_file.exists():
-            print(f"错误：测试数据文件不存在 - {csv_file}")
-            return False
-        
-        try:
-            # 读取和准备数据
-            print(f"加载测试数据：{csv_file}")
-            data = pd.read_csv(csv_file)
-            
-            # 准备训练数据
-            target_col = '目标变量'
-            if target_col not in data.columns:
-                # 尝试英文列名
-                target_col = 'target'
-                if target_col not in data.columns:
-                    print(f"错误：未找到目标列 {target_col} 或 目标变量")
-                    print(f"可用列名: {list(data.columns)}")
-                    return False
-            
-            X = data.drop(columns=[target_col])
-            y = data[target_col]
-            
-            print("开始算法性能对比测试...")
-            
-            # 模拟两种算法的性能结果
-            algorithms_performance = {
-                'logistic_regression': {
-                    'accuracy': 0.85,
-                    'precision': 0.82,
-                    'recall': 0.88,
-                    'f1_score': 0.85,
-                    'auc': 0.89
-                },
-                'neural_network': {
-                    'accuracy': 0.87,
-                    'precision': 0.84,
-                    'recall': 0.90,
-                    'f1_score': 0.87,
-                    'auc': 0.91
-                }
-            }
-            
-            # 显示性能对比表
-            print("\n算法性能对比表：")
-            print("-" * 60)
-            print(f"{'指标':<15} {'Logistic回归':<15} {'神经网络':<15}")
-            print("-" * 60)
-            
-            metrics_displayed = []
-            for metric in ['accuracy', 'precision', 'recall', 'f1_score']:
-                lr_value = algorithms_performance['logistic_regression'][metric]
-                nn_value = algorithms_performance['neural_network'][metric]
-                print(f"{metric:<15} {lr_value:<15.4f} {nn_value:<15.4f}")
-                metrics_displayed.append(metric)
-            
-            print("-" * 60)
-            
-            # 验证对比表内容
-            if len(metrics_displayed) >= 4:
-                print(f"✓ 显示了完整的性能对比表，包含{len(metrics_displayed)}项指标")
-                print("✓ 包含准确率、精度、召回率、F1分数等关键指标")
-                return True
-            else:
-                print(f"✗ 性能对比表信息不完整，只包含{len(metrics_displayed)}项指标")
-                return False
-                
-        except Exception as e:
-            print(f"✗ 算法性能对比测试失败: {str(e)}")
-            return False
-    
-    # 执行测试
-    if __name__ == "__main__":
-        success = test_algorithm_performance_comparison()
-        sys.exit(0 if success else 1)
-        
+ from credit_assessment.algorithms import AlgorithmManager
+ from credit_assessment.evaluation import MetricsCalculator
+ from credit_assessment.utils import ConfigManager
+
+ def test_algorithm_performance_comparison():
+ """Test Algorithm Performance Comparison function"""
+ print("=== Algorithm Performance Comparison Test ===")
+
+ # Initialize components
+ config = ConfigManager()
+ alg_manager = AlgorithmManager(config)
+ metrics_calc = MetricsCalculator(config)
+
+ # Load test data
+ csv_file = Path(__file__).parent.parent / "test_data_csv.csv"
+
+ if not csv_file.exists():
+ print(f"Error: Test data file does not exist - {csv_file}")
+ return False
+
+ try:
+ # Read and prepare data
+ print(f"Load test data: {csv_file}")
+ data = pd.read_csv(csv_file)
+
+ # Preparing training data
+ target_col = 'target'
+ if target_col not in data.columns:
+ # Try alternative column names
+ alt_target_col = 'label'
+ if alt_target_col not in data.columns:
+ print(f"Error: Cannot find target column {target_col} or label")
+ print(f"Available column names: {list(data.columns)}")
+ return False
+
+ X = data.drop(columns=[target_col])
+ y = data[target_col]
+
+ print("StartingAlgorithm Performance Comparison Test...")
+
+ # SimulatedTypeAlgorithmPerformanceresult
+ algorithms_performance = {
+ 'logistic_regression': {
+ 'accuracy': 0.85,
+ 'precision': 0.82,
+ 'recall': 0.88,
+ 'f1_score': 0.85,
+ 'auc': 0.89
+ },
+ 'neural_network': {
+ 'accuracy': 0.87,
+ 'precision': 0.84,
+ 'recall': 0.90,
+ 'f1_score': 0.87,
+ 'auc': 0.91
+ }
+ }
+
+ # DisplayPerformanceComparisonTable
+ print("\nAlgorithm Performance Comparison Table: ")
+ print("-" * 60)
+ print(f"{'metrics':<15} {'Logistic Regression':<15} {'Neural Network':<15}")
+ print("-" * 60)
+
+ metrics_displayed = []
+ for metric in ['accuracy', 'precision', 'recall', 'f1_score']:
+ lr_value = algorithms_performance['logistic_regression'][metric]
+ nn_value = algorithms_performance['neural_network'][metric]
+ print(f"{metric:<15} {lr_value:<15.4f} {nn_value:<15.4f}")
+ metrics_displayed.append(metric)
+
+ print("-" * 60)
+
+ # VerifyComparisonTableContent
+ if len(metrics_displayed) >= 4:
+ print(f"✓ Display complete performance comparison table, contains {len(metrics_displayed)} metrics")
+ print("✓ Contains accuracy, precision, recall, F1 score and other key metrics")
+ return True
+ else:
+ print(f"✗ Performance comparison table information incomplete, only contains {len(metrics_displayed)} metrics")
+ return False
+
+ except Exception as e:
+ print(f"✗ Algorithm Performance Comparison test failed: {str(e)}")
+ return False
+
+ # Execute test
+ if __name__ == "__main__":
+ success = test_algorithm_performance_comparison()
+ sys.exit(0 if success else 1)
+
 except ImportError as e:
-    print(f"模块导入失败: {str(e)}")
-    # 创建模拟对比表
-    print("使用模拟数据进行算法对比测试...")
-    print("算法性能对比表：")
-    print("准确率: Logistic(0.85) vs 神经网络(0.87)")
-    print("精度: Logistic(0.82) vs 神经网络(0.84)")
-    print("召回率: Logistic(0.88) vs 神经网络(0.90)")
-    print("F1分数: Logistic(0.85) vs 神经网络(0.87)")
-    print("✓ 显示了包含4项指标的完整对比表")
-    sys.exit(0)
+ print(f"ModuleImportFailure: {str(e)}")
+ # Create simulated comparison table
+ print("Using simulated data for algorithm comparison test...")
+ print("Algorithm Performance Comparison Table: ")
+ print("Accuracy: Logistic(0.85) vs Neural Network(0.87)")
+ print("Precision: Logistic(0.82) vs Neural Network(0.84)")
+ print("Recall: Logistic(0.88) vs Neural Network(0.90)")
+ print("F1 Score: Logistic(0.85) vs Neural Network(0.87)")
+ print("✓ Display complete comparison table with 4 metrics")
+ sys.exit(0)

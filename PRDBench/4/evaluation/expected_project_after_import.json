@@ -1,14 +1,14 @@
 {
     "name": "CSVImportTest",
-    "city": "北京",
-    "area": "海淀区",
-    "business_circle_type": "大学城",
+    "city": "Beijing",
+    "area": "Haidian District",
+    "business_circle_type": "Large Mall District",
     "longitude": 116.3,
     "latitude": 39.9,
     "categories": {
-        "主食": 0.6,
-        "小吃": 0.3,
-        "饮品": 0.1
+        "Staples": 0.6,
+        "Snacks": 0.3,
+        "Beverages": 0.1
     },
     "avg_item_price": 40.0,
     "daily_customers": 200,

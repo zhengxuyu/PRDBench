@@ -25,20 +25,20 @@ def setup_test_data():
     try:
         # Create a test questionnaire
         questionnaire = Questionnaire(
-            title="个人信息调研",
-            description="用于测试数据脱敏功能的问卷"
+            title="Personal Information Survey",
+            description="Questionnaire for testing data anonymization functionality"
         )
         db.add(questionnaire)
         db.commit()
         db.refresh(questionnaire)
-        
+
         # Create questions
         from src.models.questionnaire import QuestionType
         questions_data = [
-            {"id": 1, "text": "您的姓名是？", "module": "个人基础信息", "type": QuestionType.OPEN_TEXT},
-            {"id": 2, "text": "您的联系电话是？", "module": "个人基础信息", "type": QuestionType.OPEN_TEXT},
-            {"id": 3, "text": "您的性别是？", "module": "个人基础信息", "type": QuestionType.SINGLE_CHOICE},
-            {"id": 4, "text": "您的年龄段是？", "module": "个人基础信息", "type": QuestionType.SINGLE_CHOICE},
+            {"id": 1, "text": "What is your name?", "module": "Basic Personal Information", "type": QuestionType.OPEN_TEXT},
+            {"id": 2, "text": "What is your contact phone?", "module": "Basic Personal Information", "type": QuestionType.OPEN_TEXT},
+            {"id": 3, "text": "What is your gender?", "module": "Basic Personal Information", "type": QuestionType.SINGLE_CHOICE},
+            {"id": 4, "text": "What is your age group?", "module": "Basic Personal Information", "type": QuestionType.SINGLE_CHOICE},
         ]
         
         question_objects = {}
@@ -88,10 +88,10 @@ def setup_test_data():
                     db.add(response)
         
         db.commit()
-        print("测试数据已成功创建！")
-        
+        print("Test data has been successfully created!")
+
     except Exception as e:
-        print(f"创建测试数据时发生错误: {e}")
+        print(f"Error occurred while creating test data: {e}")
         db.rollback()
         raise
     finally:

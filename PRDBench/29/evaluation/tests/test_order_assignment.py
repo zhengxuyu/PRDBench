@@ -23,4 +23,4 @@ def test_find_best_rider_for_order():
     
     best_rider = find_best_rider_for_order(order)
     
-    assert best_rider.num == 1, "没有将订单分配给距离最近的骑手"
+    assert best_rider.num == 1, "Failed to assign order to the nearest rider"

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-学习和理解main.py的真实互动流程
+OpticsLearnandProcessorSolvemain.pyTrueImplementationMutualAutoTrendProcess
 """
 
 import sys
@@ -11,31 +11,31 @@ sys.path.insert(0, '../src')
 from main import RecommendationSystemCLI
 
 def learn_menu_structure():
-    """学习菜单结构"""
-    print("学习main.py的菜单结构和互动流程")
+    """OpticsLearnMenuResultStructure"""
+    print("OpticsLearnmain.pyMenuResultStructureandMutualAutoTrendProcess")
     print("="*80)
     
     try:
         cli = RecommendationSystemCLI()
         
-        print("\n1. 主菜单结构:")
+        print("\n1. MainMenuResultStructure:")
         cli.display_main_menu()
         
-        print("\n2. 数据管理菜单结构:")
+        print("\n2. DataManagementMenuResultStructure:")
         cli.display_data_menu()
         
-        print("\n3. 算法评估菜单结构:")
+        print("\n3. CalculateMethodEvaluationMenuResultStructure:")
         cli.display_evaluation_menu()
         
-        print("\n4. 系统管理菜单结构:")
+        print("\n4. SystemManagementMenuResultStructure:")
         cli.display_system_menu()
         
-        print("\n5. 分析测试序列:")
+        print("\n5. AnalysisTestSequenceSeries:")
         test_sequences = {
-            "2.6.1测试": "1\\n2\\n0\\n0",
-            "2.3.4测试": "5\\n1\\n1\\n0\\n0", 
-            "2.5.2测试": "5\\n1\\n4\\n0\\n0",
-            "2.6.2测试": "7\\n3\\n1\\n0\\n0"
+            "2.6.1Test": "1\\n2\\n0\\n0",
+            "2.3.4Test": "5\\n1\\n1\\n0\\n0", 
+            "2.5.2Test": "5\\n1\\n4\\n0\\n0",
+            "2.6.2Test": "7\\n3\\n1\\n0\\n0"
         }
         
         for test_name, sequence in test_sequences.items():
@@ -43,28 +43,28 @@ def learn_menu_structure():
             print(f"\n{test_name}: {sequence}")
             
             if steps[0] == "1":
-                print("  步骤1: 进入数据管理")
+                print("  StepSteps1: ImportInputDataManagement")
                 if len(steps) > 1:
-                    data_options = ["", "查看数据统计", "商品属性管理", "初始化示例数据", "导出数据", "导入数据"]
+                    data_options = ["", "ViewDataSystemDesign", "ProductAttributeManagement", "InitialInitializationSampleData", "ExportData", "ImportData"]
                     if steps[1].isdigit() and int(steps[1]) < len(data_options):
-                        print(f"  步骤2: {data_options[int(steps[1])]}")
+                        print(f"  StepSteps2: {data_options[int(steps[1])]}")
             elif steps[0] == "5":
-                print("  步骤1: 进入算法评估")
+                print("  StepSteps1: ImportInputCalculateMethodEvaluation")
                 if len(steps) > 1:
-                    eval_options = ["", "运行算法比较", "运行A/B测试", "查看评估历史"]
+                    eval_options = ["", "RunCalculateMethodBiferCompare", "RunA/BTest", "ViewEvaluationHistory"]
                     if steps[1].isdigit() and int(steps[1]) < len(eval_options):
-                        print(f"  步骤2: {eval_options[int(steps[1])]}")
+                        print(f"  StepSteps2: {eval_options[int(steps[1])]}")
             elif steps[0] == "7":
-                print("  步骤1: 进入系统管理")
+                print("  StepSteps1: ImportInputSystemManagement")
                 if len(steps) > 1:
-                    sys_options = ["", "查看系统状态", "更新配置", "查看日志", "清理缓存"]
+                    sys_options = ["", "ViewSystemStatus", "UpdateConfigure", "ViewLog", "CleanProcessorSlowSave"]
                     if steps[1].isdigit() and int(steps[1]) < len(sys_options):
-                        print(f"  步骤2: {sys_options[int(steps[1])]}")
+                        print(f"  StepSteps2: {sys_options[int(steps[1])]}")
             elif steps[0] == "2":
-                print("  步骤1: 进入推荐功能")
+                print("  StepSteps1: ImportInputRecommendationFunction")
         
     except Exception as e:
-        print(f"学习过程出错: {e}")
+        print(f"OpticsLearnOverProcessOutputWrong: {e}")
         import traceback
         traceback.print_exc()
 

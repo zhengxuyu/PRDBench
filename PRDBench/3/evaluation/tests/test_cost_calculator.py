@@ -13,14 +13,14 @@ from cost_calculator import calculate_ingredient_cost, calculate_combo_cost
 
 # Mock data that the data_manager would normally provide
 MOCK_INGREDIENTS = {
-    "五常大米": {'采购单价': 10, '加工损耗率': 10, '单位': 'kg'},
-    "鸡胸肉": {'采购单价': 15, '加工损耗率': 5, '单位': 'kg'},
-    "零损耗食材": {'采购单价': 20, '加工损耗率': 0, '单位': 'kg'},
+    "wuchang_rice": {'purchase_price': 10, 'processing_loss_rate': 10, 'unit': 'kg'},
+    "chicken_breast": {'purchase_price': 15, 'processing_loss_rate': 5, 'unit': 'kg'},
+    "zero_loss_ingredient": {'purchase_price': 20, 'processing_loss_rate': 0, 'unit': 'kg'},
 }
 
 MOCK_EXTRA_COSTS = {
-    "打包盒": 1.5,
-    "一次性餐具": 0.8
+    "packaging_box": 1.5,
+    "disposable_utensils": 0.8
 }
 
 @pytest.fixture
@@ -30,42 +30,43 @@ def mock_data_manager():
          patch('cost_calculator.get_extra_costs', return_value=MOCK_EXTRA_COSTS):
         yield
 
-# Metric: 2.2.1 单项食材成本计算 (with boundary conditions)
+# Metric: 2.2.1 Single ingredient cost calculation (with boundary conditions)
 @pytest.mark.parametrize("name, usage, expected_cost", [
-    ("五常大米", 0.15, 1.65),      # Standard case from metric
-    ("鸡胸肉", 0.2, 3.15),        # Another standard case
-    ("零损耗食材", 1, 20.0),       # Boundary: Zero waste loss
-    ("五常大米", 0, 0.0),         # Boundary: Zero quantity
-    ("不存在的食材", 0.1, 0.0),    # Edge: Ingredient not found
+    ("wuchang_rice", 0.15, 1.65),      # Standard case from metric
+    ("chicken_breast", 0.2, 3.15),     # Another standard case
+    ("zero_loss_ingredient", 1, 20.0), # Boundary: Zero waste loss
+    ("wuchang_rice", 0, 0.0),          # Boundary: Zero quantity
+    ("nonexistent_ingredient", 0.1, 0.0),  # Edge: Ingredient not found
 ])
 def test_calculate_ingredient_cost(mock_data_manager, name, usage, expected_cost):
     cost, _ = calculate_ingredient_cost(name, usage)
     assert cost == pytest.approx(expected_cost)
 
-# Metric: 2.2.2a 总成本计算 - 成本汇总
+# Metric: 2.2.2a Total cost calculation - cost summary
 def test_calculate_combo_cost(mock_data_manager):
     ingredients_list = [
-        {'name': '五常大米', 'usage': 0.15}, # Cost: 1.65
-        {'name': '鸡胸肉', 'usage': 0.35}  # Cost: 5.5125 -> 5.51
+        {'name': 'wuchang_rice', 'usage': 0.15}, # Cost: 1.65
+        {'name': 'chicken_breast', 'usage': 0.35}  # Cost: 5.5125 -> 5.51
     ]
-    extra_cost_names = ["打包盒"] # Cost: 1.5
+    extra_cost_names = ["packaging_box"] # Cost: 1.5
     # Expected: 1.65 + 5.51 + 1.5 = 8.66
-    
+
     total_cost, _, _ = calculate_combo_cost(ingredients_list, extra_cost_names)
     assert total_cost == pytest.approx(8.66)
 
 def test_calculate_combo_cost_with_all_extras(mock_data_manager):
-    ingredients_list = [{'name': '五常大米', 'usage': 0.15}] # Cost: 1.65
-    extra_cost_names = ["打包盒", "一次性餐具"] # Cost: 1.5 + 0.8 = 2.3
+    ingredients_list = [{'name': 'wuchang_rice', 'usage': 0.15}] # Cost: 1.65
+    extra_cost_names = ["packaging_box", "disposable_utensils"] # Cost: 1.5 + 0.8 = 2.3
     # Expected: 1.65 + 2.3 = 3.95
-    
+
     total_cost, _, _ = calculate_combo_cost(ingredients_list, extra_cost_names)
     assert total_cost == pytest.approx(3.95)
 
 def test_calculate_combo_cost_no_extras(mock_data_manager):
-    ingredients_list = [{'name': '五常大米', 'usage': 0.15}] # Cost: 1.65
+    ingredients_list = [{'name': 'wuchang_rice', 'usage': 0.15}] # Cost: 1.65
     extra_cost_names = []
     # Expected: 1.65
-    
+
     total_cost, _, _ = calculate_combo_cost(ingredients_list, extra_cost_names)
     assert total_cost == pytest.approx(1.65)
+

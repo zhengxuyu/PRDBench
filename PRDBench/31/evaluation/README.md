@@ -1,247 +1,247 @@
-# 测试方案说明文档
+# Test Plan Documentation
 
-## 概述
+## Overview
 
-本目录包含了大学生自控力与注意稳定性智能分析系统的完整测试方案，基于 `evaluation/metric.json` 中定义的功能评估指标生成。
+This directory contains the complete test plan for the College Student Self-Control and Attention Stability Intelligent Analysis System, generated based on the functional evaluation metrics defined in `evaluation/metric.json`.
 
-## 文件结构
+## File Structure
 
 ```
 evaluation/
-├── README.md                           # 本说明文档
-├── metric.json                         # 功能评估指标（输入）
-├── detailed_test_plan.json            # 详细测试计划（输出）
-├── pytest.ini                         # pytest配置文件
-├── run_tests.py                       # 测试执行脚本
+├── README.md                           # This documentation
+├── metric.json                         # Functional evaluation metrics (input)
+├── detailed_test_plan.json            # Detailed test plan (output)
+├── pytest.ini                         # pytest configuration file
+├── run_tests.py                       # Test execution script
 │
-├── tests/                             # 自动化测试脚本目录
-│   ├── test_scale_creation.py         # 量表创建功能测试
-│   ├── test_scale_import_export.py    # 量表导入导出测试
-│   ├── test_statistical_analysis.py   # 统计分析功能测试
-│   ├── test_data_management.py        # 数据管理功能测试
-│   ├── test_visualization.py          # 可视化功能测试
-│   └── test_data_export.py           # 数据导出功能测试
+├── tests/                             # Automated test script directory
+│   ├── test_scale_creation.py         # Scale creation functional test
+│   ├── test_scale_import_export.py    # Scale import/export test
+│   ├── test_statistical_analysis.py   # Statistical analysis functional test
+│   ├── test_data_management.py        # Data management functional test
+│   ├── test_visualization.py          # Visualization functional test
+│   └── test_data_export.py           # Data export functional test
 │
-├── 测试输入文件/
-│   ├── test_scale.csv                 # 测试用量表CSV文件
-│   ├── test_scale.json                # 测试用量表JSON文件
-│   ├── test_participants.csv          # 测试用被试者信息
-│   ├── test_responses.csv             # 测试用问卷回答
-│   └── test_responses_with_anomalies.csv  # 包含异常的测试数据
+├── Test Input Files/
+│   ├── test_scale.csv                 # Test scale CSV file
+│   ├── test_scale.json                # Test scale JSON file
+│   ├── test_participants.csv          # Test participant information
+│   ├── test_responses.csv             # Test questionnaire responses
+│   └── test_responses_with_anomalies.csv  # Test data with anomalies
 │
-└── 期望输出文件/
-    ├── expected_scale_export.csv      # 期望的量表导出CSV
-    ├── expected_scale_export.json     # 期望的量表导出JSON
-    ├── expected_comprehensive_report.html  # 期望的综合报告
-    └── expected_chart.txt             # 期望的图表文件占位符
+└── Expected Output Files/
+    ├── expected_scale_export.csv      # Expected scale export CSV
+    ├── expected_scale_export.json     # Expected scale export JSON
+    ├── expected_comprehensive_report.html  # Expected comprehensive report
+    └── expected_chart.txt             # Expected chart file placeholder
 ```
 
-## 测试类型
+## Test Types
 
-### 1. Shell交互测试 (shell_interaction)
-- **用途**: 测试命令行界面的用户交互功能
-- **特点**: 模拟真实用户操作，验证CLI命令和交互流程
-- **示例**: 程序启动、帮助信息显示、模块入口验证
+### 1. Shell Interaction Test (shell_interaction)
+- **Purpose**: Test command-line interface user interaction functions
+- **Characteristics**: Simulate real user operations, verify CLI commands and interaction flows
+- **Examples**: Program start, help information display, module entry verification
 
-### 2. 单元测试 (unit_test)
-- **用途**: 测试特定函数或类的功能
-- **特点**: 直接调用源代码，验证内部逻辑
-- **示例**: 量表创建、统计分析算法、数据处理函数
+### 2. Unit Test (unit_test)
+- **Purpose**: Test specific functions or class functionality
+- **Characteristics**: Directly call source code, verify internal logic
+- **Examples**: Scale creation, statistical analysis algorithms, data processing functions
 
-### 3. 文件比较测试 (file_comparison)
-- **用途**: 验证程序生成的输出文件
-- **特点**: 比较实际输出与期望输出的一致性
-- **示例**: 量表导出、报告生成、图表创建
+### 3. File Comparison Test (file_comparison)
+- **Purpose**: Verify program-generated output files
+- **Characteristics**: Compare actual output with expected output for consistency
+- **Examples**: Scale export, report generation, chart creation
 
-## 快速开始
+## Quick Start
 
-### 环境准备
+### Environment Setup
 
-1. **安装依赖包**:
+1. **Install dependencies**:
    ```bash
    pip install -r src/requirements.txt
    ```
 
-2. **激活虚拟环境** (如果使用):
+2. **Activate virtual environment** (if using):
    ```bash
    # Windows
    path\to\venv\Scripts\activate
-   
+
    # Linux/Mac
    source path/to/venv/bin/activate
    ```
 
-### 运行测试
+### Run Tests
 
-1. **运行完整测试套件**:
+1. **Run complete test suite**:
    ```bash
    python evaluation/run_tests.py
    ```
 
-2. **运行特定类型的测试**:
+2. **Run specific types of tests**:
    ```bash
-   # 只运行单元测试
+   # Run only unit tests
    cd evaluation
    pytest tests/ -v
-   
-   # 运行特定测试文件
+
+   # Run specific test file
    pytest tests/test_scale_creation.py -v
-   
-   # 运行特定测试函数
+
+   # Run specific test function
    pytest tests/test_scale_creation.py::test_create_scale_basic_info -v
    ```
 
-3. **运行Shell交互测试**:
+3. **Run shell interaction tests**:
    ```bash
-   # 程序启动测试
+   # Program start test
    python src/main.py --help
-   
-   # 系统初始化
+
+   # System initialization
    python src/main.py init
-   
-   # 查看量表列表
+
+   # View scale list
    python src/main.py scales list
-   
-   # 数据摘要
+
+   # Data summary
    python src/main.py data summary
    ```
 
-## 测试覆盖范围
+## Test Coverage
 
-### 功能模块覆盖
+### Functional Module Coverage
 
-| 模块 | 测试文件 | 覆盖功能 |
+| Module | Test File | Covered Functions |
 |------|----------|----------|
-| 量表管理 | test_scale_creation.py<br>test_scale_import_export.py | 量表创建、导入导出、验证 |
-| 数据管理 | test_data_management.py | 被试者管理、数据导入、异常检测 |
-| 统计分析 | test_statistical_analysis.py | 描述统计、信度效度、因子分析、回归分析 |
-| 可视化 | test_visualization.py | 图表生成、格式导出、交互仪表板 |
-| 数据导出 | test_data_export.py | 多格式导出、数据完整性验证 |
+| Scale Management | test_scale_creation.py<br>test_scale_import_export.py | Scale creation, import/export, verification |
+| Data Management | test_data_management.py | Participant management, data import, anomaly detection |
+| Statistical Analysis | test_statistical_analysis.py | Descriptive statistics, reliability/validity, factor analysis, regression analysis |
+| Visualization | test_visualization.py | Chart generation, format export, interactive dashboard |
+| Data Export | test_data_export.py | Multi-format export, data integrity verification |
 
-### 评估指标覆盖
+### Evaluation Metrics Coverage
 
-根据 `metric.json` 中的29个评估点，测试方案提供了完整覆盖：
+According to the 29 evaluation points in `metric.json`, the test plan provides complete coverage:
 
-- **0.1**: 程序启动与主菜单 ✅
-- **1.1-1.4**: 各模块入口点验证 ✅
-- **2.1.1a-2.1.4b**: 量表管理功能 ✅
-- **2.2.1a-2.2.3**: 数据采集与管理 ✅
-- **2.3.1-2.3.3**: 基本统计分析 ✅
-- **2.4.1a-2.4.3b**: 高级分析功能 ✅
-- **2.5.1-2.5.2e**: 报告生成与导出 ✅
+- **0.1**: Program start and main menu ✅
+- **1.1-1.4**: Module entry point verification ✅
+- **2.1.1a-2.1.4b**: Scale management functions ✅
+- **2.2.1a-2.2.3**: Data collection and management ✅
+- **2.3.1-2.3.3**: Basic statistical analysis ✅
+- **2.4.1a-2.4.3b**: Advanced analysis functions ✅
+- **2.5.1-2.5.2e**: Report generation and export ✅
 
-## 测试结果解读
+## Test Results Interpretation
 
-### 成功标志
-- ✅ **PASSED**: 测试通过，功能正常
-- 🎉 **ALL PASSED**: 所有测试通过
+### Success Indicators
+- ✅ **PASSED**: Test passed, function normal
+- 🎉 **ALL PASSED**: All tests passed
 
-### 失败标志
-- ❌ **FAILED**: 测试失败，需要修复
-- ⚠️ **WARNING**: 有警告，建议检查
-- ⏰ **TIMEOUT**: 执行超时，可能存在性能问题
+### Failure Indicators
+- ❌ **FAILED**: Test failed, needs fixing
+- ⚠️ **WARNING**: Warning present, check recommended
+- ⏰ **TIMEOUT**: Execution timeout, possible performance issue
 
-### 测试报告
-测试完成后会生成以下文件：
-- `test_results.xml`: JUnit格式的测试结果
-- `TEST_REPORT.md`: 详细的测试报告
+### Test Reports
+After test completion, the following files are generated:
+- `test_results.xml`: JUnit format test results
+- `TEST_REPORT.md`: Detailed test report
 
-## 故障排除
+## Troubleshooting
 
-### 常见问题
+### Common Issues
 
 1. **ModuleNotFoundError**
    ```
-   解决方案: 检查Python路径和依赖包安装
+   Solution: Check Python path and dependency installation
    pip install -r src/requirements.txt
    ```
 
-2. **数据库连接错误**
+2. **Database connection error**
    ```
-   解决方案: 运行系统初始化
+   Solution: Run system initialization
    python src/main.py init
    ```
 
-3. **文件权限错误**
+3. **File permission error**
    ```
-   解决方案: 检查目录写权限，或以管理员身份运行
-   ```
-
-4. **测试超时**
-   ```
-   解决方案: 检查系统资源，或增加超时时间
+   Solution: Check directory write permissions, or run as administrator
    ```
 
-### 调试技巧
+4. **Test timeout**
+   ```
+   Solution: Check system resources, or increase timeout duration
+   ```
 
-1. **详细输出**:
+### Debugging Tips
+
+1. **Verbose output**:
    ```bash
    pytest tests/ -v -s
    ```
 
-2. **只运行失败的测试**:
+2. **Run only failed tests**:
    ```bash
    pytest tests/ --lf
    ```
 
-3. **停在第一个失败**:
+3. **Stop at first failure**:
    ```bash
    pytest tests/ -x
    ```
 
-4. **生成覆盖率报告**:
+4. **Generate coverage report**:
    ```bash
    pytest tests/ --cov=src --cov-report=html
    ```
 
-## 扩展测试
+## Extending Tests
 
-### 添加新测试
+### Adding New Tests
 
-1. **创建测试文件**:
+1. **Create test file**:
    ```python
    # evaluation/tests/test_new_feature.py
    import pytest
-   
+
    def test_new_functionality():
-       # 测试代码
+       # Test code
        assert True
    ```
 
-2. **更新测试计划**:
-   在 `detailed_test_plan.json` 中添加新的测试条目
+2. **Update test plan**:
+   Add new test entry in `detailed_test_plan.json`
 
-3. **运行新测试**:
+3. **Run new tests**:
    ```bash
    pytest tests/test_new_feature.py -v
    ```
 
-### 性能测试
+### Performance Testing
 
 ```python
 import time
 
 def test_performance():
     start_time = time.time()
-    # 执行功能
+    # Execute function
     execution_time = time.time() - start_time
-    assert execution_time < 5.0  # 5秒内完成
+    assert execution_time < 5.0  # Complete within 5 seconds
 ```
 
-### 压力测试
+### Stress Testing
 
 ```python
 def test_large_dataset():
-    # 创建大量数据
+    # Create large amount of data
     for i in range(1000):
-        # 执行操作
+        # Execute operation
         pass
-    # 验证结果
+    # Verify results
 ```
 
-## 持续集成
+## Continuous Integration
 
-### GitHub Actions 示例
+### GitHub Actions Example
 
 ```yaml
 name: Tests
@@ -261,21 +261,21 @@ jobs:
       run: python evaluation/run_tests.py
 ```
 
-## 贡献指南
+## Contribution Guidelines
 
-1. **添加测试**: 为新功能编写对应的测试用例
-2. **更新文档**: 修改功能时同步更新测试文档
-3. **遵循规范**: 使用统一的测试命名和结构
-4. **验证完整性**: 确保测试覆盖所有关键路径
+1. **Add tests**: Write corresponding test cases for new functions
+2. **Update documentation**: Synchronize test documentation when modifying functions
+3. **Follow conventions**: Use unified test naming and structure
+4. **Verify completeness**: Ensure tests cover all critical paths
 
-## 联系信息
+## Contact Information
 
-如有测试相关问题，请：
-1. 查看测试输出和错误信息
-2. 参考本文档的故障排除部分
-3. 检查源代码中的相关实现
-4. 提交Issue或联系开发团队
+For test-related issues, please:
+1. Review test output and error information
+2. Refer to the troubleshooting section of this document
+3. Check the relevant implementation in source code
+4. Submit an issue or contact the development team
 
 ---
 
-*本测试方案基于软件质量保证（QA）最佳实践设计，确保系统功能的可靠性和稳定性。*
+*This test plan is designed based on Software Quality Assurance (QA) best practices to ensure the reliability and stability of system functionality.*

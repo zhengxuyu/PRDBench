@@ -11,22 +11,22 @@ def sample_df():
         'Industry': ['Technology', 'Technology', 'Technology', 'Technology', 'Technology', 'Financials', 'Financials', 'Healthcare', 'Healthcare', 'Healthcare'],
         'Sector': ['Technology', 'Technology', 'Technology', 'Technology', 'Technology', 'Financials', 'Financials', 'Healthcare', 'Healthcare', 'Healthcare'],
         'PE': [28.5, 35.2, 30.1, 60.3, 150.1, 12.5, 40.1, 25.5, 15.8, 80.2],
-        '市值': [2.8e12, 2.5e12, 1.8e12, 1.6e12, 1.1e12, 4.5e11, 5.0e11, 4.8e11, 2.5e11, 1.5e11]
+        'Market Value': [2.8e12, 2.5e12, 1.8e12, 1.6e12, 1.1e12, 4.5e11, 5.0e11, 4.8e11, 2.5e11, 1.5e11]
     }
     return pd.DataFrame(data)
 
 def test_market_cap_preset_filter(sample_df):
     """
-    Tests the preset market cap filter for '大盘股'.
-    PRD Definition: MarketCap >= 100亿 (1e10)
+    Tests the preset market cap filter for 'Large-cap'.
+    PRD Definition: MarketCap >= 10 billion (1e10)
     """
-    # In our sample_df, all stocks are '大盘股'
-    filtered_df, error = filter_by_market_cap(sample_df, category='大盘股')
+    # In our sample_df, all stocks are 'Large-cap'
+    filtered_df, error = filter_by_market_cap(sample_df, category='Large-cap')
     assert error is None
     assert not filtered_df.empty
-    assert all(filtered_df['市值'] >= 1e10)
+    assert all(filtered_df['Market Value'] >= 1e10)
     # Test a category that should yield no results
-    filtered_df_small, error = filter_by_market_cap(sample_df, category='小盘股')
+    filtered_df_small, error = filter_by_market_cap(sample_df, category='Small-cap')
     assert error is None
     assert filtered_df_small.empty
 
@@ -56,11 +56,11 @@ def test_deep_dive_analysis(sample_df):
     
     assert error is None
     assert isinstance(analysis_df, pd.DataFrame)
-    assert f'{target_metric}_均值' in analysis_df.columns
-    assert f'{target_metric}_标准差' in analysis_df.columns
+    assert f'{target_metric}_mean' in analysis_df.columns
+    assert f'{target_metric}_std' in analysis_df.columns
     assert not analysis_df.empty
     # Check if the calculation for 'Technology' is correct
     tech_pe = sample_df[sample_df['Industry'] == 'Technology']['PE']
     expected_mean = tech_pe.mean()
-    calculated_mean = analysis_df[analysis_df['Industry'] == 'Technology'][f'{target_metric}_均值'].iloc[0]
+    calculated_mean = analysis_df[analysis_df['Industry'] == 'Technology'][f'{target_metric}_mean'].iloc[0]
     assert abs(expected_mean - calculated_mean) < 1e-9

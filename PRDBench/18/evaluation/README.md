@@ -1,131 +1,131 @@
-# MatrixAnalysisFinal 测试系统
+# MatrixAnalysisFinal Testing System
 
-## 概述
+## Overview
 
-这是为MatrixAnalysisFinal矩阵分解项目设计的完整自动化测试系统，用于验证五种矩阵分解算法的正确性、输出格式规范性和数值计算精度。
+This is a complete automated testing system designed for the MatrixAnalysisFinal matrix factorization project, used to verify the correctness of five matrix factorization algorithms, output format compliance, and numerical computation accuracy.
 
-## 项目结构
+## Project Structure
 
 ```
 evaluation/
-├── detailed_test_plan.json    # 详细测试计划（JSON格式）
-├── metric.json                # 功能评估指标
-├── run_tests.py              # 测试运行脚本
-├── README.md                 # 本文件
-└── tests/                    # 测试文件目录
-    ├── test_lu_correctness.py     # LU分解正确性测试
-    ├── test_qr_correctness.py     # QR分解正确性测试
-    ├── test_hr_correctness.py     # Householder反射正确性测试
-    ├── test_gr_correctness.py     # Givens旋转正确性测试
-    ├── test_urv_correctness.py    # URV分解正确性测试
-    ├── test_output_format.py      # 输出格式规范性测试
-    └── test_matrix_rank.py        # 矩阵秩计算测试
+├── detailed_test_plan.json    # Detailed test plan (JSON format)
+├── metric.json                # Functional evaluation metrics
+├── run_tests.py              # Test execution script
+├── README.md                 # This file
+└── tests/                    # Test files directory
+    ├── test_lu_correctness.py     # LU factorization correctness test
+    ├── test_qr_correctness.py     # QR factorization correctness test
+    ├── test_hr_correctness.py     # Householder reflection correctness test
+    ├── test_gr_correctness.py     # Givens rotation correctness test
+    ├── test_urv_correctness.py    # URV factorization correctness test
+    ├── test_output_format.py      # Output format compliance test
+    └── test_matrix_rank.py        # Matrix rank calculation test
 ```
 
-## 测试覆盖范围
+## Test Coverage
 
-### 1. 命令行接口测试
-- **1.1** 无参数或无效参数时的帮助信息显示
-- **1.2** 无效模型参数的错误处理
-- **1.3** 无效文件路径的错误处理
+### 1. Command Line Interface Tests
+- **1.1** Display help information when no parameters or invalid parameters
+- **1.2** Error handling for invalid model parameters
+- **1.3** Error handling for invalid file paths
 
-### 2. 核心算法测试
+### 2. Core Algorithm Tests
 
-#### 2.1 LU分解
-- **2.1a** 计算结果正确性（P×L×U = A）
-- **2.1b** 输出格式规范性（4位小数精度）
-- **2.1c** 矩阵秩计算正确性
+#### 2.1 LU Factorization
+- **2.1a** Correctness of calculation results (P×L×U = A)
+- **2.1b** Output format compliance (4 decimal precision)
+- **2.1c** Matrix rank calculation correctness
 
-#### 2.2 QR分解（Gram-Schmidt）
-- **2.2a** 计算结果正确性（Q×R = A，Q正交性）
-- **2.2b** 输出格式规范性
-- **2.2c** 矩阵秩计算正确性
+#### 2.2 QR Factorization (Gram-Schmidt)
+- **2.2a** Correctness of calculation results (Q×R = A, Q orthogonality)
+- **2.2b** Output format compliance
+- **2.2c** Matrix rank calculation correctness
 
-#### 2.3 Householder反射分解
-- **2.3a** 计算结果正确性（Q×R = A，Q正交性）
-- **2.3b** 输出格式规范性
-- **2.3c** 矩阵秩计算正确性
+#### 2.3 Householder Reflection Factorization
+- **2.3a** Correctness of calculation results (Q×R = A, Q orthogonality)
+- **2.3b** Output format compliance
+- **2.3c** Matrix rank calculation correctness
 
-#### 2.4 Givens旋转分解
-- **2.4a** 计算结果正确性（Q×R = A，Q正交性）
-- **2.4b** 输出格式规范性
-- **2.4c** 矩阵秩计算正确性
+#### 2.4 Givens Rotation Factorization
+- **2.4a** Correctness of calculation results (Q×R = A, Q orthogonality)
+- **2.4b** Output format compliance
+- **2.4c** Matrix rank calculation correctness
 
-#### 2.5 URV分解
-- **2.5a** 计算结果正确性（U×R×V^T = A，U、V正交性）
-- **2.5b** 输出格式规范性
-- **2.5c** 矩阵秩计算正确性
+#### 2.5 URV Factorization
+- **2.5a** Correctness of calculation results (U×R×V^T = A, U, V orthogonality)
+- **2.5b** Output format compliance
+- **2.5c** Matrix rank calculation correctness
 
-## 使用方法
+## Usage
 
-### 运行所有测试
+### Run All Tests
 ```bash
-# 方法1：使用测试运行脚本
+# Method 1: Use test execution script
 python evaluation/run_tests.py
 
-# 方法2：使用pytest直接运行
+# Method 2: Run directly with pytest
 pytest evaluation/tests/ -v
 ```
 
-### 运行特定测试
+### Run Specific Tests
 ```bash
-# 运行LU分解正确性测试
+# Run LU factorization correctness test
 pytest evaluation/tests/test_lu_correctness.py::test_lu_factorization_correctness -v
 
-# 运行所有输出格式测试
+# Run all output format tests
 pytest evaluation/tests/test_output_format.py -v
 
-# 运行所有矩阵秩计算测试
+# Run all matrix rank calculation tests
 pytest evaluation/tests/test_matrix_rank.py -v
 ```
 
-### 命令行接口测试（手动）
+### Command Line Interface Tests (Manual)
 ```powershell
-# 测试帮助信息
+# Test help information
 cd src; python main.py
 cd src; python main.py --unknown-arg
 
-# 测试无效模型参数
+# Test invalid model parameter
 cd src; python main.py --model INVALIDMODEL --input data/LU.txt
 
-# 测试无效文件路径
+# Test invalid file path
 cd src; python main.py --model LU --input non_existent_file.txt
 ```
 
-## 测试数据
+## Test Data
 
-测试使用src/data/目录中的标准测试矩阵：
-- `LU.txt` - LU分解测试矩阵
-- `GramSchmidt.txt` - QR分解测试矩阵
-- `Household.txt` - Householder反射测试矩阵
-- `Givens.txt` - Givens旋转测试矩阵
-- `URV.txt` - URV分解测试矩阵
+Tests use standard test matrices from the src/data/ directory:
+- `LU.txt` - LU factorization test matrix
+- `GramSchmidt.txt` - QR factorization test matrix
+- `Household.txt` - Householder reflection test matrix
+- `Givens.txt` - Givens rotation test matrix
+- `URV.txt` - URV factorization test matrix
 
-## 验证标准
+## Validation Criteria
 
-### 数值精度
-- 矩阵重构误差 < 1e-10
-- 正交性验证误差 < 1e-10
-- 矩阵秩计算与numpy.linalg.matrix_rank一致
+### Numerical Precision
+- Matrix reconstruction error < 1e-10
+- Orthogonality verification error < 1e-10
+- Matrix rank calculation consistent with numpy.linalg.matrix_rank
 
-### 输出格式
-- 所有数值输出严格按照8.4f格式（8位宽度，4位小数）
-- 矩阵元素对齐显示
+### Output Format
+- All numerical outputs strictly follow 8.4f format (8 characters width, 4 decimal places)
+- Matrix elements displayed aligned
 
-### 矩阵性质验证
-- LU分解：L为下三角，U为上三角，P为置换矩阵
-- QR分解：Q为正交矩阵，R为上三角矩阵
-- URV分解：U、V为正交矩阵
+### Matrix Property Verification
+- LU factorization: L is lower triangular, U is upper triangular, P is permutation matrix
+- QR factorization: Q is orthogonal matrix, R is upper triangular matrix
+- URV factorization: U, V are orthogonal matrices
 
-## 依赖要求
+## Dependencies
 
 ```bash
 pip install pytest numpy
 ```
 
-## 注意事项
+## Notes
 
-1. 测试不会修改src/目录下的任何源代码
-2. 所有测试都直接调用src/model/中的现有函数
-3. 测试数据使用src/data/中的标准测试文件
-4. 测试结果基于数值计算的浮点精度考虑
+1. Tests will not modify any source code in the src/ directory
+2. All tests directly call existing functions in src/model/
+3. Test data uses standard test files in src/data/
+4. Test results consider floating-point precision of numerical computations

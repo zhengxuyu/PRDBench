@@ -1,40 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-专门测试企业业务字段采集
+Dedicated test for company business field collection
 """
 
 import sys
 import os
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
 
 from utils.data_constants import INDUSTRIES
 
 def main():
-    """测试企业业务字段采集"""
-    print("测试企业业务字段采集...")
-    
-    # 检查行业分类是否存在
-    if not INDUSTRIES or len(INDUSTRIES) == 0:
-        print("错误：行业分类选项未定义")
-        return False
-    
-    print(f"发现 {len(INDUSTRIES)} 个行业类型选项: {INDUSTRIES[:5]}...")
-    
-    # 验证业务字段结构
-    required_industries = ["制造业", "软件和信息技术服务业"]
-    found_industries = [i for i in required_industries if i in INDUSTRIES]
-    
-    if len(found_industries) >= 1:
-        print("业务字段采集：主营业务、所属行业(选择列表)、员工总数、年度营收(万元)配置完整")
-        print("测试通过：业务字段采集功能完整")
-        return True
-    else:
-        print("错误：基本行业类型不完整")
-        return False
+ """Test company business field collection"""
+ print("Testing company business field collection...")
+
+ # Check if industry classification exists
+ if not INDUSTRIES or len(INDUSTRIES) == 0:
+ print("Error: Industry classification options not defined")
+ return False
+
+ print(f"Found {len(INDUSTRIES)} industry type options: {INDUSTRIES[:5]}...")
+
+ # Verify business field structure
+ required_industries = ["Manufacturing", "Software and Information Technology Services"]
+ found_industries = [i for i in required_industries if i in INDUSTRIES]
+
+ if len(found_industries) >= 1:
+ print("Business field collection: Main business, industry (selection list), number of employees, annual revenue (thousand yuan) configuration complete")
+ print("Test passed: Business field collection functionality complete")
+ return True
+ else:
+ print("Error: Basic industry types incomplete")
+ return False
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+ success = main()
+ sys.exit(0 if success else 1)

@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 import os
 
-# 添加src目录到路径
+# AddsrcDirectorytoPath
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 src_dir = os.path.join(project_root, 'src')
@@ -15,7 +15,7 @@ from recommenders.neural_network_recommender import NeuralNetworkRecommender
 from recommenders.attribute_utility_recommender import AttributeUtilityRecommender
 
 def load_real_data():
-    """加载项目的真实数据"""
+    """Loaditem(s)TrueImplementationData"""
     try:
         data_dir = os.path.join(project_root, 'src', 'data')
         
@@ -23,21 +23,21 @@ def load_real_data():
         ratings_df = pd.read_csv(os.path.join(data_dir, 'ratings.csv'))
         users_df = pd.read_csv(os.path.join(data_dir, 'users.csv'))
         
-        print(f"数据加载成功:")
-        print(f"  - 商品数据: {len(products_df)} 条记录")
-        print(f"  - 评分数据: {len(ratings_df)} 条记录") 
-        print(f"  - 用户数据: {len(users_df)} 条记录")
+        print(f"DataLoadSuccess:")
+        print(f"  - ProductBrandData: {len(products_df)} records")
+        print(f"  - ScoreData: {len(ratings_df)} records") 
+        print(f"  - UserData: {len(users_df)} records")
         
         return ratings_df, products_df, users_df
         
     except Exception as e:
-        print(f"数据加载失败: {e}")
+        print(f"DataLoadFailure: {e}")
         return None, None, None
 
 def test_collaborative_filtering_with_real_data():
-    """使用真实数据测试协同过滤算法"""
+    """UseUseTrueImplementationDataTestCollaborative FilteringCalculateMethod"""
     print("\n" + "="*50)
-    print("协同过滤算法真实数据测试")
+    print("Collaborative FilteringCalculateMethodTrueImplementationDataTest")
     print("="*50)
     
     ratings_df, products_df, users_df = load_real_data()
@@ -58,32 +58,32 @@ def test_collaborative_filtering_with_real_data():
     }
     results = []
     
-    # 测试三种相似度算法
+    # TestSamTypeCameraSimilarRepublicCalculateMethod
     similarity_methods = ['cosine', 'pearson', 'euclidean']
     
     for method in similarity_methods:
         try:
-            print(f"\n测试 {method} 相似度算法...")
+            print(f"\nTest {method} CameraSimilarRepublicCalculateMethod...")
             recommender = CollaborativeFilteringRecommender(config, similarity_metric=method)
             recommender.fit(ratings_df, products_df, users_df)
             
-            # 为用户1生成推荐
+            # asUser1GenerateRecommendation
             recommendations = recommender.predict(user_id=1, top_n=3)
             
-            print(f"PASS: {method}相似度算法测试通过")
-            print(f"推荐结果数量: {len(recommendations)}")
+            print(f"PASS: {method}CameraSimilarRepublicCalculateMethodTest Passed")
+            print(f"RecommendationResultQuantity: {len(recommendations)}")
             results.append(True)
             
         except Exception as e:
-            print(f"FAIL: {method}算法测试失败: {e}")
+            print(f"FAIL: {method}CalculateMethodTest Failed: {e}")
             results.append(False)
     
     return all(results)
 
 def test_neural_network_with_real_data():
-    """使用真实数据测试神经网络推荐"""
+    """UseUseTrueImplementationDataTestGodEconomyNetworkRecommendation"""
     print("\n" + "="*50)
-    print("神经网络推荐真实数据测试")
+    print("GodEconomyNetworkRecommendationTrueImplementationDataTest")
     print("="*50)
     
     ratings_df, products_df, users_df = load_real_data()
@@ -108,20 +108,20 @@ def test_neural_network_with_real_data():
         recommender = NeuralNetworkRecommender(config)
         recommender.fit(ratings_df, products_df, users_df)
         
-        print("PASS: 神经网络推荐训练成功")
-        print(f"模型状态: {'已训练' if recommender.is_trained else '未训练'}")
-        print("SUCCESS: MLPRegressor在CPU上训练完成")
+        print("PASS: GodEconomyNetworkRecommendationTrainingSuccess")
+        print(f"ModelTypeStatus: {'AlreadyTraining' if recommender.is_trained else 'NotTraining'}")
+        print("SUCCESS: MLPRegressorinCPUonTrainingCompleteSuccess")
         
         return True
         
     except Exception as e:
-        print(f"FAIL: 神经网络推荐失败: {e}")
+        print(f"FAIL: GodEconomyNetworkRecommendationFailure: {e}")
         return False
 
 def test_attribute_utility_with_real_data():
-    """使用真实数据测试属性效用推荐"""
+    """UseUseTrueImplementationDataTestAttributeEffectUseRecommendation"""
     print("\n" + "="*50)
-    print("属性效用推荐真实数据测试")
+    print("AttributeEffectUseRecommendationTrueImplementationDataTest")
     print("="*50)
     
     ratings_df, products_df, users_df = load_real_data()
@@ -145,25 +145,25 @@ def test_attribute_utility_with_real_data():
         recommender = AttributeUtilityRecommender(config)
         recommender.fit(ratings_df, products_df, users_df)
         
-        # 测试推荐生成
+        # TestRecommendationGenerate
         recommendations = recommender.predict(user_id=1, top_n=5)
         
-        print("PASS: 属性效用推荐测试通过")
-        print(f"推荐结果数量: {len(recommendations)}")
-        print("SUCCESS: 推荐解释功能已实现")
+        print("PASS: AttributeEffectUseRecommendationTest Passed")
+        print(f"RecommendationResultQuantity: {len(recommendations)}")
+        print("SUCCESS: RecommendationExplanationFunctionAlreadyImplementationImplementation")
         
         return True
         
     except Exception as e:
-        print(f"FAIL: 属性效用推荐失败: {e}")
+        print(f"FAIL: AttributeEffectUseRecommendationFailure: {e}")
         return False
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("   AI评估专家 - 推荐算法真实数据评估")
+    print("   AIEvaluation Expert - RecommendationCalculateMethodTrueImplementationDataEvaluation")
     print("=" * 60)
     
-    # 运行所有测试
+    # RunPlaceHasTest
     cf_result = test_collaborative_filtering_with_real_data()
     nn_result = test_neural_network_with_real_data()  
     au_result = test_attribute_utility_with_real_data()
@@ -171,11 +171,11 @@ if __name__ == "__main__":
     total_passed = sum([cf_result, nn_result, au_result])
     
     print("\n" + "="*50)
-    print("推荐算法评估总结")
+    print("RecommendationCalculateMethodEvaluationSummary")
     print("="*50)
-    print(f"协同过滤算法: {'PASS' if cf_result else 'FAIL'}")
-    print(f"神经网络推荐: {'PASS' if nn_result else 'FAIL'}")
-    print(f"属性效用推荐: {'PASS' if au_result else 'FAIL'}")
-    print(f"\n总体结果: {total_passed}/3 算法通过测试")
+    print(f"Collaborative FilteringCalculateMethod: {'PASS' if cf_result else 'FAIL'}")
+    print(f"GodEconomyNetworkRecommendation: {'PASS' if nn_result else 'FAIL'}")
+    print(f"AttributeEffectUseRecommendation: {'PASS' if au_result else 'FAIL'}")
+    print(f"\nTotalIntegratedResult: {total_passed}/3 CalculateMethodPassTest")
     
     sys.exit(0 if total_passed >= 2 else 1)

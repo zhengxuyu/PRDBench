@@ -1,46 +1,46 @@
 [
     {
-        "description": "报告生成功能依赖于企业信息录入和融资诊断分析",
+        "description": "Report generation functionality depends on enterprise information entry and financing diagnosis analysis",
         "source": ["2.1.6", "2.2.1", "2.2.2", "2.2.3", "2.2.4a", "2.2.4b", "2.2.5"],
         "target": "2.3.1a"
     },
     {
-        "description": "报告分析建议依赖于报告结构生成",
+        "description": "Report analysis recommendations depend on report structure generation",
         "source": "2.3.1a",
         "target": "2.3.1b"
     },
     {
-        "description": "报告文件保存依赖于报告生成功能",
+        "description": "Report file saving depends on report generation functionality",
         "source": ["2.3.1a", "2.3.1b"],
         "target": "2.3.2"
     },
     {
-        "description": "历史报告归档需要多次报告生成来提供测试数据",
+        "description": "Historical report archiving requires multiple report generations to provide test data",
         "source": ["2.3.1a", "2.3.1b", "2.3.2", "2.3.3a", "2.3.3b"],
         "target": "2.3.5a"
     },
     {
-        "description": "报告对比功能依赖于历史报告归档，需要至少2份历史报告",
+        "description": "Report comparison functionality depends on historical report archiving, requires at least 2 historical reports",
         "source": "2.3.5a",
         "target": "2.3.5b"
     },
     {
-        "description": "图表生成依赖于企业数据和诊断结果",
+        "description": "Chart generation depends on enterprise data and diagnosis results",
         "source": ["2.1.6", "2.2.1", "2.2.2", "2.2.3"],
         "target": "2.3.3a"
     },
     {
-        "description": "雷达图生成依赖于各维度评分数据",
+        "description": "Radar chart generation depends on multi-dimensional scoring data",
         "source": ["2.2.1", "2.2.2", "2.2.3", "2.2.5"],
         "target": "2.3.3b"
     },
     {
-        "description": "推理说明查询依赖于诊断分析结果",
+        "description": "Reasoning explanation query depends on diagnosis analysis results",
         "source": ["2.2.1", "2.2.2", "2.2.3", "2.2.5"],
         "target": "2.3.4a"
     },
     {
-        "description": "关键词导航依赖于报告生成和推理说明",
+        "description": "Keyword navigation depends on report generation and reasoning explanation",
         "source": ["2.3.1a", "2.3.1b", "2.3.4a"],
         "target": "2.3.4b"
     }

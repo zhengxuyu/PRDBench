@@ -1,13 +1,13 @@
 {
     "admin_operations": [
-        "模型训练监督",
-        "日志导出", 
-        "冷启动流程质检"
+        "ModelTrainingSupervision",
+        "LogExport", 
+        "ColdStartTrendProcessQualityCheck"
     ],
     "user_operations": [
-        "查看推荐",
-        "数据导入",
-        "基础分析"
+        "ViewRecommendations",
+        "Data Import",
+        "FoundationFoundationAnalysis"
     ],
     "access_test_results": {
         "admin_exclusive_count": 3,

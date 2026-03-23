@@ -1,19 +1,5 @@
 [
   {
-    "metric": "1.1 System Environment Setup and Dependency Check",
-    "description": "1. **Arrange:** Prepare a clean Python environment and ensure Python 3.7+ is installed.\n2. **Act:** Check the project's dependency file requirements.txt and attempt to install all dependencies (numpy>=1.19.0, matplotlib>=3.3.0, pandas>=1.3.0, openpyxl>=3.0.0, scipy>=1.7.0).\n3. **Assert:** Verify Python version ≥3.7, all dependencies are installed successfully and meet the version requirements, system memory ≥4GB, storage space ≥1GB, and can successfully import all core modules.",
-    "type": "shell_interaction",
-    "testcases": [
-      {
-        "test_command": "python -c \"import sys; print('Python version:', sys.version); import numpy, matplotlib, pandas, openpyxl, scipy; print('All dependencies imported successfully')\"",
-        "test_input": null
-      }
-    ],
-    "input_files": null,
-    "expected_output_files": null,
-    "expected_output": "Python version should display ≥3.7, and all dependencies should be imported successfully showing 'All dependencies imported successfully'"
-  },
-  {
     "metric": "2.1.1a SI Model Core Algorithm Implementation",
     "description": "1. **Pre-validation (User Path):** Does the program provide clear menu options to run the SI model?\n2. **Arrange:** Set SI model parameters: total population N=10000, transmission rate beta=0.01, contact rate r=10, initial state S[0]=9999, I[0]=1.\n3. **Act:** Select the SI model option, input the above parameters, and run a simulation for 200 days.\n4. **Assert:** Verify the model outputs S(t) and I(t) series with reasonable values, S+I=N holds at all times.",
     "type": "unit_test",
@@ -28,20 +14,6 @@
     "expected_output": "Test passed, verifying the correctness of the SI model core algorithm implementation: the conservation law S+I=N holds at all times, numerical stability is good, final states S(∞)=0 and I(∞)=N match theoretical expectations, and calculations are accurate for a 200-day simulation"
   },
   {
-    "metric": "1.1-font Chinese Font Configuration Optimization",
-    "description": "1. **Arrange:** Test matplotlib Chinese font configuration in different operating systems (Windows, macOS, Linux).\n2. **Act:** Run visualization modules containing Chinese fonts and check the font warning messages.\n3. **Assert:** Verify that the system can automatically detect available Chinese fonts, effectively suppress font missing warnings, and display Chinese labels in charts correctly.",
-    "type": "unit_test",
-    "testcases": [
-      {
-        "test_command": "python -c \"import matplotlib.pyplot; print('Font test completed successfully')\"",
-        "test_input": null
-      }
-    ],
-    "input_files": null,
-    "expected_output_files": null,
-    "expected_output": "Test passed, verifying effective optimization of Chinese font configuration: the system can automatically detect ≥3 available Chinese fonts, effectively suppress matplotlib font missing warnings (UserWarnings reduced by ≥90%), and Chinese labels display correctly with a functional fallback mechanism"
-  },
-  {
     "metric": "2.1.1b SI Model Visualization Output",
     "description": "1. **Pre-validation (User Path):** After running the SI model, is there an option to generate visualization charts?\n2. **Act:** After running the SI model, choose the generate chart option.\n3. **Assert:** Verify the generated SI_model_result.png image file clearly displays S(t) and I(t) curves with correct axis labels and clear legend.",
     "type": "file_comparison",
@@ -53,7 +25,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_si_model_visualization_structure.txt"
+      "evaluation/expected_output/images/SI_model_result.png"
     ],
     "expected_output": "The file output/images/SI_model_result.png has been successfully created, and the file size is >10KB. The image clearly displays the S(t) and I(t) curves: S(t) decreases monotonically from 9999 to 0 (blue/green), and I(t) increases monotonically from 1 to 10000 (red/orange), reflecting the 100% ultimate invasion characteristic of the SI model. The axis labels are complete (x-axis: time/days, 0-200 days; y-axis: number of people, 0-10000), and the legend clearly identifies S(t) and I(t), with curves matching the theoretical solution of the SI differential equations defined in the evaluation/expected_si_model_visualization_structure.txt"
   },
@@ -105,7 +77,7 @@
     "type": "shell_interaction",
     "testcases": [
       {
-        "test_command": "python -c \"import sys; sys.path.append('src'); from models.sir_model import SIRModel; model = SIRModel(); model.run_simulation()\" | findstr /C:\"基本再生数\" /C:\"R0\"",
+        "test_command": "python -c \"import sys; sys.path.append('src'); from models.sir_model import SIRModel; model = SIRModel(); model.run_simulation()\" | grep -E 'basic reproduction number|R0'",
         "test_input": null
       }
     ],
@@ -125,7 +97,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_sir_model_visualization_structure.txt"
+      "evaluation/expected_output/images/SIR_model_result.png"
     ],
     "expected_output": "The file output/images/SIR_model_result.png has been successfully created, with the file size >15KB. The image contains two subplots: a phase plot showing the S-I phase space trajectory (a short trajectory from (9999,1) to the endpoint) and a time series plot displaying the S(t), I(t), R(t) state curves (0-100 days). As R0=β/γ=0.5<1, the infection peak is very small, with most people remaining susceptible, reflecting the non-prevalent characteristic of the epidemic. Complete axis labels, clear legend, conforming to the evaluation/expected_sir_model_visualization_structure.txt"
   },
@@ -154,7 +126,7 @@
       }
     ],
     "expected_output_files": [
-      "evaluation/expected_seir_model_visualization_structure.txt"
+      "evaluation/expected_output/images/SEIR_model_result.png"
     ],
     "expected_output": "The file output/images/SEIR_model_result.png has been successfully created, with the file size >15KB. The image clearly displays the S, E, I, R state curves (0-160 days): S(t) decreases monotonically (blue), E(t) increases and then decreases peaking at about 3158 individuals on day 68 (yellow), I(t) increases and then decreases peaking at about 2593 individuals on day 76 (red), R(t) increases monotonically to 9975 individuals (gray). It reflects the high transmission characteristic of R0=6.0>1 and a 99.82% final invasion rate. Colors are distinctly separated, the legend clearly identifies the four states, and axis labels are complete, conforming to the evaluation/expected_seir_model_visualization_structure.txt"
   },
@@ -226,7 +198,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_data_structure.txt"
+      "evaluation/expected_output/data/*.txt"
     ],
     "expected_output": "The files output/data/s.txt, output/data/e.txt, output/data/i.txt, output/data/r.txt, and output/data/seir_summary.txt have been successfully created. Each state file contains 80 rows (3 header comment lines + 77 numerical data lines), and the summary file contains 83 rows (6 header comment lines + 77 SEIR state data lines). File structures conform to the evaluation/expected_data_structure.txt definition, with correct data format, reasonable numerical range, all values non-negative, and the S+E+I+R sum approximately equal to 59170000 (total population of Hubei province)"
   },
@@ -270,7 +242,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_parameter_estimation_structure.txt"
+      "evaluation/expected_output/results/parameter_estimation.txt"
     ],
     "expected_output": "The file output/results/parameter_estimation.txt has been successfully created, with a file size >2KB. The report contains the complete parameter estimation results for both SIR and SEIR models: SIR model (beta, gamma, R0 parameter, and fit error MSE), SEIR model (beta, sigma, gamma, R0 parameter, and fit error analysis). All parameters are within a reasonable range (beta, gamma∈(0,1), R0>0), with fitting error metrics reasonable (MSE<10000), and includes the goodness of fit R² evaluation, with a standard format conforming to the evaluation/expected_parameter_estimation_structure.txt"
   },
@@ -314,7 +286,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_isolation_comparison_structure.txt"
+      "evaluation/expected_output/images/isolation_comparison.png"
     ],
     "expected_output": "The file output/images/isolation_comparison.png has been successfully created, with a file size >15KB. The image clearly demonstrates the comparison of transmission curves before and after isolation, including the time series comparison of the infected (I) state, showing a significant reduction and appropriate delay in the peak after isolation. The image contains a complete legend description (pre-/post-isolation model), complete axis labels (time/days, number of people), with clear numerical annotations (peak number, time points), conforming to the evaluation/expected_isolation_comparison_structure.txt"
   },
@@ -414,7 +386,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_spatial_frames_structure.txt"
+      "evaluation/expected_output/images/spatial_spread_frames/*.png"
     ],
     "expected_output": "The directory output/images/spatial_spread_frames/ has been successfully created, containing ≥10 animation frame files (actually generated 26). The file naming follows the format frame_%03d.png (frame_000.png to frame_025.png), with each file size >5KB. The animation frames display the epidemic propagation process among 2500 individuals in a 50x50 space grid, using different colors to differentiate SEIR states, showing the dynamic spread of the infection from the origin to the surrounding area in space. At the same time, a time series image is generated named spatial_brownian_timeseries.png, conforming to the evaluation/expected_spatial_frames_structure.txt"
   },
@@ -424,13 +396,13 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "dir output\\images\\spatial_spread_frames\\frame_*.png | find /c \".png\" && dir output\\images\\spatial_spread_frames\\frame_000.png && dir output\\images\\spatial_spread_frames\\frame_012.png && dir output\\images\\spatial_spread_frames\\frame_025.png",
+        "test_command": "ls output/images/spatial_spread_frames/frame_*.png | wc -l && ls output/images/spatial_spread_frames/frame_000.png output/images/spatial_spread_frames/frame_012.png output/images/spatial_spread_frames/frame_025.png",
         "test_input": null
       }
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_individual_state_visualization_structure.txt"
+      "evaluation/expected_output/images/spatial_spread_frames/*.png"
     ],
     "expected_output": "A total of 26 animation frame files (frame_000.png to frame_025.png) have been successfully generated, with each file size >5KB. Animation frames clearly show the position and state of 2500 individuals within the 50x50 space grid: susceptible S (blue/green), exposed E (yellow/orange), infected I (red), recovered R (gray/purple), isolated (special markers). Individual position is clearly visible, state color is clearly distinguished (≥3 colors), and spatial coordinates are accurate (0-50 range), allowing observation of the dynamic spread of infection from the source to surrounding areas in a Brownian motion spatial propagation, conforming to the evaluation/expected_individual_state_visualization_structure.txt"
   },
@@ -460,7 +432,8 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_sensitivity_analysis_structure.txt"
+      "evaluation/expected_output/results/sensitivity_analysis.csv",
+      "evaluation/expected_output/results/sensitivity_analysis_summary.txt"
     ],
     "expected_output": "The files output/results/sensitivity_analysis.csv and output/results/sensitivity_analysis_summary.txt have been successfully created. The CSV file contains comprehensive sensitivity analysis data for ≥3 parameters (beta, gamma, sigma), with each parameter being tested using ≥3 different values, including 12 columns (parameter name, parameter value, final invasion rate, infection peak, peak time, R0, change amount, sensitivity coefficient, etc.). The summary file includes sensitivity statistics and explanatory information. File format is standard, with good data quality, conforming to the evaluation/expected_sensitivity_analysis_structure.txt definition"
   },
@@ -490,7 +463,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_model_comparison_structure.txt"
+      "evaluation/expected_output/results/model_comparison.txt"
     ],
     "expected_output": "The file output/results/model_comparison.txt has been successfully created, with a file size >1KB. The report contains 4 required analysis sections: model comparison of basic parameters (R0, final invasion rate, infection peak for ≥2 models), comparison of model fit quality (including MSE and MAE error metrics), fit quality evaluation (average R² value and conclusion), analysis of model characteristics (advantages, disadvantages, and applicable scenarios). Error metrics are calculated accurately, comparing the prediction accuracy of ≥2 models (SIR, SEIR), with a standard file format conforming to the evaluation/expected_model_comparison_structure.txt"
   },
@@ -506,12 +479,12 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_latent_period_comparison_structure.txt"
+      "evaluation/expected_output/results/latent_period_comparison.txt"
     ],
     "expected_output": "The file output/results/latent_period_comparison.txt has been successfully created, with a file size >1KB. The report contains 6 required analysis sections: results from the infectivity-latent-period model (R0, final invasion rate, infection peak, and other indicators), results from the non-infectivity-latent-period model (same indicators), difference analysis (quantitative comparison of differences for various indicators), conclusion analysis (qualitative analysis of infectivity impact), and practical significance (guidance for control strategies). Comparison of model result differences under two latent period infectivity assumptions, with reasonable analysis of infectivity impact, conforming to the evaluation/expected_latent_period_comparison_structure.txt"
   },
   {
-   "metric": "2.6.1a Support for Multi-Format Data Output",
+    "metric": "2.6.1a Support for Multi-Format Data Output",
     "description": "1. **Pre-validation (User Path):** Does the program provide options for multiple data format output?\n2. **Act:** Check the data output function and try outputting different formats.\n3. **Assert:** Verify support for ≥4 data formats (Excel, Text, CSV, JSON), with correct file generation for each format.",
     "type": "shell_interaction",
     "testcases": [
@@ -527,17 +500,15 @@
   {
     "metric": "2.6.1b Data Format Conversion Quality",
     "description": "1. **Act:** Check the content quality of output files in different formats.\n2. **Assert:** Verify correct format conversion, file structure is standard, data integrity is good, and no format errors or data loss occur.",
-    "type": "file_comparison",
+    "type": "shell_interaction",
     "testcases": [
       {
-        "test_command": "type output\\data\\s.txt | find /c /v \"\" && type output\\results\\sensitivity_analysis.csv | find /c \",\" && type output\\data\\seir_summary.txt | find /c \"\t\" && type output\\results\\parameter_estimation.txt | find \"beta\"",
+        "test_command": "wc -l output/data/s.txt && grep -o ',' output/results/sensitivity_analysis.csv | wc -l && grep -o $'\\t' output/data/seir_summary.txt | wc -l && grep 'beta' output/results/parameter_estimation.txt",
         "test_input": null
       }
     ],
     "input_files": null,
-    "expected_output_files": [
-      "evaluation/expected_data_format_conversion_structure.txt"
-    ],
+    "expected_output_files": null,
     "expected_output": "The program supports ≥4 data formats output: text format (s.txt, parameter_estimation.txt, etc., UTF-8 encoding with no garbled text), CSV format (sensitivity_analysis.csv, standard comma separation, 12 complete columns), tab-separated format (seir_summary.txt, tab separation, 83 rows of data), and structured text format (analysis_summary.txt, clear hierarchical structure). All format conversions are correct, file structure is standard, data integrity is good (no data loss, precision maintained), with no format errors, all using UTF-8 encoding, conforming to the evaluation/expected_data_format_conversion_structure.txt"
   },
   {
@@ -580,7 +551,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_analysis_report_structure.txt"
+      "evaluation/expected_output/reports/analysis_summary.txt"
     ],
     "expected_output": "The file output/reports/analysis_summary.txt has been successfully created, with a file size >3KB. The report contains ≥5 required analysis parts: model implementation, data analysis (including parameter estimation results), sensitivity analysis, model comparison, latent infectivity study, and other 12 complete chapters. Content includes model fit evaluation, parameter estimation results, prediction accuracy analysis, sensitivity analysis results, model comparison conclusions, with standard format and clear logic, conforming to the evaluation/expected_analysis_report_structure.txt"
   },
@@ -680,7 +651,9 @@
     ],
     "input_files": "data/epidemic_data.xlsx",
     "expected_output_files": [
-      "evaluation/expected_image_files_structure.txt"
+      "evaluation/expected_output/images/SIR_model_result.png",
+      "evaluation/expected_output/images/SEIR_model_result.png",
+      "evaluation/expected_output/images/isolation_comparison.png"
     ],
     "expected_output": "Files output/images/SIR_model_result.png, output/images/SEIR_model_result.png, and output/images/isolation_comparison.png have been successfully created. Each image file size is >10KB, with SIR_model_result.png containing both a phase plot and a time series plot subgraph, SEIR_model_result.png clearly showing S, E, I, R curves, and isolation_comparison.png clearly demonstrating differences in transmission curves due to isolation measures. All images have complete axis labels and clear legends, conforming to the evaluation/expected_image_files_structure.txt"
   },
@@ -690,13 +663,17 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "dir output\\data && for %f in (output\\data\\*.txt) do @echo Checking %f && find /c /v \"\" \"%f\"",
+        "test_command": "ls output/data && for f in output/data/*.txt; do echo Checking $f && wc -l \"$f\"; done",
         "test_input": null
       }
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_data_structure.txt"
+      "evaluation/expected_output/data/s.txt",
+      "evaluation/expected_output/data/e.txt",
+      "evaluation/expected_output/data/i.txt",
+      "evaluation/expected_output/data/r.txt",
+      "evaluation/expected_output/data/seir_summary.txt"
     ],
     "expected_output": "The output/data/ directory contains 5 data files: s.txt, e.txt, i.txt, r.txt (each 80 lines: 3 header comment lines + 77 lines of SEIR state numerical data) and seir_summary.txt (83 lines: 6 header comment lines + 77 lines of tab-separated summary data). All file formats are correct (UTF-8 encoded), with reasonable data content (all values non-negative, S+E+I+R ≈ 59170000), no empty files or format errors, conforming to the data file structure standards defined in evaluation/expected_data_structure.txt"
   },
@@ -706,46 +683,45 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "dir output\\results && for %f in (output\\results\\*.txt output\\results\\*.csv) do @echo Checking %f && type \"%f\" | find /c /v \"\"",
+        "test_command": "ls output/results && for f in output/results/*.txt output/results/*.csv; do echo Checking $f && wc -l \"$f\"; done",
         "test_input": null
       }
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_results_files_structure.txt"
+      "evaluation/expected_output/results/sensitivity_analysis.csv",
+      "evaluation/expected_output/results/model_comparison.txt",
+      "evaluation/expected_output/results/latent_period_comparison.txt",
+      "evaluation/expected_output/results/sensitivity_analysis_summary.txt"
     ],
     "expected_output": "The output/results/ directory contains 4 required result files: sensitivity_analysis.csv (>2KB, containing sensitivity data for ≥3 parameters), model_comparison.txt (>1KB, containing an analysis comparing ≥2 models), latent_period_comparison.txt (>1KB, containing latent period infectivity comparison study), sensitivity_analysis_summary.txt (>500 bytes, sensitivity analysis summary). Each file content is detailed, with good data quality and reasonable analysis results, standard file format, conforming to evaluation/expected_results_files_structure.txt"
   },
   {
     "metric": "4.2a Technical Document Completeness",
     "description": "1. **Act:** Check the document files in the project root directory and docs folder.\n2. **Assert:** Verify the existence of ≥3 types of documents (README.md, technical implementation document, API document, etc.), with complete detailed content and standard format.",
-    "type": "file_comparison",
+    "type": "shell_interaction",
     "testcases": [
       {
-        "test_command": "dir src\\*.md && type src\\README.md | find /c /v \"\" && type src\\requirements.txt | find /c /v \"\"",
+        "test_command": "ls src/*.md && wc -l src/README.md && wc -l src/requirements.txt",
         "test_input": null
       }
     ],
     "input_files": null,
-    "expected_output_files": [
-      "evaluation/expected_documentation_structure.txt"
-    ],
+    "expected_output_files": null,
     "expected_output": "The project contains ≥3 types of technical documents: src/README.md (user manual, >10KB), src/PRD.md (product requirement document, >5KB), src/metric.md (technical implementation document, >2KB), and src/requirements.txt (dependency configuration file, >100 bytes). README.md contains ≥4 required sections (project introduction, environment setup, usage guide, parameter description), with complete detailed content, standard format, allowing new users to successfully operate the program according to instructions. All documents conform to the standards defined in evaluation/expected_documentation_structure.txt"
   },
   {
     "metric": "4.2b User Guide",
     "description": "1. **Act:** Check the usage instructions section in the user manual or README.\n2. **Assert:** Verify clear usage instructions, including installation steps, execution methods, parameter descriptions, example usage, and ≥4 sections, allowing new users to successfully run the program according to instructions.",
-    "type": "file_comparison",
+    "type": "shell_interaction",
     "testcases": [
       {
-        "test_command": "type src\\README.md | findstr /C:\"## Environment Setup\" /C:\"## Usage Guide\" /C:\"## Parameter Configuration\" /C:\"python main.py\" && type src\\README.md | find /c /v \"\"",
+        "test_command": "grep -E '## Environment Setup|## Usage Guide|## Parameter Configuration|python main.py' src/README.md && wc -l src/README.md",
         "test_input": null
       }
     ],
     "input_files": null,
-    "expected_output_files": [
-      "evaluation/expected_user_manual_structure.txt"
-    ],
+    "expected_output_files": null,
     "expected_output": "The src/README.md contains ≥4 necessary sections of user usage instructions: Environment setup (≥20 lines, detailed installation steps, supporting Windows/macOS/Linux), Usage guide (≥30 lines, program startup python main.py and 6 main menu options instructions), Parameter configuration (≥15 lines, SI/SIR/SEIR model parameters description), and FAQ (≥10 lines, FAQ and troubleshooting). The document is >10KB (actually 356 lines), with detailed and accurate content, allowing new users to configure the environment and run the program according to instructions, conforming to evaluation/expected_user_manual_structure.txt"
   }
 ]

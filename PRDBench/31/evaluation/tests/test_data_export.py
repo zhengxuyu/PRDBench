@@ -1,12 +1,12 @@
 """
-数据导出功能测试
+Data Export Functional Test
 """
 import pytest
 import sys
 import pandas as pd
 from pathlib import Path
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from data_manager import DataManager
@@ -15,444 +15,444 @@ from models import create_tables
 
 @pytest.fixture
 def setup_export_test():
-    """设置数据导出测试环境"""
+    """Set up data export test environment"""
     create_tables()
-    
+
     scale_manager = ScaleManager()
     data_manager = DataManager()
-    
-    # 创建默认量表
+
+    # Create default scales
     scale_manager.create_default_scales()
-    
-    # 创建测试数据
+
+    # Create test data
     participants_data = [
-        {'participant_id': 'EXPORT_001', 'name': '导出测试1', 'gender': '男', 'age': 20, 'grade': '大二', 'major': '心理学'},
-        {'participant_id': 'EXPORT_002', 'name': '导出测试2', 'gender': '女', 'age': 19, 'grade': '大一', 'major': '教育学'},
-        {'participant_id': 'EXPORT_003', 'name': '导出测试3', 'gender': '男', 'age': 21, 'grade': '大三', 'major': '心理学'},
+        {'participant_id': 'EXPORT_001', 'name': 'Export Test 1', 'gender': 'Male', 'age': 20, 'grade': 'Sophomore', 'major': 'Psychology'},
+        {'participant_id': 'EXPORT_002', 'name': 'Export Test 2', 'gender': 'Female', 'age': 19, 'grade': 'Freshman', 'major': 'Education'},
+        {'participant_id': 'EXPORT_003', 'name': 'Export Test 3', 'gender': 'Male', 'age': 21, 'grade': 'Junior', 'major': 'Psychology'},
     ]
-    
+
     for p_data in participants_data:
         data_manager.create_participant(**p_data)
-    
-    # 创建问卷回答
+
+    # Create questionnaire responses
     responses_data = [
         {'participant_id': 'EXPORT_001', 'scale_id': 1, 'responses_data': {str(i): i % 5 + 3 for i in range(1, 9)}},
         {'participant_id': 'EXPORT_002', 'scale_id': 1, 'responses_data': {str(i): (i + 2) % 5 + 3 for i in range(1, 9)}},
         {'participant_id': 'EXPORT_003', 'scale_id': 1, 'responses_data': {str(i): (i + 4) % 5 + 3 for i in range(1, 9)}},
     ]
-    
+
     for r_data in responses_data:
         data_manager.create_response(**r_data)
-    
+
     return data_manager, scale_manager
 
 def test_export_data_csv(setup_export_test):
-    """测试导出数据为CSV格式"""
+    """Test export data in CSV format"""
     data_manager, scale_manager = setup_export_test
-    
-    # 导出被试者数据
+
+    # Export participant data
     participants_file = Path("evaluation/temp_exported_participants.csv")
     success = data_manager.export_participants_to_csv(participants_file)
-    
+
     try:
-        # 断言
-        assert success == True, "被试者数据CSV导出失败"
-        assert participants_file.exists(), "被试者CSV文件不存在"
-        
-        # 验证CSV内容
+        # Assert
+        assert success == True, "Participant data CSV export failed"
+        assert participants_file.exists(), "Participant CSV file does not exist"
+
+        # Verify CSV content
         df = pd.read_csv(participants_file)
-        assert len(df) >= 3, f"导出的被试者数量不足，期望至少3个，实际: {len(df)}"
-        
-        # 验证必要列
+        assert len(df) >= 3, f"Exported participant quantity insufficient, expected at least 3, actual: {len(df)}"
+
+        # Verify required columns
         required_columns = ['participant_id', 'name', 'gender', 'age', 'grade', 'major']
         for col in required_columns:
-            assert col in df.columns, f"缺少必要列: {col}"
-        
-        # 验证数据内容
-        assert 'EXPORT_001' in df['participant_id'].values, "缺少测试被试者EXPORT_001"
-        assert '导出测试1' in df['name'].values, "缺少测试被试者姓名"
-        
+            assert col in df.columns, f"Missing required column: {col}"
+
+        # Verify data content
+        assert 'EXPORT_001' in df['participant_id'].values, "Missing test participant EXPORT_001"
+        assert 'Export Test 1' in df['name'].values, "Missing test participant name"
+
     finally:
-        # 清理文件
+        # Clean up file
         if participants_file.exists():
             participants_file.unlink()
-    
-    # 导出问卷回答数据
+
+    # Export questionnaire response data
     responses_file = Path("evaluation/temp_exported_responses.csv")
     success = data_manager.export_responses_to_csv(responses_file, scale_id=1)
-    
+
     try:
-        # 断言
-        assert success == True, "问卷回答数据CSV导出失败"
-        assert responses_file.exists(), "问卷回答CSV文件不存在"
-        
-        # 验证CSV内容
+        # Assert
+        assert success == True, "Questionnaire response data CSV export failed"
+        assert responses_file.exists(), "Questionnaire response CSV file does not exist"
+
+        # Verify CSV content
         df = pd.read_csv(responses_file)
-        assert len(df) >= 3, f"导出的回答数量不足，期望至少3个，实际: {len(df)}"
-        
-        # 验证必要列
+        assert len(df) >= 3, f"Exported response quantity insufficient, expected at least 3, actual: {len(df)}"
+
+        # Verify required columns
         required_columns = ['participant_id', 'total_score', 'completed_at']
         for col in required_columns:
-            assert col in df.columns, f"缺少必要列: {col}"
-        
-        # 验证条目列
+            assert col in df.columns, f"Missing required column: {col}"
+
+        # Verify item columns
         item_columns = [col for col in df.columns if col.startswith('item_')]
-        assert len(item_columns) >= 8, f"条目列数量不足，期望至少8个，实际: {len(item_columns)}"
-        
-        # 验证数据内容
-        assert 'EXPORT_001' in df['participant_id'].values, "缺少测试被试者的回答"
-        
-        # 验证总分计算
+        assert len(item_columns) >= 8, f"Item column quantity insufficient, expected at least 8, actual: {len(item_columns)}"
+
+        # Verify data content
+        assert 'EXPORT_001' in df['participant_id'].values, "Missing test participant's response"
+
+        # Verify total score calculation
         for _, row in df.iterrows():
-            assert pd.notna(row['total_score']), "总分不应为空"
-            assert isinstance(row['total_score'], (int, float)), "总分应为数值类型"
-            assert 1 <= row['total_score'] <= 7, f"总分超出合理范围: {row['total_score']}"
-        
+            assert pd.notna(row['total_score']), "Total score should not be empty"
+            assert isinstance(row['total_score'], (int, float)), "Total score should be numeric type"
+            assert 1 <= row['total_score'] <= 7, f"Total score out of reasonable range: {row['total_score']}"
+
     finally:
-        # 清理文件
+        # Clean up file
         if responses_file.exists():
             responses_file.unlink()
 
 def test_export_data_excel(setup_export_test):
-    """测试导出数据为Excel格式"""
+    """Test export data in Excel format"""
     data_manager, scale_manager = setup_export_test
-    
-    # 导出被试者数据为Excel
+
+    # Export participant data to Excel
     participants_file = Path("evaluation/temp_exported_participants.xlsx")
     success = data_manager.export_participants_to_excel(participants_file)
-    
+
     try:
-        # 断言
-        assert success == True, "被试者数据Excel导出失败"
-        assert participants_file.exists(), "被试者Excel文件不存在"
-        
-        # 验证Excel内容
+        # Assert
+        assert success == True, "Participant data Excel export failed"
+        assert participants_file.exists(), "Participant Excel file does not exist"
+
+        # Verify Excel content
         df = pd.read_excel(participants_file)
-        assert len(df) >= 3, f"导出的被试者数量不足，期望至少3个，实际: {len(df)}"
-        
-        # 验证必要列
+        assert len(df) >= 3, f"Exported participant quantity insufficient, expected at least 3, actual: {len(df)}"
+
+        # Verify required columns
         required_columns = ['participant_id', 'name', 'gender', 'age', 'grade', 'major']
         for col in required_columns:
-            assert col in df.columns, f"缺少必要列: {col}"
-        
-        # 验证数据类型
-        assert df['age'].dtype in ['int64', 'float64'], "年龄列应为数值类型"
-        assert df['participant_id'].dtype == 'object', "被试者ID列应为字符串类型"
-        
+            assert col in df.columns, f"Missing required column: {col}"
+
+        # Verify data types
+        assert df['age'].dtype in ['int64', 'float64'], "Age column should be numeric type"
+        assert df['participant_id'].dtype == 'object', "Participant ID column should be string type"
+
     finally:
-        # 清理文件
+        # Clean up file
         if participants_file.exists():
             participants_file.unlink()
-    
-    # 导出问卷回答数据为Excel
+
+    # Export questionnaire response data to Excel
     responses_file = Path("evaluation/temp_exported_responses.xlsx")
     success = data_manager.export_responses_to_excel(responses_file, scale_id=1)
-    
+
     try:
-        # 断言
-        assert success == True, "问卷回答数据Excel导出失败"
-        assert responses_file.exists(), "问卷回答Excel文件不存在"
-        
-        # 验证Excel内容
+        # Assert
+        assert success == True, "Questionnaire response data Excel export failed"
+        assert responses_file.exists(), "Questionnaire response Excel file does not exist"
+
+        # Verify Excel content
         df = pd.read_excel(responses_file)
-        assert len(df) >= 3, f"导出的回答数量不足，期望至少3个，实际: {len(df)}"
-        
-        # 验证数据类型
-        assert df['total_score'].dtype in ['int64', 'float64'], "总分列应为数值类型"
-        
-        # 验证条目数据类型
+        assert len(df) >= 3, f"Exported response quantity insufficient, expected at least 3, actual: {len(df)}"
+
+        # Verify data types
+        assert df['total_score'].dtype in ['int64', 'float64'], "Total score column should be numeric type"
+
+        # Verify item data types
         item_columns = [col for col in df.columns if col.startswith('item_')]
         for col in item_columns:
-            assert df[col].dtype in ['int64', 'float64'], f"条目列{col}应为数值类型"
-        
+            assert df[col].dtype in ['int64', 'float64'], f"Item column {col} should be numeric type"
+
     finally:
-        # 清理文件
+        # Clean up file
         if responses_file.exists():
             responses_file.unlink()
 
 def test_export_analysis_results(setup_export_test):
-    """测试导出分析结果"""
+    """Test export analysis results"""
     data_manager, scale_manager = setup_export_test
-    
-    # 进行描述统计分析
+
+    # Perform descriptive statistical analysis
     from statistical_analysis import StatisticalAnalyzer
     analyzer = StatisticalAnalyzer()
-    
+
     descriptive_results = analyzer.descriptive_statistics(scale_id=1)
-    
-    # 导出描述统计结果
+
+    # Export descriptive statistical results
     desc_file = Path("evaluation/temp_descriptive_results.csv")
     success = data_manager.export_analysis_results_to_csv(descriptive_results, desc_file)
-    
+
     try:
-        # 断言
-        assert success == True, "描述统计结果CSV导出失败"
-        assert desc_file.exists(), "描述统计结果文件不存在"
-        
-        # 验证文件内容
+        # Assert
+        assert success == True, "Descriptive statistical result CSV export failed"
+        assert desc_file.exists(), "Descriptive statistical result file does not exist"
+
+        # Verify file content
         df = pd.read_csv(desc_file)
-        assert len(df) > 0, "描述统计结果文件为空"
-        
-        # 验证统计指标列
+        assert len(df) > 0, "Descriptive statistical result file is empty"
+
+        # Verify statistical metric columns
         expected_columns = ['metric', 'value']
         for col in expected_columns:
-            assert col in df.columns, f"缺少必要列: {col}"
-        
-        # 验证统计指标内容
+            assert col in df.columns, f"Missing required column: {col}"
+
+        # Verify statistical metric content
         metrics = df['metric'].values
         expected_metrics = ['count', 'mean', 'std', 'min', 'max']
         for metric in expected_metrics:
-            assert any(metric in m for m in metrics), f"缺少统计指标: {metric}"
-        
+            assert any(metric in m for m in metrics), f"Missing statistical metric: {metric}"
+
     finally:
-        # 清理文件
+        # Clean up file
         if desc_file.exists():
             desc_file.unlink()
 
 def test_export_with_filters(setup_export_test):
-    """测试带筛选条件的数据导出"""
+    """Test data export with filter conditions"""
     data_manager, scale_manager = setup_export_test
-    
-    # 按性别筛选导出
+
+    # Filter export by gender
     male_file = Path("evaluation/temp_male_participants.csv")
-    success = data_manager.export_participants_to_csv(male_file, filters={'gender': '男'})
-    
+    success = data_manager.export_participants_to_csv(male_file, filters={'gender': 'Male'})
+
     try:
-        # 断言
-        assert success == True, "按性别筛选导出失败"
-        assert male_file.exists(), "筛选导出文件不存在"
-        
-        # 验证筛选结果
+        # Assert
+        assert success == True, "Export by gender filter failed"
+        assert male_file.exists(), "Filter export file does not exist"
+
+        # Verify filter result
         df = pd.read_csv(male_file)
-        assert len(df) >= 2, f"男性被试者数量不足，期望至少2个，实际: {len(df)}"
-        assert all(df['gender'] == '男'), "筛选结果包含非男性被试者"
-        
+        assert len(df) >= 2, f"Male participant quantity insufficient, expected at least 2, actual: {len(df)}"
+        assert all(df['gender'] == 'Male'), "Filter result contains non-male participants"
+
     finally:
-        # 清理文件
+        # Clean up file
         if male_file.exists():
             male_file.unlink()
-    
-    # 按年级筛选导出
+
+    # Filter export by grade
     grade_file = Path("evaluation/temp_grade_participants.csv")
-    success = data_manager.export_participants_to_csv(grade_file, filters={'grade': '大二'})
-    
+    success = data_manager.export_participants_to_csv(grade_file, filters={'grade': 'Sophomore'})
+
     try:
-        # 断言
-        assert success == True, "按年级筛选导出失败"
-        assert grade_file.exists(), "年级筛选导出文件不存在"
-        
-        # 验证筛选结果
+        # Assert
+        assert success == True, "Export by grade filter failed"
+        assert grade_file.exists(), "Grade filter export file does not exist"
+
+        # Verify filter result
         df = pd.read_csv(grade_file)
-        assert len(df) >= 1, f"大二被试者数量不足，期望至少1个，实际: {len(df)}"
-        assert all(df['grade'] == '大二'), "筛选结果包含非大二被试者"
-        
+        assert len(df) >= 1, f"Sophomore participant quantity insufficient, expected at least 1, actual: {len(df)}"
+        assert all(df['grade'] == 'Sophomore'), "Filter result contains non-sophomore participants"
+
     finally:
-        # 清理文件
+        # Clean up file
         if grade_file.exists():
             grade_file.unlink()
 
 def test_export_with_custom_columns(setup_export_test):
-    """测试自定义列的数据导出"""
+    """Test data export with custom columns"""
     data_manager, scale_manager = setup_export_test
-    
-    # 指定导出列
+
+    # Specify export columns
     custom_columns = ['participant_id', 'name', 'gender', 'age']
     custom_file = Path("evaluation/temp_custom_participants.csv")
-    
+
     success = data_manager.export_participants_to_csv(custom_file, columns=custom_columns)
-    
+
     try:
-        # 断言
-        assert success == True, "自定义列导出失败"
-        assert custom_file.exists(), "自定义列导出文件不存在"
-        
-        # 验证列
+        # Assert
+        assert success == True, "Custom column export failed"
+        assert custom_file.exists(), "Custom column export file does not exist"
+
+        # Verify columns
         df = pd.read_csv(custom_file)
-        assert list(df.columns) == custom_columns, f"导出列不匹配，期望: {custom_columns}, 实际: {list(df.columns)}"
-        assert len(df) >= 3, "导出数据行数不足"
-        
-        # 验证不包含未指定的列
-        assert 'grade' not in df.columns, "不应包含未指定的grade列"
-        assert 'major' not in df.columns, "不应包含未指定的major列"
-        
+        assert list(df.columns) == custom_columns, f"Export columns do not match, expected: {custom_columns}, actual: {list(df.columns)}"
+        assert len(df) >= 3, "Export data row count insufficient"
+
+        # Verify unspecified columns not included
+        assert 'grade' not in df.columns, "Should not include unspecified grade column"
+        assert 'major' not in df.columns, "Should not include unspecified major column"
+
     finally:
-        # 清理文件
+        # Clean up file
         if custom_file.exists():
             custom_file.unlink()
 
 def test_export_data_integrity(setup_export_test):
-    """测试导出数据完整性"""
+    """Test export data integrity"""
     data_manager, scale_manager = setup_export_test
-    
-    # 获取原始数据
+
+    # Get original data
     original_participants = data_manager.list_participants()
     original_responses = data_manager.list_responses(scale_id=1)
-    
-    # 导出数据
+
+    # Export data
     participants_file = Path("evaluation/temp_integrity_participants.csv")
     responses_file = Path("evaluation/temp_integrity_responses.csv")
-    
+
     success1 = data_manager.export_participants_to_csv(participants_file)
     success2 = data_manager.export_responses_to_csv(responses_file, scale_id=1)
-    
+
     try:
-        # 断言导出成功
-        assert success1 == True, "被试者数据导出失败"
-        assert success2 == True, "问卷回答数据导出失败"
-        
-        # 验证数据完整性
+        # Assert export success
+        assert success1 == True, "Participant data export failed"
+        assert success2 == True, "Questionnaire response data export failed"
+
+        # Verify data integrity
         exported_participants = pd.read_csv(participants_file)
         exported_responses = pd.read_csv(responses_file)
-        
-        # 验证数量一致性
-        assert len(exported_participants) == len(original_participants), "导出的被试者数量与原始数据不一致"
-        assert len(exported_responses) == len(original_responses), "导出的回答数量与原始数据不一致"
-        
-        # 验证ID一致性
+
+        # Verify quantity consistency
+        assert len(exported_participants) == len(original_participants), "Exported participant quantity inconsistent with original data"
+        assert len(exported_responses) == len(original_responses), "Exported response quantity inconsistent with original data"
+
+        # Verify ID consistency
         original_participant_ids = {p.participant_id for p in original_participants}
         exported_participant_ids = set(exported_participants['participant_id'].values)
-        assert original_participant_ids == exported_participant_ids, "导出的被试者ID与原始数据不一致"
-        
-        # 验证数据值一致性（抽样检查）
+        assert original_participant_ids == exported_participant_ids, "Exported participant IDs inconsistent with original data"
+
+        # Verify data value consistency (sampling check)
         for _, row in exported_participants.iterrows():
             original_participant = next((p for p in original_participants if p.participant_id == row['participant_id']), None)
-            assert original_participant is not None, f"找不到原始被试者: {row['participant_id']}"
-            assert original_participant.name == row['name'], "被试者姓名不一致"
-            assert original_participant.gender == row['gender'], "被试者性别不一致"
-            assert original_participant.age == row['age'], "被试者年龄不一致"
-        
+            assert original_participant is not None, f"Cannot find original participant: {row['participant_id']}"
+            assert original_participant.name == row['name'], "Participant name inconsistent"
+            assert original_participant.gender == row['gender'], "Participant gender inconsistent"
+            assert original_participant.age == row['age'], "Participant age inconsistent"
+
     finally:
-        # 清理文件
+        # Clean up files
         if participants_file.exists():
             participants_file.unlink()
         if responses_file.exists():
             responses_file.unlink()
 
 def test_export_error_handling(setup_export_test):
-    """测试导出错误处理"""
+    """Test export error handling"""
     data_manager, scale_manager = setup_export_test
-    
-    # 测试导出到无效路径
+
+    # Test export to invalid path
     invalid_path = Path("/invalid/path/test.csv")
     success = data_manager.export_participants_to_csv(invalid_path)
-    assert success == False, "导出到无效路径应该失败"
-    
-    # 测试导出不存在的量表数据
+    assert success == False, "Export to invalid path should fail"
+
+    # Test export non-existent scale data
     nonexistent_file = Path("evaluation/temp_nonexistent.csv")
     success = data_manager.export_responses_to_csv(nonexistent_file, scale_id=999)
-    assert success == False, "导出不存在的量表数据应该失败"
-    
-    # 测试空数据导出
-    empty_scale = scale_manager.create_scale(name="空量表", description="没有数据")
+    assert success == False, "Export non-existent scale data should fail"
+
+    # Test empty data export
+    empty_scale = scale_manager.create_scale(name="Empty Scale", description="No data")
     empty_file = Path("evaluation/temp_empty.csv")
-    
+
     try:
         success = data_manager.export_responses_to_csv(empty_file, scale_id=empty_scale.id)
-        # 空数据导出可能成功但文件应该只包含表头
+        # Empty data export may succeed but file should only contain header
         if success and empty_file.exists():
             df = pd.read_csv(empty_file)
-            assert len(df) == 0, "空数据导出应该只包含表头"
+            assert len(df) == 0, "Empty data export should only contain header"
     finally:
         if empty_file.exists():
             empty_file.unlink()
 
 def test_export_large_dataset(setup_export_test):
-    """测试大数据集导出性能"""
+    """Test large dataset export performance"""
     data_manager, scale_manager = setup_export_test
-    
-    # 创建大量测试数据
+
+    # Create large test data
     import time
-    
-    # 记录开始时间
+
+    # Record start time
     start_time = time.time()
-    
-    # 创建100个被试者（模拟大数据集）
+
+    # Create 100 participants (simulate large dataset)
     for i in range(100):
         data_manager.create_participant(
             participant_id=f'LARGE_{i:03d}',
-            name=f'大数据测试{i}',
-            gender='男' if i % 2 == 0 else '女',
+            name=f'Large Data Test {i}',
+            gender='Male' if i % 2 == 0 else 'Female',
             age=18 + (i % 10),
-            grade=f'大{(i % 4) + 1}',
-            major='心理学' if i % 3 == 0 else '教育学'
+            grade=f'Year {(i % 4) + 1}',
+            major='Psychology' if i % 3 == 0 else 'Education'
         )
-        
-        # 为每个被试者创建回答
+
+        # Create response for each participant
         responses_data = {str(j): (i + j) % 5 + 3 for j in range(1, 9)}
         data_manager.create_response(f'LARGE_{i:03d}', 1, responses_data)
-    
-    # 导出大数据集
+
+    # Export large dataset
     large_file = Path("evaluation/temp_large_dataset.csv")
-    
+
     try:
         export_start = time.time()
         success = data_manager.export_responses_to_csv(large_file, scale_id=1)
         export_time = time.time() - export_start
-        
-        # 断言
-        assert success == True, "大数据集导出失败"
-        assert large_file.exists(), "大数据集导出文件不存在"
-        
-        # 验证导出内容
+
+        # Assert
+        assert success == True, "Large dataset export failed"
+        assert large_file.exists(), "Large dataset export file does not exist"
+
+        # Verify export content
         df = pd.read_csv(large_file)
-        assert len(df) >= 103, f"大数据集导出数量不足，期望至少103个，实际: {len(df)}"  # 原有3个 + 新增100个
-        
-        # 性能断言（导出时间应该在合理范围内）
-        assert export_time < 30, f"大数据集导出时间过长: {export_time}秒"
-        
-        # 验证文件大小合理
+        assert len(df) >= 103, f"Large dataset export quantity insufficient, expected at least 103, actual: {len(df)}"  # Original 3 + new 100
+
+        # Performance assertion (export time should be within reasonable range)
+        assert export_time < 30, f"Large dataset export time too long: {export_time} seconds"
+
+        # Verify file size is reasonable
         file_size = large_file.stat().st_size
-        assert file_size > 1000, f"导出文件大小异常小: {file_size}字节"
-        
+        assert file_size > 1000, f"Export file size abnormally small: {file_size} bytes"
+
     finally:
-        # 清理文件
+        # Clean up file
         if large_file.exists():
             large_file.unlink()
-        
+
         total_time = time.time() - start_time
-        print(f"大数据集测试总耗时: {total_time:.2f}秒")
+        print(f"Large dataset test total time: {total_time:.2f} seconds")
 
 def test_export_data_formats(setup_export_test):
-    """测试多种数据格式导出"""
+    """Test multiple data format export"""
     data_manager, scale_manager = setup_export_test
-    
-    # 测试支持的格式
+
+    # Test supported formats
     formats = [
         ('csv', 'temp_format_test.csv'),
         ('xlsx', 'temp_format_test.xlsx'),
         ('json', 'temp_format_test.json')
     ]
-    
+
     for format_name, filename in formats:
         file_path = Path(f"evaluation/{filename}")
-        
+
         try:
-            # 根据格式调用相应的导出方法
+            # Call corresponding export method based on format
             if format_name == 'csv':
                 success = data_manager.export_participants_to_csv(file_path)
             elif format_name == 'xlsx':
                 success = data_manager.export_participants_to_excel(file_path)
             elif format_name == 'json':
                 success = data_manager.export_participants_to_json(file_path)
-            
-            # 断言
-            assert success == True, f"{format_name}格式导出失败"
-            assert file_path.exists(), f"{format_name}格式导出文件不存在"
-            
-            # 验证文件大小
+
+            # Assert
+            assert success == True, f"{format_name} format export failed"
+            assert file_path.exists(), f"{format_name} format export file does not exist"
+
+            # Verify file size
             file_size = file_path.stat().st_size
-            assert file_size > 0, f"{format_name}格式导出文件为空"
-            
-            # 验证文件内容（基本检查）
+            assert file_size > 0, f"{format_name} format export file is empty"
+
+            # Verify file content (basic check)
             if format_name == 'json':
                 import json
                 with open(file_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
-                    assert isinstance(data, (list, dict)), "JSON格式数据结构不正确"
+                    assert isinstance(data, (list, dict)), "JSON format data structure incorrect"
                     if isinstance(data, list):
-                        assert len(data) >= 3, "JSON数据数量不足"
-            
+                        assert len(data) >= 3, "JSON data quantity insufficient"
+
         finally:
-            # 清理文件
+            # Clean up file
             if file_path.exists():
                 file_path.unlink()

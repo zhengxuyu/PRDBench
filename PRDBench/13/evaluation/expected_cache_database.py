@@ -1,23 +1,23 @@
-# 期望的缓存和数据库使用示例
+# Expected cache and database usage example
 import redis
 import mysql.connector
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# 1. Redis缓存连接
+# 1. Redis cache connection
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
-# 2. Redis缓存操作
+# 2. Redis cache operations
 def cache_recommendation(user_id, recommendations):
     key = f"rec:{user_id}"
-    redis_client.setex(key, 3600, str(recommendations))  # 1小时过期
+    redis_client.setex(key, 3600, str(recommendations))  # 1 hour expiration
 
 def get_cached_recommendation(user_id):
     key = f"rec:{user_id}"
     return redis_client.get(key)
 
-# 3. MySQL数据库连接
+# 3. MySQL database connection
 mysql_config = {
     'host': 'localhost',
     'user': 'root',
@@ -36,11 +36,11 @@ class User(Base):
     username = Column(String(50))
     email = Column(String(100))
 
-# 5. 数据库会话
+# 5. Database session
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# 6. 数据持久化操作
+# 6. Data persistence operations
 def save_user_interaction(user_id, item_id, rating):
     query = "INSERT INTO interactions (user_id, item_id, rating) VALUES (%s, %s, %s)"
     cursor = connection.cursor()

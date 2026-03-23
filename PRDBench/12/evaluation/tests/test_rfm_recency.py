@@ -1,6 +1,6 @@
 """
-RFM指标计算 - Recency计算功能单元测试
-测试数据处理器中的Recency（最近购买时间间隔）计算逻辑
+RFM Metric Calculation - Recency Calculation Unit Tests
+Test the Recency (days since last purchase) calculation logic in the data processor
 """
 
 import pytest
@@ -9,125 +9,125 @@ import sys
 import os
 from datetime import datetime, timedelta
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from data_processor import DataProcessor
 
 
 class TestRFMRecencyCalculation:
-    """RFM Recency计算功能测试类"""
-    
+    """RFM Recency Calculation Test Class"""
+
     def setup_method(self):
-        """测试前准备"""
+        """Pre-test setup"""
         self.processor = DataProcessor()
-    
+
     def test_recency_calculation_basic(self):
-        """测试基础的Recency计算功能"""
-        # 准备测试数据
+        """Test basic Recency calculation functionality"""
+        # Prepare test data
         current_date = datetime.now()
-        
-        # 创建包含不同交易日期的测试数据
+
+        # Create test data with different transaction dates
         test_data = {
             'store_id': ['S001', 'S001', 'S002', 'S002', 'S003'],
             'trans_date': [
-                current_date - timedelta(days=30),  # 30天前
-                current_date - timedelta(days=10),  # 10天前（最近）
-                current_date - timedelta(days=45),  # 45天前（最近）
-                current_date - timedelta(days=60),  # 60天前
-                current_date - timedelta(days=5),   # 5天前（最近）
+                current_date - timedelta(days=30),  # 30 days ago
+                current_date - timedelta(days=10),  # 10 days ago (most recent)
+                current_date - timedelta(days=45),  # 45 days ago (most recent)
+                current_date - timedelta(days=60),  # 60 days ago
+                current_date - timedelta(days=5),   # 5 days ago (most recent)
             ],
             'amount': [100.0, 200.0, 150.0, 80.0, 300.0]
         }
-        
+
         df = pd.DataFrame(test_data)
-        
-        # 执行RFM计算
+
+        # Execute RFM calculation
         rfm_result = self.processor.calculate_rfm_metrics(df)
-        
-        # 验证计算结果
+
+        # Verify calculation results
         assert rfm_result is not None
-        assert len(rfm_result) == 3  # 3个门店
+        assert len(rfm_result) == 3  # 3 stores
         assert 'recency' in rfm_result.columns
-        
-        # 验证具体的Recency值
+
+        # Verify specific Recency values
         store_s001_recency = rfm_result[rfm_result['store_id'] == 'S001']['recency'].iloc[0]
         store_s002_recency = rfm_result[rfm_result['store_id'] == 'S002']['recency'].iloc[0]
         store_s003_recency = rfm_result[rfm_result['store_id'] == 'S003']['recency'].iloc[0]
-        
-        # S001的最近交易是10天前
-        assert abs(store_s001_recency - 10) <= 1  # 允许1天误差
-        
-        # S002的最近交易是45天前
+
+        # S001's most recent transaction is 10 days ago
+        assert abs(store_s001_recency - 10) <= 1  # Allow 1 day error
+
+        # S002's most recent transaction is 45 days ago
         assert abs(store_s002_recency - 45) <= 1
-        
-        # S003的最近交易是5天前
+
+        # S003's most recent transaction is 5 days ago
         assert abs(store_s003_recency - 5) <= 1
-        
-        print(f"[OK] Recency计算测试通过")
-        print(f"  - S001门店Recency: {store_s001_recency}天")
-        print(f"  - S002门店Recency: {store_s002_recency}天")
-        print(f"  - S003门店Recency: {store_s003_recency}天")
-    
+
+        print(f"[OK] Recency calculation test passed")
+        print(f"  - Store S001 Recency: {store_s001_recency} days")
+        print(f"  - Store S002 Recency: {store_s002_recency} days")
+        print(f"  - Store S003 Recency: {store_s003_recency} days")
+
     def test_recency_calculation_edge_cases(self):
-        """测试Recency计算的边界情况"""
+        """Test Recency calculation edge cases"""
         current_date = datetime.now()
-        
-        # 测试只有今天交易的情况
+
+        # Test only today's transactions
         test_data_today = {
             'store_id': ['S001', 'S001'],
             'trans_date': [current_date, current_date - timedelta(hours=2)],
             'amount': [100.0, 50.0]
         }
-        
+
         df_today = pd.DataFrame(test_data_today)
         rfm_result_today = self.processor.calculate_rfm_metrics(df_today)
-        
-        # 今天的交易，Recency应该是0或接近0
+
+        # For today's transactions, Recency should be 0 or close to 0
         today_recency = rfm_result_today[rfm_result_today['store_id'] == 'S001']['recency'].iloc[0]
-        assert today_recency <= 1  # 最多1天
-        
-        print(f"[OK] 边界情况测试通过")
-        print(f"  - 当天交易Recency: {today_recency}天")
-    
+        assert today_recency <= 1  # At most 1 day
+
+        print(f"[OK] Edge case test passed")
+        print(f"  - Same day transaction Recency: {today_recency} days")
+
     def test_recency_data_types(self):
-        """测试Recency计算结果的数据类型"""
+        """Test Recency calculation result data types"""
         current_date = datetime.now()
-        
+
         test_data = {
             'store_id': ['S001'],
             'trans_date': [current_date - timedelta(days=15)],
             'amount': [100.0]
         }
-        
+
         df = pd.DataFrame(test_data)
         rfm_result = self.processor.calculate_rfm_metrics(df)
-        
-        # 验证返回结果的数据类型
+
+        # Verify result data type
         assert isinstance(rfm_result, pd.DataFrame)
         assert 'recency' in rfm_result.columns
         assert pd.api.types.is_numeric_dtype(rfm_result['recency'])
-        
+
         recency_value = rfm_result['recency'].iloc[0]
-        # 检查是否为数值类型（包括numpy类型）
+        # Check if it's numeric type (including numpy types)
         assert pd.api.types.is_numeric_dtype(type(recency_value)) or isinstance(recency_value, (int, float))
-        assert float(recency_value) >= 0  # Recency不应该是负数
-        
-        print(f"[OK] 数据类型测试通过")
-        print(f"  - Recency值类型: {type(recency_value)}")
-        print(f"  - Recency值: {recency_value}")
+        assert float(recency_value) >= 0  # Recency should not be negative
+
+        print(f"[OK] Data type test passed")
+        print(f"  - Recency value type: {type(recency_value)}")
+        print(f"  - Recency value: {recency_value}")
 
 
 if __name__ == "__main__":
-    # 可以直接运行此文件进行测试
+    # Can run this file directly for testing
     test_instance = TestRFMRecencyCalculation()
     test_instance.setup_method()
-    
+
     try:
         test_instance.test_recency_calculation_basic()
         test_instance.test_recency_calculation_edge_cases()
         test_instance.test_recency_data_types()
-        print("\n[SUCCESS] 所有RFM Recency计算测试通过!")
+        print("\n[SUCCESS] All RFM Recency calculation tests passed!")
     except Exception as e:
-        print(f"\n[ERROR] 测试失败: {str(e)}")
+        print(f"\n[ERROR] Test failed: {str(e)}")
         raise

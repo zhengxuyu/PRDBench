@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-权限控制测试脚本
-测试 [2.3.3a 权限控制 (角色)] 功能
+Role permission control test script
+Test [2.3.3a Permission Control (Roles)] functionality
 """
 
 import subprocess
@@ -10,170 +10,170 @@ import sys
 from pathlib import Path
 
 def test_role_permission_control():
-    """测试权限控制功能"""
-    print("🧪 开始测试权限控制功能...")
-    
-    # 测试步骤1: 检查--role选项是否存在
-    print("\n📋 步骤1: 检查--role选项是否存在")
+    """Test role permission control functionality"""
+    print("🧪 Starting role permission control functionality test...")
+
+    # Test step 1: Check if --role option exists
+    print("\n📋 Step 1: Check if --role option exists")
     cmd1 = ["python", "-m", "src.main", "--help"]
-    
+
     try:
         result1 = subprocess.run(cmd1, capture_output=True, text=True, encoding='utf-8')
-        
+
         if result1.returncode != 0:
-            print(f"❌ 帮助命令执行失败，退出码: {result1.returncode}")
+            print(f"❌ Help command execution failed, exit code: {result1.returncode}")
             return False
-        
-        # 检查是否包含--role选项说明
-        if "--role" in result1.stdout and "用户角色" in result1.stdout:
-            print("✅ --role选项存在且说明正确")
-            print(f"   找到选项说明: {[line.strip() for line in result1.stdout.split('\\n') if '--role' in line][0]}")
+
+        # Check if --role option description is included
+        if "--role" in result1.stdout and "User role" in result1.stdout:
+            print("✅ --role option exists and description is correct")
+            print(f"   Found option description: {[line.strip() for line in result1.stdout.split('\\n') if '--role' in line][0]}")
         else:
-            print("❌ --role选项不存在或说明不正确")
+            print("❌ --role option does not exist or description is incorrect")
             return False
-            
+
     except Exception as e:
-        print(f"❌ 步骤1执行异常: {e}")
+        print(f"❌ Step 1 execution exception: {e}")
         return False
-    
-    # 测试步骤2: 普通用户权限测试（应该失败）
-    print("\n📋 步骤2: 测试普通用户权限（应该被拒绝）")
+
+    # Test step 2: Regular user permission test (should fail)
+    print("\n📋 Step 2: Test regular user permission (should be denied)")
     cmd2 = [
-        "python", "-m", "src.main", "--role", "普通用户", 
-        "analyze", "stats", 
+        "python", "-m", "src.main", "--role", "Regular User",
+        "analyze", "stats",
         "--data-path", "evaluation/sample_data.csv",
         "--output-dir", "evaluation/reports/descriptive"
     ]
-    
+
     try:
         result2 = subprocess.run(cmd2, capture_output=True, text=True, encoding='utf-8')
-        
+
         if result2.returncode == 1:
-            print("✅ 普通用户权限正确被拒绝（退出码1）")
+            print("✅ Regular user permission correctly denied (exit code 1)")
         else:
-            print(f"❌ 普通用户权限检查失败，退出码: {result2.returncode}")
+            print(f"❌ Regular user permission check failed, exit code: {result2.returncode}")
             return False
-        
-        # 检查错误信息
+
+        # Check error message
         expected_messages = [
-            "权限错误：'普通用户'角色无权执行此操作",
-            "此操作需要'分析员'或更高权限"
+            "Permission Error: 'Regular User' role is not authorized to perform this operation",
+            "This operation requires 'Analyst' or higher permission"
         ]
-        
+
         for msg in expected_messages:
             if msg in result2.stdout:
-                print(f"✅ 包含期望的错误信息: {msg}")
+                print(f"✅ Contains expected error message: {msg}")
             else:
-                print(f"❌ 缺少期望的错误信息: {msg}")
-                print(f"实际输出: {result2.stdout}")
+                print(f"❌ Missing expected error message: {msg}")
+                print(f"Actual output: {result2.stdout}")
                 return False
-                
+
     except Exception as e:
-        print(f"❌ 步骤2执行异常: {e}")
+        print(f"❌ Step 2 execution exception: {e}")
         return False
-    
-    # 测试步骤3: 分析员权限测试（应该成功）
-    print("\n📋 步骤3: 测试分析员权限（应该成功）")
+
+    # Test step 3: Analyst permission test (should succeed)
+    print("\n📋 Step 3: Test analyst permission (should succeed)")
     cmd3 = [
-        "python", "-m", "src.main", "--role", "分析员", 
-        "analyze", "stats", 
+        "python", "-m", "src.main", "--role", "Analyst",
+        "analyze", "stats",
         "--data-path", "evaluation/sample_data.csv",
         "--output-dir", "evaluation/reports/descriptive"
     ]
-    
+
     try:
         result3 = subprocess.run(cmd3, capture_output=True, text=True, encoding='utf-8')
-        
+
         if result3.returncode == 0:
-            print("✅ 分析员权限正确通过（退出码0）")
+            print("✅ Analyst permission correctly passed (exit code 0)")
         else:
-            print(f"❌ 分析员权限检查失败，退出码: {result3.returncode}")
-            print(f"错误输出: {result3.stderr}")
+            print(f"❌ Analyst permission check failed, exit code: {result3.returncode}")
+            print(f"Error output: {result3.stderr}")
             return False
-        
-        # 检查成功信息
+
+        # Check success message
         expected_success_messages = [
-            "成功读取数据文件: evaluation/sample_data.csv",
-            "描述性统计分析完成，报告已保存至 evaluation/reports/descriptive"
+            "Successfully read data file: evaluation/sample_data.csv",
+            "Descriptive statistics analysis complete, report saved to evaluation/reports/descriptive"
         ]
-        
+
         for msg in expected_success_messages:
             if msg in result3.stdout:
-                print(f"✅ 包含期望的成功信息: {msg}")
+                print(f"✅ Contains expected success message: {msg}")
             else:
-                print(f"❌ 缺少期望的成功信息: {msg}")
-                print(f"实际输出: {result3.stdout}")
+                print(f"❌ Missing expected success message: {msg}")
+                print(f"Actual output: {result3.stdout}")
                 return False
-                
+
     except Exception as e:
-        print(f"❌ 步骤3执行异常: {e}")
+        print(f"❌ Step 3 execution exception: {e}")
         return False
-    
-    # 验证输出文件是否生成
-    print("\n📋 验证输出文件")
+
+    # Verify output files
+    print("\n📋 Verifying output files")
     expected_files = [
         "evaluation/reports/descriptive/descriptive_stats.md",
         "evaluation/reports/descriptive/gender_distribution.png",
         "evaluation/reports/descriptive/venue_type_distribution.png"
     ]
-    
+
     for file_path in expected_files:
         if os.path.exists(file_path):
-            print(f"✅ 输出文件存在: {file_path}")
+            print(f"✅ Output file exists: {file_path}")
         else:
-            print(f"⚠️  输出文件不存在: {file_path}")
-    
-    print("\n🎉 所有权限控制测试通过！")
+            print(f"⚠️  Output file does not exist: {file_path}")
+
+    print("\n🎉 All permission control tests passed!")
     return True
 
 def test_additional_roles():
-    """测试其他角色"""
-    print("\n🔍 测试其他角色...")
-    
-    # 测试管理员角色（应该成功）
-    print("\n📋 测试管理员权限（应该成功）")
+    """Test other roles"""
+    print("\n🔍 Testing other roles...")
+
+    # Test administrator role (should succeed)
+    print("\n📋 Test administrator permission (should succeed)")
     cmd = [
-        "python", "-m", "src.main", "--role", "管理员", 
-        "analyze", "stats", 
+        "python", "-m", "src.main", "--role", "Administrator",
+        "analyze", "stats",
         "--data-path", "evaluation/sample_data.csv",
         "--output-dir", "evaluation/reports/descriptive"
     ]
-    
+
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8')
-        
+
         if result.returncode == 0:
-            print("✅ 管理员权限正确通过")
+            print("✅ Administrator permission correctly passed")
         else:
-            print(f"❌ 管理员权限检查失败，退出码: {result.returncode}")
+            print(f"❌ Administrator permission check failed, exit code: {result.returncode}")
             return False
-            
+
     except Exception as e:
-        print(f"❌ 管理员权限测试异常: {e}")
+        print(f"❌ Administrator permission test exception: {e}")
         return False
-    
-    # 测试默认角色（应该成功）
-    print("\n📋 测试默认角色（应该成功）")
+
+    # Test default role (should succeed)
+    print("\n📋 Test default role (should succeed)")
     cmd_default = [
         "python", "-m", "src.main",
-        "analyze", "stats", 
+        "analyze", "stats",
         "--data-path", "evaluation/sample_data.csv",
         "--output-dir", "evaluation/reports/descriptive"
     ]
-    
+
     try:
         result_default = subprocess.run(cmd_default, capture_output=True, text=True, encoding='utf-8')
-        
+
         if result_default.returncode == 0:
-            print("✅ 默认角色（分析员）正确通过")
+            print("✅ Default role (Analyst) correctly passed")
         else:
-            print(f"❌ 默认角色检查失败，退出码: {result_default.returncode}")
+            print(f"❌ Default role check failed, exit code: {result_default.returncode}")
             return False
-            
+
     except Exception as e:
-        print(f"❌ 默认角色测试异常: {e}")
+        print(f"❌ Default role test exception: {e}")
         return False
-    
+
     return True
 
 if __name__ == "__main__":

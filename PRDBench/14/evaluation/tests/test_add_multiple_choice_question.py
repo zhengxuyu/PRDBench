@@ -6,11 +6,11 @@ from src.models.questionnaire import Questionnaire, Question, Choice, QuestionTy
 from src.database import SessionLocal
 
 # Test data
-TEST_TEMPLATE_NAME = "2024春季调研"
-TEST_MODULE = "消费现状"
-TEST_Q_TYPE = "多选"
-TEST_TITLE = "您常去的高尔夫场地类型？"
-TEST_OPTIONS = "公众场,会员制,练习场"
+TEST_TEMPLATE_NAME = "2024 Spring Survey"
+TEST_MODULE = "Consumption Status"
+TEST_Q_TYPE = "Multiple Choice"
+TEST_TITLE = "Which types of golf courses do you frequently visit?"
+TEST_OPTIONS = "Public Course,Private Club,Practice Range"
 
 
 def test_add_multiple_choice_question_to_existing_template():
@@ -75,7 +75,7 @@ def test_add_multiple_choice_question_to_existing_template():
 
     # Assert that three Choice objects were created and added
     assert mock_db.add.call_count == 4 # 1 for question + 3 for choices
-    for i, option_text in enumerate(["公众场", "会员制", "练习场"], start=1):
+    for i, option_text in enumerate(["Public Course", "Private Club", "Practice Range"], start=1):
         created_choice = mock_db.add.call_args_list[i][0][0]
         assert isinstance(created_choice, Choice)
         assert created_choice.text == option_text

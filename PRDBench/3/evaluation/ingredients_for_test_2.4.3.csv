@@ -1,6 +1,6 @@
-名称,类别,单位,采购单价,库存余量,加工损耗率
-米饭,主食,kg,10,100,0
-鸡肉,蛋白质,kg,20,50,10
-西兰花,蔬菜,kg,15,30,5
-牛肉,蛋白质,kg,40,10,15
-生菜,蔬菜,kg,8,80,5
+name,category,unit,purchase_price,stock_quantity,processing_loss_rate
+rice,staple,kg,10,100,0
+chicken,protein,kg,20,50,10
+broccoli,vegetable,kg,15,30,5
+beef,protein,kg,40,10,15
+lettuce,vegetable,kg,8,80,5

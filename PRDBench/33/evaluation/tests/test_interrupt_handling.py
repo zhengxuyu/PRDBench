@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试中断处理功能
+Test interrupt handling functions
 """
 
 import pytest
@@ -11,27 +11,27 @@ import time
 import os
 import sys
 
-# 添加项目根目录到Python路径
+# Add project root directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 def test_ctrl_c_interrupt():
-    """测试Ctrl+C中断支持"""
-    # 启动主程序进程
+    """Test Ctrl+C interrupt support"""
+    # Start main program process
     process = subprocess.Popen(
         ['python', 'src/main.py'],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        bufsize=0,  # 无缓冲
+        bufsize=0,  # No buffering
         cwd=os.path.join(os.path.dirname(__file__), '..', '..')
     )
 
     try:
-        # 读取初始输出直到看到主菜单
+        # Read initial output until main menu appears
         output_buffer = ""
         start_time = time.time()
-        while "请选择功能 (1-6):" not in output_buffer and time.time() - start_time < 10:
+        while "Please select function (1-6):" not in output_buffer and time.time() - start_time < 10:
             try:
                 char = process.stdout.read(1)
                 if char:
@@ -41,15 +41,15 @@ def test_ctrl_c_interrupt():
             except:
                 time.sleep(0.1)
 
-        if "请选择功能 (1-6):" not in output_buffer:
-            pytest.fail("程序没有显示主菜单")
+        if "Please select function (1-6):" not in output_buffer:
+            pytest.fail("Program did not display main menu")
 
-        # 发送输入启动离线联邦学习
+        # Send input to start offline federated learning
         process.stdin.write("1\n")
         process.stdin.flush()
 
-        # 等待参数配置提示
-        while "请输入客户端数量" not in output_buffer and time.time() - start_time < 15:
+        # Wait for parameter configuration prompt
+        while "Please enter client quantity" not in output_buffer and time.time() - start_time < 15:
             try:
                 char = process.stdout.read(1)
                 if char:
@@ -59,12 +59,12 @@ def test_ctrl_c_interrupt():
             except:
                 time.sleep(0.1)
 
-        # 发送参数
+        # Send parameters
         process.stdin.write("5\n10\n5\n0.01\n")
         process.stdin.flush()
 
-        # 等待训练开始
-        while "开始训练" not in output_buffer and time.time() - start_time < 20:
+        # Wait for training to start
+        while "Start training" not in output_buffer and time.time() - start_time < 20:
             try:
                 char = process.stdout.read(1)
                 if char:
@@ -74,13 +74,13 @@ def test_ctrl_c_interrupt():
             except:
                 time.sleep(0.1)
 
-        # 等待一点时间让训练开始
+        # Wait a moment for training to start
         time.sleep(1)
 
-        # 发送SIGINT信号（相当于Ctrl+C）
+        # Send SIGINT signal (equivalent to Ctrl+C)
         process.send_signal(signal.SIGINT)
 
-        # 等待程序响应
+        # Wait for program response
         try:
             stdout, stderr = process.communicate(timeout=5)
             full_output = output_buffer + stdout + stderr
@@ -89,44 +89,44 @@ def test_ctrl_c_interrupt():
             stdout, stderr = process.communicate()
             full_output = output_buffer + stdout + stderr
 
-        # 验证程序优雅退出
-        interrupt_keywords = ["中断", "interrupt", "被用户中断", "KeyboardInterrupt", "检测到中断信号", "优雅退出"]
-        has_interrupt_message = any(keyword in full_output for keyword in interrupt_keywords)
+        # Verify program exits gracefully
+        interrupt_keywords = ["interrupt", "interrupted by user", "KeyboardInterrupt", "interrupt signal detected", "graceful exit"]
+        has_interrupt_message = any(keyword in full_output.lower() for keyword in interrupt_keywords)
 
-        # 验证程序能够退出并显示中断信息
-        assert process.returncode is not None, "程序应该已经退出"
-        assert has_interrupt_message, f"应该显示中断信息，实际输出: {full_output}"
+        # Verify program can exit and display interrupt information
+        assert process.returncode is not None, "Program should have exited"
+        assert has_interrupt_message, f"Should display interrupt information, actual output: {full_output}"
 
-        # 打印输出用于调试
-        print(f"程序输出: {full_output}")
-        print(f"返回码: {process.returncode}")
-        print(f"找到中断信息: {has_interrupt_message}")
+        # Print output for debugging
+        print(f"Program output: {full_output}")
+        print(f"Return code: {process.returncode}")
+        print(f"Found interrupt information: {has_interrupt_message}")
 
     except subprocess.TimeoutExpired:
         process.kill()
-        pytest.fail("程序没有在预期时间内响应中断信号")
+        pytest.fail("Program did not respond to interrupt signal within expected time")
     except Exception as e:
         process.kill()
-        pytest.fail(f"测试过程中发生错误: {e}")
+        pytest.fail(f"Error occurred during test: {e}")
 
 def test_graceful_shutdown():
-    """测试优雅关闭功能"""
-    # 启动主程序进程
+    """Test graceful shutdown function"""
+    # Start main program process
     process = subprocess.Popen(
         ['python', 'src/main.py'],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        bufsize=0,  # 无缓冲
+        bufsize=0,  # No buffering
         cwd=os.path.join(os.path.dirname(__file__), '..', '..')
     )
 
     try:
-        # 读取初始输出直到看到主菜单
+        # Read initial output until main menu appears
         output_buffer = ""
         start_time = time.time()
-        while "请选择功能 (1-6):" not in output_buffer and time.time() - start_time < 10:
+        while "Please select function (1-6):" not in output_buffer and time.time() - start_time < 10:
             try:
                 char = process.stdout.read(1)
                 if char:
@@ -136,27 +136,27 @@ def test_graceful_shutdown():
             except:
                 time.sleep(0.1)
 
-        if "请选择功能 (1-6):" not in output_buffer:
-            pytest.fail("程序没有显示主菜单")
+        if "Please select function (1-6):" not in output_buffer:
+            pytest.fail("Program did not display main menu")
 
-        # 发送退出命令
+        # Send exit command
         process.stdin.write("6\n")
         process.stdin.flush()
 
-        # 等待程序退出
+        # Wait for program to exit
         stdout, stderr = process.communicate(timeout=5)
         full_output = output_buffer + stdout + stderr
 
-        # 验证程序正常退出
-        assert process.returncode == 0, "程序应该正常退出"
-        assert "再见" in full_output, "应该显示退出信息"
+        # Verify program exits normally
+        assert process.returncode == 0, "Program should exit normally"
+        assert "goodbye" in full_output.lower() or "bye" in full_output.lower(), "Should display exit information"
 
     except subprocess.TimeoutExpired:
         process.kill()
-        pytest.fail("程序没有在预期时间内正常退出")
+        pytest.fail("Program did not exit normally within expected time")
     except Exception as e:
         process.kill()
-        pytest.fail(f"测试过程中发生错误: {e}")
+        pytest.fail(f"Error occurred during test: {e}")
 
 if __name__ == "__main__":
     pytest.main([__file__])

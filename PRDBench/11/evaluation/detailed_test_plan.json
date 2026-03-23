@@ -9,7 +9,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": ""
@@ -24,7 +23,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Test passed, verified that the conditional filter correctly filters out even numbers [2, 4, 6] based on the is_even function."
@@ -39,7 +37,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Test passed, verified that the dynamic adder generator can create a correct addition function, adder_func(5) returns 15."
@@ -54,7 +51,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Test passed, verified that the dynamic adder generator can create a correct addition function, adder_func(5) returns 15."
@@ -69,7 +65,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Test passed, verified that the unique list extractor can correctly extract unique elements ['a', 'b', 'c'] and maintain the order of first appearance."
@@ -84,7 +79,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Test passed, verified that the batch mapper & replacer can correctly replace elements according to the mapping dictionary, returning ['Apple', 'Banana', 'C']."
@@ -103,7 +97,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Terminal should display test execution process, including execution status of test cases for all 6 core function modules (test_compare_numbers, test_filter_data, test_create_adder, test_extract_unique, test_recursive_replace, test_batch_map_replace). Each test method should display OK status, final output should show success message like 'Ran X tests in Y.Zs OK', command exit code 0 indicates all tests passed."
@@ -118,7 +111,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": [
       "evaluation/test_coverage_analyzer.py"
     ],
@@ -137,11 +129,10 @@
         "test_input": null
       },
       {
-        "test_command": "cd src && python -c \"import subprocess; result = subprocess.run(['python', '-m', 'unittest', 'tests/test_utils.py'], capture_output=True, text=True); print('测试结果:'); print(result.stdout); print('=' * 50); failed = result.returncode != 0; print(f'总体状态: {'失败' if failed else '通过'}'); print(f'退出码: {result.returncode}')\"",
+        "test_command": "cd src && python -c \"import subprocess; result = subprocess.run(['python', '-m', 'unittest', 'tests/test_utils.py'], capture_output=True, text=True); print('Test results:'); print(result.stdout); print('=' * 50); failed = result.returncode != 0; status = 'Failed' if failed else 'Passed'; print(f'Overall status: {status}'); print(f'Exit code: {result.returncode}')\" ",
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Terminal should display structured test report including: 1) Test execution status for each functional module (compare_numbers, filter_data, create_adder, extract_unique, recursive_replace, batch_map_replace); 2) Detailed pass status for each test point; 3) Test statistics (such as number of tests run, number passed, number failed); 4) Final overall score or status summary. If score.py doesn't exist, fallback command will display unittest detailed execution results and exit status."
@@ -164,7 +155,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Terminal should display: 1) All 6 core function call demonstration results: numeric comparison (-1), conditional filtering ([3,4,5,6]), dynamic adder (15), unique list ([\"a\",\"b\",\"c\"]), recursive replacement ([\"X\",[2,\"X\",[3,\"X\"]]]), batch mapping ([\"Apple\",\"Banana\",\"C\"]); 2) Complete unit test execution process and results; 3) All commands should execute successfully, exit without errors. This verifies program's core functions work normally and test framework runs correctly."
@@ -187,7 +177,6 @@
         "test_input": null
       }
     ],
-    "test_input": null,
     "input_files": null,
     "expected_output_files": null,
     "expected_output": "Terminal should display output containing user identity information: 1) When using both --user and --name parameters, should display 'User: user-id-123, Name: Zhang-San'; 2) When using only --user parameter, should display 'User: test-user-456, Name: None'; 3) When using only --name parameter, should display 'User: None, Name: TestUser'. This verifies program can correctly receive, process, and display user identity parameters."
@@ -196,20 +185,22 @@
     "metric": "4.1a Detailed Operation Documentation - Existence and Completeness",
     "description": "1. **Act:** Check if a `README.md` file exists in the project root directory.\\n2. **Assert:** Read file content to verify if it contains at least 4 core sections: (1) environment setup instructions, (2) module function introductions, (3) test execution methods, (4) command line usage.",
     "type": "file_comparison",
-    "testcases": [],
-    "test_input": null,
+    "testcases": [
+      {}
+    ],
     "input_files": null,
-    "expected_output_files": null,
+    "expected_output_files": "evaluation/README.md",
     "expected_output": ""
   },
   {
     "metric": "4.1b Detailed Operation Documentation - Clarity and Accuracy",
     "description": "1. **Act:** Carefully read the environment setup and command line usage sections in `README.md`.\\n2. **Assert:** Verify whether the instructions are clear, accurate, and can be unambiguously copied and successfully executed.",
     "type": "file_comparison",
-    "testcases": [],
-    "test_input": null,
+    "testcases": [
+      {}
+    ],
     "input_files": null,
-    "expected_output_files": null,
+    "expected_output_files": "evaluation/README.md",
     "expected_output": ""
   }
 ]

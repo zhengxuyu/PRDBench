@@ -1,56 +1,56 @@
 participant_id,name,gender,age,grade,major
-T001,测试用户001,男,20,大二,心理学
-T002,测试用户002,女,19,大一,教育学
-T003,测试用户003,男,21,大三,心理学
-T004,测试用户004,女,20,大二,教育学
-T005,测试用户005,男,22,大四,心理学
-T006,测试用户006,女,19,大一,教育学
-T007,测试用户007,男,20,大二,心理学
-T008,测试用户008,女,21,大三,教育学
-T009,测试用户009,男,19,大一,心理学
-T010,测试用户010,女,22,大四,教育学
-T011,测试用户011,男,20,大二,心理学
-T012,测试用户012,女,19,大一,教育学
-T013,测试用户013,男,21,大三,心理学
-T014,测试用户014,女,20,大二,教育学
-T015,测试用户015,男,22,大四,心理学
-T016,测试用户016,女,19,大一,教育学
-T017,测试用户017,男,20,大二,心理学
-T018,测试用户018,女,21,大三,教育学
-T019,测试用户019,男,19,大一,心理学
-T020,测试用户020,女,22,大四,教育学
-T021,测试用户021,男,20,大二,心理学
-T022,测试用户022,女,19,大一,教育学
-T023,测试用户023,男,21,大三,心理学
-T024,测试用户024,女,20,大二,教育学
-T025,测试用户025,男,22,大四,心理学
-T026,测试用户026,女,19,大一,教育学
-T027,测试用户027,男,20,大二,心理学
-T028,测试用户028,女,21,大三,教育学
-T029,测试用户029,男,19,大一,心理学
-T030,测试用户030,女,22,大四,教育学
-T031,测试用户031,男,20,大二,心理学
-T032,测试用户032,女,19,大一,教育学
-T033,测试用户033,男,21,大三,心理学
-T034,测试用户034,女,20,大二,教育学
-T035,测试用户035,男,22,大四,心理学
-T036,测试用户036,女,19,大一,教育学
-T037,测试用户037,男,20,大二,心理学
-T038,测试用户038,女,21,大三,教育学
-T039,测试用户039,男,19,大一,心理学
-T040,测试用户040,女,22,大四,教育学
-T041,测试用户041,男,20,大二,心理学
-T042,测试用户042,女,19,大一,教育学
-T043,测试用户043,男,21,大三,心理学
-T044,测试用户044,女,20,大二,教育学
-T045,测试用户045,男,22,大四,心理学
-T046,测试用户046,女,19,大一,教育学
-T047,测试用户047,男,20,大二,心理学
-T048,测试用户048,女,21,大三,教育学
-T049,测试用户049,男,19,大一,心理学
-T050,测试用户050,女,22,大四,教育学
-T051,测试用户051,男,20,大二,心理学
-T052,测试用户052,女,19,大一,教育学
-T053,测试用户053,男,21,大三,心理学
-T054,测试用户054,女,20,大二,教育学
-T055,测试用户055,男,22,大四,心理学
+T001,Test User 001,Male,20,Sophomore,Psychology
+T002,Test User 002,Female,19,Freshman,Education
+T003,Test User 003,Male,21,Junior,Psychology
+T004,Test User 004,Female,20,Sophomore,Education
+T005,Test User 005,Male,22,Senior,Psychology
+T006,Test User 006,Female,19,Freshman,Education
+T007,Test User 007,Male,20,Sophomore,Psychology
+T008,Test User 008,Female,21,Junior,Education
+T009,Test User 009,Male,19,Freshman,Psychology
+T010,Test User 010,Female,22,Senior,Education
+T011,Test User 011,Male,20,Sophomore,Psychology
+T012,Test User 012,Female,19,Freshman,Education
+T013,Test User 013,Male,21,Junior,Psychology
+T014,Test User 014,Female,20,Sophomore,Education
+T015,Test User 015,Male,22,Senior,Psychology
+T016,Test User 016,Female,19,Freshman,Education
+T017,Test User 017,Male,20,Sophomore,Psychology
+T018,Test User 018,Female,21,Junior,Education
+T019,Test User 019,Male,19,Freshman,Psychology
+T020,Test User 020,Female,22,Senior,Education
+T021,Test User 021,Male,20,Sophomore,Psychology
+T022,Test User 022,Female,19,Freshman,Education
+T023,Test User 023,Male,21,Junior,Psychology
+T024,Test User 024,Female,20,Sophomore,Education
+T025,Test User 025,Male,22,Senior,Psychology
+T026,Test User 026,Female,19,Freshman,Education
+T027,Test User 027,Male,20,Sophomore,Psychology
+T028,Test User 028,Female,21,Junior,Education
+T029,Test User 029,Male,19,Freshman,Psychology
+T030,Test User 030,Female,22,Senior,Education
+T031,Test User 031,Male,20,Sophomore,Psychology
+T032,Test User 032,Female,19,Freshman,Education
+T033,Test User 033,Male,21,Junior,Psychology
+T034,Test User 034,Female,20,Sophomore,Education
+T035,Test User 035,Male,22,Senior,Psychology
+T036,Test User 036,Female,19,Freshman,Education
+T037,Test User 037,Male,20,Sophomore,Psychology
+T038,Test User 038,Female,21,Junior,Education
+T039,Test User 039,Male,19,Freshman,Psychology
+T040,Test User 040,Female,22,Senior,Education
+T041,Test User 041,Male,20,Sophomore,Psychology
+T042,Test User 042,Female,19,Freshman,Education
+T043,Test User 043,Male,21,Junior,Psychology
+T044,Test User 044,Female,20,Sophomore,Education
+T045,Test User 045,Male,22,Senior,Psychology
+T046,Test User 046,Female,19,Freshman,Education
+T047,Test User 047,Male,20,Sophomore,Psychology
+T048,Test User 048,Female,21,Junior,Education
+T049,Test User 049,Male,19,Freshman,Psychology
+T050,Test User 050,Female,22,Senior,Education
+T051,Test User 051,Male,20,Sophomore,Psychology
+T052,Test User 052,Female,19,Freshman,Education
+T053,Test User 053,Male,21,Junior,Psychology
+T054,Test User 054,Female,20,Sophomore,Education
+T055,Test User 055,Male,22,Senior,Psychology

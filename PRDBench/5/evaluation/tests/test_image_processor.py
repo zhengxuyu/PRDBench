@@ -4,27 +4,27 @@ import sys
 from PIL import Image
 from io import BytesIO
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from image_processor import preprocess_image
 
 def test_exif_removal():
-    """测试EXIF信息清理功能"""
+    """Test EXIF information cleanup functionality"""
     # Create a test image without EXIF data (to avoid warnings)
     image = Image.new('RGB', (100, 100), color='red')
-    
+
     # Save to temporary file
     temp_path = os.path.join(os.path.dirname(__file__), 'temp_test_image.jpg')
     image.save(temp_path, format='JPEG')
-    
+
     try:
         # Process the image
         processed_path = preprocess_image(temp_path, 'jpeg')
-        
+
         # Check that the processed image exists
         assert os.path.exists(processed_path)
-        
+
         # Check that EXIF data has been removed (or was never there)
         with Image.open(processed_path) as processed_img:
             # After processing, there should be no EXIF data

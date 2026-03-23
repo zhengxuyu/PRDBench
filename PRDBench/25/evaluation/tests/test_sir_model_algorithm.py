@@ -3,25 +3,25 @@ import sys
 import os
 import numpy as np
 
-# 添加src目录到Python路径
+# AddsrcDirectorytoPythonPath
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from models.sir_model import SIRModel
 
 
 class TestSIRModelAlgorithm(unittest.TestCase):
-    """SIR模型核心算法测试类"""
+    """SIRModelTypeCoreCoreCalculateMethodTestCategory"""
     
     def setUp(self):
-        """测试前准备"""
-        self.N = 10000  # 总人口数
-        self.beta = 0.05  # 传播率
-        self.gamma = 0.1  # 康复率
-        self.days = 100  # 模拟天数
+        """TestbeforeStandardPrepare"""
+        self.N = 10000  # TotalPersonPortNumber
+        self.beta = 0.05  # TraditionalSpreadRate
+        self.gamma = 0.1  # HealthRecoveryRate
+        self.days = 100  # ModelSimulationDayNumber
         
     def test_sir_model_core_algorithm(self):
-        """测试SIR模型核心算法实现"""
-        # 创建自定义配置
+        """TestSIRModelTypeCoreCoreCalculateMethodImplementationImplementation"""
+        # CreateAutoFixedDefinitionConfigure
         config = {
             'N': self.N,
             'beta': self.beta,
@@ -33,77 +33,77 @@ class TestSIRModelAlgorithm(unittest.TestCase):
             'dt': 1
         }
         
-        # 创建SIR模型实例
+        # CreateSIRModelTypeImplementationExample
         model = SIRModel(config=config)
         
-        # 运行模拟
+        # RunModelSimulation
         results = model.run_simulation()
         S = results['S']
         I = results['I']
         R = results['R']
         
-        # 测试1: 验证数组长度
-        self.assertEqual(len(S), self.days + 1, "S序列长度应为days+1")
-        self.assertEqual(len(I), self.days + 1, "I序列长度应为days+1")
-        self.assertEqual(len(R), self.days + 1, "R序列长度应为days+1")
+        # Test1: VerifyArrayLengthDegrees
+        self.assertEqual(len(S), self.days + 1, "SSequenceSeriesLengthDegreesShouldasdays+1")
+        self.assertEqual(len(I), self.days + 1, "ISequenceSeriesLengthDegreesShouldasdays+1")
+        self.assertEqual(len(R), self.days + 1, "RSequenceSeriesLengthDegreesShouldasdays+1")
         
-        # 测试2: 验证初始条件
-        self.assertEqual(S[0], self.N - 1, f"初始易感者数量应为{self.N-1}")
-        self.assertEqual(I[0], 1, "初始感染者数量应为1")
-        self.assertEqual(R[0], 0, "初始康复者数量应为0")
+        # Test2: VerifyInitialInitialentryPiece
+        self.assertEqual(S[0], self.N - 1, f"InitialInitialEasyInfectionErQuantityShouldas{self.N-1}")
+        self.assertEqual(I[0], 1, "InitialInitialInfectionInfectionErQuantityShouldas1")
+        self.assertEqual(R[0], 0, "InitialInitialHealthRecoveryErQuantityShouldas0")
         
-        # 测试3: 验证守恒定律 S(t) + I(t) + R(t) = N
+        # Test3: VerifyconservationFixedlaw S(t) + I(t) + R(t) = N
         for t in range(len(S)):
             total = S[t] + I[t] + R[t]
             self.assertAlmostEqual(total, self.N, places=6, 
-                                 msg=f"时间点{t}守恒定律失效: S({t})={S[t]}, I({t})={I[t]}, R({t})={R[t]}, 总和={total}")
+                                 msg=f"TimeBetweenPoint{t}conservationFixedlawFailEffect: S({t})={S[t]}, I({t})={I[t]}, R({t})={R[t]}, Totaland={total}")
         
-        # 测试4: 验证单调性
-        # S(t)应单调递减
+        # Test4: VerifySingleAdjustness
+        # S(t)ShouldSingleAdjustdecrease
         for t in range(1, len(S)):
-            self.assertLessEqual(S[t], S[t-1], f"S(t)在t={t}时违反单调递减性")
+            self.assertLessEqual(S[t], S[t-1], f"S(t)int={t}TimeviolateReverseSingleAdjustdecreaseness")
         
-        # R(t)应单调递增
+        # R(t)ShouldSingleAdjustincreaseIncrease
         for t in range(1, len(R)):
-            self.assertGreaterEqual(R[t], R[t-1], f"R(t)在t={t}时违反单调递增性")
+            self.assertGreaterEqual(R[t], R[t-1], f"R(t)int={t}TimeviolateReverseSingleAdjustincreaseIncreaseness")
         
-        # I(t)应先增后减（存在峰值）
-        # 对于R0 < 1的情况，I(t)可能单调递减，所以这里验证I(t)最终趋于0
-        self.assertLess(I[-1], I[0], "I(t)最终应小于初始值")
+        # I(t)ShouldfirstIncreaseafterdecrease(SaveinPeakValue)
+        # forAtR0 < 1Situationstate,I(t)CanEnergySingleAdjustdecrease,PlacetothisinsideVerifyI(t)MostEndapproachAt0
+        self.assertLess(I[-1], I[0], "I(t)MostEndShouldSmallAtInitialInitialValue")
         
-        # 测试5: 验证R0计算和影响
+        # Test5: VerifyR0DesignCalculateandShadowResponse
         R0 = self.beta / self.gamma
-        self.assertAlmostEqual(R0, 0.5, places=6, msg="R0计算错误")
+        self.assertAlmostEqual(R0, 0.5, places=6, msg="R0DesignCalculateError")
         
-        # 由于R0 < 1，疫情不应大规模爆发
+        # becauseAtR0 < 1,epidemicSituationNotShouldLargeRuleModeloutbreakSend
         max_infected = max(I)
         self.assertLess(max_infected, self.N * 0.1, 
-                       f"R0<1时感染峰值{max_infected}不应超过人口的10%")
+                       f"R0<1TimeInfectionInfectionPeakValue{max_infected}NotShouldUltraOverPersonPort10%")
         
-        # 测试6: 验证最终状态
+        # Test6: VerifyMostEndStatus
         final_S = S[-1]
         final_I = I[-1]
         final_R = R[-1]
         
-        # 最终感染者应接近0
-        self.assertLess(final_I, 1, "最终感染者数量应接近0")
+        # MostEndInfectionInfectionErShouldInterfacenear0
+        self.assertLess(final_I, 1, "MostEndInfectionInfectionErQuantityShouldInterfacenear0")
         
-        # 最终易感者应大于0（因为R0<1）
+        # MostEndEasyInfectionErShouldLargeAt0(CauseasR0<1)
         self.assertGreater(final_S, self.N * 0.9, 
-                          f"R0<1时最终易感者{final_S}应大于人口的90%")
+                          f"R0<1TimeMostEndEasyInfectionEr{final_S}ShouldLargeAtPersonPort90%")
         
-        # 测试7: 验证数值稳定性（无NaN或Inf）
-        self.assertTrue(np.all(np.isfinite(S)), "S序列包含非有限数值")
-        self.assertTrue(np.all(np.isfinite(I)), "I序列包含非有限数值")
-        self.assertTrue(np.all(np.isfinite(R)), "R序列包含非有限数值")
+        # Test7: VerifyNumberValuestableFixedness(NoNaNorInf)
+        self.assertTrue(np.all(np.isfinite(S)), "SSequenceSeriesContainsnonHasLimitedNumberValue")
+        self.assertTrue(np.all(np.isfinite(I)), "ISequenceSeriesContainsnonHasLimitedNumberValue")
+        self.assertTrue(np.all(np.isfinite(R)), "RSequenceSeriesContainsnonHasLimitedNumberValue")
         
-        # 测试8: 验证非负性
-        self.assertTrue(np.all(S >= 0), "S序列包含负数")
-        self.assertTrue(np.all(I >= 0), "I序列包含负数")
-        self.assertTrue(np.all(R >= 0), "R序列包含负数")
+        # Test8: VerifynonNegativeness
+        self.assertTrue(np.all(S >= 0), "SSequenceSeriesContainsNegativeNumber")
+        self.assertTrue(np.all(I >= 0), "ISequenceSeriesContainsNegativeNumber")
+        self.assertTrue(np.all(R >= 0), "RSequenceSeriesContainsNegativeNumber")
         
-        # 测试9: 验证高R0情况的对比
-        # 运行高传播率的对比模拟（R0 > 1）
+        # Test9: VerifyHighR0SituationstateforBifer
+        # RunHighTraditionalSpreadRateforBiferModelSimulation(R0 > 1)
         config_high = {
             'N': self.N,
             'beta': 0.3,
@@ -122,18 +122,18 @@ class TestSIRModelAlgorithm(unittest.TestCase):
         
         R0_high = 0.3 / 0.1  # R0 = 3.0 > 1
         
-        # 高R0应导致更大的疫情爆发
+        # HighR0ShouldleadCauseUpdateLargeepidemicSituationoutbreakSend
         max_infected_high = max(I_high)
         self.assertGreater(max_infected_high, max_infected, 
-                          "高R0模型应有更大的感染峰值")
+                          "HighR0ModelTypeShouldHasUpdateLargeInfectionInfectionPeakValue")
         
         final_R_high = R_high[-1]
         self.assertGreater(final_R_high, final_R, 
-                          "高R0模型最终康复者应更多")
+                          "HighR0ModelTypeMostEndHealthRecoveryErShouldUpdateMany")
     
     def test_sir_model_parameter_validation(self):
-        """测试SIR模型参数验证"""
-        # 测试有效参数（当前SIRModel实现可能没有严格的参数验证，所以先验证能正确初始化）
+        """TestSIRModelTypeParameterVerify"""
+        # TestHasEffectParameter(WhenbeforeSIRModelImplementationImplementationCanEnergynotHasstrictFormatParameterVerify,PlacetofirstVerifyEnergyCorrectAccurateInitialInitialization)
         config = {
             'N': self.N,
             'beta': self.beta,
@@ -148,8 +148,8 @@ class TestSIRModelAlgorithm(unittest.TestCase):
         self.assertIsNotNone(model)
     
     def test_sir_model_edge_cases(self):
-        """测试SIR模型边界情况"""
-        # 测试极小人口
+        """TestSIRModelTypeboundaryBoundarySituationstate"""
+        # TestUltraSmallPersonPort
         config_small = {
             'N': 3,
             'beta': 0.5,
@@ -166,11 +166,11 @@ class TestSIRModelAlgorithm(unittest.TestCase):
         I_small = results_small['I']
         R_small = results_small['R']
         
-        # 验证小规模模拟的基本性质
+        # VerifySmallRuleModelModelSimulationFoundationBooknessQuality
         self.assertEqual(S_small[0] + I_small[0] + R_small[0], 3)
         self.assertAlmostEqual(S_small[-1] + I_small[-1] + R_small[-1], 3, places=1)
         
-        # 测试零传播率
+        # TestzeroTraditionalSpreadRate
         config_zero = {
             'N': 100,
             'beta': 0.0,
@@ -187,12 +187,12 @@ class TestSIRModelAlgorithm(unittest.TestCase):
         I_zero = results_zero['I']
         R_zero = results_zero['R']
         
-        # 零传播率时只有康复过程
-        self.assertAlmostEqual(S_zero[-1], 99, places=1, msg="零传播率时易感者数量应保持不变")
-        self.assertLess(I_zero[-1], 0.1, msg="零传播率时感染者最终应接近0")
-        self.assertAlmostEqual(R_zero[-1], 1, places=1, msg="零传播率时只有初始感染者康复")
+        # zeroTraditionalSpreadRateTimeonlyHasHealthRecoveryOverProcess
+        self.assertAlmostEqual(S_zero[-1], 99, places=1, msg="zeroTraditionalSpreadRateTimeEasyInfectionErQuantityShouldProtectionSupportNotChange")
+        self.assertLess(I_zero[-1], 0.1, msg="zeroTraditionalSpreadRateTimeInfectionInfectionErMostEndShouldInterfacenear0")
+        self.assertAlmostEqual(R_zero[-1], 1, places=1, msg="zeroTraditionalSpreadRateTimeonlyHasInitialInitialInfectionInfectionErHealthRecovery")
         
-        # 测试零康复率（退化为SI模型）
+        # TestzeroHealthRecoveryRate(degradeizationasSIModelType)
         config_no_recovery = {
             'N': 100,
             'beta': 0.05,
@@ -209,9 +209,9 @@ class TestSIRModelAlgorithm(unittest.TestCase):
         I_no_recovery = results_no_recovery['I']
         R_no_recovery = results_no_recovery['R']
         
-        # 零康复率时康复者应始终为0
-        self.assertTrue(np.all(R_no_recovery < 0.1), "零康复率时康复者应接近0")
-        # 应退化为SI模型行为
+        # zeroHealthRecoveryRateTimeHealthRecoveryErShouldInitialEndas0
+        self.assertTrue(np.all(R_no_recovery < 0.1), "zeroHealthRecoveryRateTimeHealthRecoveryErShouldInterfacenear0")
+        # ShoulddegradeizationasSIModelTypeLineas
         self.assertAlmostEqual(S_no_recovery[-1] + I_no_recovery[-1], 100, places=1)
 
 

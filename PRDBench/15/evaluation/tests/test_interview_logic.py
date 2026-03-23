@@ -17,12 +17,12 @@ def mock_console(monkeypatch):
 
 def test_radar_chart_generation(mock_console):
     scores = {
-        "专业知识": 4.5,
-        "问题解决": 3.8,
-        "团队协作": 4.2,
-        "沟通表达": 4.0,
-        "学习能力": 4.8,
-        "职业素养": 4.6
+        "Professional Knowledge": 4.5,
+        "Problem Solving": 3.8,
+        "Teamwork": 4.2,
+        "Communication": 4.0,
+        "Learning Ability": 4.8,
+        "Professionalism": 4.6
     }
     generate_radar_chart(scores)
     assert os.path.exists("competency_radar_chart.png")
@@ -30,14 +30,14 @@ def test_radar_chart_generation(mock_console):
 
 def test_report_contains_suggestions(capsys):
     scores = {
-        "专业知识": 2.5,
-        "问题解决": 3.0,
-        "团队协作": 4.0,
-        "沟通表达": 3.5,
-        "学习能力": 4.5,
-        "职业素养": 4.0
+        "Professional Knowledge": 2.5,
+        "Problem Solving": 3.0,
+        "Teamwork": 4.0,
+        "Communication": 3.5,
+        "Learning Ability": 4.5,
+        "Professionalism": 4.0
     }
     generate_report(scores, 120)  # Add a mock total_time
     captured = capsys.readouterr()
     # This is a simple check. A more robust test would check for specific suggestions.
-    assert "综合评价报告" in captured.out
+    assert "Comprehensive Evaluation Report" in captured.out

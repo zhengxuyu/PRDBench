@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试运行脚本
-用于执行联邦学习系统的所有测试
+TestRunScript
+Used to execute all tests for the federated learning system
 """
 
 import os
@@ -13,11 +13,11 @@ import time
 from pathlib import Path
 
 def run_shell_interaction_test(test_case):
-    """运行shell交互测试"""
-    print(f"\n运行测试: {test_case['metric']}")
-    print(f"测试类型: {test_case['type']}")
+    """Run shell interaction test"""
+    print(f"\nRunning test: {test_case['metric']}")
+    print(f"Test type: {test_case['type']}")
 
-    # 获取测试命令和输入文件
+    # Get test command and input file
     test_command = test_case['testcases'][0]['test_command']
     test_input_file = test_case['testcases'][0]['test_input']
 
@@ -27,13 +27,13 @@ def run_shell_interaction_test(test_case):
             with open(input_file_path, 'r', encoding='utf-8') as f:
                 input_data = f.read()
         else:
-            print(f"警告: 输入文件不存在: {input_file_path}")
+            print(f"Warning: Input file does not exist: {input_file_path}")
             return False
     else:
         input_data = ""
 
     try:
-        # 执行测试命令
+        # ExecuteTest Command
         process = subprocess.Popen(
             test_command.split(),
             stdin=subprocess.PIPE,
@@ -45,47 +45,47 @@ def run_shell_interaction_test(test_case):
 
         stdout, stderr = process.communicate(input=input_data, timeout=30)
 
-        # 检查预期输出
+        # Check expected output
         output = stdout + stderr
         expected_output = test_case['expected_output']
 
-        print(f"程序输出: {output[:200]}...")
-        print(f"预期输出: {expected_output}")
+        print(f"Program output: {output[:200]}...")
+        print(f"Expected output: {expected_output}")
 
-        # 简单的输出验证（实际测试中应该更严格）
-        if "错误" in expected_output and "错误" in output:
-            print("✓ 测试通过")
+        # Simple output verification (should be more strict in actual tests)
+        if "Error" in expected_output and "Error" in output:
+            print("✓ Test Passed")
             return True
-        elif "菜单" in expected_output and any(x in output for x in ["[1]", "[2]", "[3]", "[4]", "[5]", "[6]"]):
-            print("✓ 测试通过")
+        elif "Menu" in expected_output and any(x in output for x in ["[1]", "[2]", "[3]", "[4]", "[5]", "[6]"]):
+            print("✓ Test Passed")
             return True
-        elif "训练" in expected_output and "训练" in output:
-            print("✓ 测试通过")
+        elif "training" in expected_output and "training" in output:
+            print("✓ Test Passed")
             return True
-        elif "退出" in expected_output and ("再见" in output or process.returncode == 0):
-            print("✓ 测试通过")
+        elif "Exit" in expected_output and ("goodbye" in output or process.returncode == 0):
+            print("✓ Test Passed")
             return True
         else:
-            print("✗ 测试失败")
+            print("✗ Test Failed")
             return False
 
     except subprocess.TimeoutExpired:
         process.kill()
-        print("✗ 测试超时")
+        print("✗ Test timeout")
         return False
     except Exception as e:
-        print(f"✗ 测试异常: {e}")
+        print(f"✗ Test error: {e}")
         return False
 
 def run_unit_test(test_case):
-    """运行单元测试"""
-    print(f"\n运行测试: {test_case['metric']}")
-    print(f"测试类型: {test_case['type']}")
+    """Run unit test"""
+    print(f"\nRunning test: {test_case['metric']}")
+    print(f"Test type: {test_case['type']}")
 
     test_command = test_case['testcases'][0]['test_command']
 
     try:
-        # 执行pytest命令
+        # Execute pytest command
         result = subprocess.run(
             test_command.split(),
             capture_output=True,
@@ -94,30 +94,30 @@ def run_unit_test(test_case):
             timeout=60
         )
 
-        print(f"测试输出: {result.stdout}")
+        print(f"Test output: {result.stdout}")
         if result.stderr:
-            print(f"错误输出: {result.stderr}")
+            print(f"Error output: {result.stderr}")
 
         if result.returncode == 0:
-            print("✓ 测试通过")
+            print("✓ Test Passed")
             return True
         else:
-            print("✗ 测试失败")
+            print("✗ Test Failed")
             return False
 
     except subprocess.TimeoutExpired:
-        print("✗ 测试超时")
+        print("✗ Test timeout")
         return False
     except Exception as e:
-        print(f"✗ 测试异常: {e}")
+        print(f"✗ Test error: {e}")
         return False
 
 def run_file_comparison_test(test_case):
-    """运行文件比较测试"""
-    print(f"\n运行测试: {test_case['metric']}")
-    print(f"测试类型: {test_case['type']}")
+    """Run file comparison test"""
+    print(f"\nRunning test: {test_case['metric']}")
+    print(f"Test type: {test_case['type']}")
 
-    # 先运行命令生成文件
+    # First run command to generate file
     test_command = test_case['testcases'][0]['test_command']
     test_input_file = test_case['testcases'][0]['test_input']
 
@@ -127,13 +127,13 @@ def run_file_comparison_test(test_case):
             with open(input_file_path, 'r', encoding='utf-8') as f:
                 input_data = f.read()
         else:
-            print(f"警告: 输入文件不存在: {input_file_path}")
+            print(f"Warning: Input file does not exist: {input_file_path}")
             return False
     else:
         input_data = ""
 
     try:
-        # 执行命令
+        # Execute command
         process = subprocess.Popen(
             test_command.split(),
             stdin=subprocess.PIPE,
@@ -145,53 +145,53 @@ def run_file_comparison_test(test_case):
 
         stdout, stderr = process.communicate(input=input_data, timeout=30)
 
-        # 检查期望的输出文件是否存在
+        # Check if expected output files exist
         expected_files = test_case.get('expected_output_files', [])
         if expected_files:
             for expected_file in expected_files:
                 expected_path = os.path.join(os.path.dirname(__file__), expected_file)
                 if os.path.exists(expected_path):
-                    print(f"✓ 期望文件存在: {expected_file}")
+                    print(f"✓ Expected file exists: {expected_file}")
                 else:
-                    print(f"✗ 期望文件不存在: {expected_file}")
+                    print(f"✗ Expected file does not exist: {expected_file}")
                     return False
 
-        print("✓ 文件比较测试通过")
+        print("✓ File comparison test passed")
         return True
 
     except subprocess.TimeoutExpired:
         process.kill()
-        print("✗ 测试超时")
+        print("✗ Test timeout")
         return False
     except Exception as e:
-        print(f"✗ 测试异常: {e}")
+        print(f"✗ Test error: {e}")
         return False
 
 def main():
-    """主函数"""
-    print("开始运行联邦学习系统测试...")
+    """Main function"""
+    print("Starting federated learning system tests...")
 
-    # 加载测试计划
+    # Load test plan
     test_plan_path = os.path.join(os.path.dirname(__file__), 'detailed_test_plan.json')
 
     if not os.path.exists(test_plan_path):
-        print(f"错误: 测试计划文件不存在: {test_plan_path}")
+        print(f"Error: Test plan file does not exist: {test_plan_path}")
         return
 
     with open(test_plan_path, 'r', encoding='utf-8') as f:
         test_plan = json.load(f)
 
-    print(f"加载了 {len(test_plan)} 个测试用例")
+    print(f"Loaded {len(test_plan)} test case(s)")
 
-    # 统计结果
+    # Statistics
     total_tests = len(test_plan)
     passed_tests = 0
     failed_tests = 0
 
-    # 运行测试
+    # Run tests
     for i, test_case in enumerate(test_plan, 1):
         print(f"\n{'='*60}")
-        print(f"测试 {i}/{total_tests}: {test_case['metric']}")
+        print(f"Test {i}/{total_tests}: {test_case['metric']}")
         print(f"{'='*60}")
 
         test_type = test_case['type']
@@ -204,7 +204,7 @@ def main():
             elif test_type == 'file_comparison':
                 success = run_file_comparison_test(test_case)
             else:
-                print(f"未知的测试类型: {test_type}")
+                print(f"Unknown test type: {test_type}")
                 success = False
 
             if success:
@@ -213,25 +213,25 @@ def main():
                 failed_tests += 1
 
         except Exception as e:
-            print(f"测试执行异常: {e}")
+            print(f"Test execution error: {e}")
             failed_tests += 1
 
-        # 短暂暂停，避免资源冲突
+        # Brief pause to avoid resource conflicts
         time.sleep(1)
 
-    # 输出测试结果
+    # Output test results
     print(f"\n{'='*60}")
-    print("测试结果汇总")
+    print("Test Results Summary")
     print(f"{'='*60}")
-    print(f"总测试数: {total_tests}")
-    print(f"通过测试: {passed_tests}")
-    print(f"失败测试: {failed_tests}")
-    print(f"通过率: {passed_tests/total_tests*100:.1f}%")
+    print(f"Total tests: {total_tests}")
+    print(f"Passed tests: {passed_tests}")
+    print(f"Failed tests: {failed_tests}")
+    print(f"Pass rate: {passed_tests/total_tests*100:.1f}%")
 
     if failed_tests == 0:
-        print("\n🎉 所有测试都通过了！")
+        print("\n🎉 All tests passed!")
     else:
-        print(f"\n⚠️  有 {failed_tests} 个测试失败")
+        print(f"\n⚠️  {failed_tests} test(s) failed")
 
 if __name__ == "__main__":
     main()

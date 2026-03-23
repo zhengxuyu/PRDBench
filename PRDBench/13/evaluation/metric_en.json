@@ -26,8 +26,8 @@
   },
   {
     "metric": "2.1.2c Chinese Word Segmentation Processing",
-    "description": "1. **Arrange:** Prepare test data containing Chinese product titles and 验证方法s (at least 50 Chinese text samples, covering different domains).\n2. **Act:** Run the Chinese word segmentation function of the text preprocessing module.\n3. **Assert:** Verify whether the system correctly segments Chinese text and generates word vectors or features, with segmentation accuracy ≥85%.",
-    "expected_output": "2 points: Chinese segmentation accuracy ≥85%, can process product titles and 验证方法s, generates meaningful feature vectors. 1 point: Segmentation accuracy 60%-84%, basically processes Chinese text. 0 points: Segmentation accuracy <60% or no Chinese segmentation function."
+    "description": "1. **Arrange:** Prepare test data containing Chinese product titles and descriptions (at least 50 Chinese text samples, covering different domains).\n2. **Act:** Run the Chinese word segmentation function of the text preprocessing module.\n3. **Assert:** Verify whether the system correctly segments Chinese text and generates word vectors or features, with segmentation accuracy ≥85%.",
+    "expected_output": "2 points: Chinese segmentation accuracy ≥85%, can process product titles and descriptions, generates meaningful feature vectors. 1 point: Segmentation accuracy 60%-84%, basically processes Chinese text. 0 points: Segmentation accuracy <60% or no Chinese segmentation function."
   },
   {
     "metric": "2.1.2d Data Normalization & Encoding",
@@ -36,7 +36,7 @@
   },
   {
     "metric": "2.2.1a Content-Based Recommendation - TF-IDF Implementation",
-    "description": "1. **Arrange:** Prepare a dataset containing product text 验证方法s (at least 100 products, each 验证方法 ≥50 characters).\n2. **Act:** Run content-based recommendation algorithm, select TF-IDF feature extraction method.\n3. **Assert:** Verify whether the system generates a TF-IDF feature matrix and computes product similarity matrix, with correct dimensions.",
+    "description": "1. **Arrange:** Prepare a dataset containing product text descriptions (at least 100 products, each description ≥50 characters).\n2. **Act:** Run content-based recommendation algorithm, select TF-IDF feature extraction method.\n3. **Assert:** Verify whether the system generates a TF-IDF feature matrix and computes product similarity matrix, with correct dimensions.",
     "expected_output": "2 points: TF-IDF is implemented correctly, generates reasonable product similarity matrix and recommendation results, feature dimension ≥1000. 1 point: TF-IDF function is basically correct but calculation precision is average or feature dimension <1000. 0 points: No TF-IDF feature extraction or incorrect implementation."
   },
   {
@@ -66,8 +66,8 @@
   },
   {
     "metric": "2.2.3a Hybrid Recommendation - Integrated Hybrid Strategy",
-    "description": "1. **Act:** Configure and run integrated hybrid recommendation, combining ≥3 recommendation algorithms (e.g., content-based + UserCF + ItemCF).\n2. **Assert:** Verify whether the system can fuse scores from multiple algorithms and support custom 赋分权重 assignment (赋分权重s sum to 1.0), final score is 赋分权重ed average.",
-    "expected_output": "2 points: Integrated hybrid strategy is fully implemented, supports fusion of ≥3 algorithms and flexible 赋分权重 adjustment, fusion logic is correct. 1 point: Hybrid strategy is basically implemented, supports fusion of 2 algorithms but 赋分权重 adjustment is incomplete. 0 points: No integrated hybrid recommendation or only 1 algorithm supported."
+    "description": "1. **Act:** Configure and run integrated hybrid recommendation, combining ≥3 recommendation algorithms (e.g., content-based + UserCF + ItemCF).\n2. **Assert:** Verify whether the system can fuse scores from multiple algorithms and support custom weight assignment (weights sum to 1.0), final score is weighted average.",
+    "expected_output": "2 points: Integrated hybrid strategy is fully implemented, supports fusion of ≥3 algorithms and flexible weight adjustment, fusion logic is correct. 1 point: Hybrid strategy is basically implemented, supports fusion of 2 algorithms but weight adjustment is incomplete. 0 points: No integrated hybrid recommendation or only 1 algorithm supported."
   },
   {
     "metric": "2.2.3b Hybrid Recommendation - Parallel Hybrid Strategy",
@@ -86,7 +86,7 @@
   },
   {
     "metric": "2.2.4b Cold Start Handling - New Product Recommendation",
-    "description": "1. **Arrange:** Add new product data (product ID not in historical interaction data, but has content 验证方法, category, price, etc.).\n2. **Act:** Run recommendation algorithm.\n3. **Assert:** Verify whether the new product can be recommended to ≥5 suitable users based on content features or product attributes.",
+    "description": "1. **Arrange:** Add new product data (product ID not in historical interaction data, but has content description, category, price, etc.).\n2. **Act:** Run recommendation algorithm.\n3. **Assert:** Verify whether the new product can be recommended to ≥5 suitable users based on content features or product attributes.",
     "expected_output": "2 points: New product cold start is handled well, can recommend based on content features, new product is recommended to ≥5 users. 1 point: New product handling is present but effect is limited, new product is recommended to 2-4 users. 0 points: New product cannot be recommended or only recommended to ≤1 user."
   },
   {

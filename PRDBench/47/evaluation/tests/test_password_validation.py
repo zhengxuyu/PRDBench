@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""密码强度验证测试"""
+"""MiCodeStrongRepublicVerifyTest"""
 
 import sys
 import os
@@ -9,22 +9,22 @@ import pytest
 from utils.validators import validator
 
 def test_password_strength_validation():
-    """测试密码强度验证功能"""
+    """TestMiCodeStrongRepublicVerifyFunction"""
     
-    # 测试空密码
+    # TestEmptyMiCode
     valid, error = validator.validate_password("")
-    assert not valid, "空密码应该验证失败"
-    assert "不能为空" in error
+    assert not valid, "EmptyMiCodeShouldThisVerifyFailure"
+    assert "NotEnergyasEmpty" in error
     
-    # 测试短密码（5字符）
+    # TestshortMiCode（5CharacterSymbol）
     valid, error = validator.validate_password("12345")
-    assert not valid, "短密码应该验证失败"
-    assert "长度" in error
+    assert not valid, "shortMiCodeShouldThisVerifyFailure"
+    assert "LengthRepublic" in error
     
-    # 测试超长密码（33字符）
+    # TestUltraLengthMiCode（33CharacterSymbol）
     valid, error = validator.validate_password("a" * 33)
-    assert not valid, "超长密码应该验证失败"
-    assert "长度" in error
+    assert not valid, "UltraLengthMiCodeShouldThisVerifyFailure"
+    assert "LengthRepublic" in error
     
-    print("测试通过：密码强度验证功能正常")
+    print("Test Passed：MiCodeStrongRepublicVerifyFunctionNormal")
     return True

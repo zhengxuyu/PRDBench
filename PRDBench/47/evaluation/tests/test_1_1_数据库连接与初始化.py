@@ -6,52 +6,52 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../src'))
 
 def main():
-    """测试数据库连接与初始化"""
-    print("测试数据库连接...")
-    
+    """Test Database Connection and Initial Initialization"""
+    print("Testing Database Connection...")
+
     try:
-        # 导入并切换到SQLite模式
+        # Import and switch to SQLite mode
         from config.database_mode import db_mode_manager
-        
-        # 检测并选择数据库模式
+
+        # Check and select database mode for testing
         db_mode = db_mode_manager.select_database_mode(prefer_mysql=False)
-        
+
         if db_mode == 'sqlite':
-            print("+ 数据库连接成功（SQLite模式）")
-            
-            # 检查SQLite数据库表结构
+            print("+ Database connection successful (SQLite mode)")
+
+            # Check SQLite database table structure
             from utils.database import db_manager
-            
+
             tables = ['user', 'book', 'user_book']
             table_count = 0
             for table in tables:
                 try:
                     result = db_manager.execute_query(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{table}'")
                     if result:
-                        print(f"+ {table}表存在且可访问")
+                        print(f"+ {table} table exists")
                         table_count += 1
                     else:
-                        print(f"- {table}表不存在")
+                        print(f"- {table} table does not exist")
                 except Exception as e:
-                    print(f"- {table}表检查失败: {e}")
-            
+                    print(f"- {table} table check failed: {e}")
+
             if table_count == 3:
-                print("数据库初始化验证完成")
+                print("Database initialization verification successful")
                 return True
             else:
-                print(f"数据库表结构不完整：{table_count}/3")
+                print(f"Database table structure incomplete: {table_count}/3")
                 return False
         else:
-            print("- 数据库连接失败")
+            print("- Database connection failed")
             return False
     except Exception as e:
-        print(f"- 测试异常: {e}")
+        print(f"- Test exception: {e}")
         return False
 
 if __name__ == "__main__":
-    success = main()
-    if success:
-        print("[PASS] 测试通过")
-    else:
-        print("[FAIL] 测试失败")
-    sys.exit(0 if success else 1)
+ success = main()
+ if success:
+ print("[PASS] Test Passed")
+ else:
+ print("[FAIL] Test Failed")
+ sys.exit(0 if success else 1)

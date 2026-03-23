@@ -1,16 +1,16 @@
-# Chord DHT 仿真系统测试框架
+# Chord DHT Simulation System Test Framework
 
-## 概述
+## Overview
 
-本测试框架为Chord DHT仿真系统提供了完整的自动化测试方案，包括交互式测试、单元测试和文件比较测试。
+This test framework provides a complete automated testing solution for the Chord DHT simulation system, including interactive tests, unit tests, and file comparison tests.
 
-## 目录结构
+## Directory Structure
 
 ```
 evaluation/
-├── detailed_test_plan.json          # 详细测试计划
-├── additional_unit_tests.json       # 额外的单元测试定义
-├── inputs/                          # 测试输入文件
+├── detailed_test_plan.json          # Detailed test plan
+├── additional_unit_tests.json       # Additional unit test definitions
+├── inputs/                          # Test input files
 │   ├── basic_startup.in
 │   ├── m_parameter_config.in
 │   ├── nodes_config.in
@@ -32,163 +32,163 @@ evaluation/
 │   ├── batch_data_generation.in
 │   ├── menu_loop.in
 │   └── graceful_exit.in
-├── expected_outputs/                # 期望输出文件
+├── expected_outputs/                # Expected output files
 │   └── expected_graph.dot
-├── tests/                          # 单元测试文件
+├── tests/                          # Unit test files
 │   ├── __init__.py
 │   ├── test_chord_basic.py
 │   └── test_data_operations.py
-└── README.md                       # 本文件
+└── README.md                       # This file
 ```
 
-## 测试类型
+## Test Categories
 
-### 1. Shell Interaction 测试
-这类测试模拟用户与命令行程序的真实交互，验证：
-- 程序启动和初始化
-- 菜单系统
-- 用户输入处理
-- 错误处理
-- 操作反馈
+### 1. Shell Interaction Tests
+This category simulates real user interactions with command-line programs, verifying:
+- Program startup and initialization
+- Menu system
+- User input processing
+- Error handling
+- Operation feedback
 
-**执行方式：**
+**Execution method:**
 ```bash
 python src/Main.py < evaluation/inputs/test_case.in
 ```
 
-### 2. Unit Test 测试
-这类测试直接调用源代码中的类和方法，验证：
-- 节点初始化
-- 网络构建
-- 哈希函数
-- 数据操作
+### 2. Unit Tests
+This category directly tests classes and methods in the source code, verifying:
+- Node initialization
+- Network structure construction
+- Hash functions
+- Data operations
 
-**执行方式：**
+**Execution method:**
 ```bash
 pytest evaluation/tests/test_chord_basic.py -v
 pytest evaluation/tests/test_data_operations.py -v
 ```
 
-### 3. File Comparison 测试
-这类测试验证程序生成的文件是否符合预期：
-- 网络拓扑DOT文件
-- PNG图像文件（如果支持）
+### 3. File Comparison Tests
+This category verifies whether program-generated files meet expectations:
+- Network topology DOT files
+- PNG image files (if supported)
 
-**执行方式：**
+**Execution method:**
 ```bash
 python src/Main.py < evaluation/inputs/network_visualization.in
 diff graph.dot evaluation/expected_outputs/expected_graph.dot
 ```
 
-## 输入文件格式
+## Input File Format
 
-输入文件包含模拟用户输入的完整序列，每行代表一次输入：
-- 数字：菜单选择或参数输入
-- 文本：数据字符串或节点ID
-- 空行：表示Enter键
+Input files contain complete sequences that simulate user input, with each line representing one input:
+- Numbers: Menu selections or parameter input
+- Text: Data strings or node IDs
+- Empty lines: Represent Enter key
 
-例如 `node_add_success.in`：
+Example `node_add_success.in`:
 ```
-4        # m参数
-6        # 节点数量
-0        # 数据数量
-1        # 选择菜单项1（添加节点）
-20       # 新节点ID
-7        # 选择菜单项7（退出）
+4        # m parameter
+6        # Node count
+0        # Data count
+1        # Select menu item 1 (Add node)
+20       # New node ID
+7        # Select menu item 7 (Exit)
 ```
 
-## 运行所有测试
+## Running All Tests
 
-### 运行单元测试
+### Run Unit Tests
 ```bash
 pytest evaluation/tests/ -v
 ```
 
-### 运行交互式测试（示例）
+### Run Interactive Tests (Examples)
 ```bash
-# 测试程序基础启动
+# Test basic startup
 python src/Main.py < evaluation/inputs/basic_startup.in
 
-# 测试节点添加功能
+# Test node addition
 python src/Main.py < evaluation/inputs/node_add_success.in
 
-# 测试数据插入功能
+# Test data insertion
 python src/Main.py < evaluation/inputs/data_insert.in
 ```
 
-### 运行文件比较测试
+### Run File Comparison Tests
 ```bash
-# 生成网络拓扑文件
+# Generate network topology file
 python src/Main.py < evaluation/inputs/network_visualization.in
 
-# 比较生成的文件与期望文件
+# Compare generated file with expected file
 if [ -f "graph.dot" ]; then
-    echo "DOT文件生成成功"
-    # 可以进一步比较内容
+    echo "DOT file generated successfully"
+    # Can further compare content
     # diff graph.dot evaluation/expected_outputs/expected_graph.dot
 else
-    echo "DOT文件生成失败"
+    echo "DOT file generation failed"
 fi
 ```
 
-## 测试覆盖范围
+## Test Coverage
 
-本测试框架覆盖了以下功能点：
+This test framework covers the following features:
 
-### 基础功能
-- [x] 程序启动和欢迎界面
-- [x] 网络参数配置（m、节点数、数据数）
-- [x] 边界条件验证
-- [x] 网络初始化过程
+### Basic Functions
+- [x] Program startup and welcome screen
+- [x] Network parameter configuration (m, node count, data count)
+- [x] Boundary condition validation
+- [x] Network initialization process display
 
-### 核心功能
-- [x] 动态节点管理（添加/删除）
-- [x] 数据插入和查找
-- [x] 网络状态信息显示
-- [x] 网络拓扑可视化
+### Core Functionality
+- [x] Dynamic node management (Add/Delete)
+- [x] Data insertion and lookup
+- [x] Network status information display
+- [x] Network topology visualization
 
-### 交互功能
-- [x] 菜单系统完整性
-- [x] 用户输入验证
-- [x] 错误处理
-- [x] 菜单循环执行
-- [x] 优雅退出
+### Interactive Functions
+- [x] Menu system completeness
+- [x] User input validation
+- [x] Error handling
+- [x] Menu loop execution
+- [x] Graceful exit
 
-### 性能功能
-- [x] 操作时间统计
-- [x] 批量数据生成
+### Performance Functions
+- [x] Operation time statistics
+- [x] Batch data generation
 
-## 预期结果
+## Expected Results
 
-### 成功场景
-- 程序正常启动并显示欢迎信息
-- 参数配置成功接受有效输入
-- 网络创建成功并显示统计信息
-- 节点和数据操作成功执行
-- 生成正确的可视化文件
+### Success Scenarios
+- Program starts normally and displays welcome information
+- Parameter configuration succeeds and accepts valid input
+- Network is created successfully and displays statistics
+- Node and data operations execute successfully
+- Correct visualization files are generated
 
-### 错误处理
-- 无效参数输入得到适当错误提示
-- 重复操作得到正确处理
-- 程序在错误输入时不崩溃
+### Error Handling
+- Invalid parameter input receives appropriate error messages
+- Duplicate operations are handled correctly
+- Program does not crash on erroneous input
 
-## 注意事项
+## Notes
 
-1. **依赖环境**：确保安装了所需的Python包（参见src/requirements.txt）
-2. **文件路径**：所有测试都假设从项目根目录执行
-3. **Graphviz**：网络可视化功能需要系统安装Graphviz
-4. **并发测试**：某些测试可能需要足够的系统资源
+1. **Dependencies**: Ensure required Python packages are installed (see src/requirements.txt)
+2. **File Paths**: All tests are designed to run from the project root directory
+3. **Graphviz**: Network visualization requires Graphviz to be installed on the system
+4. **Parallel Tests**: Some tests may require sufficient system resources
 
-## 故障排除
+## Troubleshooting
 
-### 常见问题
-1. **ModuleNotFoundError**：检查Python路径和依赖安装
-2. **文件不存在**：确保从正确的目录执行测试
-3. **权限错误**：检查文件和目录权限
-4. **图形生成失败**：检查Graphviz安装和配置
+### Common Issues
+1. **ModuleNotFoundError**: Check Python path and dependency installation
+2. **FileNotFoundError**: Ensure running tests from correct directory
+3. **PermissionError**: Check file and directory permissions
+4. **Graph generation failure**: Check Graphviz installation and configuration
 
-### 调试建议
-1. 单独运行失败的测试用例
-2. 检查程序的标准输出和错误输出
-3. 验证输入文件格式是否正确
-4. 确认测试环境与开发环境一致
+### Debugging Recommendations
+1. Run individual test cases separately
+2. Check program standard output and error output
+3. Verify input file format is correct
+4. Ensure test environment is consistent with development environment

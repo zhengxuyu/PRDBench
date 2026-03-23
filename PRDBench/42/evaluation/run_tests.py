@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-测试执行脚本 - 运行所有测试用例
+Test Execution Script - Run All Test Cases
 """
 
 import os
@@ -10,11 +10,11 @@ import json
 from pathlib import Path
 
 def print_banner():
-    """打印测试横幅"""
+    """Print test banner"""
     print("""
 ╔══════════════════════════════════════════════════════════════╗
 ║                                                              ║
-║        🧪 企业管理人才培训与技能分析系统 - 测试套件            ║
+║        🧪 Enterprise Management Training & Skills Analysis    ║
 ║                                                              ║
 ║        Enterprise Management Training & Skills Analysis       ║
 ║                    Test Suite Runner                         ║
@@ -23,31 +23,31 @@ def print_banner():
     """)
 
 def load_test_plan():
-    """加载测试计划"""
+    """Load test plan"""
     try:
         with open('evaluation/detailed_test_plan.json', 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
-        print(f"❌ 加载测试计划失败: {e}")
+        print(f"❌ Load test plan failed: {e}")
         return []
 
 def run_shell_interaction_test(test_case):
-    """运行shell交互测试"""
-    print(f"🔧 执行Shell交互测试...")
-    
+    """Run shell interaction test"""
+    print(f"🔧 Executing shell interaction test...")
+
     for i, testcase in enumerate(test_case['testcases']):
-        print(f"   步骤 {i+1}: {testcase['test_command']}")
-        
+        print(f"   Step {i+1}: {testcase['test_command']}")
+
         try:
-            # 准备输入
+            # Prepare input
             input_data = None
             if testcase['test_input']:
                 input_file = testcase['test_input']
                 if os.path.exists(input_file):
                     with open(input_file, 'r', encoding='utf-8') as f:
                         input_data = f.read()
-            
-            # 执行命令
+
+            # Execute command
             result = subprocess.run(
                 testcase['test_command'],
                 shell=True,
@@ -56,33 +56,33 @@ def run_shell_interaction_test(test_case):
                 text=True,
                 timeout=30
             )
-            
+
             if result.returncode == 0:
-                print(f"   ✅ 命令执行成功")
+                print(f"   ✅ Command executed successfully")
                 if result.stdout:
-                    print(f"   输出: {result.stdout[:200]}...")
+                    print(f"   Output: {result.stdout[:200]}...")
             else:
-                print(f"   ❌ 命令执行失败 (退出码: {result.returncode})")
+                print(f"   ❌ Command execution failed (Exit code: {result.returncode})")
                 if result.stderr:
-                    print(f"   错误: {result.stderr[:200]}...")
+                    print(f"   Error: {result.stderr[:200]}...")
                 return False
-                
+
         except subprocess.TimeoutExpired:
-            print(f"   ⏰ 命令执行超时")
+            print(f"   ⏰ Command execution timed out")
             return False
         except Exception as e:
-            print(f"   ❌ 执行异常: {e}")
+            print(f"   ❌ Execution error: {e}")
             return False
-    
+
     return True
 
 def run_unit_test(test_case):
-    """运行单元测试"""
-    print(f"🧪 执行单元测试...")
-    
+    """Run unit test"""
+    print(f"🧪 Executing unit test...")
+
     for testcase in test_case['testcases']:
-        print(f"   命令: {testcase['test_command']}")
-        
+        print(f"   Command: {testcase['test_command']}")
+
         try:
             result = subprocess.run(
                 testcase['test_command'],
@@ -91,35 +91,35 @@ def run_unit_test(test_case):
                 text=True,
                 timeout=60
             )
-            
+
             if result.returncode == 0:
-                print(f"   ✅ 测试通过")
+                print(f"   ✅ Test Passed")
                 if "PASSED" in result.stdout:
-                    print(f"   详情: 测试用例执行成功")
+                    print(f"   Details: Test case executed successfully")
             else:
-                print(f"   ❌ 测试失败 (退出码: {result.returncode})")
+                print(f"   ❌ Test Failed (Exit code: {result.returncode})")
                 if result.stderr:
-                    print(f"   错误: {result.stderr[:300]}...")
+                    print(f"   Error: {result.stderr[:300]}...")
                 return False
-                
+
         except subprocess.TimeoutExpired:
-            print(f"   ⏰ 测试执行超时")
+            print(f"   ⏰ Test execution timed out")
             return False
         except Exception as e:
-            print(f"   ❌ 执行异常: {e}")
+            print(f"   ❌ Execution error: {e}")
             return False
-    
+
     return True
 
 def run_file_comparison_test(test_case):
-    """运行文件比较测试"""
-    print(f"📄 执行文件比较测试...")
-    
+    """Run file comparison test"""
+    print(f"📄 Executing file comparison test...")
+
     for testcase in test_case['testcases']:
-        print(f"   命令: {testcase['test_command']}")
-        
+        print(f"   Command: {testcase['test_command']}")
+
         try:
-            # 执行生成文件的命令
+            # Execute file generation command
             result = subprocess.run(
                 testcase['test_command'],
                 shell=True,
@@ -127,42 +127,42 @@ def run_file_comparison_test(test_case):
                 text=True,
                 timeout=30
             )
-            
+
             if result.returncode == 0:
-                print(f"   ✅ 文件生成命令执行成功")
-                
-                # 检查期望输出文件是否存在
+                print(f"   ✅ File generation command executed successfully")
+
+                # Check if expected output file exists
                 if test_case['expected_output_files']:
                     for expected_file in test_case['expected_output_files']:
                         if os.path.exists(expected_file):
                             file_size = os.path.getsize(expected_file)
-                            print(f"   ✅ 期望文件存在: {expected_file} ({file_size} bytes)")
+                            print(f"   ✅ Expected file exists: {expected_file} ({file_size} bytes)")
                         else:
-                            print(f"   ❌ 期望文件不存在: {expected_file}")
+                            print(f"   ❌ Expected file not found: {expected_file}")
                             return False
-                
+
             else:
-                print(f"   ❌ 文件生成失败 (退出码: {result.returncode})")
+                print(f"   ❌ File generation failed (Exit code: {result.returncode})")
                 if result.stderr:
-                    print(f"   错误: {result.stderr[:200]}...")
+                    print(f"   Error: {result.stderr[:200]}...")
                 return False
-                
+
         except subprocess.TimeoutExpired:
-            print(f"   ⏰ 命令执行超时")
+            print(f"   ⏰ Command execution timed out")
             return False
         except Exception as e:
-            print(f"   ❌ 执行异常: {e}")
+            print(f"   ❌ Execution error: {e}")
             return False
-    
+
     return True
 
 def run_single_test(test_case):
-    """运行单个测试用例"""
+    """Run single test case"""
     print(f"\n{'='*60}")
-    print(f"测试: {test_case['metric']}")
-    print(f"类型: {test_case['type']}")
+    print(f"Test: {test_case['metric']}")
+    print(f"Type: {test_case['type']}")
     print('='*60)
-    
+
     if test_case['type'] == 'shell_interaction':
         return run_shell_interaction_test(test_case)
     elif test_case['type'] == 'unit_test':
@@ -170,53 +170,53 @@ def run_single_test(test_case):
     elif test_case['type'] == 'file_comparison':
         return run_file_comparison_test(test_case)
     else:
-        print(f"❌ 未知测试类型: {test_case['type']}")
+        print(f"❌ Unknown test type: {test_case['type']}")
         return False
 
 def main():
-    """主函数"""
+    """Main function"""
     print_banner()
-    
-    # 加载测试计划
+
+    # Load test plan
     test_plan = load_test_plan()
     if not test_plan:
-        print("❌ 无法加载测试计划")
+        print("❌ Unable to load test plan")
         return
-    
-    print(f"📋 加载了 {len(test_plan)} 个测试用例")
-    
-    # 统计信息
+
+    print(f"📋 Loaded {len(test_plan)} test case(s)")
+
+    # Statistics
     passed_tests = 0
     failed_tests = 0
-    
-    # 执行所有测试
+
+    # Execute all tests
     for i, test_case in enumerate(test_plan, 1):
-        print(f"\n🔍 执行测试 {i}/{len(test_plan)}")
-        
+        print(f"\n🔍 Executing test {i}/{len(test_plan)}")
+
         try:
             if run_single_test(test_case):
                 passed_tests += 1
-                print(f"✅ 测试通过")
+                print(f"✅ Test Passed")
             else:
                 failed_tests += 1
-                print(f"❌ 测试失败")
+                print(f"❌ Test Failed")
         except Exception as e:
             failed_tests += 1
-            print(f"❌ 测试异常: {e}")
-    
-    # 输出测试结果统计
+            print(f"❌ Test error: {e}")
+
+    # Output test results summary
     print(f"\n{'='*60}")
-    print(f"📊 测试结果统计")
+    print(f"📊 Test Results Summary")
     print('='*60)
-    print(f"总测试数: {len(test_plan)}")
-    print(f"通过: {passed_tests}")
-    print(f"失败: {failed_tests}")
-    print(f"成功率: {passed_tests/len(test_plan)*100:.1f}%")
-    
+    print(f"Total tests: {len(test_plan)}")
+    print(f"Passed: {passed_tests}")
+    print(f"Failed: {failed_tests}")
+    print(f"Success rate: {passed_tests/len(test_plan)*100:.1f}%")
+
     if failed_tests == 0:
-        print("\n🎉 所有测试通过！")
+        print("\n🎉 All tests passed!")
     else:
-        print(f"\n⚠️  有 {failed_tests} 个测试失败，请检查相关功能")
+        print(f"\n⚠️  {failed_tests} test(s) failed, please check related functionality")
 
 if __name__ == "__main__":
     main()

@@ -1,139 +1,139 @@
-# 互动流程循环与Shell测试矛盾分析
+# Interactive Loop and Shell Test Contradiction Analysis
 
-## 问题核心分析
+## Core Issue Analysis
 
-### 1. 嵌套循环结构
+### 1. Nested Loop Structure
 
-#### 外层循环：主程序循环
+#### Outer Loop: Main Program Loop
 ```python
 # main_cli.py:66
 while True:
-    # 显示主菜单
-    self.menu_handler.display_main_menu()
-    
-    # 获取用户选择 - 这里会进入内层循环
-    choice = self.menu_handler.get_user_choice("请选择功能:\n", (0, 5))
-    
-    if choice == 0:
-        break  # 唯一的正常退出点
+ # Display main menu
+ self.menu_handler.display_main_menu()
+
+ # Get user choice - this will enter internal loop
+ choice = self.menu_handler.get_user_choice("Please select function:\n", (0, 5))
+
+ if choice == 0:
+ break # Only normal exit point
 ```
 
-#### 内层循环：输入验证循环
+#### Inner Loop: Input Validation Loop
 ```python
 # menu_handler.py:211
 while True:
-    try:
-        choice = input(f"\n{prompt}")  # 阻塞点！
-        choice_int = int(choice)
-        
-        if valid_range:
-            min_val, max_val = valid_range
-            if min_val <= choice_int <= max_val:
-                return choice_int  # 正常返回
-            else:
-                print(f"请输入 {min_val}-{max_val} 之间的数字!")
-                # 继续循环，再次请求输入
-        else:
-            return choice_int
-    except ValueError:
-        print("请输入有效的数字!")
-        # 继续循环，再次请求输入
-    except EOFError:
-        print("输入流结束，自动退出")
-        return 0  # 应对自动化测试的处理
+ try:
+ choice = input(f"\n{prompt}") # Blocking point!
+ choice_int = int(choice)
+
+ if valid_range:
+ min_val, max_val = valid_range
+ if min_val <= choice_int <= max_val:
+ return choice_int # Normal return
+ else:
+ print(f"Please enter a number between {min_val}-{max_val}!")
+ # Continue loop, request input again
+ else:
+ return choice_int
+ except ValueError:
+ print("Please enter a valid number!")
+ # Continue loop, request input again
+ except EOFError:
+ print("Input stream ended, auto-exiting")
+ return 0 # Should be for automated test handling
 ```
 
-### 2. 矛盾分析
+### 2. Contradiction Analysis
 
-#### CLI程序设计理念 vs Shell测试需求
+#### CLI Program Design Concept vs Shell Test Requirements
 
-| 方面 | CLI程序设计 | Shell测试需求 | 矛盾点 |
+| Aspect | CLI Program Design | Shell Test Requirements | Contradiction Point |
 |------|-------------|---------------|--------|
-| **运行模式** | 交互式持续运行 | 一次性自动执行 | ❌ 基本冲突 |
-| **输入方式** | 用户键盘输入 | 预设输入或无输入 | ❌ 输入方式不兼容 |
-| **退出机制** | 用户选择退出 | 程序自动结束 | ❌ 退出控制权不同 |
-| **错误处理** | 提示用户重试 | 应该快速失败 | ❌ 错误处理策略冲突 |
+| **Execution Mode** | Interactive style, supports continuous operation | One-time automatic execution | ❌ Fundamental conflict |
+| **Input Method** | User keyboard input | Predefined input or no input | ❌ Input method incompatibility |
+| **Exit Control** | User selects exit | Program automatically ends | ❌ Exit control authority differs |
+| **Error Handling** | Prompt user to retry | Should fail quickly | ❌ Error handling strategy conflict |
 
-### 3. 具体矛盾表现
+### 3. Specific Contradiction Examples
 
-#### 矛盾点1：无限等待输入
+#### Contradiction Point 1: Unlimited Wait for Input
 ```python
-# 程序执行流程
+# Program execution flow
 1. main() -> cli.run()
-2. while True: (主循环开始)
-3. display_main_menu() (显示菜单)
-4. get_user_choice() -> while True: (输入循环开始)
-5. choice = input() (❌ 在这里无限等待)
+2. while True: (main loop starts)
+3. display_main_menu() (display menu)
+4. get_user_choice() -> while True: (input loop starts)
+5. choice = input() (❌ unlimited wait here)
 ```
 
-#### 矛盾点2：错误恢复机制
+#### Contradiction Point 2: Error Recovery Control
 ```python
-# 当输入无效时
+# When input is invalid
 except ValueError:
-    print("请输入有效的数字!")
-    # 继续while循环 (❌ Shell测试无法提供新输入)
+ print("Please enter a valid number!")
+ # Continue while loop (❌ shell test has no way to provide new input)
 ```
 
-#### 矛盾点3：多级嵌套菜单
+#### Contradiction Point 3: Multi-level Nested Menus
 ```python
-# 即使第一级输入成功，后续还有更多输入点：
+# Even if first level input succeeds, there are more input points:
 elif choice == 1:
-    self._handle_data_management()  # 进入数据管理菜单
-        -> display_data_menu()
-        -> get_user_choice() (❌ 又一个input等待点)
-            -> get_file_path() (❌ 更多input等待点)
+ self._handle_data_management() # Enter data management menu
+ -> display_data_menu()
+ -> get_user_choice() (❌ another input wait point)
+ -> get_file_path() (❌ more input wait points)
 ```
 
-### 4. Shell测试尝试的失败原因
+### 4. Shell Test Failure Root Cause
 
-#### 测试计划中的Shell命令：
+#### Test Plan Shell Command:
 ```json
 {
-    "test_command": "python src/main.py",
-    "test_input": "evaluation/test_01_startup.in"
+ "test_command": "python src/main.py",
+ "test_input": "evaluation/test_01_startup.in"
 }
 ```
 
-#### 失败原因分析：
-1. **输入流处理不当**：虽然提供了test_input文件，但程序的input()调用无法正确读取
-2. **EOFError处理不足**：只在输入流完全结束时触发，但测试环境可能不会关闭流
-3. **循环无法自动退出**：即使有输入，程序还会继续循环请求更多输入
+#### Failure Root Cause Analysis:
+1. **Input Stream Processing Improper**: Although test_input file is provided, program's input() cannot correctly read it
+2. **EOFError Handling Insufficient**: Only triggers when input stream is completely exhausted, but test environment may not close stream
+3. **Loop Cannot Auto-Exit**: Even if there is input, program will continue looping requesting more input
 
-### 5. 根本设计冲突
+### 5. Fundamental Design Conflict
 
-#### CLI程序的本质特征：
-- **状态持久性**：维护程序状态，支持多轮操作
-- **交互性**：依赖用户实时决策
-- **容错性**：允许用户纠错和重试
+#### CLI Program Fundamental Characteristics:
+- **State Persistence**: Maintains program state, supports multiple rounds of operations
+- **Interactivity**: Depends on user real-time decisions
+- **Fault Tolerance**: Allows users to correct errors and retry
 
-#### Shell测试的本质需求：
-- **状态无关性**：单次执行，不维护状态
-- **自动化**：无需人工介入
-- **快速失败**：遇到问题立即退出
+#### Shell Test Fundamental Requirements:
+- **State Independence**: Single execution, doesn't maintain state
+- **Automation**: No manual intervention needed
+- **Fast Failure**: Exit immediately upon encountering issues
 
-## 解决方案对比
+## Solution Options
 
-### 方案1：修改CLI支持批处理模式 ❌
-- **优点**：保持原有功能
-- **缺点**：需要大幅修改现有代码，复杂度高
+### Option 1: Modify CLI to Support Batch Mode ❌
+- **Advantage**: Preserves original functionality
+- **Disadvantage**: Requires large-scale modification of existing code, high complexity
 
-### 方案2：使用单元测试替代 ✅
-- **优点**：完全自动化，测试覆盖更精确
-- **缺点**：无法测试完整的用户交互流程
+### Option 2: Use Unit Tests Instead ✅
+- **Advantage**: Fully automated, test coverage more precise
+- **Disadvantage**: Cannot test complete user interaction flow
 
-### 方案3：混合模式 ✅ (推荐)
-- **CLI核心功能**：保持原有交互设计
-- **自动化测试**：使用单元测试验证业务逻辑
-- **集成测试**：少量关键流程使用模拟输入
+### Option 3: Hybrid Approach ✅ (Recommended)
+- **CLI Core Functionality**: Preserve original interactive design
+- **Automated Tests**: Use unit tests to verify business logic
+- **Integration Tests**: Minimal key processes use simulated input
 
-## 结论
+## Conclusion
 
-CLI程序的交互式设计与Shell自动化测试存在**根本性架构冲突**。这不是一个简单的技术问题，而是两种不同设计理念的冲突：
+CLI program interactive design and shell automated testing have **fundamental structural conflict**. This is not a simple technical issue, but a conflict of two different design concepts:
 
-- **CLI程序**：为人机交互优化
-- **Shell测试**：为自动化验证优化
+- **CLI Program**: Optimized for human-machine interaction
+- **Shell Test**: Optimized for automated verification
 
-最佳解决方案是采用**分层测试策略**：
-1. 使用单元测试验证核心业务逻辑
-2. 保持CLI的交互特性不变
-3. 仅在必要时使用集成测试验证关键流程
+The best solution is to adopt a **layered testing strategy**:
+1. Use unit tests to verify core business logic
+2. Preserve CLI interactive characteristics unchanged
+3. Only use integration tests for key processes when necessary

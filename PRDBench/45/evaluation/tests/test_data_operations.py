@@ -1,5 +1,5 @@
 """
-Chord DHT数据操作单元测试
+Chord DHT Data Operations Unit Tests
 """
 import sys
 import os
@@ -11,50 +11,50 @@ from Network import Network
 
 
 def test_data_insertion():
-    """测试数据插入功能"""
+    """Test data insertion function"""
     m = 4
     network = Network(m, [0, 4, 8, 12])
 
-    # 创建完整网络
+    # Create complete network
     for node_id in [4, 8, 12]:
         network.add_node(node_id)
 
-    # 插入数据
+    # Insert data
     test_data = "test_file.txt"
     result = network.insert_data(test_data)
 
-    # 验证数据已插入
+    # Verify data has been inserted
     assert result is not None
 
-    # 验证数据可以被找到
+    # Verify data can be found
     found = network.lookup_data(test_data)
     assert found is not None
 
 
 def test_data_lookup():
-    """测试数据查找功能"""
+    """Test data lookup function"""
     m = 4
     network = Network(m, [0])
 
-    # 插入数据
+    # Insert data
     test_data = "lookup_test.txt"
     network.insert_data(test_data)
 
-    # 查找存在的数据
+    # Lookup existing data
     found = network.lookup_data(test_data)
     assert found is not None
 
-    # 查找不存在的数据
+    # Lookup non-existent data
     not_found = network.lookup_data("nonexistent.txt")
     assert not_found is None
 
 
 def test_hash_consistency():
-    """测试哈希一致性"""
+    """Test hash consistency"""
     m = 4
     network = Network(m, [0])
 
-    # 相同数据应产生相同哈希
+    # Same data should produce same hash
     data = "consistency_test.txt"
     hash1 = network.hash_function(data)
     hash2 = network.hash_function(data)
@@ -63,42 +63,42 @@ def test_hash_consistency():
 
 
 def test_data_distribution():
-    """测试数据分布"""
+    """Test data distribution"""
     m = 4
     network = Network(m, [0])
 
-    # 添加多个节点
+    # Add multiple nodes
     for node_id in [4, 8, 12]:
         network.add_node(node_id)
 
-    # 插入多个数据
+    # Insert multiple data items
     data_items = ["file1.txt", "file2.png", "file3.doc", "file4.mov"]
     for data in data_items:
         network.insert_data(data)
 
-    # 验证数据被分布到不同节点
+    # Verify data is distributed across different nodes
     total_data_count = sum(len(node.data) for node in network.nodes)
     assert total_data_count == len(data_items)
 
 
 def test_node_data_transfer():
-    """测试节点数据转移（删除节点时）"""
+    """Test node data transfer (when deleting node)"""
     m = 4
     network = Network(m, [0])
 
-    # 添加节点
+    # Add node
     network.add_node(8)
 
-    # 在节点8上存储数据
+    # Store data on node 8
     network.insert_data("transfer_test.txt")
 
-    # 确保数据已存储
+    # Ensure data is stored
     assert network.lookup_data("transfer_test.txt") is not None
 
-    # 删除节点8（如果实现了数据转移）
+    # Delete node 8 (if data transfer is implemented)
     if hasattr(network, 'remove_node'):
         network.remove_node(8)
-        # 验证数据仍然可以找到
+        # Verify data can still be found
         assert network.lookup_data("transfer_test.txt") is not None
 
 

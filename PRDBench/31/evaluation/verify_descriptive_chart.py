@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-描述统计图表验证脚本
+Descriptive Statistics Chart Verification Script
 """
 import os
 
 def verify_descriptive_chart():
-    """验证描述统计图表文件生成"""
+    """Verify descriptive statistics chart file generation"""
     path = 'src/output/figures/descriptive_stats_scale_1.png'
     
     exists = os.path.exists(path)

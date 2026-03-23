@@ -1,5 +1,5 @@
 """
-环境验证测试
+Environment Validation Test
 """
 import pytest
 import os
@@ -8,12 +8,12 @@ import importlib.util
 
 
 def test_core_modules_exist():
-    """测试核心模块文件存在性"""
-    # 添加src目录到路径
+    """Test core module file existence"""
+    # Add src directory to path
     src_path = os.path.join(os.path.dirname(__file__), '..', '..', 'src')
     sys.path.insert(0, src_path)
 
-    # 核心文件列表
+    # Core file list
     core_files = [
         'maze_generator.py',
         'path_finder.py',
@@ -27,16 +27,16 @@ def test_core_modules_exist():
         'utils/performance.py'
     ]
 
-    # 检查文件存在性
+    # Check file existence
     missing_files = []
     for file_path in core_files:
         full_path = os.path.join(src_path, file_path)
         if not os.path.exists(full_path):
             missing_files.append(file_path)
 
-    assert len(missing_files) == 0, f"缺少核心文件: {missing_files}"
+    assert len(missing_files) == 0, f"Missing core files: {missing_files}"
 
-    # 尝试导入模块
+    # Try to import modules
     import_errors = []
 
     try:
@@ -49,18 +49,18 @@ def test_core_modules_exist():
     except ImportError as e:
         import_errors.append(str(e))
 
-    assert len(import_errors) == 0, f"导入错误: {import_errors}"
+    assert len(import_errors) == 0, f"Import errors: {import_errors}"
 
 
 def test_numpy_available():
-    """测试numpy依赖可用性"""
+    """Test numpy dependency availability"""
     try:
         import numpy as np
         version = np.__version__
-        # 检查版本是否合理
+        # Check version validity
         major, minor = version.split('.')[:2]
-        assert int(major) >= 1, f"numpy版本过低: {version}"
+        assert int(major) >= 1, f"numpy version too low: {version}"
     except ImportError:
-        pytest.fail("numpy无法导入")
+        pytest.fail("numpy cannot be imported")
     except Exception as e:
-        pytest.fail(f"numpy检查失败: {e}")
+        pytest.fail(f"numpy check failed: {e}")

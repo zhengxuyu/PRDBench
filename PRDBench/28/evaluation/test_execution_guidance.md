@@ -1,24 +1,24 @@
-# 测试执行顺序指导语句
+# Test Execution Order Guidance
 
-## 用于评估prompt的指导语句
+## Guidance Statement for Evaluation Prompt
 
-在执行测试时，请根据`test_dependencies.json`文件中定义的依赖关系来规划测试顺序：如果某个测试点在dependencies文件中被标记为target，则必须先完成其source字段中列出的所有前置测试点，以确保测试所需的数据和前置条件得到满足。
+When executing tests, please plan the test sequence according to the dependencies defined in the `test_dependencies.json` file: If a test point is marked as a target in the dependencies file, you must first complete all prerequisite test points listed in its source field to ensure that the required data and preconditions for the test are satisfied.
 
-## 详细说明
+## Detailed Explanation
 
-这句话的关键要素：
+Key elements of this statement:
 
-1. **触发条件**：某个测试点在dependencies文件中被标记为target
-2. **执行规则**：必须先完成其source字段中列出的所有前置测试点  
-3. **目的**：确保测试所需的数据和前置条件得到满足
+1. **Trigger Condition**: A test point is marked as a target in the dependencies file
+2. **Execution Rule**: Must first complete all prerequisite test points listed in its source field
+3. **Purpose**: Ensure that the required data and preconditions for the test are satisfied
 
-## 使用示例
+## Usage Example
 
-假设要执行测试点"2.3.5b"：
-1. 查看`test_dependencies.json`，发现2.3.5b是target
-2. 其source为"2.3.5a"
-3. 因此必须先执行2.3.5a测试点
-4. 如果2.3.5a也有依赖，则递归执行其前置依赖
-5. 直到所有依赖都满足后，才能执行2.3.5b
+Suppose you want to execute test point "2.3.5b":
+1. Check `test_dependencies.json` and find that 2.3.5b is a target
+2. Its source is "2.3.5a"
+3. Therefore, you must first execute test point 2.3.5a
+4. If 2.3.5a also has dependencies, recursively execute its prerequisite dependencies
+5. Only after all dependencies are satisfied can you execute 2.3.5b
 
-这样确保了测试的正确顺序和数据完整性。
+This ensures the correct test sequence and data integrity.

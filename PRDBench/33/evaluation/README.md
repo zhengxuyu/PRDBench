@@ -1,147 +1,147 @@
-# 联邦学习系统测试方案
+# Federated Learning System Test Plan
 
-本目录包含了联邦学习训练系统的完整测试方案，基于 `evaluation/metric.json` 中定义的功能评估指标。
+This directory contains the complete test plan for the federated learning training system, based on the function evaluation metrics defined in `evaluation/metric.json`.
 
-## 文件结构
+## File Structure
 
 ```
 evaluation/
-├── detailed_test_plan.json     # 详细测试计划（主要产物）
-├── run_tests.py               # 测试运行脚本
-├── README.md                  # 本说明文档
-├── tests/                     # 单元测试目录
+├── detailed_test_plan.json     # Detailed test plan (main artifact)
+├── run_tests.py               # Test run script
+├── README.md                  # This documentation file
+├── tests/                     # Unit test directory
 │   ├── __init__.py
 │   ├── test_interrupt_handling.py
 │   ├── test_error_handling.py
 │   ├── test_log_content.py
 │   ├── test_online_fl.py
 │   └── test_file_naming.py
-├── *.in                       # 输入文件（用于shell交互测试）
-├── expected_*.log             # 期望输出文件（用于文件比较测试）
-└── expected_result_file.txt   # 期望结果文件
+├── *.in                       # Input files (for shell interaction tests)
+├── expected_*.log             # Expected output files (for file comparison tests)
+└── expected_result_file.txt   # Expected result file
 ```
 
-## 测试类型说明
+## Test Type Description
 
-### 1. Shell Interaction 测试
-- **用途**: 测试需要用户与命令行进行真实交互的功能
-- **执行方式**: 通过 `python main.py` 启动程序，使用预定义的输入文件模拟用户交互
-- **输入文件**: `*.in` 文件包含模拟的用户输入序列
+### 1. Shell Interaction Test
+- **Purpose**: Test functions that require real user interaction with the command line
+- **Execution Method**: Start the program via `python main.py`, using predefined input files to simulate user interaction
+- **Input Files**: `*.in` files contain simulated user input sequences
 
-### 2. Unit Test 测试
-- **用途**: 测试可以通过直接调用源代码函数进行验证的功能
-- **执行方式**: 使用 pytest 框架运行测试文件
-- **测试文件**: `tests/test_*.py` 文件
+### 2. Unit Test
+- **Purpose**: Test functions that can be verified by directly calling source code functions
+- **Execution Method**: Run test files using the pytest framework
+- **Test Files**: `tests/test_*.py` files
 
-### 3. File Comparison 测试
-- **用途**: 验证程序是否生成了正确的输出文件
-- **执行方式**: 运行程序生成文件，然后与期望文件进行比较
-- **期望文件**: `expected_*.log` 和 `expected_*.txt` 文件
+### 3. File Comparison Test
+- **Purpose**: Verify whether the program generates correct output files
+- **Execution Method**: Run the program to generate files, then compare with expected files
+- **Expected Files**: `expected_*.log` and `expected_*.txt` files
 
-## 运行测试
+## Running Tests
 
-### 方法1: 运行所有测试
+### Method 1: Run All Tests
 ```bash
 cd evaluation
 python run_tests.py
 ```
 
-### 方法2: 运行单个测试类型
+### Method 2: Run Single Test Type
 ```bash
-# 运行单元测试
+# Run unit tests
 pytest tests/
 
-# 运行特定测试文件
+# Run specific test file
 pytest tests/test_interrupt_handling.py
 
-# 运行特定测试函数
+# Run specific test function
 pytest tests/test_interrupt_handling.py::test_ctrl_c_interrupt
 ```
 
-### 方法3: 手动运行shell交互测试
+### Method 3: Manually Run Shell Interaction Tests
 ```bash
-# 使用输入文件运行程序
+# Run program using input file
 python main.py < evaluation/main_menu_display.in
 ```
 
-## 测试覆盖范围
+## Test Coverage
 
-本测试方案覆盖了 `metric.json` 中定义的所有33个评估指标：
+This test plan covers all 33 evaluation metrics defined in `metric.json`:
 
-### 1. 程序启动与菜单系统 (3个测试)
-- 1.1 程序启动与主菜单显示
-- 1.2a 菜单输入验证 - 无效数字处理
-- 1.2b 菜单输入验证 - 非数字字符处理
+### 1. Program Startup and Menu System (3 tests)
+- 1.1 Program startup and main menu display
+- 1.2a Menu input validation - invalid number handling
+- 1.2b Menu input validation - non-numeric character handling
 
-### 2. 离线联邦学习 (15个测试)
-- 2.1a-e 菜单可达性和参数配置
-- 2.2a-b 训练模式选择
-- 2.3a-b 进度显示
-- 2.4 中断支持
-- 2.5a-b 状态返回
-- 2.6a-b 日志生成
+### 2. Offline Federated Learning (15 tests)
+- 2.1a-e Menu accessibility and parameter configuration
+- 2.2a-b Training mode selection
+- 2.3a-b Progress display
+- 2.4 Interrupt support
+- 2.5a-b Status return
+- 2.6a-b Log generation
 
-### 3. 在线联邦学习 (5个测试)
-- 3.1a-c 菜单可达性和配置
-- 3.2a-b 连接状态显示
+### 3. Online Federated Learning (5 tests)
+- 3.1a-c Menu accessibility and configuration
+- 3.2a-b Connection status display
 
-### 4. 参数扫描实验 (4个测试)
-- 4.1a-b 菜单可达性和一键执行
-- 4.2a-b 日志文件生成和命名
-- 4.3 状态查询
+### 4. Parameter Sweep Experiment (4 tests)
+- 4.1a-b Menu accessibility and one-click execution
+- 4.2a-b Log file generation and naming
+- 4.3 Status query
 
-### 5. 日志查看和模型评估 (4个测试)
-- 5.1a-c 日志查看功能
-- 5.2a-b 模型评估功能
+### 5. Log Viewing and Model Evaluation (4 tests)
+- 5.1a-c Log viewing functions
+- 5.2a-b Model evaluation functions
 
-### 6. 结果保存和展示 (2个测试)
-- 6.1a-b 结果文件保存
-- 6.2 文本化表格展示
+### 6. Result Saving and Display (2 tests)
+- 6.1a-b Result file saving
+- 6.2 Text-based table display
 
-### 7. 程序退出 (1个测试)
-- 7.1 程序正常退出
+### 7. Program Exit (1 test)
+- 7.1 Program normal exit
 
-## 输入文件说明
+## Input File Description
 
-每个 `.in` 文件包含模拟用户输入的序列，用于测试特定功能：
+Each `.in` file contains a sequence of simulated user inputs for testing specific functions:
 
-- `main_menu_display.in`: 测试主菜单显示（输入6退出）
-- `invalid_number_input.in`: 测试无效数字输入处理
-- `offline_fl_*.in`: 测试离线联邦学习各种功能
-- `online_fl_*.in`: 测试在线联邦学习功能
-- `param_sweep_*.in`: 测试参数扫描实验功能
-- 等等...
+- `main_menu_display.in`: Test main menu display (input 6 to exit)
+- `invalid_number_input.in`: Test invalid number input handling
+- `offline_fl_*.in`: Test various offline federated learning functions
+- `online_fl_*.in`: Test online federated learning functions
+- `param_sweep_*.in`: Test parameter sweep experiment functions
+- etc...
 
-## 期望输出文件说明
+## Expected Output File Description
 
-- `expected_training_log.log`: 期望的训练日志格式
-- `expected_result_*.log`: 期望的参数扫描实验日志
-- `expected_result_file.txt`: 期望的结果保存文件格式
+- `expected_training_log.log`: Expected training log format
+- `expected_result_*.log`: Expected parameter sweep experiment logs
+- `expected_result_file.txt`: Expected result file format
 
-## 注意事项
+## Notes
 
-1. **依赖要求**: 确保安装了 pytest 和其他必要的依赖
-2. **主程序**: 测试依赖于项目根目录下的 `main.py` 文件
-3. **超时设置**: 测试设置了合理的超时时间，避免长时间等待
-4. **资源清理**: 测试会自动清理临时文件和进程
-5. **并发问题**: 某些测试可能涉及网络端口，注意避免冲突
+1. **Dependencies**: Ensure pytest and other necessary dependencies are installed
+2. **Main Program**: Tests depend on the `main.py` file in the project root directory
+3. **Timeout Settings**: Tests are configured with reasonable timeout values to avoid long waits
+4. **Resource Cleanup**: Tests automatically clean up temporary files and processes
+5. **Concurrency Issues**: Some tests may involve network ports, be careful to avoid conflicts
 
-## 扩展测试
+## Extending Tests
 
-如需添加新的测试用例：
+To add new test cases:
 
-1. 在 `detailed_test_plan.json` 中添加新的测试定义
-2. 创建相应的输入文件（如果是shell_interaction类型）
-3. 创建相应的测试文件（如果是unit_test类型）
-4. 创建期望输出文件（如果是file_comparison类型）
-5. 运行 `python run_tests.py` 验证新测试
+1. Add new test definition in `detailed_test_plan.json`
+2. Create corresponding input file (if shell_interaction type)
+3. Create corresponding test file (if unit_test type)
+4. Create expected output file (if file_comparison type)
+5. Run `python run_tests.py` to verify the new test
 
-## 故障排除
+## Troubleshooting
 
-如果测试失败，请检查：
+If tests fail, please check:
 
-1. 主程序 `main.py` 是否存在且可执行
-2. 输入文件格式是否正确
-3. 依赖包是否已安装
-4. 文件权限是否正确
-5. 端口是否被占用（对于网络相关测试）
+1. Whether the main program `main.py` exists and is executable
+2. Whether the input file format is correct
+3. Whether dependency packages are installed
+4. Whether file permissions are correct
+5. Whether ports are occupied (for network-related tests)

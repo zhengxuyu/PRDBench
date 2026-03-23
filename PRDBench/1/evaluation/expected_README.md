@@ -1,105 +1,105 @@
-# 餐饮供应链智能分析与优化系统
+# Intelligent Analysis and Optimization System for the Catering Supply Chain
 
-本项目是一个基于Python的命令行工具，旨在为餐饮企业提供一个轻量级、高效的菜品全生命周期管理和分析解决方案。系统通过分析菜品、原料和销售数据，帮助用户洞察成本结构、优化供应链、并做出更明智的商业决策。
+This project is a command-line tool based on Python, designed to provide catering businesses with a lightweight and efficient solution for full lifecycle management and analysis of dishes. By analyzing dish, ingredient, and sales data, the system helps users gain insight into cost structures, optimize the supply chain, and make more informed business decisions.
 
-## 功能特性
+## Features
 
-- **菜品数据管理**: 支持菜品信息的增、删、改、查（CRUD）及CSV批量导入。
-- **成本与利润分析**: 自动计算每个菜品的原料成本、成本占比和毛利率。
-- **过敏原智能识别**: 根据原料清单，自动识别并标记含有常见过敏原的菜品。
-- **销售趋势洞察**: 按日、周、月等多维度统计菜品销量和销售额，揭示销售趋势。
-- **菜品相似度匹配**: 通过模糊匹配算法，识别名称相似的菜品，并对它们进行聚合分析。
-- **现代化CLI体验**: 基于 `rich` 和 `questionary` 库，提供菜单驱动、交互友好、输出美观的命令行界面。
+- **Dish Data Management**: Supports CRUD operations (create, read, update, delete) on dish information, as well as batch import via CSV.
+- **Cost and Profit Analysis**: Automatically calculates ingredient cost, cost ratio, and gross profit margin for each dish.
+- **Allergen Intelligent Detection**: Automatically identifies and marks dishes containing common allergens based on the ingredient list.
+- **Sales Trend Insights**: Provides multi-dimensional statistics of dish sales and turnover by day, week, and month to reveal sales trends.
+- **Dish Similarity Matching**: Uses fuzzy matching algorithms to identify dishes with similar names and perform aggregated analysis.
+- **Modern CLI Experience**: Built on top of the `rich` and `questionary` libraries, provides a menu-driven, user-friendly, and visually appealing command-line interface.
 
-## 环境配置与安装
+## Environment Setup and Installation
 
-为了运行本系统，您需要一个Python 3.7+ 的环境。推荐使用虚拟环境以避免包版本冲突。
+To run this system, you need a Python 3.7+ environment. It is recommended to use a virtual environment to avoid package version conflicts.
 
-### 1. 克隆或下载项目
+### 1. Clone or Download the Project
 
-将本项目文件解压或克隆到您的本地计算机。
+Extract or clone the project files to your local machine.
 
-### 2. 创建并激活虚拟环境
+### 2. Create and Activate a Virtual Environment
 
-打开命令行（或终端），进入项目根目录，然后执行以下命令：
+Open your command line or terminal, navigate to the project root directory, and execute the following commands:
 
 ```bash
-# 创建一个名为 .venv 的虚拟环境
+# Create a virtual environment named .venv
 python -m venv .venv
 
-# 激活虚拟环境 (Windows)
+# Activate the virtual environment (Windows)
 .venv\Scripts\activate
 
-# 激活虚拟环境 (macOS / Linux)
+# Activate the virtual environment (macOS / Linux)
 # source .venv/bin/activate
 ```
 
-激活成功后，您会看到命令行提示符前面出现 `(.venv)` 的字样。
+After activation, you should see `(.venv)` in your command prompt.
 
-### 3. 安装依赖
+### 3. Install Dependencies
 
-在激活的虚拟环境中，使用 `pip` 安装所有必需的第三方库：
+Within the activated virtual environment, use `pip` to install all required third-party libraries:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-这会自动安装 `pandas`, `questionary`, `rich`, `thefuzz` 等所有核心库。
+This will automatically install all core libraries, such as `pandas`, `questionary`, `rich`, `thefuzz`, etc.
 
-## 如何运行
+## How to Run
 
-确保您已经按照上述步骤配置好环境并安装了依赖。
+Make sure you have set up the environment and installed dependencies as described above.
 
-1.  **准备数据**: 系统启动时会从 `data/` 目录下加载CSV文件。请确保以下文件存在且格式正确：
-    *   `dishes.csv`: 菜品基础信息
-    *   `ingredients.csv`: 菜品原料构成
-    *   `orders.csv`: 历史订单数据
-    *   `approximate_dishes.csv`: (可选) 用于相似度分析的近似菜品列表
+1.  **Prepare Data**: When the system starts, it loads CSV files from the `data/` directory. Please ensure the following files exist and are correctly formatted:
+    *   `dishes.csv`: Basic dish information
+    *   `ingredients.csv`: Composition of dish ingredients
+    *   `orders.csv`: Historical order data
+    *   `approximate_dishes.csv`: (Optional) List of approximate/similar dishes for similarity analysis
 
-    项目已内置一份示例数据，您可以直接使用或根据模板修改为您自己的数据。
+    The project includes a set of sample data which you can use directly or modify as needed.
 
-2.  **启动程序**: 在项目根目录下，执行以下命令：
+2.  **Start the Program**: In the project root directory, run the command:
 
     ```bash
     python main.py
     ```
 
-3.  **开始使用**: 程序启动后，您将看到一个交互式的主菜单。使用键盘的上下箭头选择功能，按回车键确认。
+3.  **Begin Using**: After the program starts, you will see an interactive main menu. Use the arrow keys to navigate the menu and press Enter to confirm your selection.
 
-## 使用教程
+## Usage Guide
 
-系统主要分为四大功能模块，您可以在主菜单中选择进入。
+The system is mainly divided into four functional modules, which you can access from the main menu.
 
-### 模块一：菜品数据管理
+### Module 1: Dish Data Management
 
-- **添加新菜品**: 按照提示依次输入菜品名称、分类、售价和烹饪时间。
-- **删除/修改菜品**: 首先会展示当前所有菜品列表，您需要输入要操作的菜品ID。对于删除操作，会有二次确认以防误删。
-- **查询菜品**: 您可以根据菜品名称或分类进行模糊搜索，系统会以表格形式返回所有匹配的结果。
-- **批量导入菜品**: 您需要提供一个CSV文件的路径。该CSV文件必须包含 `name`, `category`, `price`, `cooking_time` 这几列。程序会自动处理并显示进度条。
+- **Add New Dish**: Follow the prompts to enter dish name, category, price, and cooking time.
+- **Delete/Modify Dishes**: First, a list of all current dishes will be shown. You will need to enter the ID of the dish you want to operate on. A secondary confirmation will be required for deletions to avoid mistakes.
+- **Query Dishes**: You can perform fuzzy searches by dish name or category. The system will return all matching results in a tabular format.
+- **Batch Import Dishes**: Provide the path to a CSV file containing dishes. The CSV must include `name`, `category`, `price`, and `cooking_time` columns. The program will handle and display the import progress automatically.
 
-### 模块二：原料与成本分析
+### Module 2: Ingredient and Cost Analysis
 
-- **分析单个菜品成本**: 输入菜品ID后，系统将展示一份详细的成本报告，包括总成本、毛利率以及每种原料的成本占比。
-- **识别含过敏原的菜品**: 系统会自动扫描所有菜品的原料，并列出所有检测到含有过敏原（如坚果、海鲜等）的菜品及其过敏源。
+- **Analyze Cost of Single Dish**: After entering a dish ID, the system provides a detailed cost report, including total cost, gross profit margin, and cost proportion of each ingredient.
+- **Identify Dishes With Allergens**: The system will automatically scan all dish ingredients and list all detected dishes containing common allergens (e.g., nuts, seafood), along with the allergen(s) present.
 
-### 模块三：销售数据分析
+### Module 3: Sales Data Analysis
 
-- 选择您想分析的时间维度（日/周/月），系统将立即生成一份销售趋势报告，清晰地展示每个时间周期内的总销量和总收入。
+- Select the time dimension you wish to analyze (day/week/month), and the system will immediately generate a sales trend report, clearly showing total sales and total revenue for each time period.
 
-### 模块四：菜品相似度匹配
+### Module 4: Dish Similarity Matching
 
-- 此功能用于发现和分析“近似菜品”。例如，"宫保鸡丁" 和 "宫保鸡丁（新）" 可能指向同一个菜品。
-- 您需要提供一个源文件路径（默认为 `data/approximate_dishes.csv`），其中包含一系列近似名称。
-- 系统会将这些名称与主菜品库进行匹配，并将成功匹配的菜品归为一组，然后计算每个组的总订单量、加权平均售价和销售波动系数，帮助您进行SKU优化。
+- This feature helps discover and analyze “similar dishes”. For example, "Kung Pao Chicken" and "Kung Pao Chicken (New)" may refer to the same dish.
+- You need to provide a source file path (default: `data/approximate_dishes.csv`) which contains a list of similar names.
+- The system matches these names with the main dish library, groups the matched dishes accordingly, then calculates each group’s total order volume, weighted average price, and sales volatility coefficient—assisting you in SKU optimization.
 
-## 运行测试
+## Running Tests
 
-本项目使用 `pytest` 进行单元测试。如果您想验证代码的正确性，可以运行测试套件。
+This project uses `pytest` for unit testing. If you want to verify code correctness, you can run the test suite.
 
-在项目根目录下，执行：
+In the project root directory, execute:
 
 ```bash
 pytest
 ```
 
-测试脚本会自动发现并运行 `tests/` 目录下的所有测试用例。
+The test scripts will automatically discover and run all test cases in the `tests/` directory.

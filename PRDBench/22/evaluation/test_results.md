@@ -1,53 +1,53 @@
-# 项目评估报告
+# Project Evaluation Report
 
-## 单元测试结果
+## Unit Test Results
 
-所有单元测试均已通过：
+All unit tests have passed:
 
-- **2.3.1 Alias Method算法实现**: 通过
-- **2.3.2b 执行单轮抽奖 - 权重应用准确性**: 通过
-- **2.3.3b 执行全部轮次 - 禁止重复中奖逻辑**: 通过
+- **2.3.1 Alias Method Algorithm Implementation**: Passed
+- **2.3.2b Execute Single Round Draw - Weight Application Accuracy**: Passed
+- **2.3.3b Execute All Rounds - Duplicate Win Prevention Logic**: Passed
 
-## 功能测试结果
+## Functional Test Results
 
-在尝试运行功能测试时，发现程序在启动时就遇到了编码问题。由于时间限制，无法完成所有功能测试。
+When attempting to run functional tests, the program encountered encoding issues at startup. Due to time constraints, all functional tests could not be completed.
 
-### 已发现问题
+### Issues Identified
 
-1. **程序启动失败**:
-   - 在Windows系统上，当尝试从文件读取并显示包含特殊字符（如✓和✗）的文本时，程序会因为编码问题而崩溃。
-   - 错误信息：`UnicodeEncodeError: 'gbk' codec can't encode character '\u2713' in position 0: illegal multibyte sequence`
+1. **Program Startup Failure**:
+   - On Windows systems, when attempting to read from files and display text containing special characters (such as ✓ and ✗), the program crashes due to encoding issues.
+   - Error message: `UnicodeEncodeError: 'gbk' codec can't encode character '\u2713' in position 0: illegal multibyte sequence`
 
-### 部分功能测试结果
+### Partial Functional Test Results
 
-以下是已完成的部分功能测试结果：
+Below are the completed partial functional test results:
 
-| 测试项 | 结果 | 说明 |
+| Test Item | Result | Description |
 | :--- | :--- | :--- |
-| 0.1 程序启动与主菜单 | 失败 | 程序在启动时因编码问题崩溃 |
-| 2.1.1a 添加参与人员 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.1.1b 添加参与人员 - 姓名、部门信息处理 | 未测试 | 程序无法启动 |
-| 2.1.2a 删除参与人员 - 用户路径可达性与二次确认 | 未测试 | 程序无法启动 |
-| 2.1.3a 修改参与人员权重 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.1.3b 修改参与人员权重 - 权重值校验（下限） | 未测试 | 程序无法启动 |
-| 2.1.3c 修改参与人员权重 - 权重值校验（上限） | 未测试 | 程序无法启动 |
-| 2.1.4a 保存参与人员 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.2.1a 创建多轮抽奖 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.2.1b 创建多轮抽奖 - 轮次名称、人数配置 | 未测试 | 程序无法启动 |
-| 2.2.2a 特殊权重配置 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.2.3a 预览抽奖规则 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.2.4a 保存规则配置 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.3.2a 执行单轮抽奖 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.3.3a 执行全部轮次 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.4.1a 历史记录查询 - 用户路径可达性 | 未测试 | 程序无法启动 |
-| 2.4.1b 历史记录查询 - 按轮次名称查询 | 未测试 | 程序无法启动 |
-| 2.4.1c 历史记录查询 - 按人员姓名查询 | 未测试 | 程序无法启动 |
-| 2.4.1d 历史记录查询 - 按日期范围查询 | 未测试 | 程序无法启动 |
-| 2.5.1a 输入校验 - 数字范围校验 | 未测试 | 程序无法启动 |
-| 2.5.2a 二次确认 - 删除轮次操作 | 未测试 | 程序无法启动 |
+| 0.1 Program Startup and Main Menu | Failed | Program crashes at startup due to encoding issues |
+| 2.1.1a Add Participant - User Path Accessibility | Not Tested | Program cannot start |
+| 2.1.1b Add Participant - Name and Department Information Handling | Not Tested | Program cannot start |
+| 2.1.2a Delete Participant - User Path Accessibility and Double Confirmation | Not Tested | Program cannot start |
+| 2.1.3a Modify Participant Weight - User Path Accessibility | Not Tested | Program cannot start |
+| 2.1.3b Modify Participant Weight - Weight Value Validation (Lower Limit) | Not Tested | Program cannot start |
+| 2.1.3c Modify Participant Weight - Weight Value Validation (Upper Limit) | Not Tested | Program cannot start |
+| 2.1.4a Save Participants - User Path Accessibility | Not Tested | Program cannot start |
+| 2.2.1a Create Multi-Round Draw - User Path Accessibility | Not Tested | Program cannot start |
+| 2.2.1b Create Multi-Round Draw - Round Name and Number Configuration | Not Tested | Program cannot start |
+| 2.2.2a Special Weight Configuration - User Path Accessibility | Not Tested | Program cannot start |
+| 2.2.3a Preview Draw Rules - User Path Accessibility | Not Tested | Program cannot start |
+| 2.2.4a Save Rule Configuration - User Path Accessibility | Not Tested | Program cannot start |
+| 2.3.2a Execute Single Round Draw - User Path Accessibility | Not Tested | Program cannot start |
+| 2.3.3a Execute All Rounds - User Path Accessibility | Not Tested | Program cannot start |
+| 2.4.1a Historical Record Query - User Path Accessibility | Not Tested | Program cannot start |
+| 2.4.1b Historical Record Query - Query by Round Name | Not Tested | Program cannot start |
+| 2.4.1c Historical Record Query - Query by Participant Name | Not Tested | Program cannot start |
+| 2.4.1d Historical Record Query - Query by Date Range | Not Tested | Program cannot start |
+| 2.5.1a Input Validation - Numeric Range Validation | Not Tested | Program cannot start |
+| 2.5.2a Double Confirmation - Delete Round Operation | Not Tested | Program cannot start |
 
-## 总结
+## Summary
 
-项目的核心算法（Alias Method）和关键业务逻辑（权重应用、禁止重复中奖）的单元测试均已通过，表明这些部分的实现是正确的。
+The unit tests for the project's core algorithm (Alias Method) and key business logic (weight application, duplicate win prevention) have all passed, indicating that these implementations are correct.
 
-然而，程序在Windows系统上存在严重的编码兼容性问题，导致无法正常启动和进行功能测试。这个问题需要优先解决，以确保程序在不同环境下都能正常运行。
+However, the program has serious encoding compatibility issues on Windows systems, preventing normal startup and functional testing. This issue needs to be addressed as a priority to ensure the program runs properly in different environments.

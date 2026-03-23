@@ -6,10 +6,10 @@ from src.models.questionnaire import Questionnaire, Question, Choice, QuestionTy
 from src.database import SessionLocal
 
 # Test data
-TEST_TEMPLATE_NAME = "2024春季调研"
-TEST_MODULE = "旅游动机"
-TEST_Q_TYPE = "量表"
-TEST_TITLE = "价格对您的影响程度？"
+TEST_TEMPLATE_NAME = "2024 Spring Survey"
+TEST_MODULE = "Travel Motivation"
+TEST_Q_TYPE = "Scale"
+TEST_TITLE = "To what extent does price influence you?"
 TEST_OPTIONS = "1,5"
 
 

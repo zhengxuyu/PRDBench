@@ -15,7 +15,7 @@
   },
   {
     "metric": "1.1a User Information Entry Flow - Valid Name Input",
-    "description": "1. **Pre-check (User Path):** After starting the program, does it automatically enter or clearly guide the user to the name input stage?\n2. **Arrange:** Prepare the following test input: '张三'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should accept valid input.",
+    "description": "1. **Pre-check (User Path):** After starting the program, does it automatically enter or clearly guide the user to the name input stage?\n2. **Arrange:** Prepare the following test input: 'Zhang San'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should accept valid input.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "metric": "1.1b User Information Entry Flow - Invalid Name Input",
-    "description": "1. **Pre-check (User Path):** After starting the program, does it automatically enter or clearly guide the user to the name input stage?\n2. **Arrange:** Prepare the following test input: '张三李四王五赵六钱'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should reject invalid input.",
+    "description": "1. **Pre-check (User Path):** After starting the program, does it automatically enter or clearly guide the user to the name input stage?\n2. **Arrange:** Prepare the following test input: 'VeryLongNameThatExceedsTwentyCharactersLimit'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should reject invalid input.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "metric": "1.4 User Information Storage and Loading",
-    "description": "1. **Arrange:** Run the program for the first time, enter complete personal information (such as name: 张三, birthday: 1990-01-01, gender: 男).\n2. **Act:** Complete a full fortune calculation process. Run the program again.\n3. **Assert:** The program should display \"Welcome back, 张三!\" and ask whether to use the saved information. Check whether the contents of the `src/data/user_data.json` file are correct.",
+    "description": "1. **Arrange:** Run the program for the first time, enter complete personal information (such as name: Zhang San, birthday: 1990-01-01, gender: Male).\n2. **Act:** Complete a full fortune calculation process. Run the program again.\n3. **Assert:** The program should display \"Welcome back, Zhang San!\" and ask whether to use the saved information. Check whether the contents of the `src/data/user_data.json` file are correct.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -141,7 +141,7 @@
   },
   {
     "metric": "2.2 Fortune Draw Game - Coin Spin - Game Interface",
-    "description": "1. **Pre-check (User Path):** After choosing the 'Coin spin' mode, does it guide the user to press Enter to start the game?\n2. **Act:** Select the 'Coin spin' mode, press Enter to start the game.\n3. **Assert:** Observe whether a 3x3 game grid is displayed, and whether the symbols in the grid are one of '吉', '凶', or '平', and the result is shown.",
+    "description": "1. **Pre-check (User Path):** After choosing the 'Coin spin' mode, does it guide the user to press Enter to start the game?\n2. **Act:** Select the 'Coin spin' mode, press Enter to start the game.\n3. **Assert:** Observe whether a 3x3 game grid is displayed, and whether the symbols in the grid are one of 'Lucky', 'Unlucky', or 'Neutral', and the result is shown.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -169,7 +169,7 @@
   },
   {
     "metric": "3.1a Daily State Input - Outfit Color - Valid Input",
-    "description": "1. **Pre-check (User Path):** After the game ends, does it clearly guide the user to enter the main color of the outfit?\n2. **Arrange:** Prepare the following test input: '红'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should accept valid input.",
+    "description": "1. **Pre-check (User Path):** After the game ends, does it clearly guide the user to enter the main color of the outfit?\n2. **Arrange:** Prepare the following test input: 'Red'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should accept valid input.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -183,7 +183,7 @@
   },
   {
     "metric": "3.1b Daily State Input - Outfit Color - Invalid Input",
-    "description": "1. **Pre-check (User Path):** After the game ends, does it clearly guide the user to enter the main color of the outfit?\n2. **Arrange:** Prepare the following test input: '粉'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should reject invalid input.",
+    "description": "1. **Pre-check (User Path):** After the game ends, does it clearly guide the user to enter the main color of the outfit?\n2. **Arrange:** Prepare the following test input: 'Pink'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should reject invalid input.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -197,7 +197,7 @@
   },
   {
     "metric": "3.2a Daily State Input - Jewelry Type - Valid Input",
-    "description": "1. **Pre-check (User Path):** After successful outfit color input, does it clearly guide the user to enter the jewelry type?\n2. **Arrange:** Prepare the following test input: '金属类'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should accept valid input.",
+    "description": "1. **Pre-check (User Path):** After successful outfit color input, does it clearly guide the user to enter the jewelry type?\n2. **Arrange:** Prepare the following test input: 'Metal'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should accept valid input.",
     "type": "shell_interaction",
     "testcases": [
       {
@@ -211,7 +211,7 @@
   },
   {
     "metric": "3.2b Daily State Input - Jewelry Type - Invalid Input",
-    "description": "1. **Pre-check (User Path):** After successful outfit color input, does it clearly guide the user to enter the jewelry type?\n2. **Arrange:** Prepare the following test input: '项链'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should reject invalid input.",
+    "description": "1. **Pre-check (User Path):** After successful outfit color input, does it clearly guide the user to enter the jewelry type?\n2. **Arrange:** Prepare the following test input: 'Necklace'.\n3. **Act:** Enter the prepared data above.\n4. **Assert:** The program should reject invalid input.",
     "type": "shell_interaction",
     "testcases": [
       {

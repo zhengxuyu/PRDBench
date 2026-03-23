@@ -6,10 +6,10 @@ from src.models.questionnaire import Questionnaire, Question, Choice, QuestionTy
 from src.database import SessionLocal
 
 # Test data
-TEST_TEMPLATE_NAME = "2024春季调研"
-TEST_MODULE = "个人基础信息"
-TEST_Q_TYPE = "开放文本"
-TEST_TITLE = "您的职业是？"
+TEST_TEMPLATE_NAME = "2024 Spring Survey"
+TEST_MODULE = "Basic Personal Information"
+TEST_Q_TYPE = "Open Text"
+TEST_TITLE = "What is your occupation?"
 # Open text questions do not have options
 TEST_OPTIONS = None
 

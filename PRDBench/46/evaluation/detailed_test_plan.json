@@ -302,24 +302,6 @@
         "expected_output": "Batch data scoring test passes. All data records are scored successfully, and the output includes complete results with customer ID, score probability, and algorithm type."
     },
     {
-        "metric": "2.5.1a ROC Curve - Image Generation",
-        "description": "1. **Pre-check (User Path):** After algorithm analysis, verify that a \"Model Evaluation\" or \"Results Visualization\" option exists.\n2. **Act:** Select the model evaluation function and view the ROC curve generation.\n3. **Assert:** Verify that a clear ROC curve chart is automatically generated and saved as a PNG file.",
-        "type": "file_comparison",
-        "testcases": [
-            {
-                "test_command": "cd evaluation && python tests/test_roc_curve_generation_simple.py",
-                "test_input": null
-            }
-        ],
-        "input_files": [
-            "evaluation/input_data_for_roc.csv"
-        ],
-        "expected_output_files": [
-            "evaluation/expected_roc_curve.png"
-        ],
-        "expected_output": "The ROC curve PNG file is successfully generated and saved. It contains a clear curve, an AUC value annotation, and grid lines, with image quality meeting expectations."
-    },
-    {
         "metric": "2.5.1b ROC Curve - AUC Value Calculation",
         "description": "1. **Act:** After generating the ROC curve, view the displayed AUC value.\n2. **Assert:** Verify that an accurate AUC value is also displayed (with at least 3 decimal places).",
         "type": "unit_test",

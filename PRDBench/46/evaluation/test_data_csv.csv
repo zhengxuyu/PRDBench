@@ -1,4 +1,4 @@
-age,income,employment_years,debt_ratio,credit_history,目标变量
+age,income,employment_years,debt_ratio,credit_history,target
 56,35795,28,0.146747831892931,poor,0
 38,74886,25,0.1247956162689621,fair,0
 41,146324,3,0.1142934543375526,fair,1

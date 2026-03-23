@@ -42,7 +42,7 @@ def test_file_format_standards():
         assert private_key is not None
     
     # Test user certificate format
-    user_cert_path = "data/certs/测试用户.pem"
+    user_cert_path = "data/certs/test_user.pem"
     if os.path.exists(user_cert_path):
         with open(user_cert_path, "rb") as f:
             user_cert_data = f.read()
@@ -74,7 +74,7 @@ def test_file_format_standards():
         assert crl.next_update is not None
     
     # Test user public key format
-    user_pubkey_path = "data/user_keys/测试用户_public_key.pem"
+    user_pubkey_path = "data/user_keys/test_user_public_key.pem"
     if os.path.exists(user_pubkey_path):
         with open(user_pubkey_path, "rb") as f:
             pubkey_data = f.read()

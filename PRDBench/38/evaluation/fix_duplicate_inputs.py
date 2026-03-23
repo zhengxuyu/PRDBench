@@ -1,33 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-修复测试计划中test_command和test_input重复的问题
-当test_command中已经包含输入序列时，应该清空test_input
+ModifyRecoveryTestDesignPlanintest_commandandtest_inputWeightRecoveryIssue
+Whentest_commandinAlreadyEconomyContainsOutputInputSequenceSeriesTime，ShouldThisCleanEmptytest_input
 """
 
 import json
 import re
 
 def load_test_plan():
-    """加载测试计划"""
+    """LoadTestDesignPlan"""
     with open('detailed_test_plan.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def save_test_plan(tests):
-    """保存测试计划"""
+    """SaveTestDesignPlan"""
     with open('detailed_test_plan.json', 'w', encoding='utf-8') as f:
         json.dump(tests, f, ensure_ascii=False, indent=4)
 
 def extract_input_from_command(command):
-    """从命令中提取输入序列"""
-    # 匹配 echo -e "输入序列"
+    """fromCommandinExtractGetOutputInputSequenceSeries"""
+    # HorseMatch echo -e "OutputInputSequenceSeries"
     match = re.search(r'echo -e "([^"]+)"', command)
     if match:
         return match.group(1)
     return None
 
 def fix_duplicate_inputs():
-    """修复重复输入问题"""
+    """ModifyRecoveryWeightRecoveryOutputInputIssue"""
     tests = load_test_plan()
     
     file_comparison_tests = []
@@ -37,8 +37,8 @@ def fix_duplicate_inputs():
         if test.get('type') == 'file_comparison':
             file_comparison_tests.append(test)
     
-    print(f"找到 {len(file_comparison_tests)} 个file_comparison测试")
-    print("\n检查重复输入问题：")
+    print(f"Found {len(file_comparison_tests)} item(s)file_comparisonTest")
+    print("\nCheckWeightRecoveryOutputInputIssue：")
     print("="*80)
     
     for i, test in enumerate(file_comparison_tests, 1):
@@ -48,50 +48,50 @@ def fix_duplicate_inputs():
         test_input = testcase.get('test_input', '')
         
         print(f"\n{i}. {metric}")
-        print(f"   命令: {test_command}")
-        print(f"   输入: {test_input}")
+        print(f"   Command: {test_command}")
+        print(f"   OutputInput: {test_input}")
         
-        # 从命令中提取输入序列
+        # fromCommandinExtractGetOutputInputSequenceSeries
         command_input = extract_input_from_command(test_command)
         
         if command_input and test_input:
-            # 检查是否重复
+            # CheckYesNoWeightRecovery
             if command_input == test_input:
-                print(f"   [发现重复] 命令中的输入和test_input相同")
-                print(f"   [修复] 清空test_input")
+                print(f"   [SendImplementationWeightRecovery] CommandinOutputInputandtest_inputCameraSame")
+                print(f"   [ModifyRecovery] CleanEmptytest_input")
                 
-                # 修复：清空test_input
+                # ModifyRecovery：CleanEmptytest_input
                 for test_item in tests:
                     if test_item.get('metric') == metric:
                         test_item['testcases'][0]['test_input'] = None
                         fixed_count += 1
                         break
             elif command_input:
-                print(f"   [检查] 命令输入: {command_input}")
-                print(f"   [检查] test_input: {test_input}")
-                print(f"   [状态] 输入不同，需要手动检查")
+                print(f"   [Check] CommandOutputInput: {command_input}")
+                print(f"   [Check] test_input: {test_input}")
+                print(f"   [Status] OutputInputNotSame，NeedHandAutoCheck")
         elif command_input and not test_input:
-            print(f"   [正常] 只有命令中有输入")
+            print(f"   [Normal] OnlyHasCommandinHasOutputInput")
         elif not command_input and test_input:
-            print(f"   [正常] 只有test_input有输入")
+            print(f"   [Normal] OnlyHastest_inputHasOutputInput")
         else:
-            print(f"   [正常] 都没有输入")
+            print(f"   [Normal] AllNotHasOutputInput")
     
     print(f"\n{'='*80}")
-    print(f"修复完成！共修复了 {fixed_count} 个重复输入问题")
+    print(f"ModifyRecoveryCompleteSuccess！TotalModifyRecovery {fixed_count} item(s)WeightRecoveryOutputInputIssue")
     
     if fixed_count > 0:
         save_test_plan(tests)
-        print("已保存修复后的测试计划")
+        print("AlreadySaveModifyRecoveryafterTestDesignPlan")
     
     return fixed_count
 
 def verify_fixes():
-    """验证修复结果"""
+    """VerifyModifyRecoveryResult"""
     tests = load_test_plan()
     
     print(f"\n{'='*80}")
-    print("验证修复结果：")
+    print("VerifyModifyRecoveryResult：")
     print('='*80)
     
     file_comparison_tests = [test for test in tests if test.get('type') == 'file_comparison']
@@ -108,31 +108,31 @@ def verify_fixes():
         
         if command_input and test_input:
             if command_input == test_input:
-                print(f"   [警告] 仍然存在重复输入！")
+                print(f"   [Warning] StillSaveinWeightRecoveryOutputInput！")
             else:
-                print(f"   [正常] 输入不重复")
+                print(f"   [Normal] OutputInputNotWeightRecovery")
         elif command_input and not test_input:
-            print(f"   [正常] 只有命令输入")
+            print(f"   [Normal] OnlyHasCommandOutputInput")
         elif not command_input and test_input:
-            print(f"   [正常] 只有test_input")
+            print(f"   [Normal] OnlyHastest_input")
         else:
-            print(f"   [正常] 无输入")
+            print(f"   [Normal] NoOutputInput")
 
 def main():
-    """主函数"""
-    print("File Comparison 测试用例重复输入修复工具")
+    """MainFunctionNumber"""
+    print("File Comparison Test CaseWeightRecoveryOutputInputModifyRecoveryTool")
     print("="*80)
     
-    # 修复重复输入
+    # ModifyRecoveryWeightRecoveryOutputInput
     fixed_count = fix_duplicate_inputs()
     
-    # 验证修复结果
+    # VerifyModifyRecoveryResult
     verify_fixes()
     
     print(f"\n{'='*80}")
-    print("修复总结:")
-    print(f"- 共修复 {fixed_count} 个重复输入问题")
-    print("- 所有file_comparison测试用例已检查完毕")
+    print("ModifyRecoverySummary:")
+    print(f"- TotalModifyRecovery {fixed_count} item(s)WeightRecoveryOutputInputIssue")
+    print("- PlaceHasfile_comparisonTest CaseAlreadyCheckCompleteComplete")
     
     return fixed_count > 0
 

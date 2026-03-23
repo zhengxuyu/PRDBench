@@ -83,7 +83,7 @@ L 488.72 271.835
 " clip-path="url(#pc5f794ec96)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_1">
-      <!-- 领导与激励 -->
+      <!-- leadershipandmotivation -->
       <g transform="translate(472.72 275.889687) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-9886" d="M 5275 4775 
@@ -465,7 +465,7 @@ L 266.96 50.075
 " clip-path="url(#pc5f794ec96)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_2">
-      <!-- 计划组织 -->
+      <!-- DesignplanGrouporganization -->
       <g transform="translate(242.96 40.0125) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-8ba1" d="M 3925 3100 
@@ -718,7 +718,7 @@ L 45.2 271.835
 " clip-path="url(#pc5f794ec96)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_3">
-      <!-- 决策创新 -->
+      <!-- DecisioncreateNew -->
       <g transform="translate(7.2 275.96) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-51b3" d="M 3400 3700 
@@ -1018,7 +1018,7 @@ L 266.96 493.595
 " clip-path="url(#pc5f794ec96)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_4">
-      <!-- 专业控制 -->
+      <!-- professionalControl -->
       <g transform="translate(242.96 511.602812) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-4e13" d="M 4450 -600 
@@ -1679,7 +1679,7 @@ z
     </g>
    </g>
    <g id="text_14">
-    <!-- 管理技能雷达图 -->
+    <!-- Managementskillradar chart -->
     <g transform="translate(210.96 20.075) scale(0.16 -0.16)">
      <defs>
       <path id="SimHei-7ba1" d="M 4975 2550 

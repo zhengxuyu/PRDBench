@@ -1,5 +1,5 @@
 """
-数据展示功能单元测试
+Data Display Functionality Unit Tests
 """
 import pytest
 import pandas as pd
@@ -9,7 +9,7 @@ from datetime import datetime
 import sys
 import os
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from display import DataDisplay
@@ -18,156 +18,156 @@ from data_generator import DataGenerator
 
 
 class TestDisplayFunctionality:
-    
+
     def setup_method(self):
-        """设置测试数据"""
+        """Set up test data"""
         self.display = DataDisplay()
         self.processor = DataProcessor()
         self.generator = DataGenerator()
-        
-        # 生成完整的处理数据
+
+        # Generate complete processed data
         store_df, sales_df, warehouse_df = self.generator.generate_all_data(10, 100)
         self.processor.load_data(store_df, sales_df, warehouse_df)
         self.processed_df = self.processor.process_all()
         self.display.load_processed_data(self.processed_df)
-    
+
     def test_table_display_required_columns_completeness(self):
-        """测试表格数据展示必需列完整性检查"""
-        # 获取显示的数据
+        """Test table data display required columns completeness check"""
+        # Get displayed data
         df = self.processed_df.copy()
-        
-        # 验证必需的列存在
+
+        # Verify required columns exist
         required_columns = {
-            'biz_id': '业务组',
-            'trans_date': '交易日期', 
-            'store_id': '门店ID',
-            'brand_name': '品牌',
-            'org_path': '组织架构',
-            'private_domain_type': '私域类型',
-            'segment': 'RFM细分',
-            'monetary': '月均金额',
-            'value_tag': '价值标签',
-            'detail_link': '详情链接'
+            'biz_id': 'Business Group',
+            'trans_date': 'Transaction Date',
+            'store_id': 'Store ID',
+            'brand_name': 'Brand',
+            'org_path': 'Organization Path',
+            'private_domain_type': 'Private Domain Type',
+            'segment': 'RFM Segment',
+            'monetary': 'Monthly Average Amount',
+            'value_tag': 'Value Tag',
+            'detail_link': 'Detail Link'
         }
-        
-        # 验证所有必需列都存在
+
+        # Verify all required columns exist
         for col in required_columns.keys():
-            assert col in df.columns, f"缺少必需列: {col}"
-        
-        # 验证数据类型正确性
-        assert pd.api.types.is_datetime64_any_dtype(df['trans_date']), "交易日期类型错误"
-        assert pd.api.types.is_numeric_dtype(df['amount']), "交易金额类型错误"
-        
-        # 验证关键列没有全部为空
-        assert df['store_id'].notna().any(), "门店ID列全部为空"
-        assert df['segment'].notna().any(), "RFM细分列全部为空"
-    
+            assert col in df.columns, f"Missing required column: {col}"
+
+        # Verify data types are correct
+        assert pd.api.types.is_datetime64_any_dtype(df['trans_date']), "Transaction date type error"
+        assert pd.api.types.is_numeric_dtype(df['amount']), "Transaction amount type error"
+
+        # Verify key columns are not all null
+        assert df['store_id'].notna().any(), "Store ID column all null"
+        assert df['segment'].notna().any(), "RFM segment column all null"
+
     def test_table_display_data_integrity_validation(self):
-        """测试表格数据展示数据完整性验证"""
+        """Test table data display data integrity validation"""
         df = self.processed_df.copy()
-        
-        # 验证数据完整性
-        assert len(df) > 0, "处理后数据为空"
-        
-        # 验证门店ID唯一性（在同一日期下）
+
+        # Verify data integrity
+        assert len(df) > 0, "Processed data is empty"
+
+        # Verify store ID uniqueness (within same date)
         duplicate_check = df.groupby(['store_id', 'trans_date']).size().max()
-        assert duplicate_check == 1, "存在重复的门店-日期组合"
-        
-        # 验证金额数据合理性
-        assert (df['amount'] > 0).all(), "存在非正数金额"
-        assert df['amount'].notna().all(), "存在空的金额数据"
-        
-        # 验证RFM指标合理性
+        assert duplicate_check == 1, "Duplicate store-date combinations exist"
+
+        # Verify amount data reasonableness
+        assert (df['amount'] > 0).all(), "Non-positive amounts exist"
+        assert df['amount'].notna().all(), "Null amount data exists"
+
+        # Verify RFM metrics reasonableness
         if 'monetary' in df.columns:
-            assert (df['monetary'] > 0).all(), "月均金额应该为正数"
+            assert (df['monetary'] > 0).all(), "Monthly average amount should be positive"
         if 'frequency' in df.columns:
-            assert (df['frequency'] > 0).all(), "交易频次应该为正数"
+            assert (df['frequency'] > 0).all(), "Transaction frequency should be positive"
         if 'recency' in df.columns:
-            assert (df['recency'] >= 0).all(), "最近购买天数应该非负"
-        
-        # 验证细分类型合理性
+            assert (df['recency'] >= 0).all(), "Days since last purchase should be non-negative"
+
+        # Verify segment type reasonableness
         valid_segments = {
-            "重要价值客户", "重要保持客户", "重要发展客户", "重要挽留客户",
-            "一般价值客户", "一般保持客户", "一般发展客户", "一般新客户"
+            "Important Value Customer", "Important Retained Customer", "Important Development Customer", "Important Recovery Customer",
+            "General Value Customer", "General Retained Customer", "General Development Customer", "General New Customer"
         }
         segment_values = df['segment'].dropna().unique()
         for segment in segment_values:
-            assert segment in valid_segments, f"无效的细分类型: {segment}"
-    
+            assert segment in valid_segments, f"Invalid segment type: {segment}"
+
     def test_csv_export_file_comparison(self):
-        """测试CSV数据导出文件比对"""
-        # 创建临时文件
+        """Test CSV data export file comparison"""
+        # Create temporary file
         with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as tmp_file:
             test_filename = tmp_file.name
-        
+
         try:
-            # 执行导出
+            # Execute export
             export_success = self.display.export_to_csv(test_filename)
-            assert export_success, "CSV导出失败"
-            
-            # 验证文件存在
-            assert os.path.exists(test_filename), "导出文件不存在"
-            
-            # 读取导出的文件并验证
+            assert export_success, "CSV export failed"
+
+            # Verify file exists
+            assert os.path.exists(test_filename), "Export file does not exist"
+
+            # Read exported file and verify
             exported_df = pd.read_csv(test_filename, encoding='utf-8-sig')
-            
-            # 验证导出文件结构
-            assert len(exported_df) > 0, "导出文件为空"
-            assert len(exported_df.columns) > 0, "导出文件无列"
-            
-            # 验证关键列存在
+
+            # Verify exported file structure
+            assert len(exported_df) > 0, "Export file is empty"
+            assert len(exported_df.columns) > 0, "Export file has no columns"
+
+            # Verify key columns exist
             expected_columns = ['biz_id', 'store_id', 'brand_name', 'segment']
             for col in expected_columns:
                 if col in self.processed_df.columns:
-                    assert col in exported_df.columns, f"导出文件缺少列: {col}"
-            
-            # 验证数据一致性（记录数应该匹配）
+                    assert col in exported_df.columns, f"Export file missing column: {col}"
+
+            # Verify data consistency (record count should match)
             expected_records = len(self.processed_df)
             actual_records = len(exported_df)
-            assert actual_records == expected_records, f"记录数不匹配: 期望{expected_records}, 实际{actual_records}"
-            
-            # 验证数据内容
+            assert actual_records == expected_records, f"Record count mismatch: expected {expected_records}, actual {actual_records}"
+
+            # Verify data content
             if 'store_id' in exported_df.columns:
                 exported_stores = set(exported_df['store_id'].dropna())
                 original_stores = set(self.processed_df['store_id'].dropna())
-                assert exported_stores == original_stores, "导出的门店ID不匹配"
-            
+                assert exported_stores == original_stores, "Exported store IDs don't match"
+
         finally:
-            # 清理临时文件
+            # Clean up temporary file
             if os.path.exists(test_filename):
                 os.unlink(test_filename)
-    
+
     def test_csv_export_encoding_handling(self):
-        """测试CSV导出编码处理"""
-        # 创建临时文件
+        """Test CSV export encoding handling"""
+        # Create temporary file
         with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as tmp_file:
             test_filename = tmp_file.name
-        
+
         try:
-            # 执行导出
+            # Execute export
             export_success = self.display.export_to_csv(test_filename)
-            assert export_success, "CSV导出失败"
-            
-            # 验证文件可以用不同编码读取
+            assert export_success, "CSV export failed"
+
+            # Verify file can be read with different encodings
             try:
-                # 尝试UTF-8-SIG编码
+                # Try UTF-8-SIG encoding
                 df_utf8_sig = pd.read_csv(test_filename, encoding='utf-8-sig')
-                assert len(df_utf8_sig) > 0, "UTF-8-SIG编码读取失败"
+                assert len(df_utf8_sig) > 0, "UTF-8-SIG encoding read failed"
             except UnicodeDecodeError:
-                pytest.fail("UTF-8-SIG编码读取失败")
-            
-            # 验证中文字符正确导出
+                pytest.fail("UTF-8-SIG encoding read failed")
+
+            # Verify Chinese characters are exported correctly
             if 'brand_name' in df_utf8_sig.columns:
                 chinese_brands = df_utf8_sig['brand_name'].dropna()
                 if len(chinese_brands) > 0:
-                    # 检查是否包含中文字符且没有乱码
+                    # Check if Chinese characters are included and not garbled
                     sample_brand = chinese_brands.iloc[0]
-                    assert isinstance(sample_brand, str), "品牌名称应该是字符串"
-                    # 中文字符应该正常显示，不应该是问号或其他乱码
+                    assert isinstance(sample_brand, str), "Brand name should be string"
+                    # Chinese characters should display normally, not question marks or other garbled text
                     assert '?' not in sample_brand or len(sample_brand.replace('?', '')) > 0
-            
+
         finally:
-            # 清理临时文件
+            # Clean up temporary file
             if os.path.exists(test_filename):
                 os.unlink(test_filename)
 

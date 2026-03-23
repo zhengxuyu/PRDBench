@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""密码加密存储验证测试"""
+"""Code and SaveVerifyTest"""
 
 import sys
 import os
@@ -10,44 +10,44 @@ from services.user_service import user_service
 from utils.encrypt import encryptor
 
 def setup_database():
-    """设置测试数据库"""
-    try:
-        from config.database_mode import db_mode_manager
-        # 强制切换到SQLite模式
-        db_mode_manager.switch_to_sqlite()
-        
-        # 使用统一的数据库管理器
-        from utils.database import db_manager
-        
-        return db_manager
-    except Exception as e:
-        pytest.skip(f"数据库设置失败: {str(e)}")
+ """EnsureTest Database"""
+ try:
+ from config.database_mode import db_mode_manager
+ # StrongControlSwitchChangetoSQLite Mode
+ db_mode_manager.switch_to_sqlite()
+ 
+ # UsesSystemDatabaseManager
+ from utils.database import db_manager
+ 
+ return db_manager
+ except Exception as e:
+ pytest.skip(f"DatabaseEnsureFailure: {str(e)}")
 
 def test_password_encryption():
-    """测试密码加密存储功能"""
-    db_manager = setup_database()
-    student_id = "TESTPWD001"  # 只包含字母和数字
-    password = "password123"
-    
-    try:
-        # 清理测试数据
-        db_manager.execute_update("DELETE FROM user WHERE StudentId = ?", (student_id,))
-        
-        success, result = user_service.register_user(student_id, "测试用户", password)
-        assert success, f"用户注册失败: {result}"
-        
-        # 查询密码
-        results = db_manager.execute_query("SELECT Password FROM user WHERE StudentId = ?", (student_id,))
-        assert results, "用户未保存到数据库"
-        stored_password = results[0]['Password']
-        
-        assert len(stored_password) == 32, f"密码长度不正确，应为32位"
-        assert stored_password != password, "密码未加密"
-        assert stored_password == encryptor.md5_hash(password), "MD5加密结果不正确"
-        
-        print("测试通过：密码正确加密为32位MD5哈希值")
-    finally:
-        try:
-            db_manager.execute_update("DELETE FROM user WHERE StudentId = ?", (student_id,))
-        except:
-            pass
+ """TestCode and SaveFunction"""
+ db_manager = setup_database()
+ student_id = "TESTPWD001" # ContainsCharacterandNumber
+ password = "password123"
+ 
+ try:
+ # CleanProcessorTest Data
+ db_manager.execute_update("DELETE FROM user WHERE StudentId = ?", (student_id,))
+ 
+ success, result = user_service.register_user(student_id, "Test User", password)
+ assert success, f"UserNoteFailure: {result}"
+ 
+ # QueryCode
+ results = db_manager.execute_query("SELECT Password FROM user WHERE StudentId = ?", (student_id,))
+ assert results, "UserNotSavetoDatabase"
+ stored_password = results[0]['Password']
+ 
+ assert len(stored_password) == 32, f"CodeLengthRepublicNotCorrectAccurate，Shouldas32Position"
+ assert stored_password != password, "CodeNot and "
+ assert stored_password == encryptor.md5_hash(password), "MD5 and ResultNotCorrectAccurate"
+ 
+ print("Test Passed：CodeCorrectAccurate and as32PositionMD5HasselbladValue")
+ finally:
+ try:
+ db_manager.execute_update("DELETE FROM user WHERE StudentId = ?", (student_id,))
+ except:
+ pass

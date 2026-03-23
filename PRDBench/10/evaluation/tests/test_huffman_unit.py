@@ -2,14 +2,14 @@ import pytest
 import sys
 import os
 
-# 将src目录添加到Python路径中，以便可以导入其中的模块
+# Add the src directory to the Python path to import modules from it
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 from huffman import build_huffman_tree, generate_huffman_codes, Node
 
 def test_build_huffman_tree():
     """
-    测试 build_huffman_tree 函数是否能正确构建哈夫曼树。
+    Test if the build_huffman_tree function correctly builds a Huffman tree.
     """
     freq_map = {'a': 5, 'b': 9, 'c': 12, 'd': 13, 'e': 16, 'f': 45}
     tree = build_huffman_tree(freq_map)
@@ -19,13 +19,13 @@ def test_build_huffman_tree():
 
 def test_generate_huffman_codes():
     """
-    测试 generate_huffman_codes 函数是否能正确生成哈夫曼编码。
+    Test if the generate_huffman_codes function correctly generates Huffman codes.
     """
     freq_map = {'a': 5, 'b': 9, 'c': 12, 'd': 13, 'e': 16, 'f': 45}
     tree = build_huffman_tree(freq_map)
     codes = generate_huffman_codes(tree)
-    
-    # 验证特定字符的编码是否符合预期（基于标准哈夫曼编码规则）
+
+    # Verify that the encoding for specific characters meets expectations (based on standard Huffman encoding rules)
     assert codes['f'] == '0'
     assert codes['c'] == '100'
     assert codes['d'] == '101'
@@ -36,7 +36,7 @@ def test_generate_huffman_codes():
 
 def test_build_tree_with_insufficient_nodes():
     """
-    测试 build_huffman_tree 函数在输入节点不足时是否抛出 ValueError。
+    Test if the build_huffman_tree function raises a ValueError when input nodes are insufficient.
     """
     with pytest.raises(ValueError):
         build_huffman_tree({'a': 1})

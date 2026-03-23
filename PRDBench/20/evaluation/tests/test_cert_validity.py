@@ -14,7 +14,7 @@ def test_certificate_validity():
     ca = CertificateAuthority()
     
     # Test with existing certificate if available
-    test_cert_path = "data/certs/测试用户.pem"
+    test_cert_path = "data/certs/test_user.pem"
     if os.path.exists(test_cert_path):
         with open(test_cert_path, "rb") as f:
             cert = x509.load_pem_x509_certificate(f.read())

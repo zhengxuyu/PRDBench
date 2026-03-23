@@ -1,121 +1,121 @@
 {
-  "小微企业优惠政策": {
-    "政策名称": "小微企业税收优惠政策",
-    "适用对象": "小型微利企业",
-    "政策内容": "年应纳税所得额不超过100万元的部分，减按25%计入应纳税所得额，按20%的税率缴纳企业所得税",
-    "申请条件": [
-      "从业人数不超过300人",
-      "资产总额不超过5000万元",
-      "年度应纳税所得额不超过300万元"
+  "SME_Preferential_Policy": {
+    "policy_name": "Tax Preferential Policy for Small and Micro Enterprises",
+    "applicable_to": "Small and Low-Profit Enterprises",
+    "policy_content": "For annual taxable income not exceeding 1 million yuan, it is reduced to 25% for taxable income calculation and subject to corporate income tax at a rate of 20%",
+    "application_requirements": [
+      "Number of employees not exceeding 300",
+      "Total assets not exceeding 50 million yuan",
+      "Annual taxable income not exceeding 3 million yuan"
     ],
-    "申请材料": [
-      "企业所得税年度纳税申报表",
-      "财务报表",
-      "从业人数证明材料"
+    "required_materials": [
+      "Annual Corporate Income Tax Return",
+      "Financial Statements",
+      "Employee Count Verification Documents"
     ],
-    "政策期限": "长期有效",
-    "咨询电话": "12366"
+    "policy_duration": "Long-term effective",
+    "consultation_phone": "12366"
   },
-  "科技型中小企业研发费用加计扣除": {
-    "政策名称": "科技型中小企业研发费用加计扣除政策",
-    "适用对象": "科技型中小企业",
-    "政策内容": "企业开展研发活动中实际发生的研发费用，未形成无形资产计入当期损益的，在按规定据实扣除的基础上，按照实际发生额的100%在税前加计扣除",
-    "申请条件": [
-      "取得科技型中小企业认定",
-      "建立研发费用辅助账",
-      "实际发生研发活动"
+  "Tech_SME_RD_Deduction": {
+    "policy_name": "R&D Expense Super Deduction Policy for Technology-based SMEs",
+    "applicable_to": "Technology-based Small and Medium Enterprises",
+    "policy_content": "For R&D expenses actually incurred in R&D activities, if not forming intangible assets and recorded as current profit or loss, an additional 100% of the actual amount can be deducted before tax on the basis of prescribed deduction",
+    "application_requirements": [
+      "Obtained Technology-based SME certification",
+      "Established R&D expense subsidiary account",
+      "Actually engaged in R&D activities"
     ],
-    "申请材料": [
-      "科技型中小企业认定证书",
-      "研发费用辅助账",
-      "研发项目立项报告"
+    "required_materials": [
+      "Technology-based SME Certification",
+      "R&D Expense Subsidiary Account",
+      "R&D Project Proposal Report"
     ],
-    "政策期限": "2018年1月1日至2027年12月31日",
-    "咨询电话": "12366"
+    "policy_duration": "January 1, 2018 to December 31, 2027",
+    "consultation_phone": "12366"
   },
-  "创业担保贷款政策": {
-    "政策名称": "创业担保贷款贴息政策",
-    "适用对象": "符合条件的个人和小微企业",
-    "政策内容": "个人贷款额度最高20万元，小微企业贷款额度最高300万元，由财政部门给予贴息支持",
-    "申请条件": [
-      "在法定劳动年龄内，具有完全民事行为能力",
-      "个人信用记录良好",
-      "有创业意愿和创业能力",
-      "符合国家产业政策"
+  "Entrepreneurship_Guarantee_Loan": {
+    "policy_name": "Entrepreneurship Guarantee Loan Interest Subsidy Policy",
+    "applicable_to": "Qualified individuals and small and micro enterprises",
+    "policy_content": "Individual loan limit up to 200,000 yuan, small and micro enterprise loan limit up to 3 million yuan, with interest subsidy provided by finance departments",
+    "application_requirements": [
+      "Within legal working age with full civil capacity",
+      "Good personal credit record",
+      "Entrepreneurial intention and capability",
+      "Comply with national industrial policies"
     ],
-    "申请材料": [
-      "创业担保贷款申请表",
-      "身份证明",
-      "营业执照",
-      "经营场所证明"
+    "required_materials": [
+      "Entrepreneurship Guarantee Loan Application Form",
+      "Identity Proof",
+      "Business License",
+      "Business Location Proof"
     ],
-    "政策期限": "长期有效",
-    "咨询电话": "当地人社部门"
+    "policy_duration": "Long-term effective",
+    "consultation_phone": "Local Human Resources and Social Security Department"
   },
-  "高新技术企业认定": {
-    "政策名称": "高新技术企业认定及税收优惠",
-    "适用对象": "高新技术企业",
-    "政策内容": "认定为高新技术企业，减按15%的税率征收企业所得税",
-    "申请条件": [
-      "企业申请认定时须注册成立一年以上",
-      "企业通过自主研发、受让、受赠、并购等方式，获得对其主要产品（服务）在技术上发挥核心支持作用的知识产权的所有权",
-      "对企业主要产品（服务）发挥核心支持作用的技术属于《国家重点支持的高新技术领域》规定的范围",
-      "企业从事研发和相关技术创新活动的科技人员占企业当年职工总数的比例不低于10%",
-      "企业近三个会计年度的研究开发费用总额占同期销售收入总额的比例符合要求",
-      "近一年高新技术产品（服务）收入占企业同期总收入的比例不低于60%",
-      "企业创新能力评价应达到相应要求",
-      "企业申请认定前一年内未发生重大安全、重大质量事故或严重环境违法行为"
+  "High_Tech_Enterprise_Certification": {
+    "policy_name": "High-tech Enterprise Certification and Tax Preferential Treatment",
+    "applicable_to": "High-tech Enterprises",
+    "policy_content": "Certified as high-tech enterprise, subject to corporate income tax at a reduced rate of 15%",
+    "application_requirements": [
+      "Enterprise must be registered for more than one year at the time of application",
+      "Enterprise has obtained ownership of intellectual property that plays a core supporting role in technology for its main products (services) through independent R&D, transfer, donation, acquisition, etc.",
+      "Technology that plays a core supporting role for the enterprise's main products (services) belongs to the scope specified in the 'National Key Supported High-tech Fields'",
+      "Scientific and technical personnel engaged in R&D and related technological innovation activities account for no less than 10% of the total number of employees in the current year",
+      "The ratio of total R&D expenses for the past three fiscal years to total sales revenue during the same period meets requirements",
+      "High-tech product (service) revenue in the most recent year accounts for no less than 60% of the enterprise's total revenue during the same period",
+      "Enterprise innovation capability evaluation should meet corresponding requirements",
+      "The enterprise has not experienced major safety accidents, major quality accidents, or serious environmental violations in the year prior to application"
     ],
-    "申请材料": [
-      "高新技术企业认定申请书",
-      "证明企业依法成立的相关注册登记证件",
-      "知识产权相关材料",
-      "人员情况证明材料",
-      "企业财务会计报告",
-      "研发费用结构明细表"
+    "required_materials": [
+      "High-tech Enterprise Certification Application",
+      "Registration certificates proving legal establishment of the enterprise",
+      "Intellectual property related materials",
+      "Personnel situation proof materials",
+      "Enterprise financial accounting reports",
+      "R&D expense structure detail table"
     ],
-    "政策期限": "高新技术企业证书有效期为三年",
-    "咨询电话": "当地科技主管部门"
+    "policy_duration": "High-tech enterprise certificate is valid for three years",
+    "consultation_phone": "Local Science and Technology Authority"
   },
-  "专精特新小巨人企业": {
-    "政策名称": "专精特新小巨人企业培育支持政策",
-    "适用对象": "专精特新小巨人企业",
-    "政策内容": "中央财政对专精特新小巨人企业按照不超过核定支持标准的60%给予奖励支持资金",
-    "申请条件": [
-      "从事特定细分市场时间达到2年以上",
-      "上年度营业收入在1000万元以上",
-      "近2年主营业务收入或净利润的平均增长率达到5%以上",
-      "企业资产负债率不高于70%",
-      "近2年营业收入复合增长率不低于5%或近2年营业收入复合增长率不低于10%"
+  "Specialized_Little_Giant": {
+    "policy_name": "Specialized and Sophisticated 'Little Giant' Enterprise Cultivation Support Policy",
+    "applicable_to": "Specialized and Sophisticated 'Little Giant' Enterprises",
+    "policy_content": "Central finance provides reward support funds to specialized and sophisticated 'Little Giant' enterprises at no more than 60% of the approved support standard",
+    "application_requirements": [
+      "Engaged in specific niche market for more than 2 years",
+      "Operating revenue in the previous year exceeds 10 million yuan",
+      "Average growth rate of main business revenue or net profit in the past 2 years reaches more than 5%",
+      "Enterprise debt-to-asset ratio not higher than 70%",
+      "Compound annual growth rate of operating revenue in the past 2 years not less than 5% or compound annual growth rate of operating revenue in the past 2 years not less than 10%"
     ],
-    "申请材料": [
-      "专精特新小巨人企业申报书",
-      "企业营业执照",
-      "上年度审计报告",
-      "知识产权证明材料",
-      "主要产品检测报告"
+    "required_materials": [
+      "Specialized and Sophisticated 'Little Giant' Enterprise Application Form",
+      "Enterprise Business License",
+      "Audit report for the previous year",
+      "Intellectual property proof materials",
+      "Main product testing reports"
     ],
-    "政策期限": "根据年度通知执行",
-    "咨询电话": "当地工信主管部门"
+    "policy_duration": "Implemented according to annual notice",
+    "consultation_phone": "Local Industry and Information Technology Authority"
   },
-  "中小企业发展专项资金": {
-    "政策名称": "中小企业发展专项资金支持政策",
-    "适用对象": "中小企业",
-    "政策内容": "支持中小企业公共服务体系和融资服务体系建设，引导社会资源为中小企业服务",
-    "申请条件": [
-      "在中华人民共和国境内注册的中小企业",
-      "具有独立法人资格",
-      "财务管理制度健全",
-      "无不良信用记录"
+  "SME_Development_Special_Fund": {
+    "policy_name": "SME Development Special Fund Support Policy",
+    "applicable_to": "Small and Medium Enterprises",
+    "policy_content": "Support the construction of SME public service system and financing service system, guide social resources to serve SMEs",
+    "application_requirements": [
+      "SME registered within the territory of the People's Republic of China",
+      "Has independent legal entity status",
+      "Sound financial management system",
+      "No adverse credit records"
     ],
-    "申请材料": [
-      "项目申报书",
-      "企业营业执照",
-      "项目可行性研究报告",
-      "企业财务报表",
-      "项目预算书"
+    "required_materials": [
+      "Project Application Form",
+      "Enterprise Business License",
+      "Project Feasibility Study Report",
+      "Enterprise Financial Statements",
+      "Project Budget"
     ],
-    "政策期限": "根据年度通知执行",
-    "咨询电话": "当地中小企业主管部门"
+    "policy_duration": "Implemented according to annual notice",
+    "consultation_phone": "Local SME Authority"
   }
 }

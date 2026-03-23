@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script for logging functionality (2.3.3b 日志记录)
+Test script for logging functionality (2.3.3b Logging)
 This script tests that the application properly logs command execution to activity.log
 """
 

@@ -1,5 +1,5 @@
 """
-时间序列分解单元测试
+Time Series Decomposition Unit Tests
 """
 import pytest
 import pandas as pd
@@ -7,7 +7,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import sys
 import os
-# 添加src目录到Python路径
+# Add src directory to Python path
 src_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'src')
 sys.path.insert(0, src_path)
 
@@ -15,70 +15,70 @@ from data_processor import DataProcessor
 
 
 class TestTimeSeriesDecomposition:
-    
+
     def setup_method(self):
-        """设置测试数据"""
+        """Set up test data"""
         self.processor = DataProcessor()
-        
-        # 创建足够的时间序列数据用于STL分解
-        dates = pd.date_range('2023-01-01', periods=180, freq='D')  # 6个月数据
-        
-        # 创建包含趋势和季节性的模拟数据
+
+        # Create sufficient time series data for STL decomposition
+        dates = pd.date_range('2023-01-01', periods=180, freq='D')  # 6 months data
+
+        # Create simulated data with trend and seasonality
         self.time_series_data = []
         for i, date in enumerate(dates):
-            # 模拟3个门店的数据
+            # Simulate data for 3 stores
             for store_id in ['S001', 'S002', 'S003']:
-                # 添加趋势（增长）+ 季节性（周期性变化）+ 随机噪声
-                trend = 1000 + i * 5  # 增长趋势
-                seasonal = 200 * np.sin(2 * np.pi * i / 30)  # 月度季节性
-                noise = np.random.normal(0, 50)  # 随机噪声
-                amount = max(100, trend + seasonal + noise)  # 确保金额为正
-                
+                # Add trend (growth) + seasonality (periodic variation) + random noise
+                trend = 1000 + i * 5  # Growth trend
+                seasonal = 200 * np.sin(2 * np.pi * i / 30)  # Monthly seasonality
+                noise = np.random.normal(0, 50)  # Random noise
+                amount = max(100, trend + seasonal + noise)  # Ensure positive amount
+
                 self.time_series_data.append({
                     'store_id': store_id,
                     'trans_date': date,
                     'amount': amount
                 })
-        
+
         self.ts_df = pd.DataFrame(self.time_series_data)
-    
+
     def test_stl_decomposition_execution(self):
-        """测试STL分解是否成功执行"""
+        """Test STL decomposition executes successfully"""
         decomp_result = self.processor.time_series_decomposition(self.ts_df)
-        
-        # 验证返回结果包含所有门店
-        assert len(decomp_result) == 3  # 3个门店
-        
-        # 验证包含必要的列
+
+        # Verify result contains all stores
+        assert len(decomp_result) == 3  # 3 stores
+
+        # Verify necessary columns exist
         required_columns = ['store_id', 'trend', 'seasonal', 'residual']
         for col in required_columns:
             assert col in decomp_result.columns
-        
-        # 验证所有门店都有分解结果
+
+        # Verify all stores have decomposition results
         assert set(decomp_result['store_id']) == {'S001', 'S002', 'S003'}
-    
+
     def test_decomposition_components_validity(self):
-        """测试分解组件的有效性"""
+        """Test decomposition component validity"""
         decomp_result = self.processor.time_series_decomposition(self.ts_df)
-        
-        # 验证趋势项、季节项、残差项都是数值
+
+        # Verify trend, seasonal, residual components are all numeric
         assert decomp_result['trend'].notna().all()
         assert decomp_result['seasonal'].notna().all()
         assert decomp_result['residual'].notna().all()
-        
-        # 验证数值类型
+
+        # Verify data types
         assert pd.api.types.is_numeric_dtype(decomp_result['trend'])
         assert pd.api.types.is_numeric_dtype(decomp_result['seasonal'])
         assert pd.api.types.is_numeric_dtype(decomp_result['residual'])
-        
-        # 验证趋势项应该为正值（对于我们的测试数据）
+
+        # Verify trend component should be positive (for our test data)
         assert (decomp_result['trend'] > 0).all()
-    
+
     def test_insufficient_data_handling(self):
-        """测试数据不足时的处理"""
-        # 创建数据量不足的时间序列（少于6个月）
-        short_dates = pd.date_range('2023-01-01', periods=30, freq='D')  # 1个月数据
-        
+        """Test handling of insufficient data"""
+        # Create time series with insufficient data (less than 6 months)
+        short_dates = pd.date_range('2023-01-01', periods=30, freq='D')  # 1 month data
+
         short_data = []
         for date in short_dates:
             short_data.append({
@@ -86,55 +86,55 @@ class TestTimeSeriesDecomposition:
                 'trans_date': date,
                 'amount': 1000 + np.random.normal(0, 100)
             })
-        
+
         short_df = pd.DataFrame(short_data)
         decomp_result = self.processor.time_series_decomposition(short_df)
-        
-        # 验证即使数据不足也能返回结果
+
+        # Verify result is returned even with insufficient data
         assert len(decomp_result) == 1
         assert decomp_result.iloc[0]['store_id'] == 'S001'
-        
-        # 验证使用简单统计代替STL分解
+
+        # Verify simple statistics used instead of STL decomposition
         assert decomp_result.iloc[0]['trend'] > 0
-        assert decomp_result.iloc[0]['seasonal'] == 0  # 数据不足时季节项为0
-    
+        assert decomp_result.iloc[0]['seasonal'] == 0  # Seasonal component is 0 when data insufficient
+
     def test_multiple_stores_processing(self):
-        """测试多门店并行处理"""
+        """Test multiple stores parallel processing"""
         decomp_result = self.processor.time_series_decomposition(self.ts_df)
-        
-        # 验证每个门店都有独立的分解结果
+
+        # Verify each store has independent decomposition result
         for store_id in ['S001', 'S002', 'S003']:
             store_result = decomp_result[decomp_result['store_id'] == store_id]
             assert len(store_result) == 1
-            
-            # 验证每个门店的分解结果都不同（由于随机性）
+
+            # Verify each store's decomposition result is different (due to randomness)
             assert store_result.iloc[0]['trend'] > 0
             assert pd.notna(store_result.iloc[0]['residual'])
-    
+
     def test_empty_data_handling(self):
-        """测试空数据处理"""
+        """Test empty data handling"""
         empty_df = pd.DataFrame(columns=['store_id', 'trans_date', 'amount'])
         decomp_result = self.processor.time_series_decomposition(empty_df)
-        
-        # 验证能够处理空数据
+
+        # Verify can handle empty data
         assert len(decomp_result) == 0
         assert list(decomp_result.columns) == ['store_id', 'trend', 'seasonal', 'residual']
-    
+
     def test_single_data_point_handling(self):
-        """测试单个数据点的处理"""
+        """Test single data point handling"""
         single_data = pd.DataFrame({
             'store_id': ['S001'],
             'trans_date': [datetime.now()],
             'amount': [1000]
         })
-        
+
         decomp_result = self.processor.time_series_decomposition(single_data)
-        
-        # 验证单个数据点也能处理
+
+        # Verify single data point can be handled
         assert len(decomp_result) == 1
-        assert decomp_result.iloc[0]['trend'] == 1000  # 趋势等于原值
-        assert decomp_result.iloc[0]['seasonal'] == 0  # 无季节性
-        assert decomp_result.iloc[0]['residual'] == 0  # 无残差
+        assert decomp_result.iloc[0]['trend'] == 1000  # Trend equals original value
+        assert decomp_result.iloc[0]['seasonal'] == 0  # No seasonality
+        assert decomp_result.iloc[0]['residual'] == 0  # No residual
 
 
 if __name__ == "__main__":

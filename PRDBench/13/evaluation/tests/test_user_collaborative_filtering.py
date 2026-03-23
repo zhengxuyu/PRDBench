@@ -4,54 +4,55 @@ import numpy as np
 import sys
 import os
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+
 
 from algorithms.collaborative_filtering import UserBasedCF
 
 
 class TestUserCollaborativeFiltering:
-    """基于用户的协同过滤单元测试"""
-    
+    """User-based collaborative filtering unit tests"""
+
     def setup_method(self):
-        """测试前准备"""
+        """Pre-test setup"""
         self.user_cf = UserBasedCF(min_interactions=3)
         
     def create_interaction_data(self):
-        """创建用户-商品交互数据"""
+        """Create user-item interaction data"""
         np.random.seed(42)
-        
-        # 创建50个用户，100个商品，500条交互记录的数据
+
+        # Create data with 50 users, 100 items, 500 interaction records
         users = range(1, 51)
         items = range(1, 101)
-        
+
         interactions = []
         interaction_id = 1
-        
-        # 为每个用户生成交互记录
+
+        # Generate interaction records for each user
         for user_id in users:
-            # 每个用户随机交互10-20个商品
+            # Each user randomly interacts with 10-20 items
             n_interactions = np.random.randint(10, 21)
             user_items = np.random.choice(items, size=n_interactions, replace=False)
-            
+
             for item_id in user_items:
-                # 生成评分，有一定的用户偏好模式
-                if user_id <= 10:  # 前10个用户偏好电子产品（item_id 1-20）
+                # Generate ratings with certain user preference patterns
+                if user_id <= 10:  # First 10 users prefer electronics (item_id 1-20)
                     if item_id <= 20:
                         rating = np.random.choice([4, 5], p=[0.3, 0.7])
                     else:
                         rating = np.random.choice([2, 3, 4], p=[0.3, 0.4, 0.3])
-                elif user_id <= 20:  # 11-20用户偏好服装（item_id 21-40）
+                elif user_id <= 20:  # Users 11-20 prefer clothing (item_id 21-40)
                     if 21 <= item_id <= 40:
                         rating = np.random.choice([4, 5], p=[0.3, 0.7])
                     else:
                         rating = np.random.choice([2, 3, 4], p=[0.3, 0.4, 0.3])
-                elif user_id <= 30:  # 21-30用户偏好图书（item_id 41-60）
+                elif user_id <= 30:  # Users 21-30 prefer books (item_id 41-60)
                     if 41 <= item_id <= 60:
                         rating = np.random.choice([4, 5], p=[0.3, 0.7])
                     else:
                         rating = np.random.choice([2, 3, 4], p=[0.3, 0.4, 0.3])
-                else:  # 其他用户随机偏好
+                else:  # Other users have random preferences
                     rating = np.random.choice([2, 3, 4, 5], p=[0.1, 0.2, 0.4, 0.3])
                 
                 interactions.append({
@@ -66,159 +67,159 @@ class TestUserCollaborativeFiltering:
         return pd.DataFrame(interactions)
     
     def test_user_cf_training(self):
-        """测试基于用户的协同过滤训练"""
-        # 准备测试数据
+        """Test user-based collaborative filtering training"""
+        # Prepare test data
         interactions_df = self.create_interaction_data()
-        
-        # 训练模型
+
+        # Train model
         self.user_cf.fit(interactions_df)
-        
-        # 验证模型训练结果
-        assert self.user_cf.user_item_matrix is not None, "应该生成用户-商品矩阵"
-        assert self.user_cf.user_similarity_matrix is not None, "应该生成用户相似度矩阵"
-        assert len(self.user_cf.user_ids) > 0, "应该有用户ID列表"
-        assert len(self.user_cf.item_ids) > 0, "应该有商品ID列表"
-        
-        # 验证矩阵维度
+
+        # Verify model training results
+        assert self.user_cf.user_item_matrix is not None, "Should generate user-item matrix"
+        assert self.user_cf.user_similarity_matrix is not None, "Should generate user similarity matrix"
+        assert len(self.user_cf.user_ids) > 0, "Should have user ID list"
+        assert len(self.user_cf.item_ids) > 0, "Should have item ID list"
+
+        # Verify matrix dimensions
         n_users = len(self.user_cf.user_ids)
         n_items = len(self.user_cf.item_ids)
-        
-        assert self.user_cf.user_item_matrix.shape == (n_users, n_items), "用户-商品矩阵维度应该正确"
-        assert self.user_cf.user_similarity_matrix.shape == (n_users, n_users), "用户相似度矩阵维度应该正确"
-        
-        # 验证相似度矩阵的对称性和对角线
+
+        assert self.user_cf.user_item_matrix.shape == (n_users, n_items), "User-item matrix dimensions should be correct"
+        assert self.user_cf.user_similarity_matrix.shape == (n_users, n_users), "User similarity matrix dimensions should be correct"
+
+        # Verify symmetry and diagonal of similarity matrix
         similarity_matrix = self.user_cf.user_similarity_matrix
-        assert np.allclose(similarity_matrix, similarity_matrix.T), "相似度矩阵应该是对称的"
-        
+        assert np.allclose(similarity_matrix, similarity_matrix.T), "Similarity matrix should be symmetric"
+
         diagonal = np.diag(similarity_matrix)
-        assert np.allclose(diagonal, 1.0), "相似度矩阵对角线应该全为1"
+        assert np.allclose(diagonal, 1.0), "Similarity matrix diagonal should be all 1s"
     
     def test_user_similarity_calculation(self):
-        """测试用户相似度计算"""
+        """Test user similarity calculation"""
         interactions_df = self.create_interaction_data()
         self.user_cf.fit(interactions_df)
-        
-        # 测试相似度计算
+
+        # Test similarity calculation
         user1, user2 = 1, 2
         similarity = self.user_cf.get_user_similarity(user1, user2)
-        
-        # 验证相似度值
-        assert isinstance(similarity, (float, np.floating)), "相似度应该是浮点数"
-        assert -1 <= similarity <= 1, "余弦相似度应该在[-1,1]范围内"
-        
-        # 测试用户与自己的相似度
+
+        # Verify similarity value
+        assert isinstance(similarity, (float, np.floating)), "Similarity should be float"
+        assert -1 <= similarity <= 1, "Cosine similarity should be in [-1,1] range"
+
+        # Test user's similarity with itself
         self_similarity = self.user_cf.get_user_similarity(user1, user1)
-        assert abs(self_similarity - 1.0) < 0.001, "用户与自己的相似度应该接近1"
-        
-        # 测试不存在用户的相似度
+        assert abs(self_similarity - 1.0) < 0.001, "User's similarity with itself should be close to 1"
+
+        # Test non-existent user similarity
         non_exist_similarity = self.user_cf.get_user_similarity(999, 1000)
-        assert non_exist_similarity == 0.0, "不存在用户的相似度应该为0"
-        
-        # 验证相似用户识别
-        # 基于我们的数据生成逻辑，前10个用户应该有较高相似度
-        similar_users_sim = self.user_cf.get_user_similarity(1, 5)  # 都偏好电子产品
-        different_users_sim = self.user_cf.get_user_similarity(1, 15)  # 不同偏好
-        
-        # 注意：由于随机性，这个测试可能不稳定，所以只做基本验证
-        assert isinstance(similar_users_sim, (float, np.floating)), "相似用户相似度计算应该正常"
-        assert isinstance(different_users_sim, (float, np.floating)), "不同用户相似度计算应该正常"
+        assert non_exist_similarity == 0.0, "Non-existent user similarity should be 0"
+
+        # Verify similar user identification
+        # Based on our data generation logic, first 10 users should have higher similarity
+        similar_users_sim = self.user_cf.get_user_similarity(1, 5)  # Both prefer electronics
+        different_users_sim = self.user_cf.get_user_similarity(1, 15)  # Different preferences
+
+        # Note: Due to randomness, this test may be unstable, so only basic verification
+        assert isinstance(similar_users_sim, (float, np.floating)), "Similar user similarity calculation should be normal"
+        assert isinstance(different_users_sim, (float, np.floating)), "Different user similarity calculation should be normal"
     
     def test_user_recommendation(self):
-        """测试基于用户的推荐功能"""
+        """Test user-based recommendation function"""
         interactions_df = self.create_interaction_data()
         self.user_cf.fit(interactions_df)
-        
-        # 为用户生成推荐
+
+        # Generate recommendations for user
         user_id = 1
         recommendations = self.user_cf.recommend(user_id, top_n=10)
-        
-        # 验证推荐结果
-        assert len(recommendations) <= 10, "推荐数量不应该超过top_n"
-        assert isinstance(recommendations, list), "推荐结果应该是列表"
-        
-        # 验证推荐结果格式
+
+        # Verify recommendation results
+        assert len(recommendations) <= 10, "Number of recommendations should not exceed top_n"
+        assert isinstance(recommendations, list), "Recommendation results should be a list"
+
+        # Verify recommendation result format
         for item_id, predicted_rating in recommendations:
-            assert isinstance(item_id, (int, np.integer)), "商品ID应该是整数"
-            assert isinstance(predicted_rating, (float, np.floating)), "预测评分应该是浮点数"
-            assert predicted_rating > 0, "预测评分应该为正数"
-        
-        # 验证推荐结果按预测评分降序排列
+            assert isinstance(item_id, (int, np.integer)), "Item ID should be integer"
+            assert isinstance(predicted_rating, (float, np.floating)), "Predicted rating should be float"
+            assert predicted_rating > 0, "Predicted rating should be positive"
+
+        # Verify recommendations are sorted by predicted rating in descending order
         ratings = [rating for _, rating in recommendations]
-        assert ratings == sorted(ratings, reverse=True), "推荐结果应该按预测评分降序排列"
-        
-        # 验证不推荐已评分商品（默认行为）
+        assert ratings == sorted(ratings, reverse=True), "Recommendations should be sorted by predicted rating in descending order"
+
+        # Verify not recommending already rated items (default behavior)
         user_rated_items = set(interactions_df[interactions_df['user_id'] == user_id]['item_id'])
         recommended_items = set([item_id for item_id, _ in recommendations])
         overlap = user_rated_items.intersection(recommended_items)
-        assert len(overlap) == 0, "默认情况下不应该推荐已评分商品"
+        assert len(overlap) == 0, "By default should not recommend already rated items"
     
     def test_cold_start_handling(self):
-        """测试冷启动处理"""
+        """Test cold start handling"""
         interactions_df = self.create_interaction_data()
         self.user_cf.fit(interactions_df)
-        
-        # 测试新用户推荐（冷启动）
-        new_user_id = 999  # 不存在的用户
+
+        # Test new user recommendation (cold start)
+        new_user_id = 999  # Non-existent user
         recommendations = self.user_cf.recommend(new_user_id, top_n=5)
-        
-        # 验证冷启动推荐
-        assert isinstance(recommendations, list), "冷启动推荐应该返回列表"
-        assert len(recommendations) <= 5, "冷启动推荐数量不应该超过top_n"
-        
-        # 冷启动应该推荐热门商品
+
+        # Verify cold start recommendations
+        assert isinstance(recommendations, list), "Cold start recommendations should return a list"
+        assert len(recommendations) <= 5, "Cold start recommendation count should not exceed top_n"
+
+        # Cold start should recommend popular items
         if len(recommendations) > 0:
             for item_id, rating in recommendations:
-                assert isinstance(item_id, (int, np.integer)), "推荐商品ID应该是整数"
-                assert isinstance(rating, (float, np.floating)), "推荐评分应该是浮点数"
-                assert rating > 0, "推荐评分应该为正数"
+                assert isinstance(item_id, (int, np.integer)), "Recommended item ID should be integer"
+                assert isinstance(rating, (float, np.floating)), "Recommended rating should be float"
+                assert rating > 0, "Recommended rating should be positive"
     
     def test_min_interactions_filtering(self):
-        """测试最小交互次数过滤"""
+        """Test minimum interaction count filtering"""
         interactions_df = self.create_interaction_data()
-        
-        # 创建一个要求更高最小交互次数的模型
+
+        # Create a model with higher minimum interaction count requirement
         strict_cf = UserBasedCF(min_interactions=15)
         strict_cf.fit(interactions_df)
-        
-        # 创建一个要求较低最小交互次数的模型
+
+        # Create a model with lower minimum interaction count requirement
         lenient_cf = UserBasedCF(min_interactions=5)
         lenient_cf.fit(interactions_df)
-        
-        # 验证过滤效果
-        assert len(strict_cf.user_ids) <= len(lenient_cf.user_ids), "更严格的过滤应该保留更少的用户"
-        
-        # 验证所有保留的用户都满足最小交互次数要求
+
+        # Verify filtering effect
+        assert len(strict_cf.user_ids) <= len(lenient_cf.user_ids), "Stricter filtering should retain fewer users"
+
+        # Verify all retained users meet minimum interaction count requirement
         for user_id in strict_cf.user_ids:
             user_interaction_count = len(interactions_df[interactions_df['user_id'] == user_id])
-            assert user_interaction_count >= 15, f"用户{user_id}的交互次数应该≥15"
+            assert user_interaction_count >= 15, f"User {user_id} interaction count should be ≥15"
     
     def test_recommendation_diversity_and_coverage(self):
-        """测试推荐多样性和覆盖率"""
+        """Test recommendation diversity and coverage"""
         interactions_df = self.create_interaction_data()
         self.user_cf.fit(interactions_df)
-        
-        # 为多个用户生成推荐
+
+        # Generate recommendations for multiple users
         all_recommendations = set()
-        users_to_test = self.user_cf.user_ids[:10]  # 测试前10个用户
-        
+        users_to_test = self.user_cf.user_ids[:10]  # Test first 10 users
+
         for user_id in users_to_test:
             recommendations = self.user_cf.recommend(user_id, top_n=10)
             for item_id, _ in recommendations:
                 all_recommendations.add(item_id)
-        
-        # 验证推荐覆盖率
+
+        # Verify recommendation coverage
         total_items = len(self.user_cf.item_ids)
         coverage = len(all_recommendations) / total_items
-        
-        assert coverage > 0.1, f"推荐覆盖率应该>10%，实际为{coverage:.2%}"
-        
-        # 验证推荐不是所有用户都完全相同
+
+        assert coverage > 0.1, f"Recommendation coverage should be >10%, actual: {coverage:.2%}"
+
+        # Verify recommendations are not completely identical for all users
         user_recs = {}
         for user_id in users_to_test[:5]:
             recommendations = self.user_cf.recommend(user_id, top_n=5)
             user_recs[user_id] = set([item_id for item_id, _ in recommendations])
-        
-        # 计算用户间推荐重叠率
+
+        # Calculate recommendation overlap between users
         overlaps = []
         user_list = list(user_recs.keys())
         for i in range(len(user_list)):
@@ -228,90 +229,90 @@ class TestUserCollaborativeFiltering:
                 if len(user1_recs) > 0 and len(user2_recs) > 0:
                     overlap = len(user1_recs.intersection(user2_recs)) / len(user1_recs.union(user2_recs))
                     overlaps.append(overlap)
-        
+
         if overlaps:
             avg_overlap = np.mean(overlaps)
-            assert avg_overlap < 0.8, f"用户间推荐重叠率应该<80%，实际为{avg_overlap:.2%}"
+            assert avg_overlap < 0.8, f"Recommendation overlap between users should be <80%, actual: {avg_overlap:.2%}"
     
     def test_rating_prediction_accuracy(self):
-        """测试评分预测准确性"""
+        """Test rating prediction accuracy"""
         interactions_df = self.create_interaction_data()
-        
-        # 分割训练测试集
+
+        # Split train/test set
         train_size = int(0.8 * len(interactions_df))
         train_df = interactions_df.iloc[:train_size]
         test_df = interactions_df.iloc[train_size:]
-        
-        # 训练模型
+
+        # Train model
         self.user_cf.fit(train_df)
-        
-        # 预测测试集评分
+
+        # Predict test set ratings
         predictions = []
         actuals = []
-        
-        for _, row in test_df.head(50).iterrows():  # 只测试前50条避免过慢
+
+        for _, row in test_df.head(50).iterrows():  # Only test first 50 to avoid slowness
             user_id = row['user_id']
             item_id = row['item_id']
             actual_rating = row['rating']
-            
+
             if user_id in self.user_cf.user_id_to_index and item_id in self.user_cf.item_id_to_index:
-                # 生成推荐并查找该商品的预测评分
+                # Generate recommendations and find predicted rating for this item
                 recommendations = self.user_cf.recommend(user_id, top_n=100, exclude_rated=False)
-                
+
                 predicted_rating = None
                 for rec_item_id, rec_rating in recommendations:
                     if rec_item_id == item_id:
                         predicted_rating = rec_rating
                         break
-                
+
                 if predicted_rating is not None:
                     predictions.append(predicted_rating)
                     actuals.append(actual_rating)
-        
-        # 计算预测准确性
-        if len(predictions) > 10:  # 至少有10个预测
+
+        # Calculate prediction accuracy
+        if len(predictions) > 10:  # At least 10 predictions
             mae = np.mean(np.abs(np.array(predictions) - np.array(actuals)))
             rmse = np.sqrt(np.mean((np.array(predictions) - np.array(actuals)) ** 2))
-            
-            # 评分范围是1-5，合理的MAE应该<2，RMSE应该<2.5
-            assert mae < 2.0, f"平均绝对误差应该<2.0，实际为{mae:.3f}"
-            assert rmse < 2.5, f"均方根误差应该<2.5，实际为{rmse:.3f}"
+
+            # Rating range is 1-5, reasonable MAE should be <2, RMSE should be <2.5
+            assert mae < 2.0, f"Mean absolute error should be <2.0, actual: {mae:.3f}"
+            assert rmse < 2.5, f"Root mean square error should be <2.5, actual: {rmse:.3f}"
     
     def test_edge_cases_and_robustness(self):
-        """测试边界情况和鲁棒性"""
-        # 测试空数据
+        """Test edge cases and robustness"""
+        # Test empty data
         empty_df = pd.DataFrame(columns=['user_id', 'item_id', 'rating'])
-        
+
         with pytest.raises(Exception):
             empty_cf = UserBasedCF()
             empty_cf.fit(empty_df)
-        
-        # 测试单用户单商品
+
+        # Test single user single item
         minimal_df = pd.DataFrame({
-            'user_id': [1, 1, 1, 1, 1],  # 单用户多次交互以满足min_interactions
+            'user_id': [1, 1, 1, 1, 1],  # Single user multiple interactions to meet min_interactions
             'item_id': [1, 2, 3, 4, 5],
             'rating': [5, 4, 3, 4, 5],
             'interaction_type': ['rating'] * 5
         })
-        
+
         minimal_cf = UserBasedCF(min_interactions=3)
         minimal_cf.fit(minimal_df)
-        
-        # 单用户情况下应该能正常工作，但推荐可能为空
+
+        # Single user case should work normally, but recommendations may be empty
         recommendations = minimal_cf.recommend(1, top_n=5)
-        assert isinstance(recommendations, list), "单用户情况应该返回列表"
-        
-        # 测试极端评分数据
+        assert isinstance(recommendations, list), "Single user case should return a list"
+
+        # Test extreme rating data
         extreme_df = pd.DataFrame({
             'user_id': [1, 1, 1, 2, 2, 2],
             'item_id': [1, 2, 3, 1, 2, 3],
-            'rating': [1, 1, 1, 5, 5, 5],  # 极端评分
+            'rating': [1, 1, 1, 5, 5, 5],  # Extreme ratings
             'interaction_type': ['rating'] * 6
         })
-        
+
         extreme_cf = UserBasedCF(min_interactions=3)
         extreme_cf.fit(extreme_df)
-        
-        # 极端评分情况下应该能计算相似度
+
+        # Should be able to calculate similarity with extreme ratings
         similarity = extreme_cf.get_user_similarity(1, 2)
-        assert isinstance(similarity, (float, np.floating)), "极端评分情况下应该能计算相似度"
+        assert isinstance(similarity, (float, np.floating)), "Should be able to calculate similarity with extreme ratings"

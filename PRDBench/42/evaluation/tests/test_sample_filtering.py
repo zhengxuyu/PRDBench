@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-测试样本多维度筛选功能
+Test multi-dimensional sample filtering function
 """
 
 import pytest
@@ -14,7 +14,7 @@ from app.utils.data_processor import DataProcessor
 
 @pytest.fixture
 def app():
-    """创建测试应用"""
+    """Create test application"""
     app = create_app('testing')
     with app.app_context():
         db.create_all()
@@ -23,40 +23,40 @@ def app():
 
 @pytest.fixture
 def sample_data(app):
-    """创建测试样本数据"""
+    """Create test sample data"""
     with app.app_context():
-        # 创建测试企业
-        company1 = Company(name="测试企业A", industry="技术")
-        company2 = Company(name="测试企业B", industry="金融")
+        # Create test companies
+        company1 = Company(name="Test Company A", industry="Technology")
+        company2 = Company(name="Test Company B", industry="Finance")
         db.session.add_all([company1, company2])
         db.session.commit()
-        
-        # 创建测试问卷
-        survey1 = Survey(title="测试问卷A", company_id=company1.id, created_by=1)
-        survey2 = Survey(title="测试问卷B", company_id=company2.id, created_by=1)
+
+        # Create test surveys
+        survey1 = Survey(title="Test Survey A", company_id=company1.id, created_by=1)
+        survey2 = Survey(title="Test Survey B", company_id=company2.id, created_by=1)
         db.session.add_all([survey1, survey2])
         db.session.commit()
-        
-        # 创建测试回答数据
+
+        # Create test response data
         responses = [
-            # 企业A数据
-            SurveyResponse(survey_id=survey1.id, respondent_name="张三", department="技术部", 
-                         position="经理", management_level="中级", leadership_score=4.0),
-            SurveyResponse(survey_id=survey1.id, respondent_name="李四", department="市场部", 
-                         position="主管", management_level="初级", leadership_score=3.5),
-            SurveyResponse(survey_id=survey1.id, respondent_name="王五", department="技术部", 
-                         position="总监", management_level="高级", leadership_score=4.5),
-            
-            # 企业B数据
-            SurveyResponse(survey_id=survey2.id, respondent_name="赵六", department="财务部", 
-                         position="经理", management_level="中级", leadership_score=3.8),
-            SurveyResponse(survey_id=survey2.id, respondent_name="钱七", department="人事部", 
-                         position="主管", management_level="初级", leadership_score=3.2),
+            # Company A data
+            SurveyResponse(survey_id=survey1.id, respondent_name="Zhang San", department="Technology Department",
+                         position="Manager", management_level="Middle", leadership_score=4.0),
+            SurveyResponse(survey_id=survey1.id, respondent_name="Li Si", department="Marketing Department",
+                         position="Supervisor", management_level="Junior", leadership_score=3.5),
+            SurveyResponse(survey_id=survey1.id, respondent_name="Wang Wu", department="Technology Department",
+                         position="Director", management_level="Senior", leadership_score=4.5),
+
+            # Company B data
+            SurveyResponse(survey_id=survey2.id, respondent_name="Zhao Liu", department="Finance Department",
+                         position="Manager", management_level="Middle", leadership_score=3.8),
+            SurveyResponse(survey_id=survey2.id, respondent_name="Qian Qi", department="HR Department",
+                         position="Supervisor", management_level="Junior", leadership_score=3.2),
         ]
-        
+
         db.session.add_all(responses)
         db.session.commit()
-        
+
         return {
             'companies': [company1, company2],
             'surveys': [survey1, survey2],
@@ -64,41 +64,41 @@ def sample_data(app):
         }
 
 def test_multi_dimension_filtering(app, sample_data):
-    """测试多维度样本筛选功能"""
+    """Test multi-dimensional sample filtering function"""
     with app.app_context():
         data_processor = DataProcessor()
-        
-        # 重新查询企业对象以避免DetachedInstanceError
-        company_a = Company.query.filter_by(name="测试企业A").first()
-        
-        # 测试按企业筛选
+
+        # Re-query company objects to avoid DetachedInstanceError
+        company_a = Company.query.filter_by(name="Test Company A").first()
+
+        # Test company filtering
         company_a_responses = SurveyResponse.query.join(Survey)\
                                                  .filter(Survey.company_id == company_a.id)\
                                                  .all()
         assert len(company_a_responses) == 3
-        
-        # 测试按部门筛选
-        tech_responses = SurveyResponse.query.filter_by(department="技术部").all()
+
+        # Test department filtering
+        tech_responses = SurveyResponse.query.filter_by(department="Technology Department").all()
         assert len(tech_responses) == 2
-        
-        # 测试按管理层级筛选
-        senior_responses = SurveyResponse.query.filter_by(management_level="高级").all()
+
+        # Test management level filtering
+        senior_responses = SurveyResponse.query.filter_by(management_level="Senior").all()
         assert len(senior_responses) == 1
-        assert senior_responses[0].respondent_name == "王五"
-        
-        # 测试组合筛选：企业A + 技术部
+        assert senior_responses[0].respondent_name == "Wang Wu"
+
+        # Test combined filtering: Company A + Technology Department
         combined_responses = SurveyResponse.query.join(Survey)\
                                                 .filter(Survey.company_id == company_a.id)\
-                                                .filter(SurveyResponse.department == "技术部")\
+                                                .filter(SurveyResponse.department == "Technology Department")\
                                                 .all()
         assert len(combined_responses) == 2
-        
-        # 验证筛选结果的正确性
+
+        # Verify filtering results correctness
         names = [r.respondent_name for r in combined_responses]
-        assert "张三" in names
-        assert "王五" in names
-        
-        print("✅ 多维度样本筛选功能测试通过")
+        assert "Zhang San" in names
+        assert "Wang Wu" in names
+
+        print("✅ Multi-dimensional sample filtering function test passed")
 
 if __name__ == "__main__":
     pytest.main([__file__])

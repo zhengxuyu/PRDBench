@@ -11,48 +11,48 @@ from tta.processor import process_data
 
 def test_feedback_simplification():
     """
-    测试反馈列文本简化功能是否按预期工作。
+    Test whether the feedback column text simplification function works as expected.
     """
-    # 准备 (Arrange)
+    # Arrange
     data = {
-        '任务单号': ['TASK-001'],
-        '任务名称': ['测试任务'],
-        '测试项目': ['项目A'],
-        '设备时长': [1.0],
-        '测试状态': ['成功'],
-        '测试类型': ['类型1'],
-        '测试项目情况【反馈列】': ['试验暂无异常']
+        'Task ID': ['TASK-001'],
+        'Task Name': ['Test Task'],
+        'Test Item': ['Project A'],
+        'Equipment Duration': [1.0],
+        'Test Status': ['Success'],
+        'Test Type': ['Type 1'],
+        'Test Item Feedback': ['Trial shows no anomaly']
     }
     input_df = pd.DataFrame(data)
 
-    # 执行 (Act)
+    # Act
     result_df = process_data(input_df)
 
-    # 断言 (Assert)
+    # Assert
     assert not result_df.empty
-    assert '测试项目情况【反馈列】' in result_df.columns
-    assert result_df.loc[0, '测试项目情况【反馈列】'] == '暂无异常'
+    assert 'Test Item Feedback' in result_df.columns
+    assert result_df.loc[0, 'Test Item Feedback'] == 'No anomalies'
 
 
 def test_error_code_extraction():
     """
-    测试从反馈列中提取异常标识的功能。
+    Test the function for extracting exception identifiers from the feedback column.
     """
-    # 准备 (Arrange)
+    # Arrange
     data = {
-        '任务单号': ['TASK-002'],
-        '任务名称': ['另一个测试'],
-        '测试项目': ['项目B'],
-        '设备时长': [2.0],
-        '测试状态': ['失败'],
-        '测试类型': ['类型2'],
-        '测试项目情况【反馈列】': ['Error-404，设备重启']
+        'Task ID': ['TASK-002'],
+        'Task Name': ['Another Test'],
+        'Test Item': ['Project B'],
+        'Equipment Duration': [2.0],
+        'Test Status': ['Failure'],
+        'Test Type': ['Type 2'],
+        'Test Item Feedback': ['Error-404, Device Restart']
     }
     input_df = pd.DataFrame(data)
 
-    # 执行 (Act)
+    # Act
     result_df = process_data(input_df)
 
-    # 断言 (Assert)
-    assert '异常标识' in result_df.columns
-    assert result_df.loc[0, '异常标识'] == 'Error-404,'
+    # Assert
+    assert 'Anomaly Identifier' in result_df.columns
+    assert result_df.loc[0, 'Anomaly Identifier'] == 'Error-404,'

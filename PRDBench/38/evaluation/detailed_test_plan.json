@@ -122,7 +122,7 @@
   {
     "metric": "2.2.2 User Attribute Preference Modeling - Preference Vector Generation",
     "description": "1. **Pre-check (User Path):** In the recommendation algorithm interface, is there a \"User Preference Modeling\" option?\n2. **Arrange:** Ensure user behavior data and rating data are available.\n3. **Act:** Execute the user attribute preference modeling function.\n4. **Assert:** Verify the system generates user attribute preference vector file, vectors contain preference weights for each attribute, and supports viewing preference vector content.",
-    "type": "file_comparison",
+    "type": "shell_interaction",
     "testcases": [
       {
         "test_command": "cd evaluation && python test_scripts/test_user_preference_modeling_interactive.py",
@@ -169,7 +169,7 @@
     "type": "unit_test",
     "testcases": [
       {
-        "test_command": "python -m pytest evaluation/tests/test_neural_network.py::test_mlp_regressor_usage -v",
+        "test_command": "python -m pytest evaluation/tests/test_neural_network.py::TestNeuralNetwork::test_mlp_regressor_usage -v",
         "test_input": null
       }
     ],
@@ -183,7 +183,7 @@
     "type": "unit_test",
     "testcases": [
       {
-        "test_command": "python -m pytest evaluation/tests/test_collaborative_filtering.py::test_cosine_similarity -v",
+        "test_command": "python -m pytest evaluation/tests/test_collaborative_filtering.py::TestCollaborativeFiltering::test_cosine_similarity -v",
         "test_input": null
       }
     ],
@@ -197,7 +197,7 @@
     "type": "unit_test",
     "testcases": [
       {
-        "test_command": "python -m pytest evaluation/tests/test_collaborative_filtering.py::test_pearson_similarity -v",
+        "test_command": "python -m pytest evaluation/tests/test_collaborative_filtering.py::TestCollaborativeFiltering::test_pearson_similarity -v",
         "test_input": null
       }
     ],
@@ -211,7 +211,7 @@
     "type": "unit_test",
     "testcases": [
       {
-        "test_command": "python -m pytest evaluation/tests/test_collaborative_filtering.py::test_euclidean_similarity -v",
+        "test_command": "python -m pytest evaluation/tests/test_collaborative_filtering.py::TestCollaborativeFiltering::test_euclidean_similarity -v",
         "test_input": null
       }
     ],

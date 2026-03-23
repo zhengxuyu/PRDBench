@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-类比推理算法测试
+Analogy Reasoning Algorithm Test
 """
 
 import sys
@@ -12,35 +12,35 @@ import pytest
 import numpy as np
 
 def test_analogy_algorithm():
-    """测试D=C+B-A向量空间类比推理算法"""
-    # 模拟词向量
+    """Test D=C+B-A vector space analogy reasoning algorithm"""
+    # Simulate word vectors
     vectors = {
         'A': np.array([1.0, 0.0, 0.0]),
         'B': np.array([0.0, 1.0, 0.0]),
         'C': np.array([2.0, 0.0, 0.0]),
-        'D': np.array([0.0, 2.0, 0.0])  # 期望结果
+        'D': np.array([0.0, 2.0, 0.0])  # Expected result
     }
 
-    # 计算类比推理：A与B的关系，类似于C与D的关系
+    # Calculate analogy reasoning: relationship between A and B is similar to relationship between C and D
     # D = C + B - A
     A = vectors['A']
     B = vectors['B']
     C = vectors['C']
     expected_D = C + B - A
 
-    # 验证算法
+    # Verify algorithm
     calculated_D = np.array([0.0, 1.0, 0.0]) + np.array([2.0, 0.0, 0.0]) - np.array([1.0, 0.0, 0.0])
     expected_result = np.array([1.0, 1.0, 0.0])
 
     assert np.allclose(calculated_D, expected_result)
 
-    # 测试实际的类比推理函数（如果存在）
-    # 由于使用模拟功能，这里直接测试算法逻辑
-    assert True  # 算法逻辑测试通过
+    # Test actual analogy reasoning function (if exists)
+    # Since using simulation function, directly test algorithm logic here
+    assert True  # Algorithm logic test passed
 
 def test_analogy_similarity():
-    """测试类比推理结果的相似度计算"""
-    # 模拟相似度计算
+    """Test similarity calculation of analogy reasoning results"""
+    # Simulate similarity calculation
     def cosine_similarity(vec1, vec2):
         dot_product = np.dot(vec1, vec2)
         norm1 = np.linalg.norm(vec1)
@@ -51,7 +51,7 @@ def test_analogy_similarity():
     vec2 = np.array([1.0, 1.0, 0.0])
     similarity = cosine_similarity(vec1, vec2)
 
-    assert abs(similarity - 1.0) < 1e-6  # 相同向量的相似度应该为1
+    assert abs(similarity - 1.0) < 1e-6  # Similarity of identical vectors should be 1
 
 if __name__ == "__main__":
     pytest.main([__file__])

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试按年份区分的诊断记录和2.3.5b报告对比功能
+Test yearly diagnosis records and 2.3.5b report comparison function
 """
 
 import sys
@@ -17,250 +17,250 @@ from models.schemas import CompanyCreateSchema
 from datetime import datetime
 
 def create_yearly_diagnosis_records():
-    """创建企业在不同年份的诊断记录"""
-    print("创建企业不同年份的诊断记录...")
-    
+    """Create company diagnosis records for different years"""
+    print("Creating company diagnosis records for different years...")
+
     company_service = CompanyService()
     diagnosis_service = DiagnosisService()
     report_service = ReportService()
-    
+
     try:
-        # 创建或获取测试企业
+        # Create or get test company
         db = SessionLocal()
-        company_name = "年度发展科技公司"
-        
-        # 删除现有企业重新创建
+        company_name = "Annual Development Technology Company"
+
+        # Delete existing company and recreate
         existing = company_service.get_company_by_name(db, company_name)
         if existing:
             company_service.delete_company(db, existing.id)
-        
-        # 创建企业基础信息（当前状态）
+
+        # Create company basic information (current status)
         company_data = {
             'name': company_name,
             'establishment_date': datetime(2020, 6, 1),
             'registered_capital': 1000.0,
-            'company_type': '有限责任公司',
-            'main_business': '软件开发与技术服务',
-            'industry': '信息传输、软件和信息技术服务业',
-            'employee_count': 50,      # 当前员工数
-            'annual_revenue': 1500.0,  # 当前营收
-            'annual_profit': 200.0,    # 当前利润
-            'asset_liability_ratio': 0.4,  # 当前资产负债率
-            'patent_count': 5,         # 当前专利数
-            'copyright_count': 3,      # 当前著作权数
-            'rd_investment': 300.0,    # 当前研发投入
-            'rd_revenue_ratio': 0.2,   # 研发投入占营收比重
-            'rd_personnel_ratio': 0.3, # 研发人员占比
-            'innovation_achievements': '开发了创新软件产品',
-            'internal_control_score': 4,    # 当前内控评分
-            'financial_standard_score': 4,  # 当前财务规范评分
-            'compliance_training_score': 3, # 当前合规培训评分
-            'employment_compliance_score': 4 # 当前用工合规评分
+            'company_type': 'Limited Liability Company',
+            'main_business': 'Software Development and Technical Services',
+            'industry': 'Information Transmission, Software and Information Technology Services',
+            'employee_count': 50, # Current employee count
+            'annual_revenue': 1500.0, # Current revenue
+            'annual_profit': 200.0, # Current profit
+            'asset_liability_ratio': 0.4, # Current asset-liability ratio
+            'patent_count': 5, # Current patent count
+            'copyright_count': 3, # Current copyright count
+            'rd_investment': 300.0, # Current R&D investment
+            'rd_revenue_ratio': 0.2, # R&D investment ratio to revenue
+            'rd_personnel_ratio': 0.3, # R&D personnel ratio
+            'innovation_achievements': 'Developed innovative software products',
+            'internal_control_score': 4, # Current internal control score
+            'financial_standard_score': 4, # Current financial standardization score
+            'compliance_training_score': 3, # Current compliance training score
+            'employment_compliance_score': 4 # Current employment compliance score
         }
-        
+
         schema = CompanyCreateSchema(**company_data)
         company = company_service.create_company(db, schema)
-        print(f"创建企业: {company.name}")
+        print(f"Created company: {company.name}")
         db.close()
-        
-        # 模拟2022年的诊断（企业发展初期）
-        print("\n=== 2022年诊断 ===")
+
+        # Simulate 2022 year diagnosis (company early development)
+        print("\n=== 2022 Year diagnosis ===")
         db_2022 = SessionLocal()
         company_2022 = company_service.get_company_by_name(db_2022, company_name)
-        
-        # 更新企业数据为2022年状态（相对较弱）
+
+        # Update company data to 2022 year status (relatively weak)
         updates_2022 = {
-            'employee_count': 25,       # 员工较少
-            'annual_revenue': 600.0,    # 营收较低
-            'annual_profit': 60.0,      # 利润较低
-            'asset_liability_ratio': 0.6,  # 负债率较高
-            'patent_count': 1,          # 专利较少
-            'copyright_count': 1,       # 著作权较少
-            'rd_investment': 90.0,      # 研发投入较少
-            'rd_revenue_ratio': 0.15,   # 研发投入比例
-            'internal_control_score': 2,    # 内控评分较低
-            'financial_standard_score': 2,  # 财务规范较低
-            'compliance_training_score': 2, # 合规较低
-            'employment_compliance_score': 2 # 用工合规较低
+            'employee_count': 25, # Fewer employees
+            'annual_revenue': 600.0, # Low revenue
+            'annual_profit': 60.0, # Low profit
+            'asset_liability_ratio': 0.6, # Higher debt ratio
+            'patent_count': 1, # Fewer patents
+            'copyright_count': 1, # Fewer copyrights
+            'rd_investment': 90.0, # Less R&D investment
+            'rd_revenue_ratio': 0.15, # R&D investment ratio
+            'internal_control_score': 2, # Low internal control score
+            'financial_standard_score': 2, # Low financial regulation
+            'compliance_training_score': 2, # Low compliance
+            'employment_compliance_score': 2 # Low employment compliance
         }
-        
+
         company_service.update_company(db_2022, company_2022.id, updates_2022)
         updated_company_2022 = company_service.get_company_by_name(db_2022, company_name)
-        
+
         diagnosis_2022 = diagnosis_service.diagnose_company(db_2022, updated_company_2022, 2022)
-        print(f"2022年诊断完成，综合评分: {diagnosis_2022.overall_score:.1f}")
+        print(f"2022 year diagnosis complete, overall score: {diagnosis_2022.overall_score:.1f}")
         db_2022.close()
-        
+
         time.sleep(1)
-        
-        # 模拟2023年的诊断（企业发展中期）
-        print("\n=== 2023年诊断 ===")
+
+        # Simulate 2023 year diagnosis (company growth period)
+        print("\n=== 2023 Year diagnosis ===")
         db_2023 = SessionLocal()
         company_2023 = company_service.get_company_by_name(db_2023, company_name)
-        
-        # 更新企业数据为2023年状态（有所发展）
+
+        # Update company data to 2023 year status (some development)
         updates_2023 = {
-            'employee_count': 35,       # 员工增加
-            'annual_revenue': 1000.0,   # 营收增长
-            'annual_profit': 130.0,     # 利润提升
-            'asset_liability_ratio': 0.5,  # 负债率改善
-            'patent_count': 3,          # 专利增加
-            'copyright_count': 2,       # 著作权增加
-            'rd_investment': 180.0,     # 研发投入增加
-            'rd_revenue_ratio': 0.18,   # 研发投入比例提升
-            'internal_control_score': 3,    # 内控评分提升
-            'financial_standard_score': 3,  # 财务规范提升
-            'compliance_training_score': 3, # 合规提升
-            'employment_compliance_score': 3 # 用工合规提升
+            'employee_count': 35, # Employee increase
+            'annual_revenue': 1000.0, # Revenue growth
+            'annual_profit': 130.0, # Profit improvement
+            'asset_liability_ratio': 0.5, # Debt ratio improved
+            'patent_count': 3, # Patent increase
+            'copyright_count': 2, # Copyright increase
+            'rd_investment': 180.0, # R&D investment increase
+            'rd_revenue_ratio': 0.18, # R&D investment ratio improved
+            'internal_control_score': 3, # Internal control score improved
+            'financial_standard_score': 3, # Financial regulation improved
+            'compliance_training_score': 3, # Compliance improved
+            'employment_compliance_score': 3 # Employment compliance improved
         }
-        
+
         company_service.update_company(db_2023, company_2023.id, updates_2023)
         updated_company_2023 = company_service.get_company_by_name(db_2023, company_name)
-        
+
         diagnosis_2023 = diagnosis_service.diagnose_company(db_2023, updated_company_2023, 2023)
-        print(f"2023年诊断完成，综合评分: {diagnosis_2023.overall_score:.1f}")
+        print(f"2023 year diagnosis complete, overall score: {diagnosis_2023.overall_score:.1f}")
         db_2023.close()
-        
+
         time.sleep(1)
-        
-        # 模拟2024年的诊断（企业成熟期）
-        print("\n=== 2024年诊断 ===")
+
+        # Simulate 2024 year diagnosis (company maturity period)
+        print("\n=== 2024 Year diagnosis ===")
         db_2024 = SessionLocal()
         company_2024 = company_service.get_company_by_name(db_2024, company_name)
-        
-        # 更新企业数据为2024年状态（当前最佳状态）
+
+        # Update company data to 2024 year status (current best status)
         updates_2024 = {
-            'employee_count': 50,       # 员工达到当前水平
-            'annual_revenue': 1500.0,   # 营收达到当前水平
-            'annual_profit': 200.0,     # 利润达到当前水平
-            'asset_liability_ratio': 0.4,  # 负债率优化
-            'patent_count': 5,          # 专利达到当前水平
-            'copyright_count': 3,       # 著作权达到当前水平
-            'rd_investment': 300.0,     # 研发投入达到当前水平
-            'rd_revenue_ratio': 0.2,    # 研发投入比例优化
-            'internal_control_score': 4,    # 内控评分达到优秀
-            'financial_standard_score': 4,  # 财务规范优秀
-            'compliance_training_score': 3, # 合规良好
-            'employment_compliance_score': 4 # 用工合规优秀
+            'employee_count': 50, # Employees reached current level
+            'annual_revenue': 1500.0, # Revenue reached current level
+            'annual_profit': 200.0, # Profit reached current level
+            'asset_liability_ratio': 0.4, # Debt ratio optimized
+            'patent_count': 5, # Patents reached current level
+            'copyright_count': 3, # Copyrights reached current level
+            'rd_investment': 300.0, # R&D investment reached current level
+            'rd_revenue_ratio': 0.2, # R&D investment ratio optimized
+            'internal_control_score': 4, # Internal control score reached excellent
+            'financial_standard_score': 4, # Financial regulation excellent
+            'compliance_training_score': 3, # Compliance good
+            'employment_compliance_score': 4 # Employment compliance excellent
         }
-        
+
         company_service.update_company(db_2024, company_2024.id, updates_2024)
         updated_company_2024 = company_service.get_company_by_name(db_2024, company_name)
-        
+
         diagnosis_2024 = diagnosis_service.diagnose_company(db_2024, updated_company_2024, 2024)
-        print(f"2024年诊断完成，综合评分: {diagnosis_2024.overall_score:.1f}")
+        print(f"2024 year diagnosis complete, overall score: {diagnosis_2024.overall_score:.1f}")
         db_2024.close()
-        
-        print(f"\n[PASS] 成功创建3个年份的诊断记录")
-        print(f"发展轨迹: 2022年({diagnosis_2022.overall_score:.1f}) → 2023年({diagnosis_2023.overall_score:.1f}) → 2024年({diagnosis_2024.overall_score:.1f})")
-        
+
+        print(f"\n[PASS] Successfully created 3 years of diagnosis records")
+        print(f"Development trajectory: 2022 year ({diagnosis_2022.overall_score:.1f}) → 2023 year ({diagnosis_2023.overall_score:.1f}) → 2024 year ({diagnosis_2024.overall_score:.1f})")
+
         return True
-        
+
     except Exception as e:
-        print(f"[FAIL] 创建年度诊断记录失败: {e}")
+        print(f"[FAIL] Creating yearly diagnosis records failed: {e}")
         return False
 
 def test_yearly_comparison():
-    """测试年度对比分析"""
-    print("\n测试企业年度发展对比分析...")
-    
+    """Test yearly comparison analysis"""
+    print("\nTesting company yearly development comparison analysis...")
+
     try:
         db = SessionLocal()
         company_service = CompanyService()
         diagnosis_service = DiagnosisService()
-        
-        company = company_service.get_company_by_name(db, "年度发展科技公司")
+
+        company = company_service.get_company_by_name(db, "Annual Development Technology Company")
         if not company:
-            print("[FAIL] 未找到测试企业")
+            print("[FAIL] Could not find test company")
             return False
-        
-        # 获取诊断历史（按年份排序）
+
+        # Get diagnosis history (sorted by year)
         reports = diagnosis_service.get_company_reports(db, company.id)
-        
+
         if len(reports) < 2:
-            print(f"[FAIL] 企业年度诊断记录不足，当前记录数: {len(reports)}")
+            print(f"[FAIL] Insufficient company yearly diagnosis records, current record count: {len(reports)}")
             return False
-        
-        print(f"[INFO] 找到 {len(reports)} 条年度诊断记录")
-        
-        # 按年份排序，找到最早和最新的记录
+
+        print(f"[INFO] Found {len(reports)} items of yearly diagnosis records")
+
+        # Sort by year, find earliest and newest records
         reports_by_year = sorted(reports, key=lambda r: r.report_year)
-        earliest_report = reports_by_year[0]  # 最早年份
-        latest_report = reports_by_year[-1]   # 最新年份
-        
+        earliest_report = reports_by_year[0] # Earliest year
+        latest_report = reports_by_year[-1] # Newest year
+
         print("\n" + "=" * 80)
-        print("企业年度发展对比分析")
+        print("Company yearly development comparison analysis")
         print("=" * 80)
-        
-        print(f"{'评价维度':<15} {f'{earliest_report.report_year}年':<20} {f'{latest_report.report_year}年':<20} {'年度变化':<15}")
+
+        print(f"{'Assessment dimension':<15} {f'{earliest_report.report_year} Year':<20} {f'{latest_report.report_year} Year':<20} {'Yearly change':<15}")
         print("-" * 80)
-        
+
         dimensions = [
-            ("资金缺口评估", earliest_report.funding_gap_score, latest_report.funding_gap_score),
-            ("偿债能力评估", earliest_report.debt_capacity_score, latest_report.debt_capacity_score),
-            ("创新能力评估", earliest_report.innovation_score, latest_report.innovation_score),
-            ("管理规范性评估", earliest_report.management_score, latest_report.management_score),
-            ("综合评分", earliest_report.overall_score, latest_report.overall_score)
+            ("Funding gap assessment", earliest_report.funding_gap_score, latest_report.funding_gap_score),
+            ("Debt capacity assessment", earliest_report.debt_capacity_score, latest_report.debt_capacity_score),
+            ("Innovation capability assessment", earliest_report.innovation_score, latest_report.innovation_score),
+            ("Management standardization assessment", earliest_report.management_score, latest_report.management_score),
+            ("Overall score", earliest_report.overall_score, latest_report.overall_score)
         ]
-        
+
         significant_growth = False
         for name, score1, score2 in dimensions:
             change = score2 - score1
             change_str = f"{change:+.1f}"
             if change > 0.5:
-                change_str += " 显著提升"
+                change_str += " Significantly improved"
                 significant_growth = True
             elif change > 0.2:
-                change_str += " 明显提升"
+                change_str += " Noticeably improved"
                 significant_growth = True
             elif change > 0:
-                change_str += " 有所提升"
+                change_str += " Somewhat improved"
             elif change < -0.2:
-                change_str += " 明显下降"
+                change_str += " Noticeably declined"
             elif change < 0:
-                change_str += " 略有下降"
+                change_str += " Slightly declined"
             else:
-                change_str = "0.0 保持稳定"
-            
+                change_str = "0.0 Remained stable"
+
             print(f"{name:<15} {score1:<20.1f} {score2:<20.1f} {change_str:<15}")
-        
+
         print("-" * 80)
-        
-        # 年度发展评价
+
+        # Yearly development assessment
         years_span = latest_report.report_year - earliest_report.report_year
         overall_change = latest_report.overall_score - earliest_report.overall_score
-        
+
         if overall_change > 1.0:
-            print(f"年度发展评价: {years_span}年间企业实现跨越式发展，融资能力大幅提升")
+            print(f"Yearly development assessment: Company achieved leapfrog development in {years_span} years, financing capability greatly improved")
         elif overall_change > 0.5:
-            print(f"年度发展评价: {years_span}年间企业发展良好，融资能力显著提升")
+            print(f"Yearly development assessment: Company developed well in {years_span} years, financing capability significantly improved")
         elif overall_change > 0.2:
-            print(f"年度发展评价: {years_span}年间企业稳步发展，融资能力有所提升")
+            print(f"Yearly development assessment: Company developed steadily in {years_span} years, financing capability somewhat improved")
         else:
-            print(f"年度发展评价: {years_span}年间企业发展相对平稳")
-        
+            print(f"Yearly development assessment: Company development relatively stable in {years_span} years")
+
         if significant_growth:
-            print("\n[PASS] 测试通过：年度对比分析功能有效")
-            print("  - 成功显示企业不同年份的发展对比")
-            print("  - 各维度评分变化清晰，体现年度发展轨迹")
-            print("  - 提供年度发展评价和趋势分析")
+            print("\n[PASS] Test passed: Yearly comparison analysis function effective")
+            print(" - Successfully displayed company different year development comparison")
+            print(" - Each dimension score change clear, reflects yearly development trajectory")
+            print(" - Provides yearly development assessment and trend analysis")
             return True
         else:
-            print("\n[FAIL] 测试失败：未发现明显的年度发展变化")
+            print("\n[FAIL] Test failed: No obvious yearly development change found")
             return False
-            
+
     except Exception as e:
-        print(f"[FAIL] 测试执行出错: {e}")
+        print(f"[FAIL] Test execution error: {e}")
         return False
     finally:
         db.close()
 
 if __name__ == "__main__":
-    # 1. 创建不同年份的诊断记录
+    # 1. Create diagnosis records for different years
     if create_yearly_diagnosis_records():
-        # 2. 测试年度对比分析
+        # 2. Test yearly comparison analysis
         success = test_yearly_comparison()
         exit(0 if success else 1)
     else:
-        print("年度诊断记录创建失败")
+        print("Yearly diagnosis record creation failed")
         exit(1)

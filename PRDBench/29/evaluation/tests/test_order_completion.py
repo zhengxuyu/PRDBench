@@ -20,4 +20,4 @@ def test_order_completion():
     
     assert rider.state == 0 # Rider should be idle
     assert not rider.orders # Order list should be empty
-    assert order.status == "已完成" # Order status should be completed
+    assert order.status == "completed" # Order status should be completed

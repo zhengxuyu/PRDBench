@@ -160,7 +160,7 @@
     "testcases": [
       {
         "test_command": "cd src && python -m lottery_system.main",
-        "test_input": "1\n1\n0\n3\ny\n\n\n\nn\n0"
+        "test_input": "evaluation/inputs_for_test_2.3.1.in"
       }
     ],
     "input_files": null,
@@ -258,7 +258,7 @@
     "testcases": [
       {
         "test_command": "cd src && python -m lottery_system.main",
-        "test_input": "1\n1\n0\n2\n2\nTest Prize-3人\n3\n\n\n0\n3\ny\n\n\n\nn\n0"
+        "test_input": "evaluation/inputs_for_test_2.5.1a.in"
       }
     ],
     "input_files": null,

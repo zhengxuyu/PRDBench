@@ -27,7 +27,7 @@ This tool aims to provide US stock quantitative analysts with comprehensive data
 
 ##### 2.4 Command-Line Interaction & Result Presentation
 - Main interface uses a menu-driven interaction scheme with options: [1] Enter CSV File Path [2] SQL Query [3] Stock Screening [4] Indicator Volatility Analysis [5] View Query History [6] Exit.
-- User input requires validity checks (for example, menu selection must be a number between 1-6, SQL fields must exist in the data source, and dimension selections must be among candidates). Invalid input should trigger error messages in Chinese (such as "错误：请输入1-6之间的数字" – "Error: Please enter a number between 1-6"). If the input is invalid, the program should prompt "输入无效，请重试。" ("Invalid input, please try again.") and remain at the current menu.
+- User input requires validity checks (for example, menu selection must be a number between 1-6, SQL fields must exist in the data source, and dimension selections must be among candidates). Invalid input should trigger error messages in English (such as "Error: Please enter a number between 1-6"). If the input is invalid, the program should prompt "Invalid input, please try again." and remain at the current menu.
 - When generating analysis results, users may choose to display them as a textual (psql-style) table.
 - All output results can be saved as TXT files (user may specify save path); the output file must contain the query SQL, screening conditions, analysis dimensions, contribution data, and the textual table. Saved report files must include complete analysis context information and results.
 

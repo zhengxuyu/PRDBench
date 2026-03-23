@@ -258,7 +258,7 @@
     "expected_output": "Unit test passed, and if an ImportError occurs, a score of zero will be given."
   },
   {
-    "metric": "6.2a Stop-and-Wait ARQ-ACK/NAK Mechanism",
+    "metric": "6.2a Stop-and-Wait ARQ-ACK or NAK Mechanism",
     "description": "1. **Act:** View ACK/NAK confirmation mechanism implementation in code.\n2. **Assert:** Verify whether implemented ACK confirmation and NAK denial response mechanism.",
     "type": "unit_test",
     "testcases": [

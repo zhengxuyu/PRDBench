@@ -1,45 +1,45 @@
-# IoT环境数据采集系统 - 测试指南
+# IoT Environmental Data Collection System - Testing Guide
 
-## 概述
+## Overview
 
-本指南提供了完整的测试方案，用于评估IoT环境数据采集与智能预测系统的实现质量。测试方案包括人工评测标准、自动化测试接口和详细的测试计划。
+This guide provides a complete testing methodology for assessing the implementation quality of the IoT Environmental Data Collection and Intelligent Prediction System. The testing methodology includes manual evaluation test standards, automated test interface, and detailed test plan.
 
-## 文件结构
+## File Structure
 
 ```
 evaluation/
-├── metric.json                      # 人工评测标准（19个评分点）
-├── detailed_test_plan.json          # 详细测试计划（结构化测试用例）
-├── agent_test_interface.py          # Agent自动化测试接口
-├── run_tests.py                     # 综合测试执行脚本
-├── README.md                        # 评测说明文档
-├── EVALUATION_SUMMARY.md            # 评测总结报告
-├── TESTING_GUIDE.md                 # 本测试指南
-├── pytest.ini                      # Pytest配置文件
-├── test_environmental_data.csv      # 测试用环境数据
-├── test_data_with_anomalies.csv     # 包含异常的测试数据
-├── setup_inputs.in                  # 配置向导输入文件
-├── user_interaction.in              # 用户交互输入文件
-├── expected_data_format.csv         # 期望的数据格式文件
-└── tests/                           # 单元测试目录
-    ├── __init__.py                  # 测试包初始化
-    ├── test_data_quality.py         # 数据质量控制测试
-    ├── test_error_handling.py       # 错误处理测试
-    ├── test_logging.py              # 日志功能测试
-    └── test_functionality_completeness.py  # 功能完整性测试
+├── metric.json                      # Manual evaluation test standard (19 scoring items)
+├── detailed_test_plan.json          # Detailed test plan (structured test cases)
+├── agent_test_interface.py          # Agent automated test interface
+├── run_tests.py                     # Comprehensive test execution script
+├── README.md                        # Evaluation test description file
+├── EVALUATION_SUMMARY.md            # Evaluation test summary report
+├── TESTING_GUIDE.md                 # This testing guide
+├── pytest.ini                      # Pytest configuration file
+├── test_environmental_data.csv      # Test environmental data
+├── test_data_with_anomalies.csv     # Test data with anomalies
+├── setup_inputs.in                  # Configuration wizard input file
+├── user_interaction.in              # User interaction input file
+├── expected_data_format.csv         # Expected data format file
+└── tests/                           # Unit test directory
+    ├── __init__.py                  # Test package initialization
+    ├── test_data_quality.py         # Data quality control test
+    ├── test_error_handling.py       # Error handling test
+    ├── test_logging.py              # Logging function test
+    └── test_functionality_completeness.py  # Functional completeness test
 ```
 
-## 测试类型说明
+## Test Category Description
 
 ### 1. Shell Interaction Tests (shell_interaction)
-用于测试需要模拟用户与命令行进行真实交互的功能。
+Used to test functions that need to simulate actual user and command-line interaction.
 
-**特点:**
-- 执行完整的CLI命令
-- 可以包含标准输入模拟
-- 验证命令输出和行为
+**Features:**
+- Execute complete CLI commands
+- Can include standard input simulation
+- Verify command output and behavior
 
-**示例:**
+**Example:**
 ```json
 {
   "type": "shell_interaction",
@@ -53,17 +53,17 @@ evaluation/
 ```
 
 ### 2. Unit Tests (unit_test)
-用于验证可以通过直接调用源代码中的特定函数或类来测试的功能点。
+Used to verify that specific functions, classes, or modules can be tested directly through interface calls to the source code.
 
-**特点:**
-- 直接测试代码逻辑
-- 可以测试边界条件
-- 提供详细的断言验证
+**Features:**
+- Directly test source code logic
+- Can test boundary conditions
+- Provide detailed assertion verification
 
-**示例:**
+**Example:**
 ```json
 {
-  "type": "unit_test", 
+  "type": "unit_test",
   "testcases": [
     {
       "test_command": "python tests/test_data_quality.py",
@@ -74,14 +74,14 @@ evaluation/
 ```
 
 ### 3. File Comparison Tests (file_comparison)
-用于验证程序是否生成了正确的输出文件。
+Used to verify whether the program generates correct output files.
 
-**特点:**
-- 验证文件生成
-- 比较输出与期望结果
-- 检查文件格式和内容
+**Features:**
+- Verify file generation
+- Compare output with expected results
+- Check file format and content
 
-**示例:**
+**Example:**
 ```json
 {
   "type": "file_comparison",
@@ -89,222 +89,222 @@ evaluation/
 }
 ```
 
-## 使用方法
+## Usage
 
-### 1. 快速评测
+### 1. Quick Evaluation Test
 
 ```bash
-# 使用综合测试脚本
+# Use comprehensive test script
 cd evaluation
 python run_tests.py
 ```
 
-### 2. 使用Agent自动化测试接口
+### 2. Use Agent Automated Test Interface
 
 ```bash
-# 运行Agent测试接口
+# Run agent test interface
 cd evaluation
 python agent_test_interface.py
 ```
 
-### 3. 单独运行单元测试
+### 3. Run Individual Unit Tests
 
 ```bash
-# 测试功能完整性
+# Test functional completeness
 python tests/test_functionality_completeness.py
 
-# 测试错误处理
+# Test error handling
 python tests/test_error_handling.py
 
-# 测试日志功能
+# Test log function
 python tests/test_logging.py
 
-# 测试数据质量
+# Test data quality
 python tests/test_data_quality.py
 ```
 
-### 4. 手动测试特定功能
+### 4. Manually Test Specific Functions
 
 ```bash
-# 测试MQTT功能
+# Test MQTT function
 cd ../src
 python main.py mqtt publish --random
 python main.py mqtt subscribe --duration 10
 
-# 测试数据管理
+# Test data management
 python main.py data analyze
 python main.py data clean
 
-# 测试机器学习
+# Test machine learning
 python main.py ml train --data-file samples/environmental_sample.csv --epochs 10
 python main.py ml predict --temperature 25.0 --humidity 60.0 --pressure 1013.25
 
-# 测试系统监控
+# Test system monitoring
 python main.py system status
 python main.py system monitor --duration 15
 
-# 测试Web界面
-python test_web.py  # 然后访问 http://localhost:8080
+# Test web interface
+python test_web.py  # Then access http://localhost:8080
 ```
 
-## 评分标准
+## Scoring Standard
 
-### 评分点权重分布
-- **权重5** (关键功能): 系统启动、ML训练、功能完整性
-- **权重4** (重要功能): MQTT通信、数据分析、系统监控、Web界面、用户体验
-- **权重3** (辅助功能): 数据清洗、数据合并、配置向导、数据格式验证、错误处理
-- **权重2** (支持功能): 日志记录
+### Scoring Item Weight Distribution
+- **Weight 5** (Critical functions): System start, ML training, Functional completeness
+- **Weight 4** (Important functions): MQTT communication, Data analysis, System monitoring, Web interface, User experience
+- **Weight 3** (Auxiliary functions): Data cleaning, Data merging, Configuration wizard, Data format verification, Error handling
+- **Weight 2** (Support functions): Log recording
 
-### 评分规则
-- **2分**: 功能完全可用，符合PRD要求
-- **1分**: 功能部分可用，有小问题但不影响基本使用
-- **0分**: 功能不可用或严重错误
+### Scoring Rules
+- **2 points**: Function fully functional, complies with PRD requirements
+- **1 point**: Function partially functional, has minor issues but does not affect basic use
+- **0 points**: Function not functional or has serious errors
 
-### 总分计算
+### Total Score Calculation
 ```
-最终得分 = Σ(各评分点得分 × 对应权重) / Σ(所有权重 × 2) × 100
+Final Score = Σ(Each Scoring Item Score × Its Weight) / Σ(All Weights × 2) × 100
 ```
 
-## 测试环境要求
+## Test Environment Requirements
 
-### 系统要求
+### System Requirements
 - Python 3.9+
-- 操作系统: Windows/Linux/macOS
-- 内存: ≥4GB
-- 存储: ≥1GB可用空间
+- Operating System: Windows/Linux/macOS
+- Memory: ≥4GB
+- Storage: ≥1GB available space
 
-### 依赖包要求
+### Dependency Package Requirements
 ```bash
 pip install -r requirements.txt
 ```
 
-主要依赖:
+Main dependencies:
 - pyyaml, pandas, numpy, scikit-learn
 - torch, matplotlib, seaborn
 - psutil, click, rich
 - paho-mqtt, flask, tqdm
 
-## 测试执行流程
+## Test Execution Process
 
-### 1. 环境准备
+### 1. Environment Preparation
 ```bash
-# 检查Python版本
+# Check Python version
 python --version
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 
-# 验证基础功能
+# Verify basic functions
 python run.py test
 ```
 
-### 2. 执行评测
+### 2. Execute Evaluation Test
 ```bash
-# 方式1: 使用综合测试脚本
+# Method 1: Use comprehensive test script
 cd evaluation
 python run_tests.py
 
-# 方式2: 使用Agent接口
+# Method 2: Use agent interface
 python agent_test_interface.py
 
-# 方式3: 手动逐项测试
-# 参考 metric.json 中的验证方法
+# Method 3: Manually test one by one
+# Refer to verification method in metric.json
 ```
 
-### 3. 查看结果
+### 3. View Results
 ```bash
-# 查看测试报告
+# View test report
 cat test_execution_results.json
 
-# 查看评测总结
+# View evaluation test summary
 cat EVALUATION_SUMMARY.md
 ```
 
-## 常见问题与解决方案
+## Common Issues and Solutions
 
-### 1. MQTT连接失败
-**现象**: MQTT发布/订阅功能报连接错误
-**原因**: 未配置阿里云IoT平台凭据
-**解决**: 这是正常现象，不影响功能评分。系统会显示连接尝试和错误处理。
+### 1. MQTT Connection Failure
+**Phenomenon**: MQTT publishing/subscription function reports connection error
+**Cause**: Alibaba Cloud IoT platform credentials not configured
+**Solution**: This is normal, does not affect function score. System will show connection attempt and error handling.
 
-### 2. 模型训练失败
-**现象**: ML训练命令执行失败
-**原因**: 可能是数据文件路径或格式问题
-**解决**: 检查samples目录下是否有environmental_sample.csv文件
+### 2. Model Training Failure
+**Phenomenon**: ML training command execution fails
+**Cause**: Could be data file path or format issue
+**Solution**: Check if environmental_sample.csv file exists in samples directory
 
-### 3. Web界面无法访问
-**现象**: Web服务启动后无法访问
-**解决**: 
+### 3. Web Interface Inaccessible
+**Phenomenon**: Web service cannot be accessed after startup
+**Solution**:
 ```bash
 cd src
-python test_web.py  # 使用测试版Web界面
+python test_web.py  # Use test version web interface
 ```
 
-### 4. 数据合并失败
-**现象**: data merge命令失败
-**原因**: 缺少分离的传感器数据文件
-**解决**: 先运行数据发布命令生成测试数据
+### 4. Data Merging Failure
+**Phenomenon**: data merge command fails
+**Cause**: Missing separate sensor data files
+**Solution**: Run data publishing command first to generate test data
 
-### 5. 单元测试导入错误
-**现象**: 测试文件无法导入模块
-**解决**: 确保从evaluation目录运行测试，Python路径会自动设置
+### 5. Unit Test Import Error
+**Phenomenon**: Test file cannot import module
+**Solution**: Ensure running test from evaluation directory, Python path will be set automatically
 
-## 测试结果解读
+## Test Results Interpretation
 
-### 成功率等级
-- **90-100%**: A级 - 优秀实现
-- **80-89%**: B级 - 良好实现
-- **70-79%**: C级 - 中等实现
-- **60-69%**: D级 - 及格实现
-- **<60%**: F级 - 不及格
+### Success Rate Grades
+- **90-100%**: A Level - Excellent implementation
+- **80-89%**: B Level - Good implementation
+- **70-79%**: C Level - Average implementation
+- **60-69%**: D Level - Passing implementation
+- **<60%**: F Level - Failing
 
-### 关键指标
-1. **系统启动成功率**: 必须100%
-2. **核心功能可用性**: 应≥80%
-3. **用户体验质量**: 应≥75%
-4. **错误处理完善度**: 应≥70%
+### Key Indicators
+1. **System Start Success Rate**: Must be 100%
+2. **Core Function Availability**: Should be ≥80%
+3. **User Experience Quality**: Should be ≥75%
+4. **Error Handling Completeness**: Should be ≥70%
 
-## 测试最佳实践
+## Testing Best Practices
 
-### 1. 测试顺序
-1. 基础功能测试（系统启动、帮助信息）
-2. 核心业务功能测试（MQTT、数据管理、ML）
-3. 系统支持功能测试（监控、日志、配置）
-4. 用户体验测试（界面友好性、错误处理）
+### 1. Test Sequence
+1. Basic function test (System start, Help information)
+2. Core business function test (MQTT, Data management, ML)
+3. System support function test (Monitoring, Log, Configuration)
+4. User experience test (Interface friendliness, Error handling)
 
-### 2. 测试数据准备
-- 使用提供的测试数据文件
-- 确保数据格式符合PRD规范
-- 包含正常数据和异常数据
+### 2. Test Data Preparation
+- Use provided test data files
+- Ensure data format complies with PRD specification
+- Include normal data and anomalous data
 
-### 3. 结果验证
-- 检查命令执行状态
-- 验证输出内容完整性
-- 确认日志记录正确性
-- 测试错误处理机制
+### 3. Result Verification
+- Check command execution status
+- Verify output content completeness
+- Confirm log recording correctness
+- Test error handling mechanism
 
-### 4. 报告生成
-- 记录详细的测试过程
-- 统计成功/失败率
-- 提供改进建议
-- 生成评分报告
+### 4. Report Generation
+- Record detailed test process
+- Count success/failure rates
+- Provide improvement recommendations
+- Generate scoring report
 
-## 扩展测试
+## Test Extension
 
-### 添加新测试用例
-1. 在`metric.json`中添加新的评分点
-2. 在`detailed_test_plan.json`中添加对应的测试用例
-3. 如需要，创建相应的单元测试文件
-4. 更新测试文档
+### Add New Test Cases
+1. Add new scoring items in `metric.json`
+2. Add corresponding test cases in `detailed_test_plan.json`
+3. Create corresponding unit test files if needed
+4. Update test documentation
 
-### 自定义测试脚本
-可以基于`agent_test_interface.py`创建自定义的测试脚本，适应特定的测试需求。
+### Custom Test Scripts
+You can create custom test scripts based on `agent_test_interface.py`, suitable for specific testing needs.
 
-## 联系与支持
+## Contact and Support
 
-如有测试相关问题，请参考：
-1. 项目主文档: `../README.md`
-2. 详细使用文档: `../src/docs/README.md`
-3. 产品需求文档: `../src/docs/PRD.md`
+For test-related issues, please refer to:
+1. Project main documentation: `../README.md`
+2. Detailed usage documentation: `../src/docs/README.md`
+3. Product requirements document: `../src/docs/PRD.md`
 
-测试方案确保了对系统实现质量的客观、全面、可复现的评估。
+The testing methodology ensures objective, comprehensive, and reproducible assessment of system implementation quality.

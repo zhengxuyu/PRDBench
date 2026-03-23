@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-相关热力图文件验证脚本
+Correlation Heatmap File Verification Script
 """
 import os
 import glob
 
 def verify_correlation_files():
-    """验证相关热力图文件生成"""
+    """Verify correlation heatmap file generation"""
     files = glob.glob('src/output/figures/correlation_*.png')
     
     if files:

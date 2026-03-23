@@ -1,105 +1,105 @@
-# 家谱系统自动化测试方案
+# Family Tree System Automation Test Plan
 
-## 概述
+## Overview
 
-本测试方案基于 `evaluation/metric.json` 中定义的55个功能测试点，生成了完整的自动化测试套件。
+This test plan is based on 55 functional test items defined in `evaluation/metric.json` and generates a complete automated test suite.
 
-## 文件结构
+## File Structure
 
 ```
 evaluation/
-├── metric.json                    # 功能评估指标文件（已移除前置校验）
-├── detailed_test_plan.json        # 详细测试计划（55个测试点）
-├── run_tests.py                   # 主测试运行脚本
-├── README.md                      # 本说明文件
-├── test_inputs/                   # 测试输入文件目录
-│   ├── test_startup.in            # 程序启动测试输入
-│   ├── test_002.in                # 姓名必填字段校验测试
-│   ├── test_003.in                # 性别必填字段校验测试
-│   └── ...                        # 其他测试输入文件
-├── test_data/                     # 测试数据文件
-│   └── existing_data.csv          # 用于增量存储测试的现有数据
-├── expected_outputs/              # 期望输出文件（用于文件比较测试）
-│   ├── expected_001.csv           # 期望的CSV输出
-│   └── ...                        # 其他期望输出文件
-└── tests/                         # 单元测试文件目录
-    ├── test_tree_structure.py     # 树形结构相关测试
-    ├── test_data_processing.py    # 数据处理相关测试
-    ├── test_file_format.py        # 文件格式相关测试
-    └── ...                        # 其他单元测试文件
+├── metric.json                    # Function evaluation metrics file (pre-validation removed)
+├── detailed_test_plan.json        # Detailed test plan (55 test items)
+├── run_tests.py                   # Main test execution script
+├── README.md                      # This documentation file
+├── test_inputs/                   # Test input file directory
+│   ├── test_startup.in            # Program startup test input
+│   ├── test_002.in                # Name required field validation test
+│   ├── test_003.in                # Gender required field validation test
+│   └── ...                        # Other test input files
+├── test_data/                     # Test data files
+│   └── existing_data.csv          # Existing data for incremental storage tests
+├── expected_outputs/              # Expected output files (for file comparison tests)
+│   ├── expected_001.csv           # Expected CSV output
+│   └── ...                        # Other expected output files
+└── tests/                         # Unit test file directory
+    ├── test_tree_structure.py     # Tree structure related tests
+    ├── test_data_processing.py    # Data processing related tests
+    ├── test_file_format.py        # File format related tests
+    └── ...                        # Other unit test files
 ```
 
-## 测试类型
+## Test Types
 
 ### 1. Shell Interaction Tests (shell_interaction)
-- 用于测试需要模拟用户与命令行进行真实交互的功能
-- 使用 `main_automated.py` 和 `.in` 输入文件进行自动化交互
-- 主要测试：必填字段校验、格式校验、查询功能等
+- Used to test functions that require simulating real user interaction with the command line
+- Uses `main_automated.py` and `.in` input files for automated interaction
+- Main tests: required field validation, format validation, query functions, etc.
 
 ### 2. Unit Tests (unit_test)
-- 用于直接调用源代码中的特定函数或类进行验证
-- 使用 pytest 框架执行
-- 主要测试：类定义、数据处理、结构一致性等
+- Used to directly call specific functions or classes in the source code for verification
+- Executed using the pytest framework
+- Main tests: class definitions, data processing, structural consistency, etc.
 
 ### 3. File Comparison Tests (file_comparison)
-- 用于验证程序是否生成了正确的输出文件
-- 比较生成文件与期望文件的内容
-- 主要测试：CSV文件创建、数据存储、文件格式等
+- Used to verify whether the program generates correct output files
+- Compares the content of generated files with expected files
+- Main tests: CSV file creation, data storage, file format, etc.
 
-## 使用方法
+## Usage
 
-### 运行所有测试
+### Run All Tests
 ```bash
 python evaluation/run_tests.py
 ```
 
-### 运行单个单元测试
+### Run Single Unit Test
 ```bash
 pytest evaluation/tests/test_tree_structure.py
 ```
 
-### 运行特定的shell交互测试
+### Run Specific Shell Interaction Test
 ```bash
 python src/main_automated.py evaluation/test_inputs/test_002.in
 ```
 
-## 测试输入文件格式
+## Test Input File Format
 
-测试输入文件（.in文件）包含模拟用户输入的命令序列，例如：
+Test input files (.in files) contain command sequences simulating user input, for example:
 
 ```
 add
-张三
-北京
+Zhang San
+Beijing
 19900101
 0
 175.5
-本科
-软件工程师
-高级工程师
+Bachelor
+Software Engineer
+Senior Engineer
 
 0
 1
-男
+Male
 ```
 
-## 测试报告
+## Test Reports
 
-运行完成后，测试结果将保存在：
-- `evaluation/test_report.json` - 详细的JSON格式测试报告
-- 控制台输出 - 实时测试进度和汇总结果
+After execution, test results will be saved in:
+- `evaluation/test_report.json` - Detailed JSON format test report
+- Console output - Real-time test progress and summary
 
-## 注意事项
+## Notes
 
-1. 确保Python环境已安装pandas等依赖库
-2. 测试前会自动清理data.csv等数据文件
-3. 某些测试可能需要特定的数据准备，请确保相关测试数据文件存在
-4. 如果测试失败，请检查错误信息并确认程序功能是否正确实现
+1. Ensure that the Python environment has pandas and other dependency libraries installed
+2. Data files such as data.csv will be automatically cleaned before testing
+3. Some tests may require specific data preparation, please ensure relevant test data files exist
+4. If tests fail, please check error information and confirm whether program functions are correctly implemented
 
-## 扩展测试
+## Extending Tests
 
-如需添加新的测试点：
-1. 在 `metric.json` 中添加新的测试指标
-2. 在 `detailed_test_plan.json` 中添加对应的测试计划
-3. 创建相应的测试输入文件和期望输出文件
-4. 如果是单元测试，在 `tests/` 目录下创建对应的测试文件
+To add new test items:
+1. Add new test metrics in `metric.json`
+2. Add corresponding test plan in `detailed_test_plan.json`
+3. Create corresponding test input files and expected output files
+4. If it's a unit test, create corresponding test file in the `tests/` directory

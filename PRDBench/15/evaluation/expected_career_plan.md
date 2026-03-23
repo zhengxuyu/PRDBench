@@ -1,18 +1,18 @@
-# 职业发展规划报告
+# Career Development Plan Report
 
-## 你的主导职业锚：安全/稳定型 (Security/Stability)
+## Your Primary Career Anchor: Security/Stability
 
-### 核心能力提升建议
-- **提升沟通表达能力**: 清晰、有条理地表达你的想法，无论书面还是口头。
-- **加强团队协作**: 学习如何与不同背景和风格的同事高效合作。
-- **培养解决问题的结构化思维**: 学习如何系统地分析问题、制定和评估解决方案。
+### Core Competency Improvement Recommendations
+- **Improve Communication Skills**: Express your ideas clearly and coherently, both in writing and verbally.
+- **Enhance Team Collaboration**: Learn how to work efficiently with colleagues from different backgrounds and styles.
+- **Develop Structured Problem-Solving Thinking**: Learn how to systematically analyze problems, formulate and evaluate solutions.
 
-### 推荐学习资源
-- **在线课程平台**: Coursera, edX, LinkedIn Learning, Udemy
-- **专业书籍与期刊**: 阅读你所在领域的经典著作和最新研究。
-- **行业会议与社区**: 参与行业交流活动，加入专业人士的线上社区。
+### Recommended Learning Resources
+- **Online Course Platforms**: Coursera, edX, LinkedIn Learning, Udemy
+- **Professional Books and Journals**: Read classic works and latest research in your field.
+- **Industry Conferences and Communities**: Participate in industry exchange activities and join online communities of professionals.
 
-### 阶段性目标设定
-- **短期 (1-3个月)**: 完成一个相关的在线课程，并尝试将所学知识应用到实际工作中。
-- **中期 (6-12个月)**: 在一个项目中担任更重要的角色，或独立完成一个有价值的个人项目。
-- **长期 (1-3年)**: 成为你所在领域的公认专家、一个高效的团队领导者，或成功开启自己的事业。
+### Phased Goal Setting
+- **Short-term (1-3 months)**: Complete a relevant online course and try to apply the knowledge learned to actual work.
+- **Medium-term (6-12 months)**: Take on a more important role in a project, or independently complete a valuable personal project.
+- **Long-term (1-3 years)**: Become a recognized expert in your field, an efficient team leader, or successfully start your own business.

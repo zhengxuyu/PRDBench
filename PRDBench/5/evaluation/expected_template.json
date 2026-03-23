@@ -1,7 +1,7 @@
 {
   "basic_info": {
-    "product_name": "测试产品",
-    "target_users": "年轻用户"
+    "product_name": "Test Product",
+    "target_users": "Young User"
   },
   "image_spec": {
     "source_type": "local_path",
@@ -14,9 +14,9 @@
   },
   "feature_requirements": {
     "style_keywords": [
-      "极简主义",
-      "现代"
+      "Minimalism",
+      "Modern"
     ],
-    "color_emotion": "冷色调-专业感"
+    "color_emotion": "Cool Tone-Professional"
   }
 }

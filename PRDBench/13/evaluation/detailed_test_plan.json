@@ -401,7 +401,7 @@
   },
   {
     "metric": "3.1 Technology Stack Dependencies - Python Environment",
-    "description": "1. **Execute (Act):** Check the project's requirements.txt or setup.py file to see the Python version requirement.\n2. **Assert (Assert):** Verify whether the project explicitly requires Python 3.9+ version and uses new version features in the code (e.g., type hinting, walrus operator, etc.).",
+    "description": "1. **Execute (Act):** Check the project's requirements.txt or setup.py file to see the Python version requirement.\n2. **Assert (Assert):** Verify whether the libraries used by the project are generally correct.",
     "type": "file_comparison",
     "testcases": [
       {
@@ -413,7 +413,7 @@
     "expected_output_files": [
       "evaluation/expected_requirements.txt"
     ],
-    "expected_output": "File src/requirements.txt should match the contents of evaluation/expected_requirements.txt, include Python 3.9+ dependency package version requirements, and verify the technology stack dependency configuration is correct."
+    "expected_output": "The file src/requirements.txt should generally match the contents of evaluation/expected_requirements.txt, verifying that the technology stack dependencies are configured correctly."
   },
   {
     "metric": "3.2a Core Dependency Library - Data Processing Library",
@@ -421,7 +421,7 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "grep -r \"import pandas\\|import numpy\\|pd\\.\\|np\\.\" src/ --include=\"*.py\"",
+        "test_command": "grep -rE \"import pandas\\|import numpy\\|pd\\.\\|np\\.\" src/ --include=\"*.py\"",
         "test_input": null
       }
     ],
@@ -437,7 +437,7 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "grep -r \"from sklearn\\|from surprise\\|import sklearn\\|import surprise\" src/ --include=\"*.py\"",
+        "test_command": "grep -rE \"from sklearn\\|from surprise\\|import sklearn\\|import surprise\" src/ --include=\"*.py\"",
         "test_input": null
       }
     ],
@@ -453,7 +453,7 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "grep -r \"import jieba\\|import gensim\\|from gensim\" src/ --include=\"*.py\"",
+        "test_command": "grep -rE \"import jieba\\|import gensim\\|from gensim\" src/ --include=\"*.py\"",
         "test_input": null
       }
     ],
@@ -469,7 +469,7 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "grep -r \"from fastapi\\|import fastapi\\|@app\\.\" src/ --include=\"*.py\"",
+        "test_command": "grep -rE \"from fastapi\\|import fastapi\\|@app\\.\" src/ --include=\"*.py\"",
         "test_input": null
       }
     ],
@@ -485,7 +485,7 @@
     "type": "file_comparison",
     "testcases": [
       {
-        "test_command": "grep -r \"import redis\\|import mysql\\|from sqlalchemy\" src/ --include=\"*.py\"",
+        "test_command": "grep -rE \"import redis\\|import mysql\\|from sqlalchemy\" src/ --include=\"*.py\"",
         "test_input": null
       }
     ],

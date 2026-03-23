@@ -4,11 +4,11 @@
     "passed_tests": 14,
     "failed_tests": 0,
     "success_rate": 100.0,
-    "grade": "A (优秀)"
+    "grade": "A (Excellent)"
   },
   "detailed_results": [
     {
-      "name": "系统启动与帮助信息",
+      "name": "System Start and Help Information",
       "type": "shell",
       "passed": true,
       "results": [
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "name": "MQTT单条数据发布",
+      "name": "MQTT Single Data Publishing",
       "type": "shell",
       "passed": true,
       "results": [
@@ -40,7 +40,7 @@
       ]
     },
     {
-      "name": "MQTT批量数据发布",
+      "name": "MQTT Batch Data Publishing",
       "type": "shell",
       "passed": true,
       "results": [
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "name": "MQTT数据订阅",
+      "name": "MQTT Data Subscription",
       "type": "shell",
       "passed": true,
       "results": [
@@ -66,7 +66,7 @@
       ]
     },
     {
-      "name": "数据分析功能",
+      "name": "Data Analysis Function",
       "type": "shell",
       "passed": true,
       "results": [
@@ -79,7 +79,7 @@
       ]
     },
     {
-      "name": "数据清洗功能",
+      "name": "Data Cleaning Function",
       "type": "shell",
       "passed": true,
       "results": [
@@ -92,7 +92,7 @@
       ]
     },
     {
-      "name": "机器学习预测功能",
+      "name": "Machine Learning Prediction Function",
       "type": "shell",
       "passed": true,
       "results": [
@@ -105,7 +105,7 @@
       ]
     },
     {
-      "name": "模型评估功能",
+      "name": "Model Evaluation Function",
       "type": "shell",
       "passed": true,
       "results": [
@@ -118,7 +118,7 @@
       ]
     },
     {
-      "name": "系统状态监控",
+      "name": "System Status Monitoring",
       "type": "shell",
       "passed": true,
       "results": [
@@ -131,7 +131,7 @@
       ]
     },
     {
-      "name": "Web界面启动",
+      "name": "Web Interface Start",
       "type": "shell",
       "passed": true,
       "results": [
@@ -144,7 +144,7 @@
       ]
     },
     {
-      "name": "功能完整性测试",
+      "name": "Functionality Completeness Test",
       "type": "python",
       "passed": true,
       "results": [
@@ -157,7 +157,7 @@
       ]
     },
     {
-      "name": "错误处理测试",
+      "name": "Error Handling Test",
       "type": "python",
       "passed": true,
       "results": [
@@ -170,7 +170,7 @@
       ]
     },
     {
-      "name": "日志功能测试",
+      "name": "Logging Functionality Test",
       "type": "python",
       "passed": true,
       "results": [
@@ -183,7 +183,7 @@
       ]
     },
     {
-      "name": "数据质量测试",
+      "name": "Data Quality Test",
       "type": "python",
       "passed": true,
       "results": [

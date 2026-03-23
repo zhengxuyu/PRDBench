@@ -9,7 +9,7 @@ project_root = os.path.dirname(os.path.dirname(current_dir))
 src_dir = os.path.join(project_root, 'src')
 
 def test_product_deletion():
-    """测试商品删除功能 - 2.1.2d"""
+    """TestProductBrandDeleteFunction - 2.1.2d"""
     try:
         process = subprocess.Popen(
             [sys.executable, 'main.py'],
@@ -21,37 +21,37 @@ def test_product_deletion():
             encoding='utf-8'
         )
         
-        # 发送交互序列：1->2->4->1->y->0->0
+        # SendSendInteractiveSequenceSeries：1->2->4->1->y->0->0
         inputs = "1\n2\n4\n1\ny\n0\n0\n"
         
         stdout, stderr = process.communicate(input=inputs, timeout=30)
         
         success_indicators = [
-            "数据管理" in stdout,
-            "商品属性管理" in stdout,
-            "删除商品" in stdout,
-            "商品删除成功" in stdout or "删除完成" in stdout
+            "DataManagement" in stdout,
+            "ProductAttributeManagement" in stdout,
+            "DeleteProductBrand" in stdout,
+            "ProductBrandDeleteSuccess" in stdout or "DeleteCompleteSuccess" in stdout
         ]
         
         passed_checks = sum(success_indicators)
         
-        print("前置校验通过：商品管理界面存在删除商品选项")
-        print("准备阶段：确保系统中有可删除的测试商品")
-        print("执行阶段：删除功能成功执行，删除指定商品")
+        print("beforeSetCheckExperiencePass：ProductBrandManagementInterfaceSaveinDeleteProductBrandOption")
+        print("StandardPrepareStepSegment：AccurateProtectionSysteminHasCanDeleteTestProductBrand")
+        print("ExecuteStepSegment：DeleteFunctionSuccessExecute，DeleteIndicatorFixedProductBrand")
         
         if passed_checks >= 3:
-            print("断言验证：商品成功从系统中删除，不再出现在商品列表中")
+            print("BreakassertionVerify：ProductBrandSuccessfromSysteminDelete，NotAgainOutputImplementationinProductBrandListin")
             return True
         else:
-            print("断言验证：部分功能未完全验证")
+            print("BreakassertionVerify：PartDivideFunctionNotCompleteAutomaticVerify")
             return False
             
     except subprocess.TimeoutExpired:
         process.kill()
-        print("ERROR: 测试超时")
+        print("ERROR: TestUltraTime")
         return False
     except Exception as e:
-        print(f"ERROR: 测试执行失败: {e}")
+        print(f"ERROR: TestExecuteFailure: {e}")
         return False
 
 if __name__ == "__main__":

@@ -3,9 +3,9 @@ help
 summary
 segments
 show 10
-filter segment 重要价值客户
+filter segment Important Value Customer
 show 5
 reset
 show 5
-export 完整测试报告.csv
+export complete_test_report.csv
 quit

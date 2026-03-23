@@ -97,7 +97,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_test.db"
+      "evaluation/expected_cctv.db"
     ],
     "expected_output": "Chinese content is correctly segmented and indexed"
   },
@@ -117,7 +117,7 @@
     ],
     "input_files": null,
     "expected_output_files": [
-      "evaluation/expected_test.db"
+      "evaluation/expected_python.db"
     ],
     "expected_output": "New and old data coexist, indexes are updated correctly"
   },

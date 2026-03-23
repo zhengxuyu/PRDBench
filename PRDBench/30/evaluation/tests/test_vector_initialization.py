@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TransE向量初始化测试
+TransE Vector Initialization Test
 """
 
 import sys
@@ -8,39 +8,39 @@ import os
 import pytest
 import numpy as np
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../src'))
 
 from transE import TransE
 
 
 def test_vector_dimensions():
-    """测试向量维度是否正确"""
-    # 创建测试数据
+    """Test if vector dimensions are correct"""
+    # Create test data
     entity_set = {'0', '1', '2'}
     relation_set = {'0', '1'}
     triple_list = [['0', '1', '0'], ['1', '2', '1']]
 
-    # 创建TransE模型
+    # Create TransE model
     transE = TransE(entity_set, relation_set, triple_list,
                    embedding_dim=50, learning_rate=0.01, margin=1, L1=True)
 
-    # 初始化向量
+    # Initialize vectors
     transE.emb_initialize()
 
-    # 检查实体向量维度
+    # Check entity vector dimensions
     for entity_id in entity_set:
-        assert len(transE.entity[entity_id]) == 50, f"实体向量维度不正确: {len(transE.entity[entity_id])}"
+        assert len(transE.entity[entity_id]) == 50, f"Entity vector dimension is incorrect: {len(transE.entity[entity_id])}"
 
-    # 检查关系向量维度
+    # Check relation vector dimensions
     for relation_id in relation_set:
-        assert len(transE.relation[relation_id]) == 50, f"关系向量维度不正确: {len(transE.relation[relation_id])}"
+        assert len(transE.relation[relation_id]) == 50, f"Relation vector dimension is incorrect: {len(transE.relation[relation_id])}"
 
-    print("向量维度测试通过：所有向量都是50维")
+    print("Vector dimension test passed: All vectors are 50-dimensional")
 
 
 def test_vector_initialization_distribution():
-    """测试向量初始化是否使用均匀分布"""
+    """Test if vector initialization uses uniform distribution"""
     entity_set = {'0', '1', '2'}
     relation_set = {'0', '1'}
     triple_list = [['0', '1', '0'], ['1', '2', '1']]
@@ -50,22 +50,22 @@ def test_vector_initialization_distribution():
 
     transE.emb_initialize()
 
-    # 检查向量值是否在合理范围内（均匀分布初始化后归一化）
+    # Check if vector values are within reasonable range (after uniform distribution initialization and normalization)
     for entity_id in entity_set:
         vector = np.array(transE.entity[entity_id])
-        # 检查向量是否已归一化
+        # Check if vector is normalized
         norm = np.linalg.norm(vector)
-        assert abs(norm - 1.0) < 1e-6, f"实体向量未正确归一化: {norm}"
+        assert abs(norm - 1.0) < 1e-6, f"Entity vector is not properly normalized: {norm}"
 
     for relation_id in relation_set:
         vector = np.array(transE.relation[relation_id])
         norm = np.linalg.norm(vector)
-        assert abs(norm - 1.0) < 1e-6, f"关系向量未正确归一化: {norm}"
+        assert abs(norm - 1.0) < 1e-6, f"Relation vector is not properly normalized: {norm}"
 
-    print("向量初始化分布测试通过：所有向量都已正确归一化")
+    print("Vector initialization distribution test passed: All vectors are properly normalized")
 
 
 if __name__ == '__main__':
     test_vector_dimensions()
     test_vector_initialization_distribution()
-    print("所有测试通过！")
+    print("All tests passed!")

@@ -12,87 +12,87 @@ import BasicInfo as info
 class TestTreeStructure:
     
     def test_member_class_definition(self):
-        """测试Member类定义与根节点设置"""
-        # 创建一个member实例
+        """Test member class definition and root member setup."""
+        # Create a sample member instance
         member = tb.member(idx=0, kids=[], spouse=-1)
         
-        # 验证属性存在
+        # Verify attributes exist
         assert hasattr(member, 'idx')
         assert hasattr(member, 'kids')
         assert hasattr(member, 'spouse')
         
-        # 验证初始值
+        # Verify initial values
         assert member.idx == 0
         assert member.kids == []
         assert member.spouse == -1
         
     def test_spouse_relationship(self):
-        """测试配偶关系双向建立与子女共有"""
-        # 准备测试数据
+        """Test spouse links are bidirectional and children are shared."""
+        # Prepare test data
         test_data = [
-            ['张三', '北京', '19700101', '0', '175', '本科', '工程师', '经理', '', '0', '1', '男'],
-            ['李四', '上海', '19720101', '0', '165', '本科', '教师', '主任', '张三', '1', '1', '女'],
-            ['张小明', '北京', '20000101', '0', '160', '高中', '学生', '学生', '张三', '2', '1', '男']
+            ['ZhangSam', 'Beijing', '19700101', '0', '175', 'Bachelor', 'Engineer', 'Manager', '', '0', '1', 'Male'],
+            ['LiSi', 'Shanghai', '19720101', '0', '165', 'Bachelor', 'Teacher', 'Director', 'ZhangSam', '1', '1', 'Female'],
+            ['ZhangXiaoMing', 'Beijing', '20000101', '0', '160', 'HighSchool', 'Student', 'Student', 'ZhangSam', '2', '1', 'Male']
         ]
         
-        # 构建家族树
+        # Build the family tree
         family = tb.buildTree(test_data)
         
-        # 验证配偶关系
+        # Verify spouse relationships
         assert len(family) >= 2
         if len(family) >= 2:
-            # 验证配偶关系双向建立
+            # Verify spouse links are bidirectional
             zhang_san_idx = 0
             li_si_idx = 1
             
             assert family[zhang_san_idx].spouse == li_si_idx
             assert family[li_si_idx].spouse == zhang_san_idx
             
-            # 验证子女共有
+            # Verify both spouses share the same children
             assert family[zhang_san_idx].kids == family[li_si_idx].kids
             
     def test_parent_child_relationship(self):
-        """测试父子关系建立与索引查找"""
-        # 准备测试数据
+        """Test parent-child links and lookup by name."""
+        # Prepare test data
         test_data = [
-            ['张三', '北京', '19700101', '0', '175', '本科', '工程师', '经理', '', '0', '1', '男'],
-            ['张小明', '北京', '20000101', '0', '160', '高中', '学生', '学生', '张三', '2', '1', '男']
+            ['ZhangSam', 'Beijing', '19700101', '0', '175', 'Bachelor', 'Engineer', 'Manager', '', '0', '1', 'Male'],
+            ['ZhangXiaoMing', 'Beijing', '20000101', '0', '160', 'HighSchool', 'Student', 'Student', 'ZhangSam', '2', '1', 'Male']
         ]
         
-        # 构建家族树
+        # Build the family tree
         family = tb.buildTree(test_data)
         
-        # 验证父子关系
+        # Verify parent-child relationships
         assert len(family) >= 2
         if len(family) >= 2:
             parent_idx = 0
             child_idx = 1
             
-            # 验证父代的kids列表包含子代索引
+            # Verify the parent contains the child in the kids list
             assert child_idx in family[parent_idx].kids
             
-            # 验证索引查找功能
-            found_idx = tb.find_rela('张三')
+            # Verify the name lookup function
+            found_idx = tb.find_rela('ZhangSam')
             assert found_idx == parent_idx
             
     def test_index_rebuild_consistency(self):
-        """测试索引重建与结构一致性"""
-        # 准备测试数据
+        """TestSonyImportWeightBuildandResultStructureOneCauseness"""
+        # Prepare test data
         test_data = [
-            ['张三', '北京', '19700101', '0', '175', '本科', '工程师', '经理', '', '0', '1', '男'],
-            ['李四', '上海', '19720101', '0', '165', '本科', '教师', '主任', '', '0', '1', '女'],
-            ['张小明', '北京', '20000101', '0', '160', '高中', '学生', '学生', '张三', '2', '1', '男']
+            ['ZhangSam', 'Beijing', '19700101', '0', '175', 'Bachelor', 'Engineer', 'Manager', '', '0', '1', 'Male'],
+            ['LiSi', 'Shanghai', '19720101', '0', '165', 'Bachelor', 'Teacher', 'Director', '', '0', '1', 'Female'],
+            ['ZhangXiaoMing', 'Beijing', '20000101', '0', '160', 'HighSchool', 'Student', 'Student', 'ZhangSam', '2', '1', 'Male']
         ]
         
-        # 构建家族树
+        # Build the family tree
         family = tb.buildTree(test_data)
         original_length = len(family)
         
-        # 验证索引一致性
+        # Verify index consistency
         for i, member in enumerate(family):
             assert member.idx == i
             
-        # 验证结构完整性
+        # Verify the resulting structure remains complete
         assert len(family) == original_length
         assert all(isinstance(member, tb.member) for member in family)
 

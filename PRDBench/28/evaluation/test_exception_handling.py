@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试3.1异常处理与容错功能
-验证系统是否能妥善处理各种异常输入
+Test 3.1 exception handling and fault tolerance function
+Verify whether the system can properly process various abnormal inputs
 """
 
 import sys
@@ -15,200 +15,200 @@ from models.schemas import CompanyCreateSchema
 from datetime import datetime
 
 def test_exception_handling():
-    """测试异常处理与容错功能"""
-    print("测试3.1异常处理与容错功能...")
-    
-    company_service = CompanyService()
-    exception_tests = []
-    
-    # 测试1: 空值输入
-    print("\n=== 测试1: 空值输入异常处理 ===")
-    try:
-        db = SessionLocal()
-        empty_data = {
-            'name': '',  # 空企业名称
-            'establishment_date': datetime(2020, 1, 1),
-            'registered_capital': 1000.0,
-            'company_type': '有限责任公司',
-            'main_business': '',  # 空主营业务
-            'industry': '制造业',
-            'employee_count': 0,  # 边界值
-            'annual_revenue': 0.0,  # 边界值
-            'annual_profit': -100.0,  # 负数利润
-            'asset_liability_ratio': 0.5
-        }
-        
-        schema = CompanyCreateSchema(**empty_data)
-        company = company_service.create_company(db, schema)
-        print(f"[PASS] 空值输入处理正常，创建企业ID: {company.id}")
-        exception_tests.append(("空值输入", True, "系统接受空值并进行了合理处理"))
-        db.close()
-        
-    except Exception as e:
-        print(f"[FAIL] 空值输入处理异常: {e}")
-        exception_tests.append(("空值输入", False, f"异常: {e}"))
-    
-    # 测试2: 超长字符串输入
-    print("\n=== 测试2: 超长字符串异常处理 ===")
-    try:
-        db = SessionLocal()
-        long_string = "超长字符串测试" * 100  # 约1400个字符
-        long_data = {
-            'name': long_string[:200],  # 截断处理
-            'establishment_date': datetime(2020, 1, 1),
-            'registered_capital': 1000.0,
-            'company_type': '有限责任公司',
-            'main_business': long_string,  # 超长主营业务
-            'industry': '制造业',
-            'employee_count': 50,
-            'annual_revenue': 1000.0,
-            'annual_profit': 100.0,
-            'asset_liability_ratio': 0.5,
-            'innovation_achievements': long_string  # 超长创新成果描述
-        }
-        
-        schema = CompanyCreateSchema(**long_data)
-        company = company_service.create_company(db, schema)
-        print(f"[PASS] 超长字符串处理正常，创建企业ID: {company.id}")
-        print(f"  企业名称长度: {len(company.name)}")
-        print(f"  主营业务长度: {len(company.main_business)}")
-        exception_tests.append(("超长字符串", True, f"系统处理了长度{len(long_string)}的字符串"))
-        db.close()
-        
-    except Exception as e:
-        print(f"[FAIL] 超长字符串处理异常: {e}")
-        exception_tests.append(("超长字符串", False, f"异常: {e}"))
-    
-    # 测试3: 特殊字符输入
-    print("\n=== 测试3: 特殊字符异常处理 ===")
-    try:
-        db = SessionLocal()
-        special_data = {
-            'name': '测试企业@#$%^&*()',  # 特殊字符企业名
-            'establishment_date': datetime(2020, 1, 1),
-            'registered_capital': 1000.0,
-            'company_type': '有限责任公司',
-            'main_business': '软件开发<script>alert("test")</script>',  # 包含HTML/JS
-            'industry': '信息技术@#$%',  # 特殊字符行业
-            'employee_count': 50,
-            'annual_revenue': 1000.0,
-            'annual_profit': 100.0,
-            'asset_liability_ratio': 0.5,
-            'innovation_achievements': '创新成果\n换行符\t制表符测试'  # 控制字符
-        }
-        
-        schema = CompanyCreateSchema(**special_data)
-        company = company_service.create_company(db, schema)
-        print(f"[PASS] 特殊字符处理正常，创建企业ID: {company.id}")
-        print(f"  企业名称: {company.name}")
-        print(f"  主营业务: {company.main_business[:50]}...")
-        exception_tests.append(("特殊字符", True, "系统正确处理了特殊字符"))
-        db.close()
-        
-    except Exception as e:
-        print(f"[FAIL] 特殊字符处理异常: {e}")
-        exception_tests.append(("特殊字符", False, f"异常: {e}"))
-    
-    # 测试4: 边界值输入
-    print("\n=== 测试4: 边界值异常处理 ===")
-    try:
-        db = SessionLocal()
-        boundary_data = {
-            'name': '边界值测试企业',
-            'establishment_date': datetime(2020, 1, 1),
-            'registered_capital': 0.01,  # 极小注册资本
-            'company_type': '有限责任公司',
-            'main_business': '边界测试',
-            'industry': '制造业',
-            'employee_count': 999999,  # 极大员工数
-            'annual_revenue': 999999999.99,  # 极大营收
-            'annual_profit': -999999.99,  # 极大负利润
-            'asset_liability_ratio': 0.99,  # 接近1的负债率
-            'patent_count': 0,  # 边界值
-            'copyright_count': 99999,  # 大数值
-            'rd_investment': 0.0,  # 边界值
-            'rd_revenue_ratio': 0.99,  # 接近100%
-            'rd_personnel_ratio': 1.0,  # 100%研发人员
-            'internal_control_score': 1,  # 最低分
-            'financial_standard_score': 5,  # 最高分
-            'compliance_training_score': 1,
-            'employment_compliance_score': 5
-        }
-        
-        schema = CompanyCreateSchema(**boundary_data)
-        company = company_service.create_company(db, schema)
-        print(f"[PASS] 边界值处理正常，创建企业ID: {company.id}")
-        print(f"  注册资本: {company.registered_capital}")
-        print(f"  员工数: {company.employee_count}")
-        print(f"  营收: {company.annual_revenue}")
-        exception_tests.append(("边界值", True, "系统正确处理了边界值"))
-        db.close()
-        
-    except Exception as e:
-        print(f"[FAIL] 边界值处理异常: {e}")
-        exception_tests.append(("边界值", False, f"异常: {e}"))
-    
-    # 测试5: 无效日期处理（通过更新测试）
-    print("\n=== 测试5: 无效数据类型处理 ===")
-    try:
-        db = SessionLocal()
-        # 测试资产负债率超出范围
-        invalid_data = {
-            'name': '无效数据测试企业',
-            'establishment_date': datetime(2020, 1, 1),
-            'registered_capital': 1000.0,
-            'company_type': '有限责任公司',
-            'main_business': '测试业务',
-            'industry': '制造业',
-            'employee_count': 50,
-            'annual_revenue': 1000.0,
-            'annual_profit': 100.0,
-            'asset_liability_ratio': 1.5,  # 超出合理范围
-            'rd_revenue_ratio': 2.0,  # 超出100%
-            'rd_personnel_ratio': 1.5,  # 超出100%
-            'internal_control_score': 10,  # 超出1-5范围
-            'financial_standard_score': -1  # 负数评分
-        }
-        
-        schema = CompanyCreateSchema(**invalid_data)
-        company = company_service.create_company(db, schema)
-        print(f"[PASS] 无效数据类型处理正常，创建企业ID: {company.id}")
-        print(f"  资产负债率: {company.asset_liability_ratio}")
-        print(f"  研发投入比例: {company.rd_revenue_ratio}")
-        exception_tests.append(("无效数据类型", True, "系统接受了超出范围的数值"))
-        db.close()
-        
-    except Exception as e:
-        print(f"[FAIL] 无效数据类型处理异常: {e}")
-        exception_tests.append(("无效数据类型", False, f"异常: {e}"))
-    
-    # 汇总测试结果
-    print("\n" + "=" * 80)
-    print("异常处理与容错测试结果汇总")
-    print("=" * 80)
-    
-    passed_tests = 0
-    total_tests = len(exception_tests)
-    
-    for test_name, passed, description in exception_tests:
-        status = "[PASS]" if passed else "[FAIL]"
-        print(f"{status} {test_name:<15} - {description}")
-        if passed:
-            passed_tests += 1
-    
-    print("-" * 80)
-    print(f"通过测试: {passed_tests}/{total_tests}")
-    
-    if passed_tests >= 3:  # 至少通过3个测试
-        print("\n[PASS] 测试通过：异常处理与容错功能有效")
-        print("  - 系统能妥善处理各种异常输入(空值、超长字符串、特殊字符等)")
-        print("  - 提供友好的错误处理机制而不发生程序崩溃")
-        print("  - 边界值和无效数据得到合理处理")
-        return True
-    else:
-        print("\n[FAIL] 测试失败：异常处理功能需要改进")
-        return False
+ """Test exception handling and fault tolerance function"""
+ print("Test 3.1 exception handling and fault tolerance function...")
+
+ company_service = CompanyService()
+ exception_tests = []
+
+ # Test 1: Empty value input
+ print("\n=== Test 1: Empty value input exception handling ===")
+ try:
+ db = SessionLocal()
+ empty_data = {
+ 'name': '', # Empty company name
+ 'establishment_date': datetime(2020, 1, 1),
+ 'registered_capital': 1000.0,
+ 'company_type': 'Limited Liability Company',
+ 'main_business': '', # Empty main business
+ 'industry': 'Manufacturing',
+ 'employee_count': 0, # Boundary value
+ 'annual_revenue': 0.0, # Boundary value
+ 'annual_profit': -100.0, # Negative profit
+ 'asset_liability_ratio': 0.5
+ }
+
+ schema = CompanyCreateSchema(**empty_data)
+ company = company_service.create_company(db, schema)
+ print(f"[PASS] Empty value input processing normal, created company ID: {company.id}")
+ exception_tests.append(("Empty value input", True, "System accepts empty value and performs reasonable processing"))
+ db.close()
+
+ except Exception as e:
+ print(f"[FAIL] Empty value input processing abnormal: {e}")
+ exception_tests.append(("Empty value input", False, f"Abnormal: {e}"))
+
+ # Test 2: Extra long string input
+ print("\n=== Test 2: Extra long string exception handling ===")
+ try:
+ db = SessionLocal()
+ long_string = "Extra long string test" * 100 # Approximately 1400 characters
+ long_data = {
+ 'name': long_string[:200], # Truncate processing
+ 'establishment_date': datetime(2020, 1, 1),
+ 'registered_capital': 1000.0,
+ 'company_type': 'Limited Liability Company',
+ 'main_business': long_string, # Extra long main business
+ 'industry': 'Manufacturing',
+ 'employee_count': 50,
+ 'annual_revenue': 1000.0,
+ 'annual_profit': 100.0,
+ 'asset_liability_ratio': 0.5,
+ 'innovation_achievements': long_string # Extra long innovation achievements description
+ }
+
+ schema = CompanyCreateSchema(**long_data)
+ company = company_service.create_company(db, schema)
+ print(f"[PASS] Extra long string processing normal, created company ID: {company.id}")
+ print(f" Company name length: {len(company.name)}")
+ print(f" Main business length: {len(company.main_business)}")
+ exception_tests.append(("Extra long string", True, f"System processed length {len(long_string)} string"))
+ db.close()
+
+ except Exception as e:
+ print(f"[FAIL] Extra long string processing abnormal: {e}")
+ exception_tests.append(("Extra long string", False, f"Abnormal: {e}"))
+
+ # Test 3: Special characters input
+ print("\n=== Test 3: Special characters exception handling ===")
+ try:
+ db = SessionLocal()
+ special_data = {
+ 'name': 'Test Company@#$%^&*()', # Special characters company name
+ 'establishment_date': datetime(2020, 1, 1),
+ 'registered_capital': 1000.0,
+ 'company_type': 'Limited Liability Company',
+ 'main_business': 'Software Development<script>alert("test")</script>', # Contains HTML/JS
+ 'industry': 'Information Technology@#$%', # Special characters industry
+ 'employee_count': 50,
+ 'annual_revenue': 1000.0,
+ 'annual_profit': 100.0,
+ 'asset_liability_ratio': 0.5,
+ 'innovation_achievements': 'Innovation achievements\nNewline\tTab test' # Control characters
+ }
+
+ schema = CompanyCreateSchema(**special_data)
+ company = company_service.create_company(db, schema)
+ print(f"[PASS] Special characters processing normal, created company ID: {company.id}")
+ print(f" Company name: {company.name}")
+ print(f" Main business: {company.main_business[:50]}...")
+ exception_tests.append(("Special characters", True, "System correctly processes special characters"))
+ db.close()
+
+ except Exception as e:
+ print(f"[FAIL] Special characters processing abnormal: {e}")
+ exception_tests.append(("Special characters", False, f"Abnormal: {e}"))
+
+ # Test 4: Boundary value input
+ print("\n=== Test 4: Boundary value exception handling ===")
+ try:
+ db = SessionLocal()
+ boundary_data = {
+ 'name': 'Boundary Value Test Company',
+ 'establishment_date': datetime(2020, 1, 1),
+ 'registered_capital': 0.01, # Extremely small registered capital
+ 'company_type': 'Limited Liability Company',
+ 'main_business': 'Boundary test',
+ 'industry': 'Manufacturing',
+ 'employee_count': 999999, # Extremely large employee count
+ 'annual_revenue': 999999999.99, # Extremely large revenue
+ 'annual_profit': -999999.99, # Extremely large negative profit
+ 'asset_liability_ratio': 0.99, # Near 1 debt ratio
+ 'patent_count': 0, # Boundary value
+ 'copyright_count': 99999, # Large number
+ 'rd_investment': 0.0, # Boundary value
+ 'rd_revenue_ratio': 0.99, # Near 100%
+ 'rd_personnel_ratio': 1.0, # 100% R&D personnel
+ 'internal_control_score': 1, # Lowest score
+ 'financial_standard_score': 5, # Highest score
+ 'compliance_training_score': 1,
+ 'employment_compliance_score': 5
+ }
+
+ schema = CompanyCreateSchema(**boundary_data)
+ company = company_service.create_company(db, schema)
+ print(f"[PASS] Boundary value processing normal, created company ID: {company.id}")
+ print(f" Registered capital: {company.registered_capital}")
+ print(f" Employee count: {company.employee_count}")
+ print(f" Revenue: {company.annual_revenue}")
+ exception_tests.append(("Boundary value", True, "System correctly processes boundary values"))
+ db.close()
+
+ except Exception as e:
+ print(f"[FAIL] Boundary value processing abnormal: {e}")
+ exception_tests.append(("Boundary value", False, f"Abnormal: {e}"))
+
+ # Test 5: Invalid data type processing (through update test)
+ print("\n=== Test 5: Invalid data type processing ===")
+ try:
+ db = SessionLocal()
+ # Test asset-liability ratio out of range
+ invalid_data = {
+ 'name': 'Invalid Data Test Company',
+ 'establishment_date': datetime(2020, 1, 1),
+ 'registered_capital': 1000.0,
+ 'company_type': 'Limited Liability Company',
+ 'main_business': 'Test business',
+ 'industry': 'Manufacturing',
+ 'employee_count': 50,
+ 'annual_revenue': 1000.0,
+ 'annual_profit': 100.0,
+ 'asset_liability_ratio': 1.5, # Exceeds reasonable range
+ 'rd_revenue_ratio': 2.0, # Exceeds 100%
+ 'rd_personnel_ratio': 1.5, # Exceeds 100%
+ 'internal_control_score': 10, # Exceeds 1-5 range
+ 'financial_standard_score': -1 # Negative score
+ }
+
+ schema = CompanyCreateSchema(**invalid_data)
+ company = company_service.create_company(db, schema)
+ print(f"[PASS] Invalid data type processing normal, created company ID: {company.id}")
+ print(f" Asset-liability ratio: {company.asset_liability_ratio}")
+ print(f" R&D investment ratio: {company.rd_revenue_ratio}")
+ exception_tests.append(("Invalid data type", True, "System accepts out of range numbers"))
+ db.close()
+
+ except Exception as e:
+ print(f"[FAIL] Invalid data type processing abnormal: {e}")
+ exception_tests.append(("Invalid data type", False, f"Abnormal: {e}"))
+
+ # Summary of test results
+ print("\n" + "=" * 80)
+ print("Exception handling and fault tolerance test result summary")
+ print("=" * 80)
+
+ passed_tests = 0
+ total_tests = len(exception_tests)
+
+ for test_name, passed, description in exception_tests:
+ status = "[PASS]" if passed else "[FAIL]"
+ print(f"{status} {test_name:<15} - {description}")
+ if passed:
+ passed_tests += 1
+
+ print("-" * 80)
+ print(f"Passed tests: {passed_tests}/{total_tests}")
+
+ if passed_tests >= 3: # At least pass 3 tests
+ print("\n[PASS] Test passed: exception handling and fault tolerance functionality effective")
+ print(" - System can properly process various abnormal inputs (empty values, extra long strings, special characters, etc.)")
+ print(" - Provides friendly error processing mechanism without program crash")
+ print(" - Boundary values and invalid data are reasonably processed")
+ return True
+ else:
+ print("\n[FAIL] Test failed: exception handling function needs improvement")
+ return False
 
 if __name__ == "__main__":
-    success = test_exception_handling()
-    exit(0 if success else 1)
+ success = test_exception_handling()
+ exit(0 if success else 1)

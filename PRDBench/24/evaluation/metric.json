@@ -31,7 +31,7 @@
   },
   {
     "metric": "1.3.1 Silhouette Coefficient Analysis and Visualization: Calculate Optimal K Value and Generate Relationship Chart",
-    "description": "1. **Arrange:** Ensure src/mdl4.xlsx file exists and matplotlib can normally display charts.\n2. **Act:** Execute command `python src/轮廓系数zh.py`.\n3. **Assert:** Observe console outputs \"Largest silhouette coefficient:\" and \"Corresponding K value:\" information (K value within 2-92 range), and pops up K value and silhouette coefficient relationship chart, Chinese labels display normally.",
+    "description": "1. **Arrange:** Ensure src/mdl4.xlsx file exists and matplotlib can normally display charts.\n2. **Act:** Execute command `python src/SilhouetteCoefficient.py`.\n3. **Assert:** Observe console outputs \"Largest silhouette coefficient:\" and \"Corresponding K value:\" information (K value within 2-92 range), and pops up K value and silhouette coefficient relationship chart, Chinese labels display normally.",
     "expected_output": "2 points: Successfully outputs maximum silhouette coefficient and K value information (K value within 2-92 range) and displays complete chart, Chinese labels display normally. 1 point: Console output or chart display one item meets standard. 0 points: Program reports error, no relevant output or chart cannot display."
   },
   {

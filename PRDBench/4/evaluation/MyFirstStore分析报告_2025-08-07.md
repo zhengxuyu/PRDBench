@@ -1,31 +1,31 @@
-# MyFirstStore - 商业可行性分析报告
-> 报告生成日期: 2025-08-07
+# MyFirstStore - Business Feasibility Analysis Report
+> Report GenerationJapanesePeriod: 2025-08-07
 
-## 核心财务指标
-| 指标 | 数值 |
+## Core Financial Metrics
+| IndicatorMark | NumberValue |
 |:---|:---|
-| 日均单量 | **104** |
-| 客单价 | **35.00 元** |
-| 月均净利润 | **-1,788.89 元** |
-| 净利率 | **-1.64%** |
-| 毛利率 | **65.00%** |
-| 投资回收期 | **无法回收** |
+| JapaneseAverageSingleEdition | **104** |
+| Average Ticket Price | **35.00 CNY** |
+| Monthly Net Profit | **-1,788.89 CNY** |
+| PureLiRate | **-1.64%** |
+| Gross Margin | **65.00%** |
+| Payback Period | **NoMethodReturnReceive** |
 
 
-## 关键决策建议
+## Key Decision Recommendations
 
 
-## 本量利分析
-![本量利分析图](MyFirstStore_break_even_chart.png)
+## BookEditionLiAnalysis
+![Break-even Analysis Chart](MyFirstStore_break_even_chart.png)
 
 
-## 利润敏感性分析
-关键变量提升10%对月净利润的影响：
+## Profit Sensitivity Analysis
+Impact on monthly net profit after a 10% increase in each key variable: 
 
-| 关键变量 | 利润变化百分比 |
+| Key Variable | Profit Change Percentage |
 |:---|:---|
-| 食材成本率 | +183.13% |
-| 月人力成本 | +167.70% |
-| 月租金 | +111.80% |
-| 平台佣金率 | +91.57% |
-| 客单价 | +17.61% |
+| Ingredient Cost Ratio | +183.13% |
+| Monthly Labor Cost | +167.70% |
+| Monthly Rent | +111.80% |
+| Platform Commission Rate | +91.57% |
+| Average Ticket Price | +17.61% |

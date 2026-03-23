@@ -1,13 +1,13 @@
-多序列比对算法性能对比结果
+Multiple Sequence Alignment Algorithm Performance Comparison Result
 ==================================================
 
-算法配置:
-- 算法类型: 动态规划算法
-- 匹配代价: 0
-- 不匹配代价: 5
-- 间隙代价: 3
+Algorithm Configuration:
+- Algorithm Type: Dynamic Programming Algorithm
+- Match Score: 0
+- Mismatch Penalty: 5
+- Gap Penalty: 3
 
-测试条件:
-- 输入文件: evaluation/input_files/valid_sequence.txt
-- 序列数量: 2
-- 测试时间: 2025-01-29
+Test Case:
+- Input File: evaluation/input_files/valid_sequence.txt
+- Sequence Count: 2
+- Test Time: 2025-01-29

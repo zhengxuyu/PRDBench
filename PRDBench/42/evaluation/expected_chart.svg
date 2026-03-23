@@ -99,7 +99,7 @@ L 599.6 354.4375
 " clip-path="url(#p3191dd1d44)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_1">
-      <!-- 领导与激励 -->
+      <!-- leadershipandmotivation -->
       <g transform="translate(583.6 358.492188) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-9886" d="M 5275 4775 
@@ -481,7 +481,7 @@ L 322.4 77.2375
 " clip-path="url(#p3191dd1d44)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_2">
-      <!-- 计划组织 -->
+      <!-- DesignplanGrouporganization -->
       <g transform="translate(298.4 67.175) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-8ba1" d="M 3925 3100 
@@ -734,7 +734,7 @@ L 45.2 354.4375
 " clip-path="url(#p3191dd1d44)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_3">
-      <!-- 决策创新 -->
+      <!-- DecisioncreateNew -->
       <g transform="translate(7.2 358.5625) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-51b3" d="M 3400 3700 
@@ -1034,7 +1034,7 @@ L 322.4 631.6375
 " clip-path="url(#p3191dd1d44)" style="fill: none; stroke: #b0b0b0; stroke-width: 0.8; stroke-linecap: square"/>
      </g>
      <g id="text_4">
-      <!-- 专业控制 -->
+      <!-- professionalControl -->
       <g transform="translate(298.4 649.645313) scale(0.12 -0.12)">
        <defs>
         <path id="SimHei-4e13" d="M 4450 -600 
@@ -1639,7 +1639,7 @@ C 592.429684 426.886682 599.6 390.83907 599.6 354.4375
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_10">
-    <!-- "测试企业" - 管理技能雷达图对比 -->
+    <!-- "TestEnterprise" - Managementskillradar chartforBifer -->
     <g transform="translate(198.4 20.2) scale(0.16 -0.16)">
      <defs>
       <path id="SimHei-22" d="M 1400 4525 
@@ -2477,7 +2477,7 @@ z
      <use xlink:href="#SimHei-5bf9" transform="translate(1350 0)"/>
      <use xlink:href="#SimHei-6bd4" transform="translate(1450 0)"/>
     </g>
-    <!-- (按管理层级) -->
+    <!-- (AccordingManagementLayerLevel) -->
     <g transform="translate(274.4 37.8) scale(0.16 -0.16)">
      <defs>
       <path id="SimHei-28" d="M 2975 -200 
@@ -2740,7 +2740,7 @@ L 643.48 90.8625
      </g>
     </g>
     <g id="text_11">
-     <!-- 初级管理者 -->
+     <!-- InitialLevelManagementEr -->
      <g transform="translate(651.48 94.3625) scale(0.1 -0.1)">
       <defs>
        <path id="SimHei-521d" d="M 5675 550 
@@ -2883,7 +2883,7 @@ L 643.48 105.2375
      </g>
     </g>
     <g id="text_12">
-     <!-- 中级管理者 -->
+     <!-- inLevelManagementEr -->
      <g transform="translate(651.48 108.7375) scale(0.1 -0.1)">
       <defs>
        <path id="SimHei-4e2d" d="M 3475 5200 
@@ -2939,7 +2939,7 @@ L 643.48 119.6125
      </g>
     </g>
     <g id="text_13">
-     <!-- 高级管理者 -->
+     <!-- HighLevelManagementEr -->
      <g transform="translate(651.48 123.1125) scale(0.1 -0.1)">
       <defs>
        <path id="SimHei-9ad8" d="M 5825 -25 

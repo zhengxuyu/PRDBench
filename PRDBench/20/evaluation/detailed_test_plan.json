@@ -66,6 +66,10 @@
       {
         "test_command": "python src/main.py",
         "test_input": "evaluation/inputs/inputs_for_test_2.1.2b.in"
+      },
+      {
+        "test_command": "openssl x509 -in src/data/certs/test_user3.pem -text -noout",
+        "test_input": null
       }
     ],
     "input_files": null,

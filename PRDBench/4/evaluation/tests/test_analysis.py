@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 from unittest.mock import patch, MagicMock
 
-# 将项目根目录添加到sys.path
+# saveproject root directoryAddtosys.path
 PROJECT_ROOT = Path(__file__).parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -13,12 +13,12 @@ from src.store_forecasting_tool.core.project_models import Project
 from src.store_forecasting_tool.analysis import cost_analyzer, prediction_engine
 from src.store_forecasting_tool.cli import report_generator
 
-# 创建一个基础的Project实例供所有测试使用
+# CreateOneitem(s)FoundationFoundationProjectImplementationExampleProvidePlaceHasTestUseUse
 def create_base_project():
     project_data = {
-        "name": "TestProject", "city": "测试市", "area": "测试区", 
-        "business_circle_type": "核心商圈", "longitude": 120.0, "latitude": 30.0,
-        "categories": {"主食": 0.5, "小吃": 0.3, "饮品": 0.2},
+        "name": "TestProject", "city": "TestCity", "area": "TestRegion", 
+        "business_circle_type": "Core Business District", "longitude": 120.0, "latitude": 30.0,
+        "categories": {"Staples": 0.5, "Snacks": 0.3, "Beverages": 0.2},
         "avg_item_price": 35.0, "daily_customers": 150, "conversion_rate": 0.8,
         "ingredient_cost_ratio": 0.3, "packaging_cost_ratio": 0.05,
         "monthly_rent": 20000, "monthly_labor_cost": 30000,
@@ -28,7 +28,7 @@ def create_base_project():
     return Project(**project_data)
 
 def test_core_metrics_calculation():
-    """测试核心指标是否都能被计算出来。对应 metric: 2.4.1"""
+    """Test whether all core metrics are computed and returned.forShould metric: 2.4.1"""
     project = create_base_project()
     prediction_results = prediction_engine.predict_daily_orders(project)
     analysis_results = cost_analyzer.analyze_costs_and_profits(project, prediction_results)
@@ -38,86 +38,86 @@ def test_core_metrics_calculation():
         "net_profit", "payback_period_months"
     ]
     for metric in required_metrics:
-        assert metric in analysis_results, f"测试失败: 分析结果缺少核心指标 '{metric}'。"
-        assert analysis_results[metric] is not None, f"测试失败: 核心指标 '{metric}' 的值为None。"
+        assert metric in analysis_results, f"Test Failed: Analysis results are missing the core metric '{metric}'."
+        assert analysis_results[metric] is not None, f"Test Failed: CoreIndicatorMark '{metric}' ValueasNone."
 
 def test_suggestion_generation():
-    """测试是否生成了决策建议。对应 metric: 2.3.3"""
+    """TestYesNoGenerateDecisionRecommendation.forShould metric: 2.3.3"""
     project = create_base_project()
     prediction_results = prediction_engine.predict_daily_orders(project)
     analysis_results = cost_analyzer.analyze_costs_and_profits(project, prediction_results)
     full_analysis = cost_analyzer.perform_sensitivity_analysis(project, analysis_results)
 
-    assert "suggestions" in full_analysis, "测试失败: 分析结果中缺少 'suggestions' 键。"
-    assert isinstance(full_analysis["suggestions"], list), "测试失败: 'suggestions' 不一个列表。"
-    assert len(full_analysis["suggestions"]) >= 3, "测试失败: 生成的建议少于3条。"
+    assert "suggestions" in full_analysis, "Test Failed: Analysis results are missing 'suggestions' Key."
+    assert isinstance(full_analysis["suggestions"], list), "Test Failed: 'suggestions' NotOneitem(s)List."
+    assert len(full_analysis["suggestions"]) >= 3, "Test Failed: Generated recommendations are fewer than 3 items."
 
 def test_sensitivity_analysis():
-    """测试敏感性分析是否生成且排序。对应 metric: 2.4.2"""
+    """Test whether sensitivity analysis is generated and sorted.forShould metric: 2.4.2"""
     project = create_base_project()
     prediction_results = prediction_engine.predict_daily_orders(project)
     analysis_results = cost_analyzer.analyze_costs_and_profits(project, prediction_results)
     full_analysis = cost_analyzer.perform_sensitivity_analysis(project, analysis_results)
 
-    assert "sensitivity_analysis" in full_analysis, "测试失败: 分析结果缺少 'sensitivity_analysis'。"
-    assert isinstance(full_analysis["sensitivity_analysis"], list), "测试失败: 'sensitivity_analysis' 不是一个列表。"
-    assert len(full_analysis["sensitivity_analysis"]) >= 3, "测试失败: 敏感性因素少于3个。"
-    # 验证排序（影响越大的绝对值越大）
+    assert "sensitivity_analysis" in full_analysis, "Test Failed: AnalysisResultMissingfew 'sensitivity_analysis'."
+    assert isinstance(full_analysis["sensitivity_analysis"], list), "Test Failed: 'sensitivity_analysis' NotYesOneitem(s)List."
+    assert len(full_analysis["sensitivity_analysis"]) >= 3, "Test Failed: Sensitivity factors are fewer than 3."
+    # Verify sorting(larger impact should come first)
     impact_values = [abs(v) for k, v in full_analysis["sensitivity_analysis"]]
-    assert impact_values == sorted(impact_values, reverse=True), "测试失败: 敏感性分析结果未按影响大小降序排序。"
+    assert impact_values == sorted(impact_values, reverse=True), "Test Failed: Sensitivity analysis results are not sorted by descending impact."
 
 def test_break_even_chart_generation():
-    """测试回本周期图表能否被成功生成。对应 metric: 2.3.2"""
+    """Test whether the break-even chart is successfully generated.forShould metric: 2.3.2"""
     project = create_base_project()
     prediction_results = prediction_engine.predict_daily_orders(project)
     analysis_results = cost_analyzer.analyze_costs_and_profits(project, prediction_results)
     
-    # 报告生成过程会附带生成图表
+    # Report GenerationOverProcesswill also generate charts
     output_path = report_generator.EVALUATION_DIR / f"{project.name}_break_even_chart.png"
     if output_path.exists():
         output_path.unlink()
 
-    # 调用主报告生成函数，它会负责图表的生成
+    # Call the main report generation function, which is responsible for generating the chart
     report_generator.generate_md_report(project, analysis_results)
 
-    assert output_path.exists(), f"测试失败: 图表文件 {output_path} 未被创建。"
-    assert output_path.stat().st_size > 0, f"测试失败: 图表文件 {output_path} 大小为0。"
+    assert output_path.exists(), f"Test Failed: Chart file {output_path} was not created."
+    assert output_path.stat().st_size > 0, f"Test Failed: Chart file {output_path} size is 0."
     if output_path.exists():
         output_path.unlink()
 
 @patch('src.store_forecasting_tool.cli.report_generator.generate_md_report')
 def test_md_report_content_proxy(mock_generate_md):
     """
-    通过模拟(mock)来代理验证Markdown报告的内容。
-    对应 metric: 2.4.3b
+    Use simulation (mock) generation to verify Markdown report content.
+    forShould metric: 2.4.3b
     """
     project = create_base_project()
     prediction_results = prediction_engine.predict_daily_orders(project)
     analysis_results = cost_analyzer.analyze_costs_and_profits(project, prediction_results)
     
-    # 调用报告生成函数
+    # AdjustUseReport GenerationFunctionNumber
     report_generator.generate_md_report(project, analysis_results)
 
-    # 断言mock函数被调用了
+    # Assert that the mock function is called
     mock_generate_md.assert_called_once()
     
-    # 获取调用时的参数
+    # GetGetAdjustUseTimeParameter
     args, kwargs = mock_generate_md.call_args
     called_with_project = args[0]
     called_with_analysis = args[1]
 
-    # 验证传入的数据是否正确
+    # VerifyTraditionalInputDataYesNoCorrectAccurate
     assert called_with_project.name == "TestProject"
     required_metrics = ["predicted_daily_orders", "avg_item_price", "net_profit"]
     for metric in required_metrics:
         assert metric in called_with_analysis
 
 def test_subsidy_impact():
-    """测试补贴参数调整对核心指标的影响。对应 metric: 2.2.1"""
-    # 该功能点在当前代码中未直接体现，此为占位测试
+    """Test the impact of subsidy parameter adjustments on core metrics.forShould metric: 2.2.1"""
+    # ThisFunctionPointinWhenbeforeGenerationCodeinNotDirectInterfaceIntegratedImplementation, this serves as a placeholder test
     pass
 
 def test_category_factor_impact():
-    """测试品类影响因子调节对核心指标的影响。对应 metric: 2.2.2"""
-    # 该功能点在当前代码中未直接体现，此为占位测试
+    """TestBrandCategoryShadowResponseCauseSubAdjustEnergyforCoreIndicatorMarkShadowResponse.forShould metric: 2.2.2"""
+    # ThisFunctionPointinWhenbeforeGenerationCodeinNotDirectInterfaceIntegratedImplementation, this serves as a placeholder test
     pass

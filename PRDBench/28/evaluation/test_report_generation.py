@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-报告文件生成测试脚本
+Report file generation test script
 """
 
 import os
@@ -11,44 +11,44 @@ import tempfile
 import time
 
 def run_command_with_input(command, input_data=None):
-    """运行命令并提供输入"""
-    try:
-        if input_data:
-            process = subprocess.Popen(
-                command, 
-                shell=True, 
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                cwd='src'
-            )
-            stdout, stderr = process.communicate(input=input_data)
-        else:
-            process = subprocess.Popen(
-                command, 
-                shell=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                cwd='src'
-            )
-            stdout, stderr = process.communicate()
-        
-        return process.returncode, stdout, stderr
-    except Exception as e:
-        return -1, "", str(e)
+ """Run command and provide input"""
+ try:
+ if input_data:
+ process = subprocess.Popen(
+ command,
+ shell=True,
+ stdin=subprocess.PIPE,
+ stdout=subprocess.PIPE,
+ stderr=subprocess.PIPE,
+ text=True,
+ cwd='src'
+ )
+ stdout, stderr = process.communicate(input=input_data)
+ else:
+ process = subprocess.Popen(
+ command,
+ shell=True,
+ stdout=subprocess.PIPE,
+ stderr=subprocess.PIPE,
+ text=True,
+ cwd='src'
+ )
+ stdout, stderr = process.communicate()
+
+ return process.returncode, stdout, stderr
+ except Exception as e:
+ return -1, "", str(e)
 
 def main():
-    """主测试流程"""
-    print("开始报告文件生成测试...")
-    
-    # 企业创建输入数据
-    company_input = """测试科技公司
+ """Main test process"""
+ print("Starting report file generation test...")
+
+ # Company creation input data
+ company_input = """TestTechnologyCompany
 2020-06-15
 500
 1
-软件开发与技术服务
+Software Development and Technical Services
 6
 80
 2000
@@ -59,7 +59,7 @@ y
 12
 300
 0.25
-获得多项软件著作权和实用新型专利
+Obtained multiple software copyrights and utility model patents
 y
 4
 4
@@ -67,111 +67,111 @@ y
 4
 n
 """
-    
-    # 步骤1: 创建企业
-    print("1. 创建测试企业...")
-    returncode, stdout, stderr = run_command_with_input(
-        "python main.py company add", 
-        company_input
-    )
-    
-    if returncode != 0:
-        print(f"企业创建失败: {stderr}")
-        return False
-    
-    print("企业创建成功")
-    
-    # 步骤2: 生成报告
-    print("2. 生成诊断报告...")
-    report_input = "y\nn\n"  # 执行诊断：是，查看报告：否
-    
-    returncode, stdout, stderr = run_command_with_input(
-        "python main.py report generate --name 测试科技公司",
-        report_input
-    )
-    
-    if returncode != 0:
-        print(f"报告生成失败: {stderr}")
-        return False
-    
-    print("报告生成成功")
-    
-    # 步骤3: 检查文件是否存在
-    print("3. 检查报告文件...")
-    
-    # 报告服务在src目录下创建reports文件夹
-    os.chdir('src')
-    reports_dir = "reports"
-    
-    if not os.path.exists(reports_dir):
-        print("报告目录不存在")
-        os.chdir('..')  # 返回原目录
-        return False
-    
-    # 查找匹配的报告文件
-    import glob
-    pattern = os.path.join(reports_dir, "融资诊断报告_测试科技公司_*.txt")
-    report_files = glob.glob(pattern)
-    
-    if not report_files:
-        print("未找到报告文件")
-        # 列出所有文件看看
-        print("reports目录内容:")
-        for item in os.listdir(reports_dir):
-            item_path = os.path.join(reports_dir, item)
-            if os.path.isfile(item_path):
-                print(f"  文件: {item}")
-            else:
-                print(f"  目录: {item}")
-        os.chdir('..')  # 返回原目录
-        return False
-    
-    report_file = report_files[0]  # 取第一个匹配的文件
-    
-    # 检查文件大小
-    file_size = os.path.getsize(report_file)
-    if file_size == 0:
-        print("报告文件为空")
-        return False
-    
-    print(f"找到报告文件: {os.path.basename(report_file)}")
-    print(f"文件大小: {file_size} 字节")
-    
-    # 检查文件内容结构
-    try:
-        with open(report_file, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # 检查必要的内容
-        required_sections = [
-            "中小企业融资智能诊断与优化建议报告",
-            "一、企业画像",
-            "二、融资能力评分",
-            "三、基础分析",
-            "四、融资建议",
-            "五、改进建议",
-            "六、图表分析"
-        ]
-        
-        missing_sections = []
-        for section in required_sections:
-            if section not in content:
-                missing_sections.append(section)
-        
-        if missing_sections:
-            print(f"报告缺少必要章节: {missing_sections}")
-            return False
-        
-        print("报告文件内容结构完整")
-        print("测试通过：报告文件保存功能正常")
-        os.chdir('..')  # 返回原目录
-        return True
-        
-    except Exception as e:
-        print(f"读取报告文件失败: {e}")
-        os.chdir('..')  # 返回原目录
-        return False
+
+ # Step 1: Create company
+ print("1. Creating test company...")
+ returncode, stdout, stderr = run_command_with_input(
+ "python main.py company add",
+ company_input
+ )
+
+ if returncode != 0:
+ print(f"Company creation failure: {stderr}")
+ return False
+
+ print("Company created successfully")
+
+ # Step 2: Generate report
+ print("2. Generating diagnosis report...")
+ report_input = "y\nn\n" # Execute diagnosis: yes, view report: no
+
+ returncode, stdout, stderr = run_command_with_input(
+ "python main.py report generate --name TestTechnologyCompany",
+ report_input
+ )
+
+ if returncode != 0:
+ print(f"Report generation failure: {stderr}")
+ return False
+
+ print("Report generated successfully")
+
+ # Step 3: Check whether file exists
+ print("3. Checking report file...")
+
+ # ReportService creates reports folder in src directory
+ os.chdir('src')
+ reports_dir = "reports"
+
+ if not os.path.exists(reports_dir):
+ print("Report directory does not exist")
+ os.chdir('..') # Return to original directory
+ return False
+
+ # Search for matching report files
+ import glob
+ pattern = os.path.join(reports_dir, "Financing diagnosis report_TestTechnologyCompany_*.txt")
+ report_files = glob.glob(pattern)
+
+ if not report_files:
+ print("Report files not found")
+ # List all files to see
+ print("Reports directory content:")
+ for item in os.listdir(reports_dir):
+ item_path = os.path.join(reports_dir, item)
+ if os.path.isfile(item_path):
+ print(f" File: {item}")
+ else:
+ print(f" Directory: {item}")
+ os.chdir('..') # Return to original directory
+ return False
+
+ report_file = report_files[0] # Take first matching file
+
+ # Check file size
+ file_size = os.path.getsize(report_file)
+ if file_size == 0:
+ print("Report file is empty")
+ return False
+
+ print(f"Found report file: {os.path.basename(report_file)}")
+ print(f"File size: {file_size} bytes")
+
+ # Check file content structure
+ try:
+ with open(report_file, 'r', encoding='utf-8') as f:
+ content = f.read()
+
+ # Check required content
+ required_sections = [
+ "Small and Medium Enterprise Financing Intelligent Diagnosis and Optimization Recommendation Report",
+ "1. Company Profile",
+ "2. Financing Capability Score",
+ "3. Detailed Analysis",
+ "4. Financing Suggestions",
+ "5. Improvement Suggestions",
+ "6. Chart Analysis"
+ ]
+
+ missing_sections = []
+ for section in required_sections:
+ if section not in content:
+ missing_sections.append(section)
+
+ if missing_sections:
+ print(f"Report missing required sections: {missing_sections}")
+ return False
+
+ print("Report file content structure complete")
+ print("Test passed: Report file save functionality normal")
+ os.chdir('..') # Return to original directory
+ return True
+
+ except Exception as e:
+ print(f"Reading report file failure: {e}")
+ os.chdir('..') # Return to original directory
+ return False
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+ success = main()
+ sys.exit(0 if success else 1)

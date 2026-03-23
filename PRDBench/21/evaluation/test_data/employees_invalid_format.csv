@@ -1,4 +1,4 @@
-姓名,工号,参与积分,入职时长
-张三,0101001,abc,24
-李四,0101002,92,xyz
-王五,0102001,78,36
+Name,Employee ID,Score,Tenure
+Zhang San,0101001,abc,24
+Li Si,0101002,92,xyz
+Wang Wu,0102001,78,36

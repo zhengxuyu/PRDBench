@@ -3,7 +3,7 @@ help
 summary
 segments
 show
-filter segment 重要价值客户
+filter segment Important Value Customer
 show
 reset
 export test_report.csv

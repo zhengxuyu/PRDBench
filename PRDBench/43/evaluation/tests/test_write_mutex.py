@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-写操作互斥测试
-验证同一文件同一时间仅允许一个进程写入
+Write Operation Mutex Test
+Verify that the same file at the same time only allows one process to write
 """
 
 import os
@@ -11,11 +11,11 @@ import threading
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
-# 添加src目录到路径
+# Add src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
 def run_dfs_command(commands, timeout=15):
-    """运行分布式文件系统命令"""
+    """Run distributed file system commands"""
     try:
         process = subprocess.Popen(
             ['python', 'src/distributed_fs/main.py'],
@@ -42,12 +42,12 @@ def run_dfs_command(commands, timeout=15):
         return {'success': False, 'stdout': '', 'stderr': str(e), 'returncode': -1}
 
 def test_write_mutex():
-    """测试写操作互斥"""
+    """Test write operation mutex"""
     print("=" * 50)
     print("Write Mutex Test")
     print("=" * 50)
-    
-    # 创建共享文件
+
+    # Create shared file
     setup_result = run_dfs_command([
         'login user1 password123',
         'create shared_mutex_file.txt full',
@@ -60,7 +60,7 @@ def test_write_mutex():
         return False
     
     def write_to_shared_file(user_id, content_suffix):
-        """写入共享文件"""
+        """Write to shared file"""
         passwords = ['password123', 'password234', 'password345']
         commands = [
             f'login user{user_id} {passwords[user_id-1]}',
@@ -75,15 +75,15 @@ def test_write_mutex():
             'output': result['stdout']
         }
     
-    # 测试并发写入到同一个文件
+    # Test concurrent writes to the same file
     with ThreadPoolExecutor(max_workers=2) as executor:
         future1 = executor.submit(write_to_shared_file, 1, "first_write")
         future2 = executor.submit(write_to_shared_file, 2, "second_write")
-        
+
         result1 = future1.result()
         result2 = future2.result()
-    
-    # 分析结果
+
+    # Analyze results
     success_count = sum(1 for r in [result1, result2] if r['success'])
     
     print(f"Concurrent writes to same file:")
@@ -91,7 +91,7 @@ def test_write_mutex():
     print(f"User2 result: {'PASS' if result2['success'] else 'FAIL'}")
     print(f"Total successful writes: {success_count}/2")
     
-    # 互斥锁应该确保至少有一个写入成功，可能两个都成功（队列处理）
+    # Mutex lock should ensure at least one write succeeds, possibly both succeed (queue processing)
     if success_count >= 1:
         print("PASS Write mutex test passed - system handled concurrent writes properly")
         return True
@@ -100,12 +100,12 @@ def test_write_mutex():
         return False
 
 def test_queue_mechanism():
-    """测试操作队列机制"""
+    """Test operation queue mechanism"""
     print("=" * 50)
     print("Operation Queue Test")
     print("=" * 50)
-    
-    # 创建文件并触发队列操作
+
+    # Create file and trigger queue operations
     setup_result = run_dfs_command([
         'login user1 password123',
         'create queue_test_file.txt full',
@@ -116,7 +116,7 @@ def test_queue_mechanism():
         print("FAIL Setup queue test file failed")
         return False
     
-    # 连续写入操作以触发队列
+    # Consecutive write operations to trigger queue
     def queue_write_operation(user_id):
         passwords = ['password123', 'password234', 'password345']
         commands = [
@@ -126,18 +126,18 @@ def test_queue_mechanism():
         ]
         return run_dfs_command(commands)
     
-    # 快速连续执行多个写入操作
+    # Quickly execute multiple consecutive write operations
     results = []
     for i in range(1, 4):
         result = queue_write_operation(i)
         results.append(result)
-        time.sleep(0.1)  # 短暂间隔确保队列机制触发
+        time.sleep(0.1)  # Short interval to ensure queue mechanism is triggered
     
     success_count = sum(1 for r in results if r['success'])
     
     print(f"Queued operations: {success_count}/3 successful")
     
-    if success_count >= 2:  # 至少2个成功表明队列机制工作
+    if success_count >= 2:  # At least 2 successes indicate queue mechanism is working
         print("PASS Operation queue test passed")
         return True
     else:
@@ -145,7 +145,7 @@ def test_queue_mechanism():
         return False
 
 def main():
-    """主测试函数"""
+    """Main test function"""
     print("Write Mutex and Queue Test Started")
     print("=" * 60)
     

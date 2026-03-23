@@ -1,6 +1,6 @@
 """
-测试执行脚本
-用于运行所有测试用例并生成测试报告
+Test Execution Script
+Used to run all test cases and generate test reports
 """
 import sys
 import subprocess
@@ -9,15 +9,15 @@ from pathlib import Path
 from datetime import datetime
 
 def run_pytest_tests():
-    """运行pytest测试"""
+    """Run pytest tests"""
     print("=" * 60)
-    print("开始运行自动化测试...")
+    print("Starting automated tests...")
     print("=" * 60)
-    
-    # 切换到evaluation目录
+
+    # Switch to evaluation directory
     evaluation_dir = Path(__file__).parent
-    
-    # 运行pytest命令
+
+    # Run pytest command
     cmd = [
         sys.executable, "-m", "pytest",
         str(evaluation_dir / "tests"),
@@ -26,66 +26,66 @@ def run_pytest_tests():
         "--color=yes",
         f"--junitxml={evaluation_dir}/test_results.xml"
     ]
-    
+
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, cwd=evaluation_dir)
-        
-        print("测试输出:")
+
+        print("Test Output:")
         print("-" * 40)
         print(result.stdout)
-        
+
         if result.stderr:
-            print("错误输出:")
+            print("Error Output:")
             print("-" * 40)
             print(result.stderr)
-        
+
         print("=" * 60)
         if result.returncode == 0:
-            print("✅ 所有测试通过!")
+            print("✅ All tests passed!")
         else:
-            print(f"❌ 测试失败，退出码: {result.returncode}")
+            print(f"❌ Tests failed, exit code: {result.returncode}")
         print("=" * 60)
-        
+
         return result.returncode == 0
-        
+
     except Exception as e:
-        print(f"❌ 运行测试时出错: {e}")
+        print(f"❌ Error running tests: {e}")
         return False
 
 def run_shell_tests():
-    """运行shell交互测试"""
+    """Run shell interaction tests"""
     print("\n" + "=" * 60)
-    print("开始运行Shell交互测试...")
+    print("Starting shell interaction tests...")
     print("=" * 60)
-    
-    # 读取测试计划
+
+    # Read test plan
     test_plan_file = Path(__file__).parent / "detailed_test_plan.json"
-    
+
     if not test_plan_file.exists():
-        print("❌ 测试计划文件不存在")
+        print("❌ Test plan file does not exist")
         return False
-    
+
     with open(test_plan_file, 'r', encoding='utf-8') as f:
         test_plan = json.load(f)
-    
+
     shell_tests = [test for test in test_plan if test['type'] == 'shell_interaction']
-    
-    print(f"找到 {len(shell_tests)} 个Shell交互测试")
-    
+
+    print(f"Found {len(shell_tests)} shell interaction tests")
+
     passed_tests = 0
     failed_tests = 0
-    
+
     for i, test in enumerate(shell_tests, 1):
-        print(f"\n[{i}/{len(shell_tests)}] 测试: {test['metric']}")
+        print(f"\n[{i}/{len(shell_tests)}] Test: {test['metric']}")
         print("-" * 40)
-        
+
         success = True
         for j, testcase in enumerate(test['testcases']):
             cmd = testcase['test_command']
-            print(f"  执行命令: {cmd}")
-            
+            print(f"  Executing command: {cmd}")
+
             try:
-                # 切换到项目根目录执行命令
+                # Switch to project root directory to execute command
                 project_root = Path(__file__).parent.parent
                 result = subprocess.run(
                     cmd.split(),
@@ -94,183 +94,183 @@ def run_shell_tests():
                     cwd=project_root,
                     timeout=30
                 )
-                
+
                 if result.returncode == 0:
-                    print(f"  ✅ 命令执行成功")
+                    print(f"  ✅ Command execution succeeded")
                     if result.stdout.strip():
-                        # 只显示前几行输出
+                        # Only display first few lines of output
                         output_lines = result.stdout.strip().split('\n')[:3]
                         for line in output_lines:
                             print(f"     {line}")
                         if len(result.stdout.strip().split('\n')) > 3:
                             print("     ...")
                 else:
-                    print(f"  ❌ 命令执行失败 (退出码: {result.returncode})")
+                    print(f"  ❌ Command execution failed (exit code: {result.returncode})")
                     if result.stderr:
                         error_lines = result.stderr.strip().split('\n')[:2]
                         for line in error_lines:
-                            print(f"     错误: {line}")
+                            print(f"     Error: {line}")
                     success = False
-                    
+
             except subprocess.TimeoutExpired:
-                print(f"  ⏰ 命令执行超时")
+                print(f"  ⏰ Command execution timeout")
                 success = False
             except Exception as e:
-                print(f"  ❌ 执行出错: {e}")
+                print(f"  ❌ Execution error: {e}")
                 success = False
-        
+
         if success:
             passed_tests += 1
-            print(f"  ✅ 测试通过")
+            print(f"  ✅ Test passed")
         else:
             failed_tests += 1
-            print(f"  ❌ 测试失败")
-    
+            print(f"  ❌ Test failed")
+
     print("\n" + "=" * 60)
-    print(f"Shell交互测试结果: {passed_tests} 通过, {failed_tests} 失败")
+    print(f"Shell interaction test results: {passed_tests} passed, {failed_tests} failed")
     print("=" * 60)
-    
+
     return failed_tests == 0
 
 def generate_test_report():
-    """生成测试报告"""
+    """Generate test report"""
     print("\n" + "=" * 60)
-    print("生成测试报告...")
+    print("Generating test report...")
     print("=" * 60)
-    
+
     report_content = f"""
-# 测试执行报告
+# Test Execution Report
 
-**生成时间:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Generated at:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
-## 测试概述
+## Test Overview
 
-本报告包含了大学生自控力与注意稳定性智能分析系统的完整测试结果。
+This report contains complete test results for the College Student Self-Control and Attention Stability Intelligent Analysis System.
 
-## 测试类型
+## Test Types
 
-### 1. 单元测试 (Unit Tests)
-- **测试文件:** evaluation/tests/test_*.py
-- **测试框架:** pytest
-- **覆盖范围:** 
-  - 量表创建和管理
-  - 数据导入导出
-  - 统计分析功能
-  - 数据管理功能
-  - 可视化功能
+### 1. Unit Tests
+- **Test files:** evaluation/tests/test_*.py
+- **Test framework:** pytest
+- **Coverage:**
+  - Scale creation and management
+  - Data import/export
+  - Statistical analysis functions
+  - Data management functions
+  - Visualization functions
 
-### 2. Shell交互测试 (Shell Interaction Tests)
-- **测试计划:** evaluation/detailed_test_plan.json
-- **测试类型:** 命令行界面功能验证
-- **覆盖范围:**
-  - 程序启动和帮助信息
-  - 各模块入口点验证
-  - 数据导入导出命令
-  - 分析命令执行
+### 2. Shell Interaction Tests
+- **Test plan:** evaluation/detailed_test_plan.json
+- **Test type:** Command line interface functional verification
+- **Coverage:**
+  - Program startup and help information
+  - Module entry point verification
+  - Data import/export commands
+  - Analysis command execution
 
-### 3. 文件比较测试 (File Comparison Tests)
-- **测试内容:** 输出文件与期望文件的比较
-- **覆盖范围:**
-  - 量表导出文件格式
-  - 报告生成文件内容
-  - 图表导出文件质量
+### 3. File Comparison Tests
+- **Test content:** Comparison of output files with expected files
+- **Coverage:**
+  - Scale export file format
+  - Report generation file content
+  - Chart export file quality
 
-## 测试文件结构
+## Test File Structure
 
 ```
 evaluation/
-├── detailed_test_plan.json     # 详细测试计划
-├── pytest.ini                  # pytest配置
-├── run_tests.py                # 测试执行脚本
-├── tests/                      # 单元测试目录
+├── detailed_test_plan.json     # Detailed test plan
+├── pytest.ini                  # pytest configuration
+├── run_tests.py                # Test execution script
+├── tests/                      # Unit test directory
 │   ├── test_scale_creation.py
 │   ├── test_scale_import_export.py
 │   ├── test_statistical_analysis.py
 │   ├── test_data_management.py
 │   ├── test_visualization.py
 │   └── test_data_export.py
-├── test_*.csv                  # 测试输入文件
-├── expected_*.csv              # 期望输出文件
-└── temp_*                      # 临时测试文件
+├── test_*.csv                  # Test input files
+├── expected_*.csv              # Expected output files
+└── temp_*                      # Temporary test files
 ```
 
-## 运行测试
+## Running Tests
 
-### 运行所有测试
+### Run all tests
 ```bash
 python evaluation/run_tests.py
 ```
 
-### 运行特定测试
+### Run specific tests
 ```bash
 cd evaluation
 pytest tests/test_scale_creation.py -v
 ```
 
-### 运行Shell交互测试
+### Run shell interaction tests
 ```bash
 python src/main.py --help
 python src/main.py init
 python src/main.py scales list
 ```
 
-## 测试结果解读
+## Test Results Interpretation
 
-- ✅ **通过:** 功能正常工作，符合预期
-- ❌ **失败:** 功能存在问题，需要修复
-- ⏰ **超时:** 执行时间过长，可能存在性能问题
-- ⚠️ **警告:** 功能基本正常，但有改进空间
+- ✅ **Passed:** Function works normally, meets expectations
+- ❌ **Failed:** Function has issues, needs fixing
+- ⏰ **Timeout:** Execution time too long, possible performance issue
+- ⚠️ **Warning:** Function basically normal, but has room for improvement
 
-## 注意事项
+## Notes
 
-1. 测试前请确保已安装所有依赖包
-2. 某些测试需要创建临时文件，测试后会自动清理
-3. 大数据集测试可能需要较长时间
-4. 网络相关功能测试需要网络连接
+1. Please ensure all dependencies are installed before testing
+2. Some tests need to create temporary files, which will be cleaned up automatically after testing
+3. Large dataset tests may take a long time
+4. Network-related functional tests require network connection
 
-## 故障排除
+## Troubleshooting
 
-如果测试失败，请检查：
-1. Python环境和依赖包是否正确安装
-2. 数据库连接是否正常
-3. 文件权限是否足够
-4. 系统资源是否充足
+If tests fail, please check:
+1. Whether Python environment and dependencies are correctly installed
+2. Whether database connection is normal
+3. Whether file permissions are sufficient
+4. Whether system resources are adequate
 
 ---
 
-*此报告由自动化测试系统生成*
+*This report was generated by the automated testing system*
 """
-    
+
     report_file = Path(__file__).parent / "TEST_REPORT.md"
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report_content.strip())
-    
-    print(f"✅ 测试报告已生成: {report_file}")
+
+    print(f"✅ Test report generated: {report_file}")
 
 def main():
-    """主函数"""
-    print("🚀 大学生自控力与注意稳定性智能分析系统 - 自动化测试")
-    print(f"开始时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
-    # 运行单元测试
+    """Main function"""
+    print("College Student Self-Control and Attention Stability Intelligent Analysis System - Automated Testing")
+    print(f"Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+
+    # Run unit tests
     unit_test_success = run_pytest_tests()
-    
-    # 运行Shell交互测试
+
+    # Run shell interaction tests
     shell_test_success = run_shell_tests()
-    
-    # 生成测试报告
+
+    # Generate test report
     generate_test_report()
-    
-    # 总结
-    print("\n" + "🎯" * 20)
-    print("测试执行完成!")
-    print("🎯" * 20)
-    
+
+    # Summary
+    print("\n" + "=" * 60)
+    print("Test execution completed!")
+    print("=" * 60)
+
     if unit_test_success and shell_test_success:
-        print("🎉 所有测试通过! 系统功能正常。")
+        print("All tests passed! System functionality is normal.")
         return 0
     else:
-        print("⚠️ 部分测试失败，请检查上述输出并修复问题。")
+        print("Some tests failed, please check the output above and fix the issues.")
         return 1
 
 if __name__ == "__main__":

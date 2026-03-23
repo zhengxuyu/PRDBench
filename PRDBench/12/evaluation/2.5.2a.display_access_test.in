@@ -2,5 +2,5 @@
 help
 summary
 show 10
-export 测试报告.csv
+export test_report.csv
 quit

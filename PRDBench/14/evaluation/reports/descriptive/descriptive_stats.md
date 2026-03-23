@@ -1,62 +1,62 @@
-# 描述性统计分析报告
+# Descriptive Statistics Analysis Report
 
-**数据概览**: 10 条记录，11 个字段
+**Data Overview**: 10 records, 11 fields
 
-## 数值型字段统计
+## Numerical Field Statistics
 
-| 字段 | 均值 | 标准差 | 最小值 | 最大值 | 中位数 |
+| Field | Mean | Std Dev | Min | Max | Median |
 |------|------|--------|--------|--------|--------|
 | id | 5.50 | 3.03 | 1 | 10 | 5.50 |
 | price_influence | 3.00 | 1.49 | 1 | 5 | 3.00 |
 | satisfaction | 3.80 | 1.03 | 2 | 5 | 4.00 |
 | amenities_importance | 3.40 | 1.43 | 1 | 5 | 3.50 |
 
-## 分类型字段分布
+## Categorical Field Distribution
 
-### location 分布
+### location Distribution
 
-| 类别 | 数量 | 占比 |
+| Category | Count | Percentage |
 |------|------|------|
-| 三亚 | 1 | 10.0% |
-| 昆明 | 1 | 10.0% |
-| 海口 | 1 | 10.0% |
-| 大理 | 1 | 10.0% |
-| 丽江 | 1 | 10.0% |
-| 厦门 | 1 | 10.0% |
-| 青岛 | 1 | 10.0% |
-| 杭州 | 1 | 10.0% |
-| 成都 | 1 | 10.0% |
-| 西安 | 1 | 10.0% |
+| Sanya | 1 | 10.0% |
+| Kunming | 1 | 10.0% |
+| Haikou | 1 | 10.0% |
+| Dali | 1 | 10.0% |
+| Lijiang | 1 | 10.0% |
+| Xiamen | 1 | 10.0% |
+| Qingdao | 1 | 10.0% |
+| Hangzhou | 1 | 10.0% |
+| Chengdu | 1 | 10.0% |
+| Xi'an | 1 | 10.0% |
 
-### gender 分布
+### gender Distribution
 
-| 类别 | 数量 | 占比 |
+| Category | Count | Percentage |
 |------|------|------|
-| 男 | 5 | 50.0% |
-| 女 | 5 | 50.0% |
+| Male | 5 | 50.0% |
+| Female | 5 | 50.0% |
 
-### age_group 分布
+### age_group Distribution
 
-| 类别 | 数量 | 占比 |
+| Category | Count | Percentage |
 |------|------|------|
-| 30-40岁 | 4 | 40.0% |
-| 20-30岁 | 3 | 30.0% |
-| 40-50岁 | 3 | 30.0% |
+| 30-40 years old | 4 | 40.0% |
+| 20-30 years old | 3 | 30.0% |
+| 40-50 years old | 3 | 30.0% |
 
-### frequency 分布
+### frequency Distribution
 
-| 类别 | 数量 | 占比 |
+| Category | Count | Percentage |
 |------|------|------|
-| 每月一次 | 3 | 30.0% |
-| 每季度一次 | 3 | 30.0% |
-| 每年一次 | 2 | 20.0% |
-| 每周一次 | 2 | 20.0% |
+| Once a month | 3 | 30.0% |
+| Once a quarter | 3 | 30.0% |
+| Once a year | 2 | 20.0% |
+| Once a week | 2 | 20.0% |
 
-### preferred_venue 分布
+### preferred_venue Distribution
 
-| 类别 | 数量 | 占比 |
+| Category | Count | Percentage |
 |------|------|------|
-| 度假村 | 3 | 30.0% |
-| 练习场 | 3 | 30.0% |
-| 会员制球场 | 2 | 20.0% |
-| 公众场 | 2 | 20.0% |
+| Resort | 3 | 30.0% |
+| Driving Range | 3 | 30.0% |
+| Private Club | 2 | 20.0% |
+| Public Course | 2 | 20.0% |

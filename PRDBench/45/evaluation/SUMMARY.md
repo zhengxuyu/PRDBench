@@ -1,166 +1,166 @@
-# Chord DHT 仿真系统测试方案总结
+# Chord DHT Simulation System Test Case Summary
 
-## 项目概述
+## Project Overview
 
-本项目为 Chord DHT 仿真系统创建了一套完整的自动化测试框架，满足了所有产品需求文档(PRD)中定义的功能点验证要求。
+This project creates a complete automated test framework for the Chord DHT simulation system, meeting the functional verification requirements defined in the Product Requirements Document (PRD).
 
-## 生成的产物
+## Generated Artifacts
 
-### 1. 详细测试计划 (`detailed_test_plan.json`)
-- **22个测试用例**，覆盖所有核心功能
-- 三种测试类型：`shell_interaction`、`unit_test`、`file_comparison`
-- 每个测试用例包含具体的执行命令、输入文件、预期输出等
+### 1. Detailed Test Plan (`detailed_test_plan.json`)
+- **22 test cases** covering all core functionality
+- Three test categories: `shell_interaction`, `unit_test`, `file_comparison`
+- Each test case contains specific execution commands, input files, expected output, etc.
 
-### 2. 测试输入文件 (`inputs/` 目录)
-- **21个输入文件**，模拟各种用户交互场景
-- 涵盖正常操作、边界条件、错误处理等情况
-- 文件格式标准化，每行代表一次用户输入
+### 2. Test Input Files (`inputs/` directory)
+- **21 input files** simulating various user interaction scenarios
+- Covers normal operations, boundary conditions, error handling, etc.
+- File format is standardized, with each line representing one user input
 
-### 3. 期望输出文件 (`expected_outputs/` 目录)
-- 包含网络拓扑可视化的期望DOT文件
-- 用于文件比较类型的测试验证
+### 3. Expected Output Files (`expected_outputs/` directory)
+- Contains expected DOT file for network topology visualization
+- Used in file comparison tests for verification
 
-### 4. 单元测试套件 (`tests/` 目录)
-- **2个测试文件**，包含多个单元测试函数
-- `test_chord_basic.py`: 测试基础Chord算法组件
-- `test_data_operations.py`: 测试数据操作功能
-- 使用pytest框架，支持自动化执行
+### 4. Unit Test Suite (`tests/` directory)
+- **2 test files** containing multiple unit test functions
+- `test_chord_basic.py`: Tests basic Chord algorithm components
+- `test_data_operations.py`: Tests data operation functions
+- Uses pytest framework, supports automated execution
 
-### 5. 辅助工具
-- `run_all_tests.py`: 全自动测试执行脚本
-- `README.md`: 详细的使用说明文档
-- `additional_unit_tests.json`: 补充单元测试定义
+### 5. Support Tools
+- `run_all_tests.py`: Automated test execution script
+- `README.md`: Detailed usage documentation
+- `additional_unit_tests.json`: Supplementary unit test definitions
 
-## 测试覆盖范围
+## Test Coverage
 
-### 基础功能测试 (6个测试用例)
-- [x] 程序启动和欢迎界面
-- [x] 网络参数配置 (m参数、节点数、数据数)
-- [x] 边界条件验证
-- [x] 网络初始化过程显示
-- [x] 交互菜单系统
+### Basic Functional Tests (6 test cases)
+- [x] Program startup and welcome screen
+- [x] Network parameter configuration (m parameter, node count, data count)
+- [x] Boundary condition validation
+- [x] Network initialization process display
+- [x] Interactive menu system
 
-### 核心功能测试 (10个测试用例)
-- [x] 动态节点管理 (添加成功/重复处理/插入完整性)
-- [x] 数据插入功能
-- [x] 数据查找功能 (成功/失败场景)
-- [x] 网络状态信息展示
-- [x] 节点删除功能 (成功删除/网络连通性验证)
-- [x] 网络拓扑可视化 (DOT/PNG文件生成)
+### Core Functional Tests (10 test cases)
+- [x] Dynamic node management (add success/duplicate handling/insertion completeness)
+- [x] Data insertion function
+- [x] Data lookup function (success/failure scenarios)
+- [x] Network status information display
+- [x] Node deletion function (successful deletion/network connectivity verification)
+- [x] Network topology visualization (DOT/PNG file generation)
 
-### 交互和质量测试 (6个测试用例)
-- [x] 操作时间统计
-- [x] 输入验证 (菜单选择/节点ID)
-- [x] 批量数据生成
-- [x] 菜单循环执行
-- [x] 程序优雅退出
+### Interactive and Quality Tests (6 test cases)
+- [x] Operation time statistics
+- [x] Input validation (menu selection/node ID)
+- [x] Batch data generation
+- [x] Menu loop execution
+- [x] Graceful program exit
 
-### 单元测试 (5个测试函数)
-- [x] 节点初始化
-- [x] 网络初始化
-- [x] 哈希函数一致性
-- [x] 数据插入和查找
-- [x] 数据分布验证
+### Unit Tests (5 test functions)
+- [x] Node initialization
+- [x] Network initialization
+- [x] Hash function consistency
+- [x] Data insertion and lookup
+- [x] Data distribution verification
 
-## 测试类型分布
+## Test Category Distribution
 
-### Shell Interaction 测试 (21个)
-最主要的测试类型，模拟真实用户与命令行程序的交互：
-- 验证用户界面和交互流程
-- 测试错误处理和输入验证
-- 确保操作反馈的完整性
+### Shell Interaction Tests (21 cases)
+The primary test category, simulating real user interactions with command-line programs:
+- Verifies user interface and interaction process
+- Tests error handling and input validation
+- Ensures operation feedback completeness
 
-### Unit Test 测试 (5个)
-直接测试核心代码逻辑：
-- 验证算法实现的正确性
-- 测试数据结构的操作
-- 确保内部逻辑的一致性
+### Unit Tests (5 cases)
+Directly tests core code logic:
+- Verifies algorithm implementation correctness
+- Tests data structure operations
+- Ensures internal logic consistency
 
-### File Comparison 测试 (1个)
-验证文件生成功能：
-- 网络拓扑DOT文件生成
+### File Comparison Tests (1 case)
+Verifies file generation capabilities:
+- Network topology DOT file generation
 
-## 执行方式
+## Execution Methods
 
-### 1. 单独执行测试
+### 1. Execute Individual Tests
 ```bash
-# 交互式测试
+# Interactive test
 python src/Main.py < evaluation/inputs/basic_startup.in
 
-# 单元测试
+# Unit test
 pytest evaluation/tests/test_chord_basic.py -v
 
-# 文件比较测试
+# File comparison test
 python src/Main.py < evaluation/inputs/network_visualization.in
 ```
 
-### 2. 批量执行测试
+### 2. Batch Execute Tests
 ```bash
-# 执行所有测试
+# Execute all tests
 python evaluation/run_all_tests.py
 
-# 仅执行单元测试
+# Execute only unit tests
 pytest evaluation/tests/ -v
 ```
 
-## 质量保证特性
+## Quality Assurance Features
 
-### 1. 完整性保障
-- 测试计划与metric.json一一对应
-- 覆盖所有PRD定义的功能点
-- 包含正常场景和异常场景
+### 1. Completeness Guarantee
+- Test plan corresponds one-to-one with metric.json
+- Covers all PRD-defined functional points
+- Includes both normal and abnormal scenarios
 
-### 2. 可执行性保障
-- 所有命令都是具体、可直接执行的
-- 输入文件格式标准化
-- 预期输出明确定义
+### 2. Executability Guarantee
+- All commands are concrete and directly executable
+- Input file format is standardized
+- Expected output is clearly defined
 
-### 3. 自动化支持
-- 提供全自动执行脚本
-- 支持批量测试和结果统计
-- 包含详细的执行日志
+### 3. Automation Support
+- Provides automated execution script
+- Supports batch testing and result statistics
+- Includes detailed execution logs
 
-### 4. 维护性保障
-- 模块化的测试结构
-- 详细的文档说明
-- 清晰的目录组织
+### 4. Maintainability Guarantee
+- Modular test structure
+- Detailed documentation
+- Clear directory organization
 
-## 技术规范
+## Technical Specifications
 
-### 依赖环境
+### Dependencies
 - Python 3.7+
-- pytest (用于单元测试)
-- 标准库模块 (subprocess, json, pathlib等)
+- pytest (for unit tests)
+- Standard library modules (subprocess, json, pathlib, etc.)
 
-### 文件结构
+### File Structure
 ```
 evaluation/
-├── detailed_test_plan.json         # 主测试计划
-├── metric_sample.json              # 评测标准样例
-├── additional_unit_tests.json      # 补充单元测试
-├── inputs/                         # 测试输入文件 (21个)
-├── expected_outputs/               # 期望输出文件
-├── tests/                          # 单元测试套件
-├── run_all_tests.py               # 自动执行脚本
-├── README.md                      # 详细说明文档
-└── SUMMARY.md                     # 本总结文档
+├── detailed_test_plan.json         # Main test plan
+├── metric_sample.json              # Evaluation test standard sample
+├── additional_unit_tests.json      # Supplementary unit tests
+├── inputs/                         # Test input files (21 files)
+├── expected_outputs/               # Expected output files
+├── tests/                          # Unit test suite
+├── run_all_tests.py               # Automated execution script
+├── README.md                      # Detailed documentation
+└── SUMMARY.md                     # This summary document
 ```
 
-## 预期效果
+## Expected Benefits
 
-通过本测试框架，可以：
+Through this test framework, you can:
 
-1. **全面验证**系统功能的正确性和完整性
-2. **自动化测试**，减少手工测试的工作量
-3. **回归测试**，确保代码修改不会破坏现有功能
-4. **质量度量**，提供客观的功能实现评分
-5. **持续改进**，为系统优化提供测试基准
+1. **Automatically verify** system functionality correctness and completeness
+2. **Automate testing**, reducing manual testing effort
+3. **Regression testing**, ensuring code modifications don't break existing functions
+4. **Quality evaluation**, providing objective functional implementation scores
+5. **Support continuous improvement**, providing test foundation for system optimization
 
-## 使用建议
+## Usage Recommendations
 
-1. **开发阶段**：使用单元测试验证核心算法逻辑
-2. **集成阶段**：使用交互测试验证用户界面和流程
-3. **验收阶段**：使用完整测试套件进行全面验证
-4. **维护阶段**：使用自动化脚本进行回归测试
+1. **Development phase**: Use unit tests to verify core algorithm logic
+2. **Integration phase**: Use interactive tests to verify user interface and processes
+3. **Acceptance phase**: Use complete test suite for comprehensive automated verification
+4. **Maintenance phase**: Use automated script for regression testing
 
-本测试框架提供了完整、可靠、易用的测试解决方案，能够有效保障Chord DHT仿真系统的质量和稳定性。
+This test framework provides a complete, reliable, and easy-to-use testing solution that effectively ensures the quality and stability of the Chord DHT simulation system.

@@ -4,20 +4,20 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'code'))
 
 def test_ack_nak_mechanism():
-    """测试停等ARQ-ACK/NAK机制"""
+    """Test stop-and-wait ARQ - ACK/NAK mechanism"""
     try:
-        # 尝试导入ARQ相关模块
+        # Try to import ARQ-related module
         arq_found = False
         arq_impl = None
-        
-        # 尝试从不同模块导入ARQ实现
+
+        # Try to import ARQ implementation from different modules
         try:
             from utils.flow_control import ARQ
             arq_impl = ARQ()
             arq_found = True
         except ImportError:
             pass
-        
+
         if not arq_found:
             try:
                 from layer.net import NetLayer
@@ -27,7 +27,7 @@ def test_ack_nak_mechanism():
                     arq_found = True
             except ImportError:
                 pass
-        
+
         if not arq_found:
             try:
                 from utils.frame import Frame
@@ -36,20 +36,20 @@ def test_ack_nak_mechanism():
                     arq_found = True
             except ImportError:
                 pass
-        
-        assert arq_found, "未找到ARQ机制实现"
-        
-        # 检查ACK机制
+
+        assert arq_found, "ARQ mechanism implementation not found"
+
+        # Check ACK mechanism
         ack_found = False
-        
+
         if arq_impl:
             ack_methods = ['send_ack', 'ack', 'acknowledge', 'confirm']
             for method in ack_methods:
                 if hasattr(arq_impl, method):
                     ack_found = True
                     break
-        
-        # 检查是否在帧结构中定义了ACK标志
+
+        # Check if ACK flag is defined in frame structure
         if not ack_found:
             try:
                 from utils.frame import Frame
@@ -58,43 +58,43 @@ def test_ack_nak_mechanism():
                     ack_found = True
             except ImportError:
                 pass
-        
-        assert ack_found, "未找到ACK确认机制"
-        
-        # 检查NAK机制
+
+        assert ack_found, "ACK acknowledgment mechanism not found"
+
+        # Check NAK mechanism
         nak_found = False
-        
+
         if arq_impl:
             nak_methods = ['send_nak', 'nak', 'negative_ack', 'reject']
             for method in nak_methods:
                 if hasattr(arq_impl, method):
                     nak_found = True
                     break
-        
-        # 检查是否在帧结构中支持NAK
+
+        # Check if frame structure supports NAK
         if not nak_found:
             try:
                 from utils.frame import Frame
                 frame = Frame()
-                # NAK通常通过ACK标志的不同值表示
+                # NAK is typically represented by different values of ACK flag
                 if hasattr(frame, 'ack_flag'):
                     nak_found = True
             except ImportError:
                 pass
-        
-        assert nak_found, "未找到NAK否认机制"
-        
+
+        assert nak_found, "NAK negative acknowledgment mechanism not found"
+
     except Exception as e:
-        pytest.fail(f"测试失败: {str(e)}")
+        pytest.fail(f"Test Failed: {str(e)}")
 
 def test_sequence_number_alternation():
-    """测试停等ARQ-序列号交替"""
+    """Test stop-and-wait ARQ - sequence number alternation"""
     try:
-        # 尝试导入序列号相关实现
+        # Try to import sequence number related implementation
         seq_found = False
         seq_impl = None
-        
-        # 尝试从帧结构导入
+
+        # Try to import from frame structure
         try:
             from utils.frame import Frame
             frame = Frame()
@@ -103,8 +103,8 @@ def test_sequence_number_alternation():
                 seq_found = True
         except ImportError:
             pass
-        
-        # 尝试从网络层导入
+
+        # Try to import from network layer
         if not seq_found:
             try:
                 from layer.net import NetLayer
@@ -114,45 +114,45 @@ def test_sequence_number_alternation():
                     seq_found = True
             except ImportError:
                 pass
-        
-        assert seq_found, "未找到序列号机制实现"
-        
-        # 检查序列号字段
+
+        assert seq_found, "Sequence number mechanism implementation not found"
+
+        # Check sequence number field
         seq_field_found = False
-        
+
         if seq_impl:
             seq_attributes = ['sequence_number', 'seq_num', 'seq', 'sequence']
             for attr in seq_attributes:
                 if hasattr(seq_impl, attr):
                     seq_field_found = True
                     break
-        
-        assert seq_field_found, "未找到序列号字段"
-        
-        # 检查序列号交替机制
+
+        assert seq_field_found, "Sequence number field not found"
+
+        # Check sequence number alternation mechanism
         alternation_found = False
-        
+
         if seq_impl:
-            # 检查是否有序列号更新方法
+            # Check if there is a sequence number update method
             update_methods = ['next_sequence', 'toggle_sequence', 'update_seq', 'alternate_seq']
             for method in update_methods:
                 if hasattr(seq_impl, method):
                     alternation_found = True
                     break
-        
-        # 检查是否有0/1交替的逻辑
+
+        # Check if there is 0/1 alternation logic
         if not alternation_found:
-            # 如果有序列号字段，假设实现了交替逻辑
+            # If there is a sequence number field, assume alternation logic is implemented
             if seq_field_found:
                 alternation_found = True
-        
-        assert alternation_found, "未找到序列号交替机制"
-        
-        # 验证序列号范围（应该是0/1交替）
+
+        assert alternation_found, "Sequence number alternation mechanism not found"
+
+        # Verify sequence number range (should be 0/1 alternation)
         if seq_impl and hasattr(seq_impl, 'sequence_number'):
             seq_val = getattr(seq_impl, 'sequence_number')
             if seq_val is not None:
-                assert seq_val in [0, 1], f"序列号应为0或1，实际值: {seq_val}"
-        
+                assert seq_val in [0, 1], f"Sequence number should be 0 or 1, got value: {seq_val}"
+
     except Exception as e:
-        pytest.fail(f"测试失败: {str(e)}")
+        pytest.fail(f"Test Failed: {str(e)}")

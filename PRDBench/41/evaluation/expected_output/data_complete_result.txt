@@ -1,19 +1,19 @@
-多序列比对算法性能对比结果
+Multiple Sequence Alignment Algorithm Performance Comparison Result
 ==================================================
 
-分析维度:
-- 算法类型: 动态规划
-- 优化技术: 无
-- 序列类型: DNA
+Analysis Dimensions:
+- Algorithm Type: Dynamic Programming
+- Optimization: No
+- Sequence Type: DNA
 
-性能数据:
-执行时间: 0.003秒
-内存使用: 2.1MB
-对齐代价: 15
+Performance Data:
+Execution Time: 0.003 seconds
+Memory Usage: 2.1MB
+Alignment Score: 15
 
-文本化表格:
+Structured Table Format:
 +----------+----------+----------+----------+
-| 算法     | 时间(s)  | 内存(MB) | 代价     |
+| Algorithm     | Time(s)  | Memory(MB) | Score     |
 +----------+----------+----------+----------+
-| 动态规划 | 0.003    | 2.1      | 15       |
+| Dynamic Programming | 0.003    | 2.1      | 15       |
 +----------+----------+----------+----------+

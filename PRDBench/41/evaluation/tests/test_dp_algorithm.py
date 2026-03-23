@@ -6,24 +6,24 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../src'))
 from DP import DP
 
 def test_dp_execution():
-    """测试动态规划算法的执行"""
-    # 准备测试数据
+    """Test dynamic programming algorithm execution"""
+    # Prepare test data
     query = "ATCG"
     target = "ATCG"
 
-    # 执行算法
+    # Execute algorithm
     aligned_query, aligned_target, cost_matrix = DP(query, target)
 
-    # 断言结果
+    # Verify results
     assert aligned_query is not None
     assert aligned_target is not None
     assert cost_matrix is not None
     assert len(aligned_query) > 0
     assert len(aligned_target) > 0
-    assert cost_matrix[0][0] >= 0  # 代价应该非负
+    assert cost_matrix[0][0] >= 0  # Cost should be non-negative
 
 def test_dp_with_different_sequences():
-    """测试不同序列的动态规划算法"""
+    """Test dynamic programming algorithm with different sequences"""
     query = "ATCG"
     target = "GCTA"
 
@@ -31,10 +31,10 @@ def test_dp_with_different_sequences():
 
     assert aligned_query is not None
     assert aligned_target is not None
-    assert cost_matrix[0][0] > 0  # 不同序列应该有正代价
+    assert cost_matrix[0][0] > 0  # Different sequences should have positive cost
 
 def test_dp_empty_sequences():
-    """测试空序列的处理"""
+    """Test empty sequence processing"""
     query = ""
     target = "ATCG"
 
@@ -45,7 +45,7 @@ def test_dp_empty_sequences():
     assert cost_matrix is not None
 
 def test_dp_identical_sequences():
-    """测试相同序列的处理"""
+    """Test identical sequence processing"""
     query = "ATCGATCG"
     target = "ATCGATCG"
 
@@ -53,10 +53,10 @@ def test_dp_identical_sequences():
 
     assert aligned_query == target
     assert aligned_target == query
-    assert cost_matrix[0][0] == 0  # 相同序列代价应该为0
+    assert cost_matrix[0][0] == 0  # Identical sequences should have zero cost
 
 def test_dp_performance():
-    """测试动态规划算法的性能"""
+    """Test dynamic programming algorithm performance"""
     import time
 
     query = "ATCGATCGATCGATCG"
@@ -68,8 +68,8 @@ def test_dp_performance():
 
     execution_time = end_time - start_time
 
-    # 断言算法在合理时间内完成
-    assert execution_time < 1.0  # 应该在1秒内完成
+    # Verify algorithm completes within reasonable time
+    assert execution_time < 1.0  # Should complete within 1 second
     assert aligned_query is not None
     assert aligned_target is not None
     assert cost_matrix[0][0] >= 0

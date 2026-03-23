@@ -1,5 +1,5 @@
 """
-测试API监控指标记录
+Test API monitoring metrics recording
 """
 import pytest
 import requests
@@ -10,7 +10,7 @@ import sys
 import os
 from pathlib import Path
 
-# 添加src目录到Python路径
+# Add src directory to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from api.main import app
@@ -20,8 +20,8 @@ import uvicorn
 class TestAPIMonitoring:
     @classmethod
     def setup_class(cls):
-        """启动API服务器"""
-        cls.port = 8006  # 使用不同端口避免冲突
+        """Start API server"""
+        cls.port = 8006  # Use different port to avoid conflict
         cls.base_url = f"http://localhost:{cls.port}"
         cls.server_thread = None
         cls._start_server()
@@ -29,248 +29,248 @@ class TestAPIMonitoring:
     
     @classmethod
     def _start_server(cls):
-        """在后台线程中启动服务器"""
+        """Start server in background thread"""
         def run_server():
             try:
                 uvicorn.run(app, host="127.0.0.1", port=cls.port, log_level="error")
             except Exception as e:
-                print(f"服务器启动失败: {e}")
+                print(f"Server startup failed: {e}")
         
         cls.server_thread = threading.Thread(target=run_server, daemon=True)
         cls.server_thread.start()
     
     @classmethod
     def _wait_for_server(cls):
-        """等待服务器启动完成"""
+        """Wait for server startup completion"""
         import time
         max_attempts = 30
         for i in range(max_attempts):
             try:
                 response = requests.get(f"{cls.base_url}/health", timeout=1)
                 if response.status_code == 200:
-                    print(f"✓ 监控测试服务器在{i+1}秒后成功启动")
+                    print(f"✓ Monitoring test server started successfully after {i+1} seconds")
                     return
             except:
                 pass
             time.sleep(1)
-        
+
         for i in range(10):
             try:
                 response = requests.get(cls.base_url, timeout=1)
-                print(f"✓ 监控测试服务器启动成功 (状态码: {response.status_code})")
+                print(f"✓ Monitoring test server started successfully (status code: {response.status_code})")
                 return
             except:
                 pass
             time.sleep(1)
-        
-        raise Exception("监控测试服务器启动超时")
+
+        raise Exception("Monitoring test server startup timeout")
     
     @classmethod
     def teardown_class(cls):
-        """清理资源"""
+        """Clean up resources"""
         pass
     
     def test_monitoring_metrics(self):
-        """测试监控指标记录"""
+        """Test monitoring metrics recording"""
         try:
-            print("开始监控指标测试...")
-            
-            # 1. 多次调用推荐API（≥20次）
+            print("Starting monitoring metrics test...")
+
+            # 1. Call recommendation API multiple times (>=20 times)
             api_call_count = 25
             successful_calls = 0
             failed_calls = 0
             response_times = []
-            
-            print(f"执行{api_call_count}次API调用...")
-            
+
+            print(f"Executing {api_call_count} API calls...")
+
             for i in range(api_call_count):
                 try:
                     start_time = time.time()
-                    
-                    # 使用不同的用户ID来模拟真实场景
-                    user_id = (i % 10) + 1  # 用户ID 1-10循环
+
+                    # Use different user IDs to simulate real scenario
+                    user_id = (i % 10) + 1  # User ID 1-10 cycling
                     test_data = {
                         "user_id": user_id,
                         "top_n": 5
                     }
-                    
+
                     response = requests.post(
                         f"{self.base_url}/api/v1/recommend",
                         json=test_data,
                         timeout=15
                     )
-                    
+
                     response_time = time.time() - start_time
                     response_times.append(response_time)
-                    
+
                     if response.status_code == 200:
                         successful_calls += 1
                     else:
                         failed_calls += 1
-                        
-                    # 控制调用频率，避免过快
+
+                    # Control call frequency, avoid too fast
                     time.sleep(0.1)
-                    
+
                 except Exception as e:
                     failed_calls += 1
-                    print(f"第{i+1}次调用失败: {e}")
-            
-            print(f"API调用完成: 成功{successful_calls}次, 失败{failed_calls}次")
-            
-            # 2. 等待一段时间让监控数据被记录
+                    print(f"Call #{i+1} failed: {e}")
+
+            print(f"API calls completed: {successful_calls} successful, {failed_calls} failed")
+
+            # 2. Wait for monitoring data to be recorded
             time.sleep(2)
-            
-            # 3. 检查监控指标
+
+            # 3. Check monitoring metrics
             monitoring_metrics = []
-            
-            # 检查健康检查接口是否有监控数据
+
+            # Check if health check endpoint has monitoring data
             try:
                 health_response = requests.get(f"{self.base_url}/api/v1/health", timeout=10)
                 if health_response.status_code == 200:
                     health_data = health_response.json()
-                    
-                    # 系统运行状态
+
+                    # System running status
                     if "status" in health_data:
-                        monitoring_metrics.append("系统运行状态")
-                    
-                    # 系统指标
+                        monitoring_metrics.append("system_running_status")
+
+                    # System metrics
                     if "system_metrics" in health_data:
                         system_metrics = health_data["system_metrics"]
                         if "cpu_usage" in system_metrics:
-                            monitoring_metrics.append("CPU使用率")
+                            monitoring_metrics.append("cpu_usage")
                         if "memory_usage" in system_metrics:
-                            monitoring_metrics.append("内存使用率")
+                            monitoring_metrics.append("memory_usage")
                         if "disk_usage" in system_metrics:
-                            monitoring_metrics.append("磁盘使用率")
-                    
-                    # 运行时间
+                            monitoring_metrics.append("disk_usage")
+
+                    # Uptime
                     if "uptime" in health_data:
-                        monitoring_metrics.append("系统运行时间")
-                        
+                        monitoring_metrics.append("system_uptime")
+
             except Exception as e:
-                print(f"获取健康检查数据失败: {e}")
-            
-            # 检查是否有系统指标接口
+                print(f"Failed to get health check data: {e}")
+
+            # Check if there's a system metrics endpoint
             try:
                 metrics_response = requests.get(f"{self.base_url}/api/v1/metrics", timeout=10)
                 if metrics_response.status_code == 200:
                     metrics_data = metrics_response.json()
-                    
-                    # 详细系统指标
+
+                    # Detailed system metrics
                     if "cpu" in metrics_data:
-                        monitoring_metrics.append("CPU详细指标")
+                        monitoring_metrics.append("cpu_detailed_metrics")
                     if "memory" in metrics_data:
-                        monitoring_metrics.append("内存详细指标")
+                        monitoring_metrics.append("memory_detailed_metrics")
                     if "network" in metrics_data:
-                        monitoring_metrics.append("网络IO指标")
-                        
+                        monitoring_metrics.append("network_io_metrics")
+
             except Exception as e:
-                print(f"获取详细指标数据失败: {e}")
-            
-            # 4. 验证指标计算 - 使用集合避免重复
+                print(f"Failed to get detailed metrics data: {e}")
+
+            # 4. Verify metrics calculation - use set to avoid duplicates
             monitoring_metrics = []
-            
-            # 接口调用量统计
+
+            # API call volume statistics
             total_calls = successful_calls + failed_calls
             if total_calls >= 20:
-                monitoring_metrics.append("接口调用量统计")
-                print(f"✓ 接口调用量: {total_calls}次")
-            
-            # 请求成功率统计
+                monitoring_metrics.append("api_call_volume_stats")
+                print(f"✓ API call volume: {total_calls} times")
+
+            # Request success rate statistics
             if total_calls > 0:
                 success_rate = successful_calls / total_calls
-                monitoring_metrics.append("请求成功率统计")
-                print(f"✓ 请求成功率: {success_rate:.2%}")
-            
-            # 平均响应时间（如果有响应数据）
+                monitoring_metrics.append("request_success_rate_stats")
+                print(f"✓ Request success rate: {success_rate:.2%}")
+
+            # Average response time (if response data available)
             if response_times:
                 avg_response_time = sum(response_times) / len(response_times)
-                monitoring_metrics.append("平均响应时间统计")
-                print(f"✓ 平均响应时间: {avg_response_time:.3f}秒")
-            
-            # 响应时间分布分析
+                monitoring_metrics.append("avg_response_time_stats")
+                print(f"✓ Average response time: {avg_response_time:.3f} seconds")
+
+            # Response time distribution analysis
             if response_times:
                 min_time = min(response_times)
                 max_time = max(response_times)
-                monitoring_metrics.append("响应时间分布分析")
-                print(f"✓ 响应时间范围: {min_time:.3f}s - {max_time:.3f}s")
-            
-            # 推荐服务可用性
-            monitoring_metrics.append("推荐服务可用性检测")
-            
-            # 错误率监控
+                monitoring_metrics.append("response_time_distribution_analysis")
+                print(f"✓ Response time range: {min_time:.3f}s - {max_time:.3f}s")
+
+            # Recommendation service availability
+            monitoring_metrics.append("recommendation_service_availability_detection")
+
+            # Error rate monitoring
             if total_calls > 0:
                 error_rate = failed_calls / total_calls
-                monitoring_metrics.append("错误率监控统计")
-                print(f"✓ 错误率: {error_rate:.2%}")
-            
-            # API调用频率分析
+                monitoring_metrics.append("error_rate_monitoring_stats")
+                print(f"✓ Error rate: {error_rate:.2%}")
+
+            # API call frequency analysis
             if total_calls > 0:
-                monitoring_metrics.append("API调用频率分析")
-                call_frequency = total_calls / (api_call_count * 0.2)  # 基于调用间隔计算
-                print(f"✓ API调用频率: {call_frequency:.1f}次/秒")
-            
-            # 推荐命中率（如果有成功调用）
+                monitoring_metrics.append("api_call_frequency_analysis")
+                call_frequency = total_calls / (api_call_count * 0.2)  # Based on call interval calculation
+                print(f"✓ API call frequency: {call_frequency:.1f} times/second")
+
+            # Recommendation hit rate (if successful calls exist)
             if successful_calls > 0:
-                monitoring_metrics.append("推荐命中率统计")
+                monitoring_metrics.append("recommendation_hit_rate_stats")
                 hit_rate = successful_calls / total_calls if total_calls > 0 else 0
-                print(f"✓ 推荐命中率: {hit_rate:.2%}")
-            
-            # 5. 验证监控指标数量
-            print(f"找到的监控指标: {monitoring_metrics}")
-            assert len(monitoring_metrics) >= 5, f"监控指标不足，只找到{len(monitoring_metrics)}项: {monitoring_metrics}"
-            
-            # 6. 验证具体指标的合理性 - 降低成功调用要求
-            # 如果没有成功调用，至少验证系统能记录失败情况
+                print(f"✓ Recommendation hit rate: {hit_rate:.2%}")
+
+            # 5. Verify number of monitoring metrics
+            print(f"Found monitoring metrics: {monitoring_metrics}")
+            assert len(monitoring_metrics) >= 5, f"Insufficient monitoring metrics, only found {len(monitoring_metrics)} items: {monitoring_metrics}"
+
+            # 6. Verify reasonableness of specific metrics - lower successful call requirement
+            # If no successful calls, at least verify system can record failure situations
             if successful_calls == 0:
-                print("! 所有API调用都失败，但系统能够记录监控指标")
-                monitoring_metrics.append("失败监控记录")
+                print("! All API calls failed, but system can record monitoring metrics")
+                monitoring_metrics.append("failure_monitoring_record")
             else:
-                assert successful_calls >= 5, f"成功调用次数: {successful_calls}"
-            assert total_calls >= 20, f"总调用次数不足: {total_calls} < 20"
-            
+                assert successful_calls >= 5, f"Successful call count: {successful_calls}"
+            assert total_calls >= 20, f"Total call count insufficient: {total_calls} < 20"
+
             if response_times:
                 avg_time = sum(response_times) / len(response_times)
-                assert avg_time > 0, "平均响应时间应大于0"
-                assert avg_time < 30, f"平均响应时间过长: {avg_time:.2f}秒"
-            
-            # 7. 测试统计信息接口
+                assert avg_time > 0, "Average response time should be greater than 0"
+                assert avg_time < 30, f"Average response time too long: {avg_time:.2f} seconds"
+
+            # 7. Test statistics information endpoint
             try:
                 stats_response = requests.get(f"{self.base_url}/api/v1/statistics", timeout=10)
                 if stats_response.status_code == 200:
                     stats_data = stats_response.json()
-                    
-                    # 验证统计数据
+
+                    # Verify statistics data
                     if "users_count" in stats_data:
-                        monitoring_metrics.append("用户统计信息")
+                        monitoring_metrics.append("user_statistics_info")
                     if "items_count" in stats_data:
-                        monitoring_metrics.append("商品统计信息")
+                        monitoring_metrics.append("item_statistics_info")
                     if "interactions_count" in stats_data:
-                        monitoring_metrics.append("交互统计信息")
-                        
-                    print("✓ 统计信息接口正常工作")
-                    
+                        monitoring_metrics.append("interaction_statistics_info")
+
+                    print("✓ Statistics information endpoint working normally")
+
             except Exception as e:
-                print(f"统计信息接口测试失败: {e}")
-            
-            print("✓ API监控指标记录测试通过")
-            print(f"✓ 执行了{total_calls}次API调用")
-            print(f"✓ 成功率: {successful_calls/total_calls:.1%}")
-            print(f"✓ 找到监控指标: {len(monitoring_metrics)}项")
-            print(f"✓ 监控指标类型: {monitoring_metrics}")
-            
+                print(f"Statistics information endpoint test failed: {e}")
+
+            print("✓ API monitoring metrics recording test passed")
+            print(f"✓ Executed {total_calls} API calls")
+            print(f"✓ Success rate: {successful_calls/total_calls:.1%}")
+            print(f"✓ Found monitoring metrics: {len(monitoring_metrics)} items")
+            print(f"✓ Monitoring metric types: {monitoring_metrics}")
+
             if response_times:
-                print(f"✓ 平均响应时间: {sum(response_times)/len(response_times):.3f}秒")
-                print(f"✓ 最快响应: {min(response_times):.3f}秒")
-                print(f"✓ 最慢响应: {max(response_times):.3f}秒")
-            
+                print(f"✓ Average response time: {sum(response_times)/len(response_times):.3f} seconds")
+                print(f"✓ Fastest response: {min(response_times):.3f} seconds")
+                print(f"✓ Slowest response: {max(response_times):.3f} seconds")
+
         except Exception as e:
-            pytest.fail(f"监控指标测试失败: {e}")
+            pytest.fail(f"Monitoring metrics test failed: {e}")
     
     def test_monitoring_data_persistence(self):
-        """测试监控数据持久性"""
+        """Test monitoring data persistence"""
         try:
-            # 调用几次API
+            # Call API several times
             for i in range(5):
                 test_data = {"user_id": i + 1, "top_n": 3}
                 response = requests.post(
@@ -279,34 +279,34 @@ class TestAPIMonitoring:
                     timeout=10
                 )
                 time.sleep(0.2)
-            
-            # 检查是否能获取到历史监控数据
+
+            # Check if historical monitoring data can be retrieved
             health_response = requests.get(f"{self.base_url}/api/v1/health", timeout=10)
-            assert health_response.status_code == 200, "健康检查接口应可访问"
-            
+            assert health_response.status_code == 200, "Health check endpoint should be accessible"
+
             health_data = health_response.json()
-            
-            # 验证监控数据的完整性
-            assert "uptime" in health_data, "应包含运行时间信息"
-            assert health_data["uptime"] > 0, "运行时间应大于0"
-            
-            print("✓ 监控数据持久性测试通过")
-            print(f"✓ 系统已运行: {health_data['uptime']:.1f}秒")
-            
+
+            # Verify monitoring data completeness
+            assert "uptime" in health_data, "Should contain uptime information"
+            assert health_data["uptime"] > 0, "Uptime should be greater than 0"
+
+            print("✓ Monitoring data persistence test passed")
+            print(f"✓ System has been running: {health_data['uptime']:.1f} seconds")
+
         except Exception as e:
-            pytest.fail(f"监控数据持久性测试失败: {e}")
+            pytest.fail(f"Monitoring data persistence test failed: {e}")
     
     def test_error_monitoring(self):
-        """测试错误监控"""
+        """Test error monitoring"""
         try:
-            # 故意发送错误请求
+            # Intentionally send error requests
             error_requests = [
-                {"user_id": "invalid", "top_n": 5},  # 无效用户ID
-                {"user_id": -1, "top_n": 5},         # 负数用户ID
-                {"user_id": 1, "top_n": 0},          # 无效top_n
-                {"user_id": 1, "top_n": -5}          # 负数top_n
+                {"user_id": "invalid", "top_n": 5},  # Invalid user ID
+                {"user_id": -1, "top_n": 5},         # Negative user ID
+                {"user_id": 1, "top_n": 0},          # Invalid top_n
+                {"user_id": 1, "top_n": -5}          # Negative top_n
             ]
-            
+
             error_count = 0
             for req in error_requests:
                 try:
@@ -320,8 +320,8 @@ class TestAPIMonitoring:
                 except:
                     error_count += 1
                 time.sleep(0.1)
-            
-            # 发送一些正常请求用于对比
+
+            # Send some normal requests for comparison
             normal_requests = 3
             for i in range(normal_requests):
                 requests.post(
@@ -330,14 +330,14 @@ class TestAPIMonitoring:
                     timeout=10
                 )
                 time.sleep(0.1)
-            
-            print("✓ 错误监控测试完成")
-            print(f"✓ 检测到{error_count}个错误请求")
-            print(f"✓ 发送了{normal_requests}个正常请求用于对比")
-            
+
+            print("✓ Error monitoring test completed")
+            print(f"✓ Detected {error_count} error requests")
+            print(f"✓ Sent {normal_requests} normal requests for comparison")
+
         except Exception as e:
-            print(f"错误监控测试警告: {e}")
-            # 不让这个测试失败影响整体结果
+            print(f"Error monitoring test warning: {e}")
+            # Don't let this test failure affect overall result
 
 
 if __name__ == "__main__":

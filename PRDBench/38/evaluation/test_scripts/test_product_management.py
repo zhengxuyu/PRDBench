@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-# 添加src目录到Python路径
+# AddsrcDirectorytoPythonPath
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 src_dir = os.path.join(project_root, 'src')
@@ -11,36 +11,36 @@ sys.path.insert(0, src_dir)
 from data_manager import DataManager
 
 def test_product_management():
-    """测试商品属性管理功能"""
+    """TestProductAttributeManagementFunction"""
     try:
         data_manager = DataManager()
         
-        # 初始化示例数据
+        # InitialInitializationSampleData
         data_manager.initialize_sample_data()
-        print("SUCCESS: 示例数据初始化完成")
+        print("SUCCESS: SampleDataInitialInitializationCompleteSuccess")
         
-        # 测试添加商品（使用不冲突的ID）
+        # TestAddProductBrand（UseUseNotConflictID）
         new_product = {
             'product_id': 301,
-            'name': '测试商品',
-            'category': '电子产品',
+            'name': 'TestProductBrand',
+            'category': 'Electronics',
             'price': 999.99,
-            'brand': '测试品牌'
+            'brand': 'TestBrandBrand'
         }
         
         result = data_manager.add_product(new_product)
         if result:
-            print("SUCCESS: 商品添加成功")
+            print("SUCCESS: ProductBrandAddSuccess")
         
-        # 测试查看商品列表
+        # TestViewProductList
         products = data_manager.get_products_list()
         if len(products) >= 5:
-            print(f"SUCCESS: 商品列表查看成功，包含{len(products)}个商品")
+            print(f"SUCCESS: ProductBrandListViewSuccess，Contains{len(products)}item(s)ProductBrand")
         
         return True
         
     except Exception as e:
-        print(f"ERROR: 商品管理测试失败: {e}")
+        print(f"ERROR: ProductBrandManagementTest Failed: {e}")
         return False
 
 if __name__ == "__main__":

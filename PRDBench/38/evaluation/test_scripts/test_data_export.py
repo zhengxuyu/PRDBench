@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-# 添加src目录到Python路径
+# AddsrcDirectorytoPythonPath
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 src_dir = os.path.join(project_root, 'src')
@@ -12,11 +12,11 @@ from data_manager import DataManager
 import pandas as pd
 
 def test_csv_export():
-    """测试CSV数据导出功能"""
+    """TestCSVData ExportFunction"""
     try:
         data_manager = DataManager()
         
-        # 创建测试数据
+        # CreateTestData
         test_users = pd.DataFrame({
             'user_id': [1, 2, 3, 4, 5],
             'age': [25, 30, 28, 35, 22],
@@ -24,21 +24,21 @@ def test_csv_export():
             'registration_date': ['2023-01-01'] * 5
         })
         
-        # 导出数据
+        # ExportData
         output_path = '../evaluation/exported_users.csv'
         result = data_manager.export_csv_data(test_users, output_path)
         
         if os.path.exists(output_path):
-            print("SUCCESS: CSV数据导出成功")
-            print(f"导出文件: {output_path}")
-            print(f"导出记录数: {len(test_users)}")
+            print("SUCCESS: CSVData ExportSuccess")
+            print(f"ExportFile: {output_path}")
+            print(f"ExportRecordNumber: {len(test_users)}")
             return True
         else:
-            print("ERROR: CSV数据导出失败")
+            print("ERROR: CSVData ExportFailure")
             return False
             
     except Exception as e:
-        print(f"ERROR: 导出过程出错: {e}")
+        print(f"ERROR: ExportOverProcessOutputWrong: {e}")
         return False
 
 if __name__ == "__main__":

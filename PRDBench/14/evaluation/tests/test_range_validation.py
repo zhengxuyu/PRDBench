@@ -26,14 +26,14 @@ def setup_test_db_with_scale_question():
     try:
         # Create a test questionnaire with a unique name
         q = Questionnaire(
-            title="测试范围校验问卷_自动化测试",
+            title="Range Validation Test Questionnaire_Automated Test",
             description="A test questionnaire for range validation."
         )
         db.add(q)
         db.flush() # Get ID for questions
 
         # Add a scale question with range 1-5
-        q_scale = Question(text="价格对您的影响程度？", module="旅游动机", question_type=QuestionType.SCALE, questionnaire_id=q.id)
+        q_scale = Question(text="To what extent does price influence you?", module="Travel Motivation", question_type=QuestionType.SCALE, questionnaire_id=q.id)
         db.add(q_scale)
         db.flush()
         # For scale, we store range as a note (as per questionnaire_cli logic)
@@ -65,21 +65,21 @@ def test_range_validation_in_data_collection(setup_test_db_with_scale_question):
     result = runner.invoke(app, [
         "add",
         "--template-name", questionnaire_title,
-        "--collector", "测试调查员",
-        "--location", "测试地点"
+        "--collector", "Test Surveyor",
+        "--location", "Test Location"
     ], input=user_input)
 
     # Assert that the command executed successfully (exit code 0)
     assert result.exit_code == 0, f"Command failed with output: {result.stdout}"
 
     # Assert that the success message is in the output
-    assert "开始录入新的问卷回复" in result.stdout
-    
+    assert "Starting to enter new questionnaire response" in result.stdout
+
     # Assert that range validation error message appears
-    assert "输入必须在1-5之间" in result.stdout
-    
+    assert "Input must be between 1-5" in result.stdout
+
     # Assert that the questionnaire was processed
     assert questionnaire_title in result.stdout
-    
+
     # Assert successful completion
-    assert "问卷回复已成功保存" in result.stdout
+    assert "Questionnaire response successfully saved" in result.stdout

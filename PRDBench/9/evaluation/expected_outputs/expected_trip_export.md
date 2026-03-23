@@ -1,39 +1,39 @@
-# 行程报告
+# Trip Report
 
-## 行程基本信息
-- **行程名称**: 测试行程
-- **创建时间**: 2024-12-01
-- **行程状态**: 已完成
+## Basic Trip Information
+- **Trip Name**: Test Trip
+- **Creation Time**: 2024-12-01
+- **Trip Status**: Completed
 
-## 行程详情
+## Trip Details
 
-### 第1段: 北京 → 上海
-- **出发城市**: 北京
-- **到达城市**: 上海
-- **停留时长**: 24小时
-- **交通方式**: 高铁
-- **车次**: G1
-- **出发时间**: 08:00
-- **到达时间**: 12:30
-- **票价**: ¥553
+### Segment 1: Beijing → Shanghai
+- **Departure City**: Beijing
+- **Arrival City**: Shanghai
+- **Stay Duration**: 24 hours
+- **Transportation**: High-speed Rail
+- **Train Number**: G1
+- **Departure Time**: 08:00
+- **Arrival Time**: 12:30
+- **Ticket Price**: ¥553
 
-### 第2段: 上海 → 广州
-- **出发城市**: 上海
-- **到达城市**: 广州
-- **停留时长**: 12小时
-- **交通方式**: 高铁
-- **车次**: G79
-- **出发时间**: 14:00
-- **到达时间**: 21:30
-- **票价**: ¥793
+### Segment 2: Shanghai → Guangzhou
+- **Departure City**: Shanghai
+- **Arrival City**: Guangzhou
+- **Stay Duration**: 12 hours
+- **Transportation**: High-speed Rail
+- **Train Number**: G79
+- **Departure Time**: 14:00
+- **Arrival Time**: 21:30
+- **Ticket Price**: ¥793
 
-## 行程摘要
-- **总距离**: 约2100公里
-- **总耗时**: 约13小时30分钟
-- **总费用**: ¥1346
-- **关键节点提醒**:
-  - 明日08:00北京南站G1次
-  - 12月2日14:00上海虹桥站G79次
+## Trip Summary
+- **Total Distance**: Approximately 2100 kilometers
+- **Total Duration**: Approximately 13 hours 30 minutes
+- **Total Cost**: ¥1346
+- **Key Node Reminders**:
+  - Tomorrow 08:00 Beijing South Station Train G1
+  - December 2 14:00 Shanghai Hongqiao Station Train G79
 
 ---
-*报告生成时间: 2024-12-01*
+*Report Generation Time: 2024-12-01*

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-JSON文件比较脚本
+JSON File Comparison Script
 """
 import json
 import sys
 
 def compare_json_files(file1, file2):
-    """比较两个JSON文件，忽略时间戳字段"""
+    """Compare two JSON files, ignoring timestamp fields"""
     try:
         with open(file1, 'r', encoding='utf-8') as f:
             data1 = json.load(f)
@@ -15,7 +15,7 @@ def compare_json_files(file1, file2):
         with open(file2, 'r', encoding='utf-8') as f:
             data2 = json.load(f)
         
-        # 移除时间戳字段
+        # Remove timestamp fields
         data1.pop('created_at', None)
         data1.pop('updated_at', None)
         data2.pop('created_at', None)

@@ -142,7 +142,7 @@
   },
   {
     "metric": "2.2 Fortune Draw Game - Coin Spin - Game Interface",
-    "description": "1. **Pre-check (User Path):** After choosing the 'Coin spin' mode, does it guide the user to press Enter to start the game?\n2. **Act:** Select the 'Coin spin' mode, press Enter to start the game.\n3. **Assert:** Observe whether a 3x3 game grid is displayed, and whether the symbols in the grid are one of '吉', '凶', or '平', and the result is shown.",
+    "description": "1. **Pre-check (User Path):** After choosing the 'Coin spin' mode, does it guide the user to press Enter to start the game?\n2. **Act:** Select the 'Coin spin' mode, press Enter to start the game.\n3. **Assert:** Observe whether a 3x3 game grid is displayed, and whether the symbols in the grid are one of 'Lucky', 'Unlucky', or 'Neutral', and the result is shown.",
     "type": "shell_interaction",
     "testcases": [
       {

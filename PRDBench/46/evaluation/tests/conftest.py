@@ -9,11 +9,11 @@ import sys
 import warnings
 
 def pytest_runtest_setup(item):
-    """在每个测试前进行清理"""
-    # 强制垃圾回收，避免悬空引用
+    """Cleanup before each test"""
+    # Force garbage collection to avoid dangling references
     gc.collect()
-    
-    # 确保stdout/stderr状态正常
+
+    # Ensure stdout/stderr status is normal
     if hasattr(sys.stdout, 'flush'):
         try:
             sys.stdout.flush()
@@ -26,6 +26,6 @@ def pytest_runtest_setup(item):
             pass
 
 def pytest_runtest_teardown(item, nextitem):
-    """在每个测试后进行清理"""
-    # 强制垃圾回收
+    """Cleanup after each test"""
+    # Force garbage collection
     gc.collect()

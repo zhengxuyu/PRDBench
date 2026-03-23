@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-只运行详细测试计划中要求的测试用例
+onlyRundetailedTestDesignplaninRequirementsTest Case
 """
 
 import subprocess
 import sys
 
-# 详细测试计划中的18个具体pytest测试命令
+# detailedTestDesignplanin18item(s)ToolIntegratedpytestTest Command
 REQUIRED_TESTS = [
     "python -m pytest evaluation/tests/test_si_model_algorithm.py::TestSIModelAlgorithm::test_si_model_core_algorithm -v",
     "python -m pytest evaluation/tests/test_sir_model_algorithm.py::TestSIRModelAlgorithm::test_sir_model_core_algorithm -v", 
@@ -28,9 +28,9 @@ REQUIRED_TESTS = [
 ]
 
 def run_required_tests():
-    """运行详细测试计划中要求的测试"""
+    """RundetailedTestDesignplaninRequirementsTest"""
     print("=" * 80)
-    print("运行详细测试计划中要求的单元测试")
+    print("RundetailedTestDesignplaninRequirementsUnit Test")
     print("=" * 80)
     
     passed = 0
@@ -38,54 +38,54 @@ def run_required_tests():
     failed_tests = []
     
     for i, test_command in enumerate(REQUIRED_TESTS, 1):
-        print(f"\n[{i}/{len(REQUIRED_TESTS)}] 运行测试...")
-        print(f"命令: {test_command}")
+        print(f"\n[{i}/{len(REQUIRED_TESTS)}] RunTest...")
+        print(f"Command: {test_command}")
         
         try:
             result = subprocess.run(test_command, shell=True, capture_output=True, text=True,
                                   cwd='.', timeout=60)
             
             if result.returncode == 0:
-                print("[PASSED] 测试通过")
+                print("[PASSED] Test Passed")
                 passed += 1
             else:
-                print(f"[FAILED] 测试失败")
+                print(f"[FAILED] Test Failed")
                 failed += 1
                 failed_tests.append(test_command.split('::')[-1].split(' ')[0])
-                print(f"错误信息: {result.stderr[:200]}...")
+                print(f"ErrorInformation: {result.stderr[:200]}...")
         except subprocess.TimeoutExpired:
-            print("[TIMEOUT] 测试超时")
+            print("[TIMEOUT] TestUltraTime")
             failed += 1
             failed_tests.append("TIMEOUT")
         except Exception as e:
-            print(f"[ERROR] 执行异常: {str(e)}")
+            print(f"[ERROR] ExecuteAbnormal: {str(e)}")
             failed += 1
             failed_tests.append("ERROR")
     
-    # 汇总结果
+    # summarySummaryResult
     print("\n" + "=" * 80)
-    print("详细测试计划要求的单元测试结果汇总")
+    print("detailedTestDesignplanRequirementsSingleunitTest ResultssummaryTotal")
     print("=" * 80)
     
     total = len(REQUIRED_TESTS)
     success_rate = (passed / total) * 100
     
-    print(f"总测试数: {total}")
-    print(f"通过: {passed}")
-    print(f"失败: {failed}")
-    print(f"成功率: {success_rate:.1f}%")
+    print(f"TotalTestNumber: {total}")
+    print(f"Pass: {passed}")
+    print(f"Failure: {failed}")
+    print(f"SuccessRate: {success_rate:.1f}%")
     
     if failed_tests:
-        print(f"\n失败的测试:")
+        print(f"\nFailureTest:")
         for test in failed_tests:
             print(f"  - {test}")
     
-    # 检查是否符合3.3b要求的100%通过率
+    # CheckYesNoSymbolCombine3.3bRequirements100%Pass Rate
     if success_rate == 100.0:
-        print(f"\n[SUCCESS] 符合3.3b要求: 测试通过率100%，无测试失败用例")
+        print(f"\n[SUCCESS] SymbolCombine3.3bRequirements: Test PassedRate100%,NoTest FailedUseExample")
         return True
     else:
-        print(f"\n[FAIL] 不符合3.3b要求: 测试通过率{success_rate:.1f}% < 100%")
+        print(f"\n[FAIL] NotSymbolCombine3.3bRequirements: Test PassedRate{success_rate:.1f}% < 100%")
         return False
 
 if __name__ == "__main__":

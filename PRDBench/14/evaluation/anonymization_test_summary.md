@@ -1,124 +1,124 @@
-# 数据脱敏功能测试完成报告
+# Data Anonymization Feature Test Completion Report
 
-## 测试概述
+## Test Overview
 
-本文档记录了针对 "[2.1.3b 数据脱敏]" 测试用例的详细设计和实现过程。
+This document records the detailed design and implementation process for the "[2.1.3b Data Anonymization]" test case.
 
-## 完成的工作
+## Completed Work
 
-### 1. 功能实现
-- ✅ 在 `src/cli/data_cli.py` 中添加了 `--anonymize` 选项
-- ✅ 实现了 `_anonymize_personal_info()` 函数，支持以下脱敏规则：
-  - **姓名脱敏**: "张三" → "张*", "李小红" → "李**"
-  - **电话脱敏**: "13812345678" → "138****5678"
-  - **身份证脱敏**: 保留前6位和后4位，中间用*替代
-  - **邮箱脱敏**: 保留@前第一个字符和@后域名
-- ✅ 根据问题文本智能识别需要脱敏的字段类型
+### 1. Feature Implementation
+- ✅ Added `--anonymize` option in `src/cli/data_cli.py`
+- ✅ Implemented `_anonymize_personal_info()` function, supporting the following anonymization rules:
+  - **Name Anonymization**: "Zhang San" → "Zhang*", "Li Xiaohong" → "Li**"
+  - **Phone Anonymization**: "13812345678" → "138****5678"
+  - **ID Card Anonymization**: Keep first 6 and last 4 digits, replace middle with *
+  - **Email Anonymization**: Keep first character before @ and domain after @
+- ✅ Intelligently identify field types requiring anonymization based on question text
 
-### 2. 测试数据创建
-- ✅ 创建了包含个人隐私信息的测试数据 (`evaluation/test_data_with_personal_info.csv`)
-- ✅ 创建了期望的脱敏输出文件 (`evaluation/expected_anonymized_data.csv`)
-- ✅ 创建了数据库初始化脚本 (`evaluation/setup_test_data.py`)
+### 2. Test Data Creation
+- ✅ Created test data containing personal privacy information (`evaluation/test_data_with_personal_info.csv`)
+- ✅ Created expected anonymized output file (`evaluation/expected_anonymized_data.csv`)
+- ✅ Created database initialization script (`evaluation/setup_test_data.py`)
 
-### 3. 测试脚本开发
-- ✅ 开发了完整的测试脚本 (`evaluation/test_anonymization.py`)
-- ✅ 创建了简化的测试运行器 (`evaluation/run_anonymization_test.py`)
-- ✅ 所有测试脚本都通过验证
+### 3. Test Script Development
+- ✅ Developed complete test script (`evaluation/test_anonymization.py`)
+- ✅ Created simplified test runner (`evaluation/run_anonymization_test.py`)
+- ✅ All test scripts passed validation
 
-### 4. 测试计划更新
-- ✅ 完善了 `evaluation/detailed_test_plan.json` 中的 "[2.1.3b 数据脱敏]" 条目
-- ✅ 添加了完整的 `testcases`、`input_files`、`expected_output_files` 和 `expected_output` 字段
+### 4. Test Plan Updates
+- ✅ Enhanced "[2.1.3b Data Anonymization]" entry in `evaluation/detailed_test_plan.json`
+- ✅ Added complete `testcases`, `input_files`, `expected_output_files` and `expected_output` fields
 
-## 测试用例详情
+## Test Case Details
 
-### 测试命令
+### Test Command
 ```bash
 python -m src.main data export --anonymize --output-path evaluation/anonymized_data.csv
 ```
 
-### 输入文件
-- `evaluation/test_data_with_personal_info.csv` - 包含个人隐私信息的测试数据
+### Input Files
+- `evaluation/test_data_with_personal_info.csv` - Test data containing personal privacy information
 
-### 期望输出文件
-- `evaluation/expected_anonymized_data.csv` - 脱敏后的期望输出
+### Expected Output Files
+- `evaluation/expected_anonymized_data.csv` - Expected output after anonymization
 
-### 脱敏效果验证
+### Anonymization Effect Verification
 
-| 原始数据 | 脱敏后数据 | 脱敏类型 |
+| Original Data | Anonymized Data | Anonymization Type |
 |---------|-----------|---------|
-| 张三 | 张* | 姓名脱敏 |
-| 李小红 | 李** | 姓名脱敏 |
-| 13812345678 | 138****5678 | 电话脱敏 |
-| 15987654321 | 159****4321 | 电话脱敏 |
-| 男 | 男 | 非敏感信息保持不变 |
-| 30-40岁 | 30-40岁 | 非敏感信息保持不变 |
+| Zhang San | Zhang* | Name Anonymization |
+| Li Xiaohong | Li** | Name Anonymization |
+| 13812345678 | 138****5678 | Phone Anonymization |
+| 15987654321 | 159****4321 | Phone Anonymization |
+| Male | Male | Non-sensitive information unchanged |
+| 30-40 years old | 30-40 years old | Non-sensitive information unchanged |
 
-## 测试执行方法
+## Test Execution Methods
 
-### 方法1: 使用简化测试运行器
+### Method 1: Using Simplified Test Runner
 ```bash
 python evaluation/run_anonymization_test.py
 ```
 
-### 方法2: 使用完整测试脚本
+### Method 2: Using Complete Test Script
 ```bash
 python evaluation/test_anonymization.py
 ```
 
-### 方法3: 手动执行步骤
+### Method 3: Manual Execution Steps
 ```bash
-# 1. 设置测试数据
+# 1. Set up test data
 python evaluation/setup_test_data.py
 
-# 2. 执行脱敏导出
+# 2. Execute anonymized export
 python -m src.main data export --anonymize --output-path evaluation/anonymized_data.csv
 
-# 3. 检查输出文件
+# 3. Check output file
 cat evaluation/anonymized_data.csv
 ```
 
-## 技术实现要点
+## Technical Implementation Highlights
 
-### 脱敏算法
-- 基于问题文本的关键词匹配来识别敏感字段
-- 支持中文姓名、电话号码、身份证、邮箱等常见个人信息类型
-- 采用部分保留、部分掩码的方式，既保护隐私又保持数据可用性
+### Anonymization Algorithm
+- Identifies sensitive fields based on keyword matching in question text
+- Supports common personal information types including Chinese names, phone numbers, ID cards, emails, etc.
+- Uses partial retention and partial masking approach to protect privacy while maintaining data usability
 
-### 数据库集成
-- 与现有的 SQLAlchemy 模型完全兼容
-- 支持从数据库导出并实时脱敏
-- 保持原有的 CSV 导出格式和编码
+### Database Integration
+- Fully compatible with existing SQLAlchemy models
+- Supports real-time anonymization during database export
+- Maintains original CSV export format and encoding
 
-### 错误处理
-- 处理了 Windows 系统的编码问题
-- 添加了完善的异常处理和错误提示
-- 支持 UTF-8 编码的 CSV 输出
+### Error Handling
+- Handles Windows system encoding issues
+- Added comprehensive exception handling and error prompts
+- Supports UTF-8 encoded CSV output
 
-## 测试结果
+## Test Results
 
-✅ **所有测试通过**
-- 功能实现正确
-- 脱敏效果符合预期
-- 非敏感数据保持不变
-- 输出格式正确
-- 编码处理正常
+✅ **All Tests Passed**
+- Feature implementation correct
+- Anonymization effects meet expectations
+- Non-sensitive data remains unchanged
+- Output format correct
+- Encoding handling normal
 
-## 文件清单
+## File List
 
-### 核心实现文件
-- `src/cli/data_cli.py` - 数据导出和脱敏功能实现
+### Core Implementation Files
+- `src/cli/data_cli.py` - Data export and anonymization feature implementation
 
-### 测试相关文件
-- `evaluation/test_data_with_personal_info.csv` - 测试输入数据
-- `evaluation/expected_anonymized_data.csv` - 期望输出数据
-- `evaluation/setup_test_data.py` - 数据库初始化脚本
-- `evaluation/test_anonymization.py` - 完整测试脚本
-- `evaluation/run_anonymization_test.py` - 简化测试运行器
-- `evaluation/detailed_test_plan.json` - 更新后的测试计划
+### Test-Related Files
+- `evaluation/test_data_with_personal_info.csv` - Test input data
+- `evaluation/expected_anonymized_data.csv` - Expected output data
+- `evaluation/setup_test_data.py` - Database initialization script
+- `evaluation/test_anonymization.py` - Complete test script
+- `evaluation/run_anonymization_test.py` - Simplified test runner
+- `evaluation/detailed_test_plan.json` - Updated test plan
 
-### 文档文件
-- `evaluation/anonymization_test_summary.md` - 本总结文档
+### Documentation Files
+- `evaluation/anonymization_test_summary.md` - This summary document
 
-## 结论
+## Conclusion
 
-数据脱敏功能已成功实现并通过全面测试。该功能符合 PRD 中关于"支持数据脱敏（个人隐私信息自动加密/掩码处理）"的要求，能够有效保护用户隐私信息，同时保持数据的可用性和完整性。
+The data anonymization feature has been successfully implemented and passed comprehensive testing. This feature meets the PRD requirements for "supporting data anonymization (automatic encryption/masking of personal privacy information)", effectively protecting user privacy while maintaining data usability and integrity.
