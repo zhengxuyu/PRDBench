@@ -63,6 +63,7 @@ class FareService:
         destination: str,
         path: list[str],
         distance_km: float,
+        line_transfers: int = 0,
         is_airport_express: bool = False,
         discount: Optional[str] = None,
     ) -> FareCalculationResult:
@@ -73,6 +74,7 @@ class FareService:
             destination:        Arrival station ID.
             path:               Ordered list of station IDs (min 2).
             distance_km:        Total journey distance in kilometres.
+            line_transfers:     Number of line changes along the path.
             is_airport_express: True if any leg of the journey is on the airport line.
             discount:           Optional discount label (e.g. 'student', 'senior').
 
@@ -92,7 +94,7 @@ class FareService:
             distance_km=round(distance_km, 2),
             fare_yuan=fare,
             path=path,
-            line_transfers=max(0, len(path) - 2),  # rough proxy; refined below
+            line_transfers=line_transfers,
             is_airport_express=is_airport_express,
             discount_applied=discount_applied,
         )

@@ -31,6 +31,3 @@ STEP_FARE: Decimal = Decimal("1.00")    # increment per step
 AIRPORT_EXPRESS_LINE: str = "机场线"
 AIRPORT_EXPRESS_FARE: Decimal = Decimal("35.00")
 
-# ── Borrowing / capacity limits (not applicable — kept for interface parity) ──
-MAX_FARE_YUAN: Decimal = Decimal("999.99")
-MIN_FARE_YUAN: Decimal = Decimal("0.00")
