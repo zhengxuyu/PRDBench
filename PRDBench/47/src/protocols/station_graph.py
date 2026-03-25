@@ -13,7 +13,22 @@ Usage example::
 
 from __future__ import annotations
 
-from typing import Optional, Protocol, runtime_checkable
+from pathlib import Path
+from typing import Optional, Protocol, TypedDict, runtime_checkable
+
+
+class StationMetadata(TypedDict):
+    """Typed shape of the dict returned by :meth:`StationGraph.get_station`.
+
+    Attributes:
+        name: Station name.
+        line: Metro line identifier (e.g. ``"Line 1"``).
+        coords: (latitude, longitude) in decimal degrees.
+    """
+
+    name: str
+    line: str
+    coords: tuple[float, float]
 
 
 @runtime_checkable
@@ -25,11 +40,12 @@ class StationGraph(Protocol):
     type annotations to satisfy the project-wide annotation policy.
     """
 
-    def load(self, data_path: str) -> None:
+    def load(self, data_path: str | Path) -> None:
         """Load the metro network topology from a data file.
 
         Args:
-            data_path: Absolute or relative path to the JSON/CSV topology file.
+            data_path: Absolute or relative path (str or :class:`pathlib.Path`)
+                to the JSON/CSV topology file.
 
         Raises:
             FileNotFoundError: If *data_path* does not exist.
@@ -37,15 +53,15 @@ class StationGraph(Protocol):
         """
         ...
 
-    def get_station(self, name: str) -> Optional[dict[str, object]]:
+    def get_station(self, name: str) -> Optional[StationMetadata]:
         """Return metadata for a single station, or None if it does not exist.
 
         Args:
             name: Station name (exact match, case-sensitive).
 
         Returns:
-            A mapping with at least the keys ``name`` (str), ``line`` (str),
-            and ``coords`` (tuple[float, float]), or ``None`` if not found.
+            A :class:`StationMetadata` typed dict with keys ``name``, ``line``,
+            and ``coords``, or ``None`` if the station is not found.
         """
         ...
 
@@ -104,6 +120,21 @@ class StationGraph(Protocol):
         Returns:
             A list of station names in sequence order along the line.
             Returns an empty list if the line does not exist.
+        """
+        ...
+
+    def count_transfers(self, path: list[str]) -> int:
+        """Count the number of line transfers required along a path.
+
+        A transfer is counted each time consecutive stations in *path* belong to
+        different metro lines.
+
+        Args:
+            path: Ordered list of station names as returned by ``shortest_path``.
+
+        Returns:
+            Number of line transfers (0 if *path* is entirely on one line or
+            has fewer than 2 stations).
         """
         ...
 
