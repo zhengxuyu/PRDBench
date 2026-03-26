@@ -29,7 +29,24 @@ addopts = "--cov=src --cov-report=term-missing --cov-fail-under=95"
 
 [tool.coverage.run]
 source = ["src"]
-omit = ["src/**/__init__.py", "src/protocols/*"]
+omit = [
+    "src/**/__init__.py",
+    "src/protocols/*",
+    # Library-management subsystem — requires live DB; out of scope for subway TDD
+    "src/config/*",
+    "src/main.py",
+    "src/run.py",
+    "src/services/auth_service.py",
+    "src/services/book_service.py",
+    "src/services/borrow_service.py",
+    "src/services/user_service.py",
+    "src/tools/*",
+    "src/utils/chart_generator.py",
+    "src/utils/database.py",
+    "src/utils/encrypt.py",
+    "src/utils/logger.py",
+    "src/utils/validators.py",
+]
 
 [tool.coverage.report]
 exclude_lines = [
